@@ -1,0 +1,13 @@
+[Main Dimensions] - [Classes]<br/>
+[Class_Marksman Marksman] - [Class_Rocketeer Rocketeer] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+Allows the player to use Pistols<br/>
+
+<br/> 
+*Stats:*<br/>
+Required Level: 1<br/>
+Damage Bonus: ((1 - 4) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.025 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
