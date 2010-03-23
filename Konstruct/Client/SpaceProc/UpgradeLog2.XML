@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="SpaceProc">
+</Property><Property Name="Solution File" Value="C:\Projects\Konstruct\Client\SpaceProc\SpaceProc.sln">
+</Property><Property Name="Date" Value="Saturday, October 04, 2008">
+</Property><Property Name="Time" Value="2:26 AM">
+</Property><Property Name="Log Number" Value="2">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="SpaceProc.sln" Description="File successfully backed up as C:\Projects\Konstruct\Client\SpaceProc\SpaceProc.sln.old">
+</Event><Event ErrorLevel="0" Project="SpaceProc" Source="SpaceProc.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="SpaceProc" Source="SpaceProc.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Graphics" Source="..\..\Common\Graphics\Graphics.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Graphics" Source="..\..\Common\Graphics\Graphics.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Utility" Source="..\..\Common\Utility\Utility.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Utility" Source="..\..\Common\Utility\Utility.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Input" Source="..\..\Common\Input\Input.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Input" Source="..\..\Common\Input\Input.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="tinyxml_lib" Source="..\..\External\tinyxml\tinyxml_lib.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="tinyxml_lib" Source="..\..\External\tinyxml\tinyxml_lib.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Procedural" Source="..\..\Common\Procedural\Procedural.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Procedural" Source="..\..\Common\Procedural\Procedural.vcproj" Description="Converted">
+</Event><Event ErrorLevel="2" Project="" Source="SpaceProc.sln" Description="Solution file 'C:\Projects\Konstruct\Client\SpaceProc\SpaceProc.sln' cannot be converted because it cannot be modified. To convert the solution, change the permissions on the solution file to allow modification and re-open it.">
+</Event><Event ErrorLevel="3" Project="" Source="SpaceProc.sln" Description="Not Converted">
+</Event></UpgradeLog>

@@ -1,0 +1,40 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldServer", "WorldServer.vcproj", "{1C9B7B47-DA52-474F-BC6B-BC35C003267A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F} = {32084E14-46C9-4D1B-9DAB-4638A0F8B78F}
+		{DDE56431-A25F-49DF-89A0-0BDFA8A11216} = {DDE56431-A25F-49DF-89A0-0BDFA8A11216}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "..\..\Common\Network\Network.vcproj", "{DDE56431-A25F-49DF-89A0-0BDFA8A11216}"
+	ProjectSection(ProjectDependencies) = postProject
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F} = {32084E14-46C9-4D1B-9DAB-4638A0F8B78F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "..\..\Common\Utility\Utility.vcproj", "{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{1C9B7B47-DA52-474F-BC6B-BC35C003267A}.Debug.ActiveCfg = Debug|Win32
+		{1C9B7B47-DA52-474F-BC6B-BC35C003267A}.Debug.Build.0 = Debug|Win32
+		{1C9B7B47-DA52-474F-BC6B-BC35C003267A}.Release.ActiveCfg = Release|Win32
+		{1C9B7B47-DA52-474F-BC6B-BC35C003267A}.Release.Build.0 = Release|Win32
+		{DDE56431-A25F-49DF-89A0-0BDFA8A11216}.Debug.ActiveCfg = Debug|Win32
+		{DDE56431-A25F-49DF-89A0-0BDFA8A11216}.Debug.Build.0 = Debug|Win32
+		{DDE56431-A25F-49DF-89A0-0BDFA8A11216}.Release.ActiveCfg = Release|Win32
+		{DDE56431-A25F-49DF-89A0-0BDFA8A11216}.Release.Build.0 = Release|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Debug.ActiveCfg = Debug|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Debug.Build.0 = Debug|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Release.ActiveCfg = Release|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
