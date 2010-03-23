@@ -1,0 +1,9 @@
+[Main Dimensions]
+ 
+<br/>
+*Terrain*<br/>
+The ground terrain in dimensions is a flat plane. The plane is made up of a grid, everything on the plane is in one space on the grid. Only one player or monster can be on a grid space at the same time. Multiple peieces of treasure can be stacked in one grid space.
+ 
+<br/> 
+*Combos*<br/>
+The player has the ability to create a combo macro. This is just a list of abilities all tied to one button. When the player uses the combo (the same as using any other skill) the skills in the combo will happen sequentially.
