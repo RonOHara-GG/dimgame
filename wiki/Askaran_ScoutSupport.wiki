@@ -1,0 +1,36 @@
+[Main Dimensions] - [Creatures] - [Creature_Askaran Askaran]
+
+<br/>
+*Description*<br/>
+Scout support are supposed to follow behind Forward Scouts and back them up on the new frontiers.
+
+<br/> 
+*Color*<br/>
+Dark Blue<br/>
+
+<br/>
+*Bosses*<br/>
+Alaman Itria
+Pontarn
+ 
+<br/>
+*Stats*<br/>
+Level: 4<br/>
+Movement Speed: 2.5 tiles / second<br/>
+Weapon: [CreatureWeapon_Claws Claws]<br/>
+ 
+<br/>
+Health: 75
+Attack Range: 20
+Crushing Resist: 10
+Piercing Resist: 10
+Slashing Resist: 10
+Mental Resist: 0
+Heat Resist: 20
+Cold Resist: 20
+Electrical Resist: 5
+Water Resist: 0
+Acid Resist: 35
+Viral Resist: 15
+Holy Resist: 5
+Death Resist: 25
