@@ -1,4 +1,4 @@
-[Main Dimensions] - [Classes] [Brawler]
+[Main Dimensions] - [Classes] - [Brawler]
  
 <br/>
 <br/>
