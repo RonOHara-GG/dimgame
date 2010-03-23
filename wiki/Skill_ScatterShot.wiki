@@ -1,4 +1,5 @@
-Dimensions Archer
+[Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
+
  
 Description:
 An arrow is fired into the air which scatters into multiple fragments at the peak of the shot. The fragments then rain down on enemys below. The epicenter of the scatter takes the full damage, fall off is linear toward the outer edges of the scatter radius.
