@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Archer Archer]
+ 
+<br/>
+*Description:*<br/>
+The basic arrow shot, fires an arrow from the bow piercing through targets until it hits its maximum range.
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 1<br/>
+Range: Weapon Range + (_Skill Rank_ / 10)<br/>
+Damage: Weapon Damage + ((1 - 4) `*` _Skill Rank_)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_<br/>
+Recovery: _Weapon Recovery_<br/>
