@@ -1,0 +1,22 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+A stand-up grappling position where the arms are wrapped around the opponent.
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 9<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage Per Second: ((2 - 4) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 4.5f)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 1.0 + ([Attribute_Strength Strength] / 25) seconds<br/>
+Recovery: 0.0 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Bear_hug]<br/>
