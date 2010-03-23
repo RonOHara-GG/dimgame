@@ -17,7 +17,7 @@ Light Grey<br/>
 *Stats*<br/>
 Level: 1<br/>
 Movement Speed: 2.5 tiles / second<br/>
-Weapon: [Creature_Weapon_Claws Claws]<br/>
+Weapon: [CreatureWeapon_Claws Claws]<br/>
 
 <br/> 
 Health: 50<br/>
