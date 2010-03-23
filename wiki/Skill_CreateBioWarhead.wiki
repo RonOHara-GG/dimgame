@@ -1,0 +1,17 @@
+[Main Dimensions] - [Classes] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+The medic creates a biological warhead attached to any placed missile battery.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Rounds Imbued: 1 + (_Skill Rank_ / 2)<br/>
+Damage Per Second: (36 - 58) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Viral Viral]<br/>
+Effect Duration: Until Resisted<br/>
+Resist Strength: 75 + (_Skill Rank_ `*` 3)<br/>
+Infect Radius: 5 + (_Skill Rank_ / 3) tiles<br/>
+Speed: (70 - (_Skill Rank_ `*` 2)) seconds<br/>
+Recovery: 0 seconds<br/>
