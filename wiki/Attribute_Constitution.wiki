@@ -1,0 +1,7 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+The characters constitution defines how physically fit the character is.
+
+This is the primary stat for determining the character's [Attribute_Health Health] pool as well as the majority of resistances.
