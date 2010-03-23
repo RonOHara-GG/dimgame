@@ -1,5 +1,5 @@
 [Main Dimensions]
- 
+
 <br/>
 *Terrain*<br/>
 The ground terrain in dimensions is a flat plane. The plane is made up of a grid, everything on the plane is in one space on the grid. Only one player or monster can be on a grid space at the same time. Multiple peieces of treasure can be stacked in one grid space.
