@@ -19,17 +19,18 @@ Level: 7<br/>
 Movement Speed: 2.7 tiles / second<br/>
 Weapon: [CreatureWeapon_Claws Claws]<br/>
  
-Health: 150
-Attack Range: 22
-Crushing Resist: 25
-Piercing Resist: 25
-Slashing Resist: 25
-Mental Resist: 50
-Heat Resist: 100
-Cold Resist: 100
-Electrical Resist: 5
-Water Resist: 0
-Acid Resist: 135
-Viral Resist: 75
-Holy Resist: 30
-Death Resist: 150
+<br/> 
+[Attribute_Health Health]: 150<br/>
+[Attribute_AttackRange Attack Range]: 22<br/>
+[Attribute_CrushingResist Crushing Resist]: 25<br/>
+[Attribute_PiercingResist Piercing Resist]: 25<br/>
+[Attribute_SlashingResist Slashing Resist]: 25<br/>
+[Attribute_MentalResist Mental Resist]: 50<br/>
+[Attribute_HeatResist Heat Resist]: 100<br/>
+[Attribute_ColdResist Cold Resist]: 100<br/>
+[Attribute_ElectricalResist Electrical Resist]: 5<br/>
+[Attribute_WaterResist Water Resist]: 0<br/>
+[Attribute_AcidResist Acid Resist]: 135<br/>
+[Attribute_ViralResist Viral Resist]: 75<br/>
+[Attribute_HolyResist Holy Resist]: 30<br/>
+[Attribute_DeathResist Death Resist]: 150<br/>
