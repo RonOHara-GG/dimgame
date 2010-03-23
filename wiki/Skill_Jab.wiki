@@ -11,8 +11,8 @@ Quick one hand punch attack
 Required Level: 1<br/>
 Range: 1 Tile<br/>
 Radius: 1 Tile<br/>
-Damage: ((1 - 2) * SkillRank) + (Strength * 0.5f)<br/>
-Damage Type: Crushing<br/>
+Damage: ((1 - 2) `*` _SkillRank_) + ([Attribute_Strength Strength] `*` 0.5f)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
 Speed: 0.5 seconds<br/>
 Recovery: 0.0 seconds<br/>
  
