@@ -1,0 +1,29 @@
+[Main Dimensions] - [Classes] [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+The attacker swings his/her leg up in a circular motion, kicking the opponent's side with the top of the foot
+<br/>
+ 
+|| || || ||
+||X||X||X||
+||X||S||X||
+|| || || ||
+ 
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 17<br/>
+Range: 1 Tile<br/>
+Radius: 3 Tiles front & 1 tile left and right<br/>
+Damage: ((6 - 15) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 2.5)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 1.25 seconds<br/>
+Recovery: 0.75 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Kick]<br/>
+[http://www.youtube.com/watch?v=qO_Su6Y19uk&NR=1]<br/>
