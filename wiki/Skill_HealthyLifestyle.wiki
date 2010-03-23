@@ -7,5 +7,5 @@ The medic lives a healthy lifestyle giving him a permanant health regeneration. 
 <br/> 
 *Stats:*<br/>
 Required Level:<br/>
-Radius = 1 + _Skill Rank_
+Radius = 1 + _Skill Rank_<br/>
 Health Per Second: (2 - 4) `*` _Skill Rank_
