@@ -1,0 +1,57 @@
+[Main Dimensions] - [Classes]
+
+The Brawler is a character who is skilled in the art of hand to hand combat. Typical attacks are punches, kicks, grapples, and head-butts.
+
+*Skills*
+
+[Skill-PlaceMirror Place Mirror]
+
+<br/>
+<br/>
+*Punching*
+
+[Skill-Jab Jab]
+
+[Skill-Hook Hook]
+
+[Skill-Uppercut Uppercut]
+
+[Skill-Haymaker Haymaker]
+
+<br/>
+<br/>
+*Kicking*
+
+[Skill-BackKick Back Kick]
+
+[Skill-AxeKick Axe Kick]
+
+[Skill-ButterflyKick Butterfly Kick]
+
+[Skill-ReverseRoundHouseKick Reverse Roundhouse Kick]
+
+[Skill-FlyingKick Flying Kick]
+
+<br/>
+<br/>
+*Grappling*
+
+[Skill-BearHug Bear Hug]
+
+[Skill-HeadButt Head Butt]
+
+[Skill-ShoulderThrow Shoulder Throw]
+
+[Skill-SacrificeThrow Sacrifice Throw]
+
+[Skill-SpineCrank Spine Crank]
+ 
+<br/>
+<br/>
+*Bonuses*
+
+[Skill-Nimble Nimble]
+
+[Skill-AdrenalineBurst Adrenaline Burst]
+[Skill-Flexibility Flexibility]
+[Skill-FocusedStrength Focused Strength]
