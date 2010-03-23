@@ -1,12 +1,13 @@
 [Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
 
- 
-Description:
+<br/>
+*Description:*<br/>
 Allows the archer to use long bows
- 
-Stats:
-Required Level: 6
-Range Bonus: (Skill Rank / 5)
-Damage Bonus: ((3 - 10) * Skill Rank)
-Speed Bonus: (0.0125 * Skill Rank)
-Recovery Bonus: (0.0125 * Skill Rank)
+
+<br/>
+*Stats:*<br/>
+Required Level: 6<br/>
+Range Bonus: (_Skill Rank_ / 5)<br/>
+Damage Bonus: ((3 - 10) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.0125 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
