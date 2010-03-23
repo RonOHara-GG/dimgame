@@ -5,7 +5,7 @@
 Allows the archer to use compound bows
 
 <br/>
-*Stats:*
+*Stats:*<br/>
 Required Level: 13<br/>
 Range Bonus: (_Skill Rank_ / 4)<br/>
 Damage Bonus: ((5 - 13) `*` _Skill Rank_)<br/>
