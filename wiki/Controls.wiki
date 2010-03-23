@@ -1,0 +1,30 @@
+[Main Dimensions]
+
+<br/>
+*Camera*<br/> 
+The camera is a fixed 3/4 top down view with 'up' being in the top right hand corner of the screen. The user will be able to zoom in and out, but the camera always keeps the player's character in the center of the screen.
+
+<br/> 
+*Keyboard/Mouse Controls*<br/> 
+The player can move their character to any point on the screen simply by clicking on the ground with their mouse. Alternatively, the player can move up, down, left, and/or right using the arrow keys or the wasd keys.
+ 
+The 'E' key will consume a health potion when pressed<br/>
+The 'Q' key will consume a psionic potion when pressed<br/>
+The space bar and the left mouse button will use the primary attack.<br/>
+The left shift key and the right mouse button will use the secondary attack.<br/>
+The left alt key will pickup all nearby items off the ground.<br/>
+The scroll wheel will zoom the camera in and out.<br/>
+ 
+<br/>
+*Xbox 360 Controls*<br/> 
+The player can move their character up, down, left, and/or right using the left analog stick. The player can aim using the right analog stick.
+ 
+The right bumper will consume a health potion.<br/>
+The left bumper will consume a psionic potion.<br/>
+The right trigger will use the primary attack.<br/>
+The left trigger will use the secondary attack.<br/>
+The A button will pickup all nearby items off the ground.<br/>
+The D-Pad Up and Down will zoom the camera in and out.<br/>
+
+<br/>
+The controls listed here are the defaults, The player will be able to remap most functions to wherever they want.
