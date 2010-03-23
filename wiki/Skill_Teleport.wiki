@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist teleports to a nearby location. The occultist can also teleport a nearby player to a nearby location.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 4 + _Skill Rank_<br/>
+Speed: 1 seconds<br/>
+Recovery: 1 seconds<br/>
