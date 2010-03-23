@@ -6,10 +6,10 @@
 The attacker swings his/her leg up in a circular motion, kicking the opponent's side with the top of the foot
 <br/>
  
-|| || || ||
-||X||X||X||
-||X||S||X||
-|| || || ||
+|| || || || || ||
+|| ||X||X||X|| ||
+|| ||X||S||X|| ||
+|| || || || || ||
 
  
 <br/>
