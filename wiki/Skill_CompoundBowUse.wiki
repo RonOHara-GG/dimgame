@@ -1,11 +1,13 @@
 [Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
  
-Description:
+<br/>
+*Description:*<br/>
 Allows the archer to use compound bows
  
-Stats:
-Required Level: 13
-Range Bonus: (Skill Rank / 4)
-Damage Bonus: ((5 - 13) * Skill Rank)
-Speed Bonus: (0.0125 * Skill Rank)
-Recovery Bonus: (0.0125 * Skill Rank)
+<br/>
+*Stats:*
+Required Level: 13<br/>
+Range Bonus: (_Skill Rank_ / 4)<br/>
+Damage Bonus: ((5 - 13) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.0125 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
