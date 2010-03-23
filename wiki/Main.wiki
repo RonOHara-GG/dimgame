@@ -1,13 +1,19 @@
-#summary One-sentence summary of this page.
+Dimensions is a Sci-Fi Action RPG very much like Diablo.
+ 
+The player starts out assigned by his or her commanding officer to investigate a disturbance on the new orbital space station. Apon arrival to the space station, the player finds out that the disturbance is actually a strange looking purple and blue swirling rift inside one of the ship docking bays. As the player approaches the rift for the first time, a wave of creatures emerges from the rift into the docking bay and begin to attack! Whatever these things are, they are hostile and must be dealt with!
+ 
+The main story line is designed for a single player to push back the conquest army of the Giliarn. Each dimension has an alternate story line designed for multiple players which involves conquering the dimension's original inhabitants.
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Classes
+Stats
+Exp & Character Levels
+Items
+Dimensions
+Missions
+NPCs
+Creatures
+Lore
+ 
+Controls & Camera
+User Interface
+Gameplay
