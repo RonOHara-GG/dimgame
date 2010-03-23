@@ -3,7 +3,7 @@
 <br/>
 *Description:*<br/>
 Allows the archer to use compound bows
- 
+
 <br/>
 *Stats:*
 Required Level: 13<br/>
