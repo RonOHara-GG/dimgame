@@ -1,0 +1,43 @@
+[Main Dimensions]
+
+<br/>
+A character's base stats are initially defined by the class chosen when the character is created. The player gets 5 extra ability points to spend each level. These points can be put in any of the characters base stats.
+
+<br/>
+*Base Stats*<br/>
+[Attribute_Strength Strength]<br/>
+[Attribute_Agility Agility]<br/>
+[Attribute_Intelligence Intelligence]<br/>
+[Attribute_Constitution Constitution]<br/>
+
+<br/>
+*Pools*<br/>
+Health<br/>
+Mental<br/>
+
+<br/>
+*Current Weapon Stats*<br/>
+Weapon Range - The range of the currently equipped weapon<br/>
+Weapon Damage - The damage of the currently equipped weapon<br/>
+Weapon Damage Type - The damage type of the currently equipped weapon<br/>
+Weapon Speed - The speed of the currently equipped weapon<br/>
+Weapon Recovery - The recovery of the currently equipped weapon<br/>
+
+<br/>
+*Damage Types*
+[DamageType_Crushing Crushing]<br/>
+[DamageType_Piercing Piercing]<br/>
+[DamageType_Slashing Slashing]<br/>
+[DamageType_Mental Mental]<br/>
+[DamageType_Heat Heat]<br/>
+[DamageType_Cold Cold]<br/>
+[DamageType_Electrical Electrical]<br/>
+[DamageType_Water Water]<br/>
+[DamageType_Acid Acid]<br/>
+[DamageType_Viral Viral]<br/>
+[DamageType_Holy Holy]<br/>
+[DamageType_Death Death]<br/>
+ 
+<br/>
+*AI Stats*<br/>
+Attack Range
