@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Marksman Marksman]
+
+<br/>
+*Description:*<br/>
+The marksman sprays bullets from left to right within a 90 degree arc.<br/>
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Range: _Weapon Range_ `*` 0.8<br/>
+Shots Fired: 3 + (_Skill Rank_ / 3)<br/>
+Damage: (_Weapon Damage_ `*` 0.75) + ((2 - 10) `*` _Skill Rank_)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_ `*` 3<br/>
+Recovery: _Weapon Recovery_ `*` 2.25<br/>
