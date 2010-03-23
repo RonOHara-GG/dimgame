@@ -2,11 +2,11 @@
 
 <br/>
 *Description:*<br/>
-The rocketeer sets up his seeker missile battery for future launches.
+The rocketeer sets up his cruise missile battery for future launches.
 
 <br/> 
 *Stats:*
 Required Level:<br/>
 Range: 1<br/>
-Speed: (50 - (_Skill Rank_ `*` 2)) seconds<br/>
+Speed: (60 - (_Skill Rank_ `*` 2)) seconds<br/>
 Recovery: 0 seconds<br/>
