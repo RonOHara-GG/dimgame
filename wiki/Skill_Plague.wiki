@@ -2,10 +2,13 @@
 
 <br/>
 *Description:*<br/>
-The medic lives a healthy lifestyle giving him a permanant health regeneration. The medic can also pass this wisdom and benefit along to other nearby players. This is a passive ability which is always active.
+The medic carries an infected plague censer constantly infecting nearby enemies. This is a passive ability which is always active.
 
 <br/> 
 *Stats:*<br/>
 Required Level:<br/>
-Radius = 1 + _Skill Rank_
-Health Per Second: (2 - 4) `*` _Skill Rank_
+Range: 1 + _Skill Rank_<br/>
+Damage Per Second: (26 - 40) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Viral Viral]<br/>
+Effect Duration: Until Resisted<br/>
+Resist Strength: 25 + (_Skill Rank_ `*` 3.5)<br/>
