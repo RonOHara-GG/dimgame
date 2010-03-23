@@ -1,3 +1,5 @@
+[Main Dimensions]
+
 Players can pick one or more classes when they create their character. Players can also add or remove a class while on the space station. When a player drops a class, all progress in that class is lost.
 
 Experience gained is split amongst a players classes. The amount each class gets can be set by the player, there will always be an enforced balance of 100% experience. No class can go below 5% exp split.
