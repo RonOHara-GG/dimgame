@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Electrical damage adds lots of electrons to the atoms forcing that energy to be discharged.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 0.75)
