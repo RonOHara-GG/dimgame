@@ -1,0 +1,14 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+The brawler focuses mental energy to increase his strength temporarily.
+ 
+<br/>
+<br/>
+*Stats:*
+Required Level: 1<br/>
+Cost: 25 - (_Skill Rank_) Mental Points<br/>
+Duration: 5 + (_Skill Rank_ * 3) seconds<br/>
+Bonus: 2 + (_Skill Rank_ * 1.5) [Attribute_Strength Strength]<br/>
