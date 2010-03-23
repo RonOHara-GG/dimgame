@@ -1,0 +1,22 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+A spine crank is applied by twisting or bending the upper body beyond its normal ranges of motion, causing hyperextension, hyperflexion, or hyperrotation of the spine. This attack has a 50% chance of instantly killing an enemy.
+
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 30<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage Per Second: ((6 - 22) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 4.0)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 1 + ([Attribute_Strength Strength] / 50) seconds<br/>
+Recovery: 0.25 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Spinal_lock]<br/>
