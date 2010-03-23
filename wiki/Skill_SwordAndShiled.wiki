@@ -1,0 +1,11 @@
+[Main Dimensions] - [Classes] - [Class_Swordsman Swordsman]
+ 
+<br/>
+*Description:*<br/>
+The Swordsman gains the ability to effectively wield a weapon and shield.
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 8<br/>
+Bonus: (_Skill Rank_ `*` 2.5) Armor<br/>
