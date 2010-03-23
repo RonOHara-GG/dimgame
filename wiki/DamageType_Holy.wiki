@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Holy damage is done by a Diety.
+
+<br/>
+Resistance: ([Attribute_Intelligence Intelligence] `*` 0.75)
