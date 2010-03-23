@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Damage that affects the mind of the target.
+
+<br/>
+Resistance: ([Attribute_Intelligence Intelligence] `*` 1.5)
