@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist converts enemies within the effect radius to change sides and fight alongside the occultist as allies.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 4 + _Skill Rank_<br/>
+Radius: 3 + (_Skill Rank_ / 4)<br/>
+Damage Type: [DamageType_Mental Mental]<br/>
+Resist Strength: 20 + (_Skill Rank_ `*` 3)<br/>
+Speed: 3 seconds<br/>
+Recovery: 2 seconds<br/>
