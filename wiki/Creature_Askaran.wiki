@@ -4,7 +4,7 @@
 The basic ground troops of the Giliarn militia.<br/>
 
 <br/>
-*Sub Types*
+*Sub Types*<br/>
 [Askaran_ForwardScout Forward Scout]<br/>
 [Askaran_ScoutSupport Scout Support]<br/>
 [Askaran_Infantry Infantry]<br/>
