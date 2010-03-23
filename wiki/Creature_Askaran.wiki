@@ -1,0 +1,20 @@
+[Main Dimensions] - [Creatures]
+
+<br/>
+The basic ground troops of the Giliarn militia.<br/>
+
+<br/>
+*Sub Types*
+[Askaran_ForwardScout Forward Scout]<br/>
+[Askaran_ScoutSupport Scout Support]<br/>
+[Askaran_Infantry Infantry]<br/>
+[Askaran_Elite Elite]<br/>
+[Askaran_Veteran Veteran]<br/>
+[Askaran_Commando Commando]<br/>
+
+<br/>
+*AI Behavior*<br/>
+Askaran use their speed to their advantage. As soon as a player comes within their Attack Range, they run toward the enemy to get into melee combat. Askaran will attack with their claws until they are under 10% health. Once they get to 10% health, they attempt to turn and run away at half speed. Askaran will continue to run until they are Attack Range + 2 away from the enemy.
+
+<br/>
+*Concept Art*<br/>
