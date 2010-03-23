@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Rocketeer Rocketeer]
+
+<br/>
+*Description:*<br/>
+The rocketeer conceals himself from enemy sight. Any movement breaks concealment. Seeker, cruise, and ballistic missile launches do not break concealement.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Chance to be seen by enemy: 75 - (3 `*` _Skill Rank_) percent<br/>
+Speed: (_Skill Rank_ `*` 2) seconds<br/>
+Recovery: 1 second<br/>
