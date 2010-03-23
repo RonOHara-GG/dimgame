@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+Allows the player to use Hammers
+
+<br/> 
+*Stats:*<br/>
+Required Level: 1<br/>
+Damage Bonus: ((1 - 4) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.025 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
