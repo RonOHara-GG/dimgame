@@ -1,0 +1,66 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpaceProc", "SpaceProc.vcproj", "{E9528A7C-5D28-4ECD-AC8D-095917F6A18A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F} = {32084E14-46C9-4D1B-9DAB-4638A0F8B78F}
+		{E3AC4E44-268A-40D9-8399-322ABF18E028} = {E3AC4E44-268A-40D9-8399-322ABF18E028}
+		{32915267-D44F-43D0-9A81-A4C5983BE7D5} = {32915267-D44F-43D0-9A81-A4C5983BE7D5}
+		{31319DA3-713E-4979-98CC-7469452BB6C7} = {31319DA3-713E-4979-98CC-7469452BB6C7}
+		{5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9} = {5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "..\..\Common\Graphics\Graphics.vcproj", "{31319DA3-713E-4979-98CC-7469452BB6C7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "..\..\Common\Utility\Utility.vcproj", "{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Input", "..\..\Common\Input\Input.vcproj", "{5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "..\..\External\tinyxml\tinyxml_lib.vcproj", "{32915267-D44F-43D0-9A81-A4C5983BE7D5}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Procedural", "..\..\Common\Procedural\Procedural.vcproj", "{E3AC4E44-268A-40D9-8399-322ABF18E028}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{E9528A7C-5D28-4ECD-AC8D-095917F6A18A}.Debug.ActiveCfg = Debug|Win32
+		{E9528A7C-5D28-4ECD-AC8D-095917F6A18A}.Debug.Build.0 = Debug|Win32
+		{E9528A7C-5D28-4ECD-AC8D-095917F6A18A}.Release.ActiveCfg = Release|Win32
+		{E9528A7C-5D28-4ECD-AC8D-095917F6A18A}.Release.Build.0 = Release|Win32
+		{31319DA3-713E-4979-98CC-7469452BB6C7}.Debug.ActiveCfg = Debug|Win32
+		{31319DA3-713E-4979-98CC-7469452BB6C7}.Debug.Build.0 = Debug|Win32
+		{31319DA3-713E-4979-98CC-7469452BB6C7}.Release.ActiveCfg = Release|Win32
+		{31319DA3-713E-4979-98CC-7469452BB6C7}.Release.Build.0 = Release|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Debug.ActiveCfg = Debug|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Debug.Build.0 = Debug|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Release.ActiveCfg = Release|Win32
+		{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}.Release.Build.0 = Release|Win32
+		{5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9}.Debug.ActiveCfg = Debug|Win32
+		{5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9}.Debug.Build.0 = Debug|Win32
+		{5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9}.Release.ActiveCfg = Release|Win32
+		{5CD0ECCA-7650-4F9B-BDB9-E485D6E33CB9}.Release.Build.0 = Release|Win32
+		{32915267-D44F-43D0-9A81-A4C5983BE7D5}.Debug.ActiveCfg = Debug|Win32
+		{32915267-D44F-43D0-9A81-A4C5983BE7D5}.Debug.Build.0 = Debug|Win32
+		{32915267-D44F-43D0-9A81-A4C5983BE7D5}.Release.ActiveCfg = Release|Win32
+		{32915267-D44F-43D0-9A81-A4C5983BE7D5}.Release.Build.0 = Release|Win32
+		{E3AC4E44-268A-40D9-8399-322ABF18E028}.Debug.ActiveCfg = Debug|Win32
+		{E3AC4E44-268A-40D9-8399-322ABF18E028}.Debug.Build.0 = Debug|Win32
+		{E3AC4E44-268A-40D9-8399-322ABF18E028}.Release.ActiveCfg = Release|Win32
+		{E3AC4E44-268A-40D9-8399-322ABF18E028}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

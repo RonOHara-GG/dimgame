@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Level Name="Terra Research Lab">
+  <Meshes Count="1">
+    <Mesh>
+      <Data>Assets/SpaceStation/Models/SpaceStation.dae</Data>
+    </Mesh>
+  </Meshes>
+</Level>

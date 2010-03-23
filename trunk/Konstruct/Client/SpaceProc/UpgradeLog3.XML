@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="SpaceProc2008">
+</Property><Property Name="Solution File" Value="C:\Projects\Konstruct\Client\SpaceProc\SpaceProc2008.sln">
+</Property><Property Name="Date" Value="Saturday, October 04, 2008">
+</Property><Property Name="Time" Value="2:26 AM">
+</Property><Property Name="Log Number" Value="3">
+</Property></Properties><Event ErrorLevel="0" Project="SpaceProc" Source="SpaceProc.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="SpaceProc" Source="SpaceProc.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Graphics" Source="..\..\Common\Graphics\Graphics.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Graphics" Source="..\..\Common\Graphics\Graphics.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Utility" Source="..\..\Common\Utility\Utility.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Utility" Source="..\..\Common\Utility\Utility.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Input" Source="..\..\Common\Input\Input.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Input" Source="..\..\Common\Input\Input.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="tinyxml_lib" Source="..\..\External\tinyxml\tinyxml_lib.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="tinyxml_lib" Source="..\..\External\tinyxml\tinyxml_lib.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Procedural" Source="..\..\Common\Procedural\Procedural.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="Procedural" Source="..\..\Common\Procedural\Procedural.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="SpaceProc2008.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="SpaceProc2008.sln" Description="Converted">
+</Event></UpgradeLog>
