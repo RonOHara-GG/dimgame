@@ -1,0 +1,35 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+A flying kick, in martial arts, is a general description of kicks that involve a running start, jump, then a kick in mid-air.
+<br/> 
+The brawler starts at S and ends at E. Damaging everything after the first tile directly in front of the attack. Enemies that survive the frontal damage are pushed out of the way. The end point of this ability changes with every 50 points in strength.
+<br/>
+ 
+|| || || ||
+|| ||X|| ||
+|| ||E|| ||
+|| ||X|| ||
+|| ||X|| ||
+|| || || ||
+|| ||S|| ||
+|| || || ||
+ 
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 20<br/>
+Range: 5 Tiles + ([Attribute_Strength Strength] / 50)<br/>
+Radius: 1 Tile in front<br/>
+Damage: ((15 - 20) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 3.5) + ([Attribute_Agility Agility] `*` 0.75)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 0.75 seconds per tile (base = 3.75)<br/>
+Recovery: 0.75 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Kick] <br/>
+[http://www.youtube.com/watch?v=Yu6JoN32_yI&feature=related] <br/>
