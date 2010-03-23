@@ -1,0 +1,11 @@
+Dimensions Archer
+ 
+Description:
+Allows the archer to use crossbows
+ 
+Stats:
+Required Level: 19
+Range Bonus: (Skill Rank / 3)
+Damage Bonus: ((7 - 17) * Skill Rank)
+Speed Bonus: (0.0125 * Skill Rank)
+Recovery Bonus: (0.0125 * Skill Rank)
