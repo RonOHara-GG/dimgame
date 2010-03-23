@@ -1,0 +1,11 @@
+[Main Dimensions] - [Classes] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+The medic lives a healthy lifestyle giving him a permanant health regeneration. The medic can also pass this wisdom and benefit along to other nearby players. This is a passive ability which is always active.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Radius = 1 + _Skill Rank_
+Health Per Second: (2 - 4) `*` _Skill Rank_
