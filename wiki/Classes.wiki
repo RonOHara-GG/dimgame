@@ -7,18 +7,11 @@ Experience gained is split amongst a players classes. The amount each class gets
 There are eight classes.
  
 
-[Brawler]
-
-[Swordsman]
-
-[Archer]
-
-[Marksman]
-
-[Rocketeer]
-
-[Medic]
-
-[Priest]
-
-[Occultist]
+[Brawler]<br/>
+[Class_Swordsman Swordsman]<br/>
+[Class_Archer Archer]<br/>
+[Class_Marksman Marksman]<br/>
+[Class_Rocketeer Rocketeer]<br/>
+[Class_Medic Medic]<br/>
+[Class_Priest Priest]<br/>
+[Class_Occultist Occultist]<br/>
