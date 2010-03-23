@@ -1,0 +1,13 @@
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+The priest preaches restoring the faith and mental health of himself and nearby players.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Radius: 2 + (_Skill Rank_ / 2)<br/>
+Mental Instant: (30 - 60) `*` _Skill Rank_<br/>
+Speed: 4 seconds<br/>
+Recovery: 1 seconds<br/>
