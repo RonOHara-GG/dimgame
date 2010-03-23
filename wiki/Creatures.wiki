@@ -1,0 +1,17 @@
+[Main Dimensions]
+
+<br/>
+*Creature Types*<br/>
+[Creature_Humans Humans]<br/>
+<br/>
+[Creature_Angels Angels]<br/>
+[Creature_Dragons Dragons]<br/>
+<br/>
+[Creature_Askaran Askaran]<br/>
+[Creature_Polani Polani]<br/>
+[Creature_Yamian Yamian]<br/>
+[Creature_Welkart Welkart]<br/>
+
+<br/> 
+*Creature Weapons*<br/>
+[CreatureWeapon_Claws Claws]<br/>
