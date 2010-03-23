@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Cold causes molecules to contract and become brittle.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 0.75)
