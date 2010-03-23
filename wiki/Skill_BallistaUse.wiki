@@ -1,0 +1,11 @@
+Dimensions Archer
+ 
+Description:
+Allows the archer to use ballistae
+ 
+Stats:
+Required Level: 27
+Range Bonus: (Skill Rank / 2)
+Damage Bonus: ((10 - 22) * Skill Rank)
+Speed Bonus: (0.00625 * Skill Rank)
+Recovery Bonus: (0.00625 * Skill Rank)
