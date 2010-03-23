@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+The character's mental pool is the maximum amount of mental points the character can have.
+
+The base mental pools is:<br/>
+([Attribute_Intelligence Intelligence] `*` (5 `*` _Current Level_))
