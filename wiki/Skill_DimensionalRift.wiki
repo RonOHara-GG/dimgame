@@ -1,0 +1,16 @@
+[Main Dimensions]- [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist creates dimensional rift which sucks nearby enemies into another random dimension effectively killing them.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 7 + (_Skill Rank_ / 2)<br/>
+Radius: 2 + (_Skill Rank_ / 3)<br/>
+Damage Type: [DamageType_Death Death]<br/>
+Resist Strength: 6 + (_Skill Rank_ `*` 4)<br/>
+Effect Duration: (2 + _Skill Rank_) seconds<br/>
+Speed: 3 seconds<br/>
+Recovery: 2 seconds<br/>
