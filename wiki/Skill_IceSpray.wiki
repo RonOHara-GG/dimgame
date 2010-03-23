@@ -10,7 +10,7 @@ Required Level:<br/>
 Range: 2 + (_Skill Rank_ / 2)<br/>
 Arc: 5 + (_Skill Rank_ `*` 5) degrees<br/>
 Damage: (5 - 16) `*` _Skill Rank_<br/>
-Damage Type: Cold<br/>
+Damage Type: [DamageType_Cold Cold]<br/>
 Resist Strength: 7 + (_Skill Rank_ `*` 2)<br/>
 Speed: 2 seconds<br/>
 Recovery: 0 seconds<br/>
