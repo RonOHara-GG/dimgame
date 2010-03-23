@@ -4,7 +4,8 @@
 <br/>
 *Description:*<br/>
 A flying kick, in martial arts, is a general description of kicks that involve a running start, jump, then a kick in mid-air.
-<br/> 
+<br/>
+
 The brawler starts at S and ends at E. Damaging everything after the first tile directly in front of the attack. Enemies that survive the frontal damage are pushed out of the way. The end point of this ability changes with every 50 points in strength.
 <br/>
  
