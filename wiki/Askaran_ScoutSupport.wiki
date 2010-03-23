@@ -10,27 +10,27 @@ Dark Blue<br/>
 
 <br/>
 *Bosses*<br/>
-Alaman Itria
-Pontarn
+[Askaran_ScoutSupport_AlamanItria Alaman Itria]<br/>
+[Askaran_ScoutSupport_Pontarn Pontarn]<br/>
  
 <br/>
 *Stats*<br/>
 Level: 4<br/>
 Movement Speed: 2.5 tiles / second<br/>
 Weapon: [CreatureWeapon_Claws Claws]<br/>
- 
-<br/>
-Health: 75
-Attack Range: 20
-Crushing Resist: 10
-Piercing Resist: 10
-Slashing Resist: 10
-Mental Resist: 0
-Heat Resist: 20
-Cold Resist: 20
-Electrical Resist: 5
-Water Resist: 0
-Acid Resist: 35
-Viral Resist: 15
-Holy Resist: 5
-Death Resist: 25
+
+<br/> 
+[Attribute_Health Health]: 75<br/>
+[Attribute_AttackRange Attack Range]: 20<br/>
+[Attribute_CrushingResist Crushing Resist]: 10<br/>
+[Attribute_PiercingResist Piercing Resist]: 10<br/>
+[Attribute_SlashingResist Slashing Resist]: 10<br/>
+[Attribute_MentalResist Mental Resist]: 0<br/>
+[Attribute_HeatResist Heat Resist]: 20<br/>
+[Attribute_ColdResist Cold Resist]: 20<br/>
+[Attribute_ElectricalResist Electrical Resist]: 5<br/>
+[Attribute_WaterResist Water Resist]: 0<br/>
+[Attribute_AcidResist Acid Resist]: 35<br/>
+[Attribute_ViralResist Viral Resist]: 15<br/>
+[Attribute_HolyResist Holy Resist]: 5<br/>
+[Attribute_DeathResist Death Resist]: 25<br/>
