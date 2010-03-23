@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Physical damage that slashes or tears across the skin & muscle.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 1.25)
