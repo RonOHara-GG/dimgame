@@ -2,7 +2,7 @@
 
 <br/>
 *Description*<br/>
-Elite troops follow behind [Askaran_Elite Elite] and engage the resistances that the elite couldn't handle.
+Veteran troops follow behind [Askaran_Elite Elite] and engage the resistances that the elite couldn't handle.
 
 <br/> 
 *Color*<br/>
