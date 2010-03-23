@@ -24,7 +24,7 @@ Weapon Speed - The speed of the currently equipped weapon<br/>
 Weapon Recovery - The recovery of the currently equipped weapon<br/>
 
 <br/>
-*Damage Types*
+*Damage Types*<br/>
 [DamageType_Crushing Crushing]<br/>
 [DamageType_Piercing Piercing]<br/>
 [DamageType_Slashing Slashing]<br/>
