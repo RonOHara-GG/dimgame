@@ -1,5 +1,6 @@
-Dimensions Archer
- 
+[Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
+
+
 Description:
 Fires an arrow that explodes doing raidus explosive damage when it hits the target. The arrows damage is done normally to the target as well as the explosive damage.
  
