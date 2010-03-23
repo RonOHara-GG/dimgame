@@ -1,0 +1,15 @@
+Dimensions Archer
+ 
+Description:
+Fires an arrow that explodes doing raidus explosive damage when it hits the target. The arrows damage is done normally to the target as well as the explosive damage.
+ 
+Stats:
+Required Level: 23
+Range: Weapon Range
+Radius: (Skill Rank / 3) Tiles
+Target Damage: Weapon Damage
+Damage Type: Weapon Damage Type
+Radius Damage: ((15 - 35) * Skill Rank)
+Radius Damage Type: Heat
+Speed: Weapon Speed * 2.5
+Recovery: Weapon Recovery * 2.5
