@@ -4,16 +4,26 @@ The player starts out assigned by his or her commanding officer to investigate a
  
 The main story line is designed for a single player to push back the conquest army of the Giliarn. Each dimension has an alternate story line designed for multiple players which involves conquering the dimension's original inhabitants.
 
-Classes
+[Classes Classes]
+
 Stats
+
 Exp & Character Levels
+
 Items
+
 Dimensions
+
 Missions
+
 NPCs
+
 Creatures
+
 Lore
  
 Controls & Camera
+
 User Interface
+
 Gameplay
