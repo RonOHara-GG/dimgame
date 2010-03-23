@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+The priest draws a holy line on the ground preventing any enemies from crossing it. Any enemies near the line also take damage every second they are near it.
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Range: 6 + (_Skill Rank_ / 3)<br/>
+Radius: 4 + (_Skill Rank_ / 5)<br/>
+Damage Per Second: (12 - 36) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Holy Holy]<br/>
+Effect Duration: 20 + (_Skill Rank_ `*` 2) seconds<br/>
+Speed: 2 seconds<br/>
+Recovery: 1 seconds<br/>
