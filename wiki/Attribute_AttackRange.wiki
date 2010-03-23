@@ -1,0 +1,5 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+The number of tiles at which an enemy AI will attack the player. Until the player is within this range, most AI will stand where placed and wait.
