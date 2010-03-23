@@ -1,0 +1,22 @@
+[Main Dimensions] - [Classes] - [Brawler]
+
+<br/> 
+<br/>
+*Description:*<br/>
+The fist is raised vertically towards the target, usually the head or upper body
+
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 7<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage: ((2 - 10) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 2.5)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 0.75 seconds<br/>
+Recovery: 0.5 seconds<br/>
+
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Punch_(strike)]<br/>
