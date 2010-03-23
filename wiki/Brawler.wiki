@@ -8,50 +8,34 @@ The Brawler is a character who is skilled in the art of hand to hand combat. Typ
 
 <br/>
 <br/>
-*Punching*
-
-[Skill_Jab Jab]
-
-[Skill_Hook Hook]
-
-[Skill_Uppercut Uppercut]
-
-[Skill_Haymaker Haymaker]
+*Punching*<br/>
+[Skill_Jab Jab]<br/>
+[Skill_Hook Hook]<br/>
+[Skill_Uppercut Uppercut]<br/>
+[Skill_Haymaker Haymaker]<br/>
 
 <br/>
 <br/>
-*Kicking*
-
-[Skill-BackKick Back Kick]
-
-[Skill-AxeKick Axe Kick]
-
-[Skill-ButterflyKick Butterfly Kick]
-
-[Skill-ReverseRoundHouseKick Reverse Roundhouse Kick]
-
-[Skill-FlyingKick Flying Kick]
+*Kicking*<br/>
+[Skill_BackKick Back Kick]<br/>
+[Skill_AxeKick Axe Kick]<br/>
+[Skill_ButterflyKick Butterfly Kick]<br/>
+[Skill_ReverseRoundHouseKick Reverse Roundhouse Kick]<br/>
+[Skill_FlyingKick Flying Kick]<br/>
 
 <br/>
 <br/>
-*Grappling*
-
-[Skill-BearHug Bear Hug]
-
-[Skill-HeadButt Head Butt]
-
-[Skill-ShoulderThrow Shoulder Throw]
-
-[Skill-SacrificeThrow Sacrifice Throw]
-
-[Skill-SpineCrank Spine Crank]
+*Grappling*<br/>
+[Skill_BearHug Bear Hug]<br/>
+[Skill_HeadButt Head Butt]<br/>
+[Skill_ShoulderThrow Shoulder Throw]<br/>
+[Skill_SacrificeThrow Sacrifice Throw]<br/>
+[Skill_SpineCrank Spine Crank]<br/>
  
 <br/>
 <br/>
-*Bonuses*
-
-[Skill-Nimble Nimble]
-
-[Skill-AdrenalineBurst Adrenaline Burst]
-[Skill-Flexibility Flexibility]
-[Skill-FocusedStrength Focused Strength]
+*Bonuses*<br/>
+[Skill_Nimble Nimble]<br/>
+[Skill_AdrenalineBurst Adrenaline Burst]<br/>
+[Skill_Flexibility Flexibility]<br/>
+[Skill_FocusedStrength Focused Strength]<br/>
