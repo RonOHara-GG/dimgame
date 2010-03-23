@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist prodces a ball of fire in his hands and hurls it at an enemy.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 5 + (_Skill Rank_)<br/>
+Radius: 2 + (_Skill Rank_ / 12)<br/>
+Damage: (3 - 12) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Heat Heat]<br/>
+Resist Strength: 5 + (_Skill Rank_ `*` 2)<br/>
+Speed: 1 seconds<br/>
+Recovery: 0 seconds<br/>
