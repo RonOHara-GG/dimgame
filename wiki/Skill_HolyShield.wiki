@@ -1,0 +1,11 @@
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+The priest is provided with an aura of protection from his god. This aura protects the priest and other nearby players by reducing damage they would take. This is a passive ability and is always active.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Radius: 3 + (_Skill Rank_ / 2)<br/>
+Damage Reduction: (2 - 18) `*` _Skill Rank_<br/>
