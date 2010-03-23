@@ -7,5 +7,5 @@ The medic provides a constant state of relaxation, focus, and realization of rea
 <br/> 
 *Stats:*<br/>
 Required Level:<br/>
-Radius = 1 + _Skill Rank_
+Radius = 1 + _Skill Rank_<br/>
 Mental Per Second: (2 - 4) `*` _Skill Rank_
