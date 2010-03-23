@@ -1,0 +1,11 @@
+[Main Dimensions] - [Classes] - [Class_Marksman Marksman]
+
+<br/>
+*Description:*<br/>
+Allows the marksman to use an Assault Rifle in each hand.<br/>
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Main Hand Damage: (_Weapon Damage_ `*` 0.45) + (0.05 `*` _Skill Rank_) + (0.05 `*` ([Attribute_Agility Agility] / 15))<br/>
+Second Hand Damage: (_Weapon Damage_ `*` 0.35) + (0.05 `*` _Skill Rank_) + (0.05 `*` ([Attribute_Agility Agility] / 20))<br/>
