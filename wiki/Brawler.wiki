@@ -4,19 +4,19 @@ The Brawler is a character who is skilled in the art of hand to hand combat. Typ
 
 *Skills*
 
-[Skill-PlaceMirror Place Mirror]
+[Skill_PlaceMirror Place Mirror]
 
 <br/>
 <br/>
 *Punching*
 
-[Skill-Jab Jab]
+[Skill_Jab Jab]
 
-[Skill-Hook Hook]
+[Skill_Hook Hook]
 
-[Skill-Uppercut Uppercut]
+[Skill_Uppercut Uppercut]
 
-[Skill-Haymaker Haymaker]
+[Skill_Haymaker Haymaker]
 
 <br/>
 <br/>
