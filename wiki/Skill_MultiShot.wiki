@@ -1,0 +1,17 @@
+[Main Dimensions] - [Classes] - [Class_Archer Archer]
+ 
+<br/>
+*Description:*<br/>
+Fires multiple arrows within the firing arc.
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 4<br/>
+Shots Fired: 2 + (_Skill Rank_ / 5)<br/>
+Range: _Weapon Range_<br/>
+Fire Arc: (6 `*` _Skill Rank_) Degrees<br/>
+Damage: _Weapon Damage_ / (_Shots Fired_ - ([Attribute_Intelligence Intelligence] / 15)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_ `*` 1.5<br/>
+Recovery: _Weapon Recovery_ `*` 2<br/>
