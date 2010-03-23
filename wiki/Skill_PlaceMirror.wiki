@@ -1,0 +1,18 @@
+[Main Dimensions] - [Classes]
+
+[Brawler], [Class_Swordsman Swordsman], [Class_Archer Archer], [Class_Marksman Marksman]
+[Class_Rocketeer Rocketeer], [Class_Medic Medic], [Class_Priest Priest], [Class_Occultist Occultist]
+
+<br/>
+<br/>
+*Description:*
+----
+The player places a mirror against a wall. This mirror can be used to see enemys around corners. Enemys can see the player(s) around the corners as well however.
+
+
+*Stats:*
+
+Required Level: 1 <br/>
+Range: 1 + (Skill Rank / 4) <br/>
+Speed: 1 second <br/>
+Recovery: 1 second
