@@ -1,0 +1,21 @@
+[Main Dimensions] - [NPCs]
+
+<br/>
+*Lt. Jimmy Miller*<br/>
+Army Communications Officer<br/>
+
+<br/>
+Age: 19<br/>
+Gender: Male<br/>
+Race: Caucasian<br/>
+Hometown: Lexington, South Carolina, USA<br/>
+Height: 6'4"<br/>
+Weight: 220<br/>
+
+<br/>
+*Character Description*<br/>
+Large southern redneck, born and raised in South Carolina. 4th generation in the army following his great grandfather, grandfather, father and two uncles. Jimmy has one older sister and two younger brothers. Jimmy would prefer to be on the front line fighting, but being a time of peace, this station is the closest to a front line he can get to.
+
+<br/> 
+*Gameplay Description*<br/>
+Jimmy's orders are to stay on the space station and interface with NORAD command back on earth. The army has dedicated one communication satellite to this mission so Jimmy is in constant contact with earth. Jimmy relays orders from earth command to the player and reports the players findings back to earth command. Jimmy is the main conduit for getting and completing the main story missions.
