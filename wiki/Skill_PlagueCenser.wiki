@@ -1,0 +1,17 @@
+[Main Dimensions] - [Classes] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+The medic places a burning censer infected with an airborne virus on the ground. The censers will burn for far longer than any player would stay in the level making their duration effectively infinite. Censers can be destroyed by any physical damage type nullifying the virus spread.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 1 + (_Skill Rank_ / 6)<br/>
+Damage Per Second: (16 - 35) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Viral Viral]<br/>
+Effect Duration: Until Resisted<br/>
+Resist Strength: 20 + (_Skill Rank_ `*` 3)<br/>
+Infect Radius: 5 + (_Skill Rank_ / 3) tiles<br/>
+Speed: (20 - _Skill Rank_) seconds<br/>
+Recovery: 0 seconds<br/>
