@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Marksman Marksman]
+
+<br/>
+*Description:*<br/>
+The marksman glances around a corner and picks several targets. The marksman then quickly fires around the corner eliminating his targets.
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Range: (_Weapon Range_ `*` 0.5) + (_Skill Rank_ / 3)<br/>
+Number of Targets: _Skill Rank_<br/>
+Damage: (_Weapon Damage_ `*` 2) + ((7 - 16) `*` _Skill Rank_)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_ `*` 1.25<br/>
+Recovery: _Weapon Recovery_ `*` 1.25<br/>
