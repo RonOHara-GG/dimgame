@@ -1,0 +1,13 @@
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+The priest summons an angel to aid in the fight.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 1 + (_Skill Rank_ / 2)<br/>
+Creature Level: _Skill Rank_<br/>
+Speed: 120 seconds<br/>
+Recovery: 0 seconds<br/>
