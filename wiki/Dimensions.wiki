@@ -1,0 +1,21 @@
+[Main Dimensions]
+
+<br/>
+The game is made up of 10 dimensions. Each dimension contains 5 levels for a total of 50 levels in the game.
+
+Levels are randomly generated when the game is started. Each dimension has a set of building blocks used by the level generator to create a level.
+
+Each dimension has a rift back to the space station on the first level of the dimension. The player will have to complete a mission before these rifts are able to be activated.
+
+<br/> 
+*Dimensions*<br/>
+[Dimension_Bastarak Bastarak]<br/>
+[Dimension_Kinstar Kinstar]<br/>
+[Dimension_Aphian Aphian]<br/>
+[Dimension_Pordia Pordia]<br/>
+[Dimension_Cinerab Cinerab]<br/>
+[Dimension_Zolrex Zolrex]<br/>
+[Dimension_Quoliar Quoliar]<br/>
+[Dimension_Tapetera Tapetera]<br/>
+[Dimension_Mayirin Mayirin]<br/>
+[Dimension_Iloxir Iloxir]<br/>
