@@ -11,5 +11,5 @@ Range: _Weapon Range_<br/>
 Shots Fired: 5 + _Skill Rank_<br/>
 Damage: (_Weapon Damage_ `*` 0.2) + ((7 - 25) `*` _Skill Rank_)<br/>
 Damage Type: _Weapon Damage Type_<br/>
-Speed: _Weapon Speed_ * 1.25<br/>
-Recovery: _Weapon Recovery_ * 1.25<br/>
+Speed: _Weapon Speed_ `*` 1.25<br/>
+Recovery: _Weapon Recovery_ `*` 1.25<br/>
