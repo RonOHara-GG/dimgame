@@ -1,0 +1,26 @@
+[Main Dimensions] - [Classes]
+
+<br/>
+The Marksman is a character skilled in the use of firearms.
+
+<br/>
+*Skills*<br/> 
+[Skill_PlaceMirror Place Mirror]<br/>
+
+<br/>
+*Shots*<br/>
+[Skill_PrecisionShot Precision Shot]<br/>
+[Skill_AreaSpray Area Spray]<br/>
+[Skill_Ricochet Ricochet]<br/>
+[Skill_PreTarget Pre-Target]<br/>
+[Skill_CertainDeath Certain Death]<br/>
+[Skill_BurstFire Burst Fire]<br/>
+
+<br/>
+*Firearm Use*<br/>
+[Skill_PistolUse Pistol Use]<br/>
+[Skill_DualWieldPistols Dual Wield Pistols]<br/>
+[Skill_RifleUse Rifle Use]<br/>
+[Skill_DualWieldRifles Dual Wield Rifles]<br/>
+[Skill_AssaultRifleUse Assault Rifle Use]<br/>
+[Skill_DualWieldAssaultRifles Dual Wield Assault Rifles]<br/>
