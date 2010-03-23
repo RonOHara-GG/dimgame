@@ -1,12 +1,13 @@
 [Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
 
- 
-Description:
+<br/>
+*Description:*<br/>
 Allows the archer to use short bows
- 
-Stats:
-Required Level: 1
-Range Bonus: (Skill Rank / 6)
-Damage Bonus: ((1 - 8) * Skill Rank)
-Speed Bonus: (0.025 * Skill Rank)
-Recovery Bonus: (0.0125 * Skill Rank)
+
+<br/>
+*Stats:*<br/>
+Required Level: 1<br/>
+Range Bonus: (_Skill Rank_ / 6)<br/>
+Damage Bonus: ((1 - 8) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.025 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
