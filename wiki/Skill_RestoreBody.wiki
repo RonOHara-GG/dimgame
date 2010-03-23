@@ -1,5 +1,5 @@
 [Main Dimensions] - [Classes] - [Class_Priest Priest]
- 
+
 <br/>
 *Description:*<br/>
 The priest prays to his god to heal himself and all nearby players.
