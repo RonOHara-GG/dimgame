@@ -1,0 +1,23 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+A headbutt is a strike with the head, typically involving the use of robust parts of the cranium as area of impact. This attack must be done while in a bear hug, if the brawler isnt in a bear hug, one is started automatically. The brawler is left in the bear hug after the attack.
+
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 13<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage: ((3 - 8) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 0.5f)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 0.25 seconds<br/>
+Recovery: 0.5 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Headbutt]<br/>
+[http://www.youtube.com/watch?v=4ivYiTiTJZc]<br/>
