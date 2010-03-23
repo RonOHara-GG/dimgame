@@ -1,0 +1,11 @@
+[Main Dimensions] - [Classes] - [Class_Swordsman Swordsman]
+ 
+<br/>
+*Description:*<br/>
+The Swordsman gains the ability to effectively wield two long blades for pure offense.
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 28<br/>
+Bonus: ( 100 + ( _Skill Rank_ `*` ( ( [Attribute_Agility Agility] `*` 2 ) + [Attribute_Strength Strength] ) ) ) / 100 Damage<br/>
