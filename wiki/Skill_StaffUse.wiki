@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+Allows the player to use staves
+
+<br/> 
+*Stats:*<br/>
+Required Level: 1<br/>
+Damage Bonus: ((3 - 7) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.025 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
