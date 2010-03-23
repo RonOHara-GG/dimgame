@@ -1,5 +1,6 @@
-Dimensions Archer
- 
+[Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
+
+<br/>
 Description:
 Fires several arrows in rapid succession. The archer can aim while using this skill but can not move.
  
