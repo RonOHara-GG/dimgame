@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Viruses attack a bodys cell structure causing body functions to break down.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 0.75)
