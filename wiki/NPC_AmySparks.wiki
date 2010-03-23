@@ -20,5 +20,4 @@ Major Amy Sparks is a no bullshit kind of woman. She has lead troops in combat, 
 *Gameplay Description*<br/>
 Amy has weapons and armor available for purchase, she sells standar equipment as well as prototype & unavailable army equipment. Standard equipment can be purchaced using US dollars, prototype equipment can be purchased with a combination of US dollars and Requisition Points. Amy will also buy items found by the player, she will offer requisition points and sometimes us dollars for these items.
 
-<br/> 
 Amy continually ships things back and fort between earth and the space station. The player can tell her to hold onto items if they want to save up for them. If she is not holding on to an item, she will likely send it back to earth and will get other items in its place.
