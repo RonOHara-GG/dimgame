@@ -1,0 +1,14 @@
+[Main Dimensions] - [Classes] - [Class_Rocketeer Rocketeer]
+
+<br/>
+*Description:*<br/>
+The rocketeer kneels, aims, and fires a rocket propelled grenade.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: _Weapon Range_ + (_Skill Rank_ / 8)<br/>
+Damage: _Weapon Damage_ + ((6 - 10) `*` _Skill Rank_)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_<br/>
+Recovery: _Weapon Recovery_<br/>
