@@ -1,0 +1,25 @@
+[Main Dimensions] - [Classes]
+ 
+<br/>
+The Archer is a character who is skilled in the use of bows and crossbows. Bows and crossbows both use long projectiles fired at high velocity to pierce through multiple targets.
+
+<br/> 
+*Skills*<br/> 
+[Skill_PlaceMirror Place Mirror]<br/>
+ 
+<br/>
+*Shots*<br/>
+[Skill_BasicShot Basic Shot]<br/>
+[Skill_MultiShot Multi Shot]<br/>
+[Skill_BounceShot Bounce Shot]<br/>
+[Skill_RapidShot Rapid Shot]<br/>
+[Skill_ScatterShot Scatter Shot]<br/>
+[Skill_ExplosiveShot Explosive Shot]<br/>
+
+<br/>
+*Bow Use*<br/>
+[Skill_ShortBowUse Short Bow Use]<br/>
+[Skill_LongBowUse Long Bow Use]<br/>
+[Skill_CompoundBowUse Compound Bow Use]<br/>
+[Skill_CrossBowUse Cross Bow Use]<br/>
+[Skill_BallistaUse Ballista Use]<br/>
