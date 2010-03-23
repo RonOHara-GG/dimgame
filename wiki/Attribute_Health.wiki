@@ -1,0 +1,7 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+The character's health pool is the maximum amount of health points the character can have. The base health pools is:
+<br/> 
+([Attribute_Constitution Constitution] `*` (5 `*` _Current Level_))
