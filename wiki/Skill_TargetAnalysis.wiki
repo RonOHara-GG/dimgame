@@ -7,5 +7,5 @@ The medic can find weak spots in enemy anatomy providing a damage bonus to himse
 <br/> 
 *Stats:*<br/>
 Required Level:<br/>
-Radius = 1 + _Skill Rank_
+Radius = 1 + _Skill Rank_<br/>
 Damage Bonus: (6 - 12) `*` _Skill Rank_
