@@ -1,4 +1,5 @@
-Dimensions Archer
+[Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
+
  
 Description:
 Allows the archer to use long bows
