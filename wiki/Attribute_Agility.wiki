@@ -1,0 +1,5 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+The character's physical speed. This is how quickly the character can move and react physically.
