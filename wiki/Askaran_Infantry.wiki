@@ -1,8 +1,8 @@
 [Main Dimensions] - [Creatures] - [Creature_Askaran Askaran]
- 
+
 <br/>
 *Description*<br/>
-Infantry follow behind Scout Support and engage the reistances that the scouts couldnt handle.
+Infantry follow behind [Askaran_ScoutSupport Scout Support] and engage the resistances that the scouts couldnt handle.
 
 <br/> 
 *Color*<br/>
@@ -10,13 +10,14 @@ Green<br/>
  
 <br/>
 *Bosses*<br/>
-Omawa Tikrian
-Rijama Arpan
- 
-Stats
-Level: 7
-Movement Speed: 2.7 tiles / second
-Weapon: Claws
+[Askaran_Infantry_OmawaTikrian Omawa Tikrian]<br/>
+[Askaran_Infantry_RijamaArpan Rijama Arpan]<br/>
+
+<br/> 
+*Stats*<br/>
+Level: 7<br/>
+Movement Speed: 2.7 tiles / second<br/>
+Weapon: [CreatureWeapon_Claws Claws]<br/>
  
 Health: 150
 Attack Range: 22
