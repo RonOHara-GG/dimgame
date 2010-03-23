@@ -1,0 +1,23 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:* <br/>
+An axe kick is characterized by the straightened leg coming down on an opponent, like the blade of an axe. The starting phase involves the foot being moved in an arc up and forward, like a crescent kick. The arc motion is stopped, and the attacking foot is brought down to strike the target from above, in imitation of an axe
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 14<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage: ((3 - 12) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 3)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 1.25 seconds<br/>
+Recovery: 0.75 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Kick] <br/>
+[http://www.youtube.com/watch?v=jXiUo2LgoO8] <br/>
