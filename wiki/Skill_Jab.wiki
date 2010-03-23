@@ -1,0 +1,21 @@
+[Main Dimensions] - [Classes] - [Brawler]
+
+<br/>
+<br/>
+*Description:*
+----
+Quick one hand punch attack
+ 
+<br/>
+*Stats:*<br/>
+Required Level: 1<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage: ((1 - 2) * SkillRank) + (Strength * 0.5f)<br/>
+Damage Type: Crushing<br/>
+Speed: 0.5 seconds<br/>
+Recovery: 0.0 seconds<br/>
+ 
+*Reference:*<br/>
+http://en.wikipedia.org/wiki/Punch_(strike)<br/>
+http://en.wikipedia.org/wiki/Jab<br/>
