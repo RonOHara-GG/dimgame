@@ -1,4 +1,4 @@
-[Main Dimensions] - [Classes] [Class_Priest Priest]
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
 
 <br/>
 *Description:*<br/>
