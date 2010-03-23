@@ -1,0 +1,13 @@
+Dimensions Archer
+ 
+Description:
+An arrow is fired into the air which scatters into multiple fragments at the peak of the shot. The fragments then rain down on enemys below. The epicenter of the scatter takes the full damage, fall off is linear toward the outer edges of the scatter radius.
+ 
+Stats:
+Required Level: 16
+Range: Weapon Range * 1.5
+Radius: 1 + (2 * (Skill Rank / 3)) Tiles
+Damage: (Weapon Damage * 2) + (Skill Rank * (5 - 25))
+Damage Type: Weapon Damage Type
+Speed: Weapon Speed * 2
+Recovery: Weapon Recovery * 2
