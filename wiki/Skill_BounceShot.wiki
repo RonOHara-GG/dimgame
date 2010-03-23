@@ -1,4 +1,4 @@
-[Main Dimensions] - [Classes] [Class_Archer Archer]
+[Main Dimensions] - [Classes] - [Class_Archer Archer]
  
 <br/>
 *Description:*<br/>
