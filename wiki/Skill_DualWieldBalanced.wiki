@@ -1,0 +1,10 @@
+[Main Dimensions] - [Classes] - [Class_Swordsman Swordsman]
+ 
+<br/>
+*Description:*<br/>
+The Swordsman gains the ability to effectively wield a long blade offensively with a shorter blade defensively.
+ 
+<br/>
+*Stats:*<br/>
+Required Level: 17<br/>
+Bonus: (_Skill Rank_ `*` 1.25) Armor<br/>
