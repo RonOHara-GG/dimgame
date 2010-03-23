@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Marksman Marksman]
+
+<br/>
+*Description:*<br/>
+The marksman knows when his shot will kill his target. The marksman uses this opportunity to very quickly fire another shot at a new target. This is a passive ability that is always in effect.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: _Weapon Range_<br/>
+Number of Extra Targets: (_Skill Rank_ / 3)<br/>
+Damage: _Weapon Damage_ + ((1 - 6) `*` _Skill Rank_)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_<br/>
+Recovery: _Weapon Recovery_<br/>
