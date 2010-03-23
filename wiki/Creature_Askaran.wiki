@@ -1,7 +1,7 @@
 [Main Dimensions] - [Creatures]
 
 <br/>
-The basic ground troops of the Giliarn militia.<br/>
+The basic ground troops of the [Lore_Giliarn Giliarn] militia.<br/>
 
 <br/>
 *Sub Types*<br/>
