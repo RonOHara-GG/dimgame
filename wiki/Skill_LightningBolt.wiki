@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist prodces a bolt of lightning from his hand that hit an enemy and may arc to other nearby enemies.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 3 + (_Skill Rank_ / 2)<br/>
+Arc Chance: (5 + _Skill Rank_) percent<br/>
+Damage: (6 - 17) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Electrical Electrical]<br/>
+Resist Strength: 8 + (_Skill Rank_ `*` 2.5)<br/>
+Speed: 1 seconds<br/>
+Recovery: 0.5 seconds<br/>
