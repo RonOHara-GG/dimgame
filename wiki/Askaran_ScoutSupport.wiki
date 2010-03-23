@@ -2,7 +2,7 @@
 
 <br/>
 *Description*<br/>
-Scout support are supposed to follow behind [Creature_Askaran_ForwardScout Forward Scouts] and back them up on the new frontiers.
+Scout support are supposed to follow behind [Askaran_ForwardScout Forward Scouts] and back them up on the new frontiers.
 
 <br/> 
 *Color*<br/>
