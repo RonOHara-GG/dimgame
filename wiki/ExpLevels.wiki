@@ -1,0 +1,18 @@
+[Main Dimensions]
+
+<br/> 
+Characters do not level up directly in Dimensions. Character classes gain experience through killing enemys and completing missions. The character's level is the total of all the character's class levels.
+
+There is no level cap in Dimensions, Character classes will continue to gain levels as they gain experience. All skills in the game have level modifiers which make all skills more powerful with higher levels.
+
+Exp gain is a simple exponential curve of exp = level ^ 3.75
+
+1 - Given<br/>
+2 - 13<br/>
+3 - 62<br/>
+4 - 181<br/>
+5 - 418<br/>
+6 - 828<br/>
+7 - 1476<br/>
+
+At each level, the player is given (level `*` 2) skill points and 5 attribute points to be spent. A skill costs its skill rank to raise. For example, a rank 0 skill costs 1 skill point to get to rank 1. A rank 4 skill costs 5 skill points to raise to rank 5.
