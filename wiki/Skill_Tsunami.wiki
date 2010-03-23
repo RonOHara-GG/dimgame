@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist creates a wave of water in front of him which moves forward damaging enemies in its path.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 7 + (_Skill Rank_ / 3)<br/>
+Radius: 3 + (_Skill Rank_ / 6)<br/>
+Damage: (12 - 18) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Water Water]<br/>
+Resist Strength: 12 + (_Skill Rank_ `*` 2.5)<br/>
+Speed: 2 seconds<br/>
+Recovery: 1 seconds<br/>
