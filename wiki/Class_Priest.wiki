@@ -1,0 +1,26 @@
+[Main Dimensions] - [Classes]
+
+<br/>
+The Priest is a character skilled in the use of hammers. Priests can also heal and use religious psionics.
+
+<br/>
+*Skills*<br/> 
+[Skill_PlaceMirror Place Mirror]<br/>
+
+<br/>
+[Skill_Bless Bless]<br/>
+[Skill_WaterToWine Water to Wine]<br/>
+[Skill_HolyLine Holy Line]<br/>
+[Skill_RestoreBody Restore Body]<br/>
+[Skill_RestoreFaith Restore Faith]<br/>
+[Skill_SummonAngel Summon Angel]<br/>
+[Skill_Resurrect Resurrect]<br/>
+[Skill_TakeLife Take Life]<br/>
+
+<br/>
+[Skill_HolyShield Holy Shield]<br/>
+[Skill_DivineRetribution Divine Retribution]<br/>
+
+<br/>
+*Weapon Use*<br/>
+[Skill_HammerUse Hammer Use]<br/>
