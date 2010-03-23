@@ -1,0 +1,34 @@
+[Main Dimensions]- [Classes]
+ 
+<br/>
+The Swordsman is a character who is skilled in the use of a sword. Swordsmen can use their sword for defense as well as offense.
+
+<br/> 
+*Skills*<br/> 
+[Skill_PlaceMirror Place Mirror]
+ 
+<br/>
+*Sword Strikes*<br/> 
+[Skill_Lunge Lunge]<br/>
+[Skill_DoubleCross Double Cross]<br/>
+[Skill_ReverseUpswing Reverse Upswing]<br/>
+[Skill_DoubleChop Double Chop]<br/>
+[Skill_SideStepDoubleCross SideStep Double Cross]<br/>
+[Skill_UpswingAndChop Upswing and Chop]<br/>
+[Skill_DoubleCrossAndChop Double Cross and Chop]<br/>
+[Skill_TripleStabAndLunge Triple Stab and Lunge]<br/>
+[Skill_SideStepTrippleCross SideStep Triple Cross]<br/>
+ 
+<br/>
+*Bonuses*<br/> 
+[Skill_Focus Focus]<br/>
+[Skill_Flurry Flurry]<br/>
+[Skill_Parry Parry]<br/>
+[Skill_Deadly Deadly]<br/>
+ 
+<br/>
+*Sword Wield Style*<br/> 
+[Skill_TwoHanded Two-Handed]<br/>
+[Skill_SwordAndShiled Sword and Shield]<br/>
+[Skill_DualWieldBalanced Dual Wield Balanced]<br/>
+[Skill_DualWieldOffensive Dual Wield Offensive]<br/>
