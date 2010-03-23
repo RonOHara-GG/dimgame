@@ -1,0 +1,14 @@
+[Main Dimensions] - [Classes] [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+The priest turns water into wine.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Items Created: 1 + (_Skill Rank_ / 8)<br/>
+Stat Bonus: (3 - 10) `*` _Skill Rank_<br/>
+Effect Duration: 15 + (_Skill Rank_ `*` 2) seconds<br/>
+Speed: (50 - (_Skill Rank_ `*` 2)) seconds<br/>
+Recovery: 0 seconds<br/>
