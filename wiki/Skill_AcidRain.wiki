@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist creates an acid rain storm over an area.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 7 + (_Skill Rank_ / 2)<br/>
+Radius: 5 + (_Skill Rank_ / 2)<br/>
+Damage Per Second: (16 - 26) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Acid Acid]<br/>
+Resist Strength: 16 + (_Skill Rank_ `*` 3)<br/>
+Speed: (5 + (_Skill Rank_ / 2)) seconds<br/>
+Recovery: 4 seconds<br/>
