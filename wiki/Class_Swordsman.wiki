@@ -8,6 +8,7 @@ The Swordsman is a character who is skilled in the use of a sword. Swordsmen can
 [Skill_PlaceMirror Place Mirror]
  
 <br/>
+<br/>
 *Sword Strikes*<br/> 
 [Skill_Lunge Lunge]<br/>
 [Skill_DoubleCross Double Cross]<br/>
