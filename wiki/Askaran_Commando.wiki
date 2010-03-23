@@ -1,0 +1,36 @@
+[Main Dimensions] - [Creatures] - [Creature_Askaran Askaran]
+
+<br/>
+*Description*<br/>
+Commandos follow behind [Askaran_Veteran Veterans] and engage the resistances that the veterans couldn't handle.
+
+<br/> 
+*Color*<br/>
+Gold<br/>
+ 
+<br/>
+*Bosses*<br/>
+[Askaran_Commando_KiplarEbenet Kiplar Ebenet]<br/>
+[Askaran_Commando_Markatial Markatial]<br/>
+
+<br/>
+*Stats*<br/>
+Level: 19<br/>
+Movement Speed: 3.2 tiles / second<br/>
+Weapon: [CreatureWeapon_Claws Claws]<br/>
+ 
+<br/> 
+[Attribute_Health Health]: 1500<br/>
+[Attribute_AttackRange Attack Range]: 25<br/>
+[Attribute_CrushingResist Crushing Resist]: 100<br/>
+[Attribute_PiercingResist Piercing Resist]: 100<br/>
+[Attribute_SlashingResist Slashing Resist]: 100<br/>
+[Attribute_MentalResist Mental Resist]: 125<br/>
+[Attribute_HeatResist Heat Resist]: 300<br/>
+[Attribute_ColdResist Cold Resist]: 300<br/>
+[Attribute_ElectricalResist Electrical Resist]: 50<br/>
+[Attribute_WaterResist Water Resist]: 30<br/>
+[Attribute_AcidResist Acid Resist]: 600<br/>
+[Attribute_ViralResist Viral Resist]: 165<br/>
+[Attribute_HolyResist Holy Resist]: 100<br/>
+[Attribute_DeathResist Death Resist]: 175<br/>
