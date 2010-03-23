@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes]
+[Class_Priest Priest], [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The player revokes an enemies right to live.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 1 + (_Skill Rank_ / 2)<br/>
+Damage: 100%<br/>
+Damage Type: [DamageType_Death Death]<br/>
+Resist Strength: 4 + (_Skill Rank_ `*` 1.5)<br/>
+Speed: 5 seconds<br/>
+Recovery: 2 seconds<br/>
