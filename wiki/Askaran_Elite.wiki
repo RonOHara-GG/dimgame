@@ -1,0 +1,36 @@
+[Main Dimensions] - [Creatures] - [Creature_Askaran Askaran]
+
+<br/>
+*Description*<br/>
+Elite troops follow behind [Askaran_Infantry Infantry] and engage the resistances that the infantry couldnt handle.
+
+<br/> 
+*Color*<br/>
+Crimson<br/>
+ 
+<br/>
+*Bosses*<br/>
+[Askaran_Elite_TerqiarBatof Terqiar Batof]<br/>
+[Askaran_Elite_DempanIjio Dempan Ijio]<br/>
+
+<br/>
+*Stats*<br/>
+Level: 11<br/>
+Movement Speed: 3 tiles / second<br/>
+Weapon: [CreatureWeapon_Claws Claws]<br/>
+ 
+<br/>
+Health: 450
+Attack Range: 23
+Crushing Resist: 50
+Piercing Resist: 50
+Slashing Resist: 50
+Mental Resist: 100
+Heat Resist: 250
+Cold Resist: 250
+Electrical Resist: 15
+Water Resist: 0
+Acid Resist: 275
+Viral Resist: 120
+Holy Resist: 45
+Death Resist: 150
