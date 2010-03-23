@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Rocketeer Rocketeer]
+
+<br/>
+*Description:*<br/>
+Allows the rocketeer to use RPG Launchers<br/>
+ 
+<br/>
+*Stats:*<br/>
+Required Level: 1<br/>
+Damage Bonus: ((3 - 9) `*` _Skill Rank_)<br/>
+Speed Bonus: (0.025 `*` _Skill Rank_)<br/>
+Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
