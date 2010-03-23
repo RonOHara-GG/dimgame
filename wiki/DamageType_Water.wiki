@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Water is absorbed into other molecules breaking them appart.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 0.75)
