@@ -12,8 +12,8 @@ A character's base stats are initially defined by the class chosen when the char
 
 <br/>
 *Pools*<br/>
-Health<br/>
-Mental<br/>
+[Attribute_Health Health]<br/>
+[Attribute_Mental Mental]<br/>
 
 <br/>
 *Current Weapon Stats*<br/>
@@ -40,4 +40,4 @@ Weapon Recovery - The recovery of the currently equipped weapon<br/>
  
 <br/>
 *AI Stats*<br/>
-Attack Range
+[Attribute_AttackRange Attack Range]
