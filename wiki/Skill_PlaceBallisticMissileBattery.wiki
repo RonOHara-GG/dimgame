@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Rocketeer Rocketeer]
+
+<br/>
+*Description:*<br/>
+The rocketeer sets up his ballistic missile battery for future launches.
+
+<br/> 
+*Stats:*
+Required Level:<br/>
+Range: 1<br/>
+Speed: (80 - (_Skill Rank_ `*` 1.5)) seconds<br/>
+Recovery: 0 seconds<br/>
