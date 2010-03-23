@@ -1,0 +1,32 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:*<br/>
+A shoulder throw involves throwing an opponent over the shoulder. This attack throws the enemy in front of the attack directly behind the attack. An enemy starting at X will end up at E. Any enemies in the path of the enemy being thrown will also take the damage amount. The distance thrown is 3 tiles at base plus an additional tile for every 75 strength.
+<br/>
+ 
+|| || || ||
+|| ||X|| ||
+|| ||S|| ||
+|| || || ||
+|| || || ||
+|| ||E|| ||
+
+
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 19<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage: ((8 - 25) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 3.5)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 0.75 seconds<br/>
+Recovery: 0.5 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Throw_(grappling)]<br/>
+[http://www.youtube.com/watch?v=8US5SgUkdds]<br/>
