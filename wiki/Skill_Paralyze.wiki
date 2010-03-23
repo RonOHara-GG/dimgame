@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist paralyzes enemies within an area preventing them from moving or attacking.
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Range: 4 + _Skill Rank_<br/>
+Radius: 4 + (_Skill Rank_ / 3)<br/>
+Damage Type: [DamageType_Mental Mental]<br/>
+Resist Strength: 15 + (_Skill Rank_ `*` 2)<br/>
+Speed: 1 seconds<br/>
+Recovery: 3 seconds<br/>
