@@ -1,0 +1,7 @@
+[Main Dimensions] - [Stats]
+
+<br/> 
+*Description*<br/>
+The characters intelligence determines both how smart the character is as well as how mentally strong the character is.
+
+This is the primary stat for determining the character's [Attribute_Mental Mental] pool.
