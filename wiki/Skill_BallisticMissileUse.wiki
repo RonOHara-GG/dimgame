@@ -2,11 +2,11 @@
 
 <br/>
 *Description:*<br/>
-Allows the rocketeer to use Seeker Missiles<br/>
+Allows the rocketeer to use Ballistic Missiles<br/>
  
 <br/>
 *Stats:*<br/>
 Required Level:<br/>
-Damage Bonus: ((4 - 12) `*` _Skill Rank_)<br/>
+Damage Bonus: ((14 - 25) `*` _Skill Rank_)<br/>
 Speed Bonus: (0.025 `*` _Skill Rank_)<br/>
 Recovery Bonus: (0.0125 `*` _Skill Rank_)<br/>
