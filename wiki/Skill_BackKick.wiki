@@ -1,0 +1,23 @@
+[Main Dimensions] - [Classes] - [Brawler]
+
+<br/> 
+<br/>
+*Description:*<br/>
+This kick is directed backward keeping the kicking leg close to the standing leg and using the heel as a striking surface. Most often, this kick is delivered with a spinning motion
+ 
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 10<br/>
+Range: 1 Tile<br/>
+Radius: 1 Tile<br/>
+Damage: ((4 - 17) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 3.5)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 1.5 seconds<br/>
+Recovery: 1.0 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*
+[http://en.wikipedia.org/wiki/Kick] <br/>
+[http://www.youtube.com/watch?v=_IN4bcarV50] <br/>
