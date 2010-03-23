@@ -1,0 +1,27 @@
+[Main Dimensions] - [Classes]
+
+<br/>
+The Medic is a character skilled in human physiology and anatomy. Medics can provide health bonuses as well as damage bonuses to enemies. Medics innoculate all friendly players making them immune to the medics biological weapons.
+
+<br/> 
+*Skills*<br/> 
+[Skill_PlaceMirror Place Mirror]<br/>
+ 
+<br/>
+[Skill_CreateHealthCocktail Create Health Cocktail]<br/>
+[Skill_CreateMentalCocktail Create Mental Cocktail]<br/>
+[Skill_PatchWounds Patch Wounds]<br/>
+[Skill_BioAmmo Bio Ammo]<br/>
+[Skill_CreateBioWarhead Create Bio Warhead]<br/>
+[Skill_PlagueCenser Plague Censer]<br/>
+ 
+<br/>
+*AoE Bonuses*<br/>
+[Skill_HealthyLifestyle Healthy Lifestyle]<br/>
+[Skill_SanityAnchor Sanity Anchor]<br/>
+[Skill_TargetAnalysis Target Analysis]<br/>
+[Skill_Plague Plague]<br/>
+
+<br/>
+*Weapon Use*<br/>
+[Skill_PistolUse Pistol Use]<br/>
