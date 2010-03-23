@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Occultist Occultist]
+
+<br/>
+*Description:*<br/>
+The occultist disintegrates a target turnning it to dust.
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Range: 1 + (_Skill Rank_ / 4)<br/>
+Damage: 100%<br/>
+Damage Type: [DamageType_Death Death]<br/>
+Resist Strength: 10 + (_Skill Rank_ `*` 4)<br/>
+Speed: 1 seconds<br/>
+Recovery: 8 seconds<br/>
