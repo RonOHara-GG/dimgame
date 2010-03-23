@@ -1,0 +1,36 @@
+[Main Dimensions] - [Creatures] - [Creature_Askaran Askaran]
+
+<br/>
+*Description*<br/>
+Elite troops follow behind [Askaran_Elite Elite] and engage the resistances that the elite couldn't handle.
+
+<br/> 
+*Color*<br/>
+Dark Purple<br/>
+ 
+<br/>
+*Bosses*<br/>
+[Askaran_Veteran_ObermarJinarka Obermar Jinarka]<br/>
+[Askaran_Veteran_AxbiatPolkant Axbiat Polkant]<br/>
+
+<br/>
+*Stats*<br/>
+Level: 15<br/>
+Movement Speed: 3 tiles / second<br/>
+Weapon: [CreatureWeapon_Claws Claws]<br/>
+ 
+<br/> 
+[Attribute_Health Health]: 800<br/>
+[Attribute_AttackRange Attack Range]: 24<br/>
+[Attribute_CrushingResist Crushing Resist]: 75<br/>
+[Attribute_PiercingResist Piercing Resist]: 75<br/>
+[Attribute_SlashingResist Slashing Resist]: 75<br/>
+[Attribute_MentalResist Mental Resist]: 100<br/>
+[Attribute_HeatResist Heat Resist]: 250<br/>
+[Attribute_ColdResist Cold Resist]: 250<br/>
+[Attribute_ElectricalResist Electrical Resist]: 20<br/>
+[Attribute_WaterResist Water Resist]: 15<br/>
+[Attribute_AcidResist Acid Resist]: 275<br/>
+[Attribute_ViralResist Viral Resist]: 135<br/>
+[Attribute_HolyResist Holy Resist]: 75<br/>
+[Attribute_DeathResist Death Resist]: 150<br/>
