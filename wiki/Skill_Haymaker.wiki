@@ -1,0 +1,23 @@
+[Main Dimensions] - [Classes] - [Brawler]
+ 
+<br/>
+<br/>
+*Description:* <br/>
+A punch that mimics the action of throwing a baseball. A haymaker uses a person's entire weight to throw the punch, thus, a long windup is needed. Haymakers are frequently used from a mounted position in mixed martial arts as part of the "ground and pound" method
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 12<br/>
+Range: 1 Tile<br/>
+Radius: 2 Tile<br/>
+Damage: ((3 - 15) `*` _Skill Rank_) + ([Attribute_Strength Strength] `*` 4)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 1.0 seconds<br/>
+Recovery: 1.0 seconds<br/>
+ 
+<br/>
+<br/>
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Punch_(strike)]<br/>
+[http://www.youtube.com/watch?v=N3HmdYRMh6w]<br/>
