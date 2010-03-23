@@ -1,0 +1,23 @@
+[Main Dimensions] - [Classes]
+
+<br/> 
+The Occultist is a character skilled in the arts of offensive psionics.
+
+<br/> 
+*Skills*<br/>  
+[Skill_FireBall Fire Ball]<br/> 
+[Skill_IceSpray Ice Spray]<br/> 
+[Skill_LightningBolt Lightning Bolt]<br/> 
+[Skill_Tsunami Tsunami]<br/> 
+[Skill_TakeLife Take Life]<br/> 
+[Skill_AcidRain Acid Rain]<br/> 
+[Skill_DimensionalRift Dimensional Rift]<br/> 
+[Skill_Disintegrate Disintegrate]<br/> 
+[Skill_ChangeAllegiance Change Allegiance]<br/> 
+[Skill_Paralyze Paralyze]<br/> 
+[Skill_SummonDragon Summon Dragon]<br/> 
+[Skill_Teleport Teleport]<br/> 
+
+<br/> 
+*Weapon Use:*<br/> 
+[Skill_StaffUse Staff Use]<br/> 
