@@ -1,0 +1,36 @@
+[Main Dimensions] - [Creatures] - [Creature_Askaran Askaran]
+
+<br/>
+*Description*<br/>
+The forward most units of the [Lore_Giliarn Giliarn] ground forces. Their job is to scout new dimensions and advance the line of conquest.
+
+<br/> 
+*Color*<br/>
+Light Grey<br/>
+
+<br/>
+*Bosses*<br/>
+[Askaran_ForwardScout_KirnalUpart Kirnal Upart]<br/>
+[Askaran_ForwardScout_TymanLikiar Tyman Likiar]<br/>
+
+<br/>
+*Stats*<br/>
+Level: 1<br/>
+Movement Speed: 2.5 tiles / second<br/>
+Weapon: [Creature_Weapon_Claws Claws]<br/>
+
+<br/> 
+Health: 50<br/>
+Attack Range: 20<br/>
+Crushing Resist: 0<br/>
+Piercing Resist: 0<br/>
+Slashing Resist: 0<br/>
+Mental Resist: 0<br/>
+Heat Resist: 15<br/>
+Cold Resist: 15<br/>
+Electrical Resist: 5<br/>
+Water Resist: 0<br/>
+Acid Resist: 35<br/>
+Viral Resist: 10<br/>
+Holy Resist: 0<br/>
+Death Resist: 15<br/>
