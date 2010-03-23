@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Marksman Marksman]
+
+<br/> 
+*Description:*<br/>
+The marksman fires a single round at a wall or other object. The bullet will bounce off and hit a target. When using this skill, there is an on screen guide showing the player where the bullet will bounce and what its final trajectory is allowing the player to target things accuratly from around corners.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: _Weapon Range_ + (_Skill Rank_ / 3)<br/>
+Number of Bounces: 1 + (_Skill Rank_ / 7)<br/>
+Damage: _Weapon Damage_<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_ `*` 1.25<br/>
+Recovery: _Weapon Recovery_<br/>
