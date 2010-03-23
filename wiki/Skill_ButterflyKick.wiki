@@ -7,13 +7,13 @@ The butterfly kick is a signature martial arts kick. It's commonly done by doing
 <br/> 
 This attack starts at S and ends at E, damaging everything in the X marked tiles. Enemies in the path of S -> E take half damage. Any enemies surviving the attack in the path of S -> E get pushed out of the way.
 <br/> 
-|| || || ||
-|| ||X||X||
-|| ||E||X||
-|| ||X||X||
-|| ||X||X||
-|| ||S||X||
-|| || || ||
+||  || || ||
+||  ||X||X||
+||  ||E||X||
+||  ||X||X||
+||  ||X||X||
+||  ||S||X||
+||  || || ||
 
 
 <br/> 
