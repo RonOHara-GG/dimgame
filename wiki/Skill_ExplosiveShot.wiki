@@ -5,7 +5,7 @@
 Fires an arrow that explodes doing raidus explosive damage when it hits the target. The arrows damage is done normally to the target as well as the explosive damage.
 
 <br/>
-*Stats:*
+*Stats:*<br/>
 Required Level: 23<br/>
 Range: _Weapon Range_<br/>
 Radius: (_Skill Rank_ / 3) Tiles<br/>
