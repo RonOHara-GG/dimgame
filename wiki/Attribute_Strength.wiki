@@ -1,0 +1,5 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+The characters physical strength. This reflects how much physical force the character can exert.
