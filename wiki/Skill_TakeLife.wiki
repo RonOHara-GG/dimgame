@@ -1,4 +1,4 @@
-[Main Dimensions] - [Classes]
+[Main Dimensions] - [Classes]<br/>
 [Class_Priest Priest], [Class_Occultist Occultist]
 
 <br/>
