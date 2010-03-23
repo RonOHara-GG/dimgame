@@ -1,5 +1,5 @@
-[Main Dimensions] - [Classes] - [Class_Archer Archer]
- 
+[Main Dimensions] - [Classes] - [Class_Archer Archer]<br/>
+
 <br/>
 *Description:*<br/>
 The basic arrow shot, fires an arrow from the bow piercing through targets until it hits its maximum range.
