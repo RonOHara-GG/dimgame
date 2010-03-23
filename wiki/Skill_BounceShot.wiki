@@ -10,7 +10,7 @@ The arrow bounces off the target it hits toward another target. Shots with this 
 Required Level: 9<br/>
 Range: _Bow Range_ `*` 0.5<br/>
 Bounce Range: 2 + (_Skill Rank_ `*` 0.5)<br/>
-Damage: _Weapon Damage_ * (0.1 + (0.1 `*` (_Skill Rank_ / 5)))<br/>
+Damage: _Weapon Damage_ `*` (0.1 + (0.1 `*` (_Skill Rank_ / 5)))<br/>
 Damage Type: _Weapon Damage Type_<br/>
 Speed: 0.5 seconds<br/>
 Recovery: 0.75 seconds<br/>
