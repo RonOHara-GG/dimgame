@@ -1,0 +1,12 @@
+[Main Dimensions] - [Classes] - [Class_Swordsman Swordsman]
+ 
+<br/>
+*Description:*<br/>
+The Swordsman gains the ability to effectively grasp a long weapon with 2 hands, to inflict increased damage.
+
+
+<br/>
+<br/> 
+*Stats:*<br/>
+Required Level: 5<br/>
+Bonus: (_Skill Rank_ `*` 1.25) + ([Attribute_Strength Strength] `*` 1.5) Damage<br/>
