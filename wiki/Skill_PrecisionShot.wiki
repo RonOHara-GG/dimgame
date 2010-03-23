@@ -1,0 +1,14 @@
+[Main Dimensions] - [Classes] - [Class_Marksman Marksman]
+
+<br/>
+*Description:*<br/>
+The marksman crouches down and carefuly aims at a target doing massive damage.
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Range: _Weapon Range_<br/>
+Damage: _Weapon Damage_ + ((15 - 25) `*` _Skill Rank_)<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: _Weapon Speed_ `*` 2.5<br/>
+Recovery: _Weapon Recovery_ `*` 1.25<br/>
