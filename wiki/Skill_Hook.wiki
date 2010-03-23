@@ -17,6 +17,8 @@ Damage Type: [DamageType_Crushing Crushing]<br/>
 Speed: 0.75 seconds<br/>
 Recovery: 0.25 seconds<br/>
  
+<br/>
+<br/>
 *Reference:*<br/>
 [http://en.wikipedia.org/wiki/Punch_(strike)] <br/>
 [http://en.wikipedia.org/wiki/Hook_%28boxing%29] <br/>
