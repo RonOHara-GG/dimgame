@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] [Class_Archer Archer]
+ 
+<br/>
+*Description:*<br/>
+The arrow bounces off the target it hits toward another target. Shots with this skill are limited to half the range of the firing bow. Each bounce uses the bounce range divided in half for each bounce. For example: A shot is fired at range of 4, bounce range is currently 4. The shot bounces off the first target, hitting the second target within 4 tiles. The shot then bounces to a new target within 2 tiles of the second target. Finaly the shot can bounce to a new target within 1 tile of the third target. Any shot that runs out of range or damage will stop the chain.
+ 
+<br/>
+<br/>
+*Stats:*<br/>
+Required Level: 9<br/>
+Range: _Bow Range_ `*` 0.5<br/>
+Bounce Range: 2 + (_Skill Rank_ `*` 0.5)<br/>
+Damage: _Weapon Damage_ * (0.1 + (0.1 `*` (_Skill Rank_ / 5)))<br/>
+Damage Type: _Weapon Damage Type_<br/>
+Speed: 0.5 seconds<br/>
+Recovery: 0.75 seconds<br/>
