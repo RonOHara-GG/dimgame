@@ -1,0 +1,22 @@
+[Main Dimensions] - [Classes] - [Brawler]
+
+<br/>
+<br/>
+*Description:*
+----
+A punch involving the use of turning to aim toward the side of the head or body
+ 
+<br/>
+<br/>
+*Stats:* <br/>
+Required Level: 3 <br/>
+Range: 1 Tile <br/>
+Radius: 1 Tile <br/>
+Damage: ((1 - 3) * _Skill Rank_) + ([Attribute_Strength Strength] * 2)<br/>
+Damage Type: [DamageType_Crushing Crushing]<br/>
+Speed: 0.75 seconds<br/>
+Recovery: 0.25 seconds<br/>
+ 
+*Reference:*<br/>
+[http://en.wikipedia.org/wiki/Punch_(strike)] <br/>
+[http://en.wikipedia.org/wiki/Hook_%28boxing%29] <br/>
