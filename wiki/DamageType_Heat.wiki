@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Heat causes molecules to expand and break appart.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 0.75)
