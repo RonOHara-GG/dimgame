@@ -1,0 +1,30 @@
+[Main Dimensions] - [Classes]
+
+<br/>
+The Rocketeer is a character skilled in the use of rocket based projectiles.
+
+<br/> 
+*Skills*<br/>
+[Skill_Hide Hide]<br/>
+[Skill_PlaceMirror Place Mirror]<br/>
+
+<br/>
+*Launch Skills*<br/>
+[Skill_LaunchRPG Launch RPG]<br/>
+[Skill_LaunchSeekerMissle Launch Seeker Missile]<br/>
+[Skill_LaunchCruiseMissle Launch Cruise Missile]<br/>
+[Skill_LaunchBallisticMissile Launch Ballistic Missile]<br/>
+ 
+<br/>
+*Battery Placement*
+[Skill_PlaceSeekerMissleBattery Place Seeker Missile Battery]<br/>
+[Skill_PlaceCruiseMissleBattery Place Cruise Missile Battery]<br/>
+[Skill_PlaceBallisticMissileBattery Place Ballistic Missile Battery]<br/>
+ 
+<br/>
+*Projectile Use*<br/>
+[Skill_PistolUse Pistol Use]<br/>
+[Skill_RPGUse RPG Use]<br/>
+[Skill_SeekerMissileUse Seeker Missile Use]<br/>
+[Skill_CruiseMissileUse Cruise Missile Use]<br/>
+[Skill_BallisticMissileUse Ballistic Missile Use]<br/>
