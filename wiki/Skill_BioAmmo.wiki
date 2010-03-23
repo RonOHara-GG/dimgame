@@ -1,0 +1,17 @@
+[Main Dimensions] - [Classes] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+The medic applys a virus to his own ammo or the ammo of another player. The virus increases damage and infects enemys near the infected enemy.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Rounds Imbued: 4 + (_Skill Rank_ `*` 4)<br/>
+Damage Per Second: (6 - 8) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Viral Viral]<br/>
+Effect Duration: Until Resisted<br/>
+Resist Strength: 15 + (_Skill Rank_ `*` 2)<br/>
+Infect Radius: 2 + (_Skill Rank_ / 3) tiles<br/>
+Speed: (40 - (_Skill Rank_ `*` 2)) seconds<br/>
+Recovery: 0 seconds<br/>
