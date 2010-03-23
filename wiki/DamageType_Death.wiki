@@ -1,0 +1,8 @@
+[Main Dimensions] - [Stats]
+
+<br/>
+*Description*<br/>
+Death is the classification of damage for all damages that result in instant death.
+
+<br/>
+Resistance: ([Attribute_Constitution Constitution] `*` 0.5)
