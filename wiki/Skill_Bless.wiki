@@ -1,0 +1,16 @@
+[Main Dimensions] - [Classes] - [Class_Priest Priest]
+
+<br/>
+*Description:*<br/>
+The priest prays for his god to aid himself or another nearby player. This gives a damage bonus and a damage reduction to the target.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Range: 4 + (_Skill Rank_ / 2)<br/>
+Damage Bonus: (4 - 7) `*` _Skill Rank_<br/>
+Damage Type: [DamageType_Holy Holy]<br/>
+Damage Reduction: (6 - 12) `*` _Skill Rank_<br/>
+Effect Duration: 60 + (_Skill Rank_ `*` 8) seconds<br/>
+Speed: 8 seconds<br/>
+Recovery: 2 seconds<br/>
