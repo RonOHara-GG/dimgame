@@ -1,0 +1,13 @@
+Dimensions Archer
+ 
+Description:
+Fires several arrows in rapid succession. The archer can aim while using this skill but can not move.
+ 
+Stats:
+Required Level: 11
+Range: Weapon Range * 0.75
+Shot Count: 4 + (Skill Rank / 2)
+Damage: Weapon Damage * (0.25 + (0.05 * Skill Rank))
+Damage Type: Weapon Damage Type
+Speed: Weapon Speed * 0.9
+Recovery: Weapon Recovery
