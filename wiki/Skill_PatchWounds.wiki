@@ -1,0 +1,14 @@
+[Main Dimensions] - [Classes] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+The medic patches up the wounds of himself or another player.
+
+<br/> 
+*Stats:*<br/>
+Required Level:<br/>
+Health Immediate: (6 - 30) `*` _Skill Rank_<br/>
+Health Per Second: (5 - 14) `*` _Skill Rank_<br/>
+Effect Duration: 2 seconds + (_Skill Rank_ / 3)<br/>
+Speed: 3 - (_Skill Rank_ / 12) seconds<br/>
+Recovery: 1 seconds<br/>
