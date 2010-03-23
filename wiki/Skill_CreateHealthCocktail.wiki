@@ -1,0 +1,15 @@
+[Main Dimensions] - [Classes] - [Class_Medic Medic]
+
+<br/>
+*Description:*<br/>
+The medic takes the time to prepare a [Items_HealthCocktail Health Cocktail].<br/>
+
+<br/>
+*Stats:*<br/>
+Required Level:<br/>
+Items Created: 1 + (_Skill Rank_ / 8)<br/>
+Health Immediate: (12 - 25) `*` _Skill Rank_<br/>
+Health Per Second: (3 - 9) `*` _Skill Rank_<br/>
+Effect Duration: 2 + (_Skill Rank_ / 3) seconds<br/>
+Speed: (80 - (_Skill Rank_ `*` 2)) seconds<br/>
+Recovery: 0 seconds<br/>
