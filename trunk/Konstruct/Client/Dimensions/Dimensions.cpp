@@ -27,6 +27,10 @@ extern void CloseRenderWindow(HWND hWnd);
 kpuCameraController*	g_pCamera = 0;
 bool					g_bExitGame = false;
 
+//Timing varibles
+__int64					g_iStart, g_iEnd, g_iFrequency;
+float					g_fElasped;
+
 void UpdateGame();
 void DrawGame();
 
@@ -42,6 +46,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		MessageBox(NULL, TEXT("Failed to create the render window!"), TEXT("Error"), MB_ICONSTOP);
 		return -1;
 	}
+
+	//Initalize the timeing varibles
+	QueryPerformanceFrequency((LARGE_INTEGER*)&g_iFrequency);
+	QueryPerformanceCounter((LARGE_INTEGER*)&g_iStart);
+	g_fElasped = 0.0f;
 
 	// Set the file path
 	char szCurrentDir[MAX_PATH];
@@ -89,6 +98,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	// Process until exit
 	while( pInputManager->Update() )
 	{
+		QueryPerformanceCounter((LARGE_INTEGER*)&g_iEnd);
+
+		g_fElasped = (g_iEnd - g_iStart) / (float)g_iFrequency;
+
 		// Update the window
 		UpdateRenderWindow(hWnd);
 		if( g_bExitGame )
@@ -119,6 +132,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 		// Let some other threads have some time
 		Sleep(1);
+
+		g_iStart = g_iEnd;
 	}
 
 	LevelManager::Shutdown();
@@ -148,7 +163,7 @@ void UpdateGame()
 		g_pGameState = new GameState_Default();
 	}
 
-	g_pGameState->Update();
+	g_pGameState->Update(g_fElasped);
 }
 
 void DrawGame()

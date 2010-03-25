@@ -49,17 +49,17 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	kpuVector vGroundPoint = vRayOrigin + (vRayDir * fT);
 	
 	// Update the players move target to the new ground point
-	m_pPlayer->SetMoveTarget(vGroundPoint);
+	m_pPlayer->SetMoveTarget(m_pCurrentLevel->GetGrid()->GetTile(vGroundPoint)->GetCenter());
 }
 
-void GameState_Default::Update()
+void GameState_Default::Update(float fGameTime)
 {
 	if( m_pCurrentLevel )
 		m_pCurrentLevel->Update();
 
 	if( m_pPlayer )
 	{
-		m_pPlayer->Update();
+		m_pPlayer->Update(fGameTime);
 
 		g_pCamera->SetLookAt(m_pPlayer->GetLocation());
 	}

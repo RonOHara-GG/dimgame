@@ -23,3 +23,6 @@
 // TODO: reference additional headers your program requires here
 
 #include "Common/Utility/Types.h"
+#include "DamageTypes.h"
+#include "Tile.h"
+#include "Grid.h"
