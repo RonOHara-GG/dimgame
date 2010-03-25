@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PlayerClass.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Skill.cpp"
 				>
 			</File>
@@ -292,6 +296,10 @@
 			</File>
 			<File
 				RelativePath=".\PlayerCharacter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerClass.h"
 				>
 			</File>
 			<File
