@@ -5,6 +5,7 @@
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
 
+
 static const u32 s_uHash_Name =		0x7c898026;
 static const u32 s_uHash_Meshes =	0xc2e0bf8a;
 static const u32 s_uHash_Mesh =		0x7c890592;
@@ -87,6 +88,7 @@ bool Level::Load(const char* pszLevelFile)
 	return bRet;
 }
 
+
 void Level::Update()
 {
 }
@@ -101,3 +103,5 @@ void Level::Draw(kpgRenderer* pRenderer)
 		}
 	}
 }
+
+Grid* Level::GetGrid() const { return m_pLevelGrid; }

@@ -173,11 +173,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Actor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dimensions.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\GameObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GameState_Default.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Grid.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Item.cpp"
 				>
 			</File>
 			<File
@@ -190,6 +206,10 @@
 			</File>
 			<File
 				RelativePath=".\PlayerCharacter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Skill.cpp"
 				>
 			</File>
 			<File
@@ -213,6 +233,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Tile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Weapon.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Window.cpp"
 				>
 			</File>
@@ -223,7 +251,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Actor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DamageTypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Dimensions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObject.h"
 				>
 			</File>
 			<File
@@ -232,6 +272,14 @@
 			</File>
 			<File
 				RelativePath=".\GameState_Default.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Grid.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Item.h"
 				>
 			</File>
 			<File
@@ -251,11 +299,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Skill.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Tile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Weapon.h"
 				>
 			</File>
 		</Filter>

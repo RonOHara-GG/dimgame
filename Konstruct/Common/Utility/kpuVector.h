@@ -29,6 +29,7 @@ public:
 	kpuVector	operator *(float fScalar) const;			// Scale
 	kpuVector	operator /(const kpuVector& v) const;		// Divide
 	kpuVector	operator %(const kpuVector& v) const;		// Cross
+	void     	operator =(const kpuVector& v);				//Equals
 
 	void		operator +=(const kpuVector& v);			// Add
 	void		operator -=(const kpuVector& v);			// Subtract
@@ -44,6 +45,10 @@ public:
 	float Dot(const kpuVector& v) const;
 	float Dot4(const kpuVector& v) const;
 	float Length() const;
+
+	static	kpuVector		 Normalize(const kpuVector &v);
+	static	float			 DistanceSquared(const kpuVector& v1, const kpuVector& v2);
+
 	void Normalize();
 
 	void RotateX(float fRadians);
@@ -51,6 +56,8 @@ public:
 	void RotateZ(float fRadians);
 
 	void Lerp(const kpuVector& vA, const kpuVector& vB, float fT);
+
+	void Truncate(float fMax); //If teh vector's magnitude is greater than max it is made equal
 
 protected:
 	float	m_fX;
@@ -154,6 +161,14 @@ inline kpuVector kpuVector::operator %(const kpuVector& v) const
 	return kpuVector((m_fY * v.m_fZ) - (m_fZ * v.m_fY), (m_fZ * v.m_fX) - (m_fX * v.m_fZ), (m_fX * v.m_fY) - (m_fY * v.m_fX), 0.0f);
 }
 
+inline void kpuVector::operator =(const kpuVector& v)
+{
+	m_fX = v.m_fX;
+	m_fY = v.m_fY;
+	m_fZ = v.m_fZ;
+	m_fW = v.m_fW;
+}
+
 inline void kpuVector::operator +=(const kpuVector& v)
 {
 	m_fX += v.m_fX;
@@ -228,6 +243,18 @@ inline void kpuVector::Normalize()
 	m_fW *= fRecip;
 }
 
+inline kpuVector kpuVector::Normalize(const kpuVector &v)
+{
+	kpuVector vReturn = v;
+	float fRecip = 1.0f / v.Length();
+	vReturn.m_fX *= fRecip;
+	vReturn.m_fY *= fRecip;
+	vReturn.m_fZ *= fRecip;
+	vReturn.m_fW *= fRecip;
+
+	return vReturn;
+}
+
 inline void kpuVector::RotateX(float fRadians)
 {
 	float s = sinf(fRadians);
@@ -271,4 +298,26 @@ inline void kpuVector::Lerp(const kpuVector& vA, const kpuVector& vB, float fT)
 	m_fY = vA.m_fY + (vAtoB.m_fY * fT);
 	m_fZ = vA.m_fZ + (vAtoB.m_fZ * fT);
 	m_fW = vA.m_fW + (vAtoB.m_fW * fT);
+}
+
+inline void kpuVector::Truncate(float fMax)
+{
+	float fLengthSqrd = Dot(*this);
+
+	if(fLengthSqrd > fMax* fMax)
+	{
+		//Make them equal
+		m_fX /= (fLengthSqrd / (fMax* fMax));
+		m_fY /= (fLengthSqrd / (fMax* fMax));
+		m_fZ /= (fLengthSqrd / (fMax* fMax));
+	}
+}
+
+inline float kpuVector::DistanceSquared(const kpuVector &v1, const kpuVector &v2)
+{
+	return ((v2.m_fX - v1.m_fX) * (v2.m_fX - v1.m_fX)) +
+			((v2.m_fY - v1.m_fY) * (v2.m_fY - v1.m_fY)) +
+			((v2.m_fZ - v1.m_fZ) * (v2.m_fZ - v1.m_fZ));
+
+
 }

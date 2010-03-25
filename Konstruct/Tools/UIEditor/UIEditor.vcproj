@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\"
+				AdditionalIncludeDirectories="&quot;C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\External&quot;;&quot;C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Common&quot;;..\..\"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

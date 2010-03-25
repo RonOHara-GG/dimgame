@@ -15,12 +15,17 @@ public:
 	void*			GetPointer() const;
 	void			SetPointer(void* pData);
 
+	void*			GetDataAt(int iIndex) const;
+	int				Size()	{ return m_iSize; }
+
+
 	kpuLinkedList*	Next() const;
 	kpuLinkedList*	Prev() const;
 	kpuLinkedList*	First() const;
 	kpuLinkedList*	Last() const;
 
 protected:
+	int				m_iSize;
 	kpuLinkedList*	m_pNext;
 	kpuLinkedList*	m_pPrev;
 	void*			m_pData;
@@ -96,6 +101,8 @@ inline void kpuLinkedList::AddHead(void* pData)
 	if( pIter->Next() )
 		pIter->Next()->m_pPrev = pNode;
 	pIter->m_pNext = pNode;
+
+	m_iSize++;
 }
 
 inline void kpuLinkedList::AddTail(void* pData)
@@ -110,6 +117,8 @@ inline void kpuLinkedList::AddTail(void* pData)
 	pNode->m_pData = pData;
 	pNode->m_pPrev = pIter;
 	pIter->m_pNext = pNode;
+
+	m_iSize++;
 }
 
 inline void kpuLinkedList::Insert(void* pData)
@@ -121,6 +130,8 @@ inline void kpuLinkedList::Insert(void* pData)
 	if( m_pNext )
 		m_pNext->m_pPrev = pNewNode;
 	m_pNext = pNewNode;
+
+	m_iSize++;
 }
 
 inline void kpuLinkedList::InsertBefore(void* pData)
@@ -132,4 +143,18 @@ inline void kpuLinkedList::InsertBefore(void* pData)
 	if( m_pPrev )
 		m_pPrev->m_pNext = pNewNode;
 	m_pPrev = pNewNode;
+
+	m_iSize++;
+}
+
+inline void* kpuLinkedList::GetDataAt(int iIndex) const
+{
+	kpuLinkedList* pNewNode = First();
+
+	for(int i = 0; i < iIndex; i++)
+	{
+		pNewNode = pNewNode->Next();
+	}
+
+	return pNewNode->m_pData;
 }

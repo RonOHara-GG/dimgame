@@ -12,7 +12,7 @@ public:
 
 	virtual void MouseUpdate(int X, int Y);
 
-	virtual void Update();
+	virtual void Update(float fGameTime);
 	virtual void Draw();
 
 protected:

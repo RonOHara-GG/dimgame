@@ -8,6 +8,6 @@ public:
 
 	virtual void MouseUpdate(int X, int Y) = 0;
 
-	virtual void Update() = 0;
+	virtual void Update(float fGameTime) = 0;
 	virtual void Draw() = 0;
 };
