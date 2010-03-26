@@ -1,5 +1,7 @@
 #pragma once
 
+class Level;
+
 class GameState
 {
 public:
@@ -10,4 +12,8 @@ public:
 
 	virtual void Update(float fGameTime) = 0;
 	virtual void Draw() = 0;
+
+	virtual Level* GetLevel() = 0;
 };
+
+extern GameState* g_pGameState;

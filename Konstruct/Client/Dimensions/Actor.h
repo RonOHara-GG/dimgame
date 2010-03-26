@@ -8,6 +8,8 @@ class kpgModel;
 class kpgRenderer;
 class Item;
 
+#define MAX_PATH_NODES	20
+
 class Actor:public GameObject
 {
 public:
@@ -17,7 +19,7 @@ public:
 	virtual void Update(float fGameTime) {};
 	virtual void Draw(kpgRenderer* pRenderer) {};
 
-	void SetMoveTarget(const kpuVector&	vTarget)	{ m_vMoveTarget = vTarget; m_vMoveTarget.SetY(m_fHeightOffset); }
+	void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; }
 
 	virtual kpuVector GetLocation();
 	virtual void SetLocation(const kpuVector& vNewLoc);
@@ -34,21 +36,27 @@ public:
 	virtual Reward GetReward() { return m_RewardGiven; }
 
 protected:
+	
+	void UpdateMovement(float fDeltaTime);
+	bool BuildPathToDestination();
+
+
 	kpgModel*		m_pModel;
 	
-	float			m_fHeightOffset;
-	kpuVector		m_vMoveTarget;
+	int				m_iDestinationTile;
+	int				m_iCurrentPathNode;
+	int				m_aPathNodes[MAX_PATH_NODES];
 
 	//Movement varibles	
-	float			m_fSpeed; //The max speed a player can reach	
-	kpuVector		m_vVelocity;//Current Velocity
-	kpuVector		m_vDirection; //Direction the player is moving
+	float			m_fSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit
+	kpuVector		m_vVelocity;
+	kpuVector		m_vDirection;
 
 	//Stats
 	int				m_iStr;				//Strength determines how much force player can exert
 	int				m_iAgi;				//Agility determines quickly the character can move and react physically
-	int				m_iIntel;			//Intellegence determines mental pool
-	int				m_iConst;			//Constitution determines health pool and resist
+	int				m_iInt;				//Intellegence determines mental pool
+	int				m_iCon;				//Constitution determines health pool and resist
 
 	int				m_iMaxHealth;		//The maximum health the player can have atm
 	int				m_iCurrentHealth;	//The players current health

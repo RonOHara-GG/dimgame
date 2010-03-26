@@ -13,7 +13,7 @@ public:
 
 	bool Load(const char* pszLevelFile);
 
-	Grid* GetGrid() const;
+	Grid* GetGrid() const { return m_pLevelGrid; }
 
 	void Update();
 	void Draw(kpgRenderer* pRenderer);

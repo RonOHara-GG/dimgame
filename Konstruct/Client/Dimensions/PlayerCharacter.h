@@ -17,7 +17,7 @@ public:
 	PlayerCharacter(void);
 	~PlayerCharacter(void);
 
-	void Update(float fGameTime);
+	void Update(float fDeltaTime);
 	void Draw(kpgRenderer* pRenderer);
 
 	int GetLevel();
@@ -28,11 +28,6 @@ public:
 	float RemoveClass(PlayerClass::Class eClass); //Removes a class from the player and returns the amount of exp that class was getting
 
 protected:
-
-	void PlayerInit();
-
-	void UpdateMovement(float fGameTime); //Update the movement of the player
-
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 
 	//Leveling up stuff

@@ -11,12 +11,8 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	{
 		delete m_pModel;
 		m_pModel = 0;
-	}	
+	}
 
-}
-
-void PlayerCharacter::PlayerInit()
-{
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
 
 	m_fSpeed = 1.3f;
@@ -87,34 +83,14 @@ void PlayerCharacter::LevelUp()
 	m_iAttribPoints += ATTRIBUTE_POINTS_PER_LEVEL;
 }
 
-void PlayerCharacter::Update(float fGameTime)
+void PlayerCharacter::Update(float fDeltaTime)
 {
 	if( !m_pModel )
 		return;
 
 	// Update player position
-	UpdateMovement(fGameTime);
+	UpdateMovement(fDeltaTime);
 }
-
-
-void PlayerCharacter::UpdateMovement(float fGameTime)
-{
-	kpuVector vPlayerToTarget = m_vMoveTarget - GetLocation();
-
-	if( vPlayerToTarget.Dot(vPlayerToTarget) > 1 )
-	{
-		m_vDirection = kpuVector::Normalize(vPlayerToTarget);		
-	}
-	else
-		m_vMoveTarget = GetLocation();
-
-	m_vVelocity = m_vDirection * m_fSpeed;
-
-	SetLocation(GetLocation() + (m_vVelocity * fGameTime));
-	
-	m_vDirection = kpuv_Zero;
-}
-
 
 
 void PlayerCharacter::Draw(kpgRenderer* pRenderer)

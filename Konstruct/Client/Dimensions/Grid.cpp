@@ -1,131 +1,114 @@
 #include "StdAfx.h"
 #include "Grid.h"
 
-
-Grid::Grid(float fWidth, float fLength)
+#define NUM_DIRECTIONS	8
+static const kpuVector s_vDirections[NUM_DIRECTIONS] =
 {
+	kpuVector(1.0f,			0.0f,	0.0f,			0.0f),	// Right
+	kpuVector(0.70710678f,	0.0f,	-0.70710678f,	0.0f),	// Right/Down
+	kpuVector(0.0f,			0.0f,	-1.0f,			0.0f),	// Down
+	kpuVector(-0.70710678f,	0.0f,	-0.70710678f,	0.0f),	// Down/Left
+	kpuVector(-1.0f,		0.0f,	0.0f,			0.0f),	// Left
+	kpuVector(-0.70710678f,	0.0f,	0.70710678f,	0.0f),	// Left/Up
+	kpuVector(0.0f,			0.0f,	1.0f,			0.0f),	// Up
+	kpuVector(0.70710678f,	0.0f,	0.70710678f,	0.0f),	// Up/Right	
+};
 
-	//Make sure width and heigth are even
-	if(fWidth - (int)fWidth > 0)	
-		m_iWidth = (int)fWidth + 1;	
 
-	if(fLength - (int)fLength > 0)
-		m_iLength = (int)fLength+ 1;	
-	
-	m_pTiles = (Tile**)malloc(sizeof(Tile*) * m_iWidth * m_iLength);
+Grid::Grid(int iWidth, int iHeight)
+{
+	m_iWidth = iWidth;
+	m_iHeight = iHeight;
 
-	int iTile = 0;
+	// Allocate the tiles
+	m_pTiles = (sGridTile*)calloc(sizeof(sGridTile), iWidth * iHeight);
 
-	for(int z = 0; z < m_iLength; z++)
-	{
-		for(int x = 0; x < m_iWidth; x++)
-		{
-			m_pTiles[iTile] = new Tile(x, z, m_iWidth, m_iLength, iTile);			
-			iTile++;
-		}
-	}
-	
-	
+	int iHalfWidth = iWidth / 2;
+	int iHalfHeight = iHeight / 2;
+	m_vCenter.Set((float)iHalfWidth, 0, (float)iHalfHeight, 1.0f);	
 }
 
 Grid::~Grid(void)
 {
 	if(m_pTiles)
-		delete m_pTiles;
+	{
+		free(m_pTiles);
+		m_pTiles = 0;
+	}
 }
 
-
-kpuArrayList<Tile>* Grid::FindPath(Tile* target, Tile* current)
+int Grid::GetTileAtLocation(const kpuVector& vLocation)
 {
-	kpuArrayList<Tile>* openList = new kpuArrayList<Tile>();
-	kpuArrayList<Tile>* closedList = new kpuArrayList<Tile>();
-	
-	openList->Add(*current);
+	// Convert to local space
+	kpuVector vLocal = m_vCenter + vLocation;
 
-	while(!closedList->Contains(*target) && openList->Count() > 0 )
+	int iLocX = (int)vLocal.GetX();
+	int iLocY = (int)vLocal.GetZ();
+	return (iLocY * m_iWidth) + iLocX;
+}
+
+void Grid::GetTileLocation(int iTileIndex, kpuVector& vOutLocation)
+{
+	int iY = iTileIndex / m_iWidth;
+	int iX = iTileIndex % m_iWidth;
+
+	vOutLocation.Set((float)iX + 0.5f, 0, (float)iY + 0.5f, 0.0f);
+	vOutLocation -= m_vCenter;
+}
+
+bool Grid::BuildPath(int iStartTile, int iEndTile, int* outTiles, int outTilesSize, int iLastDirection)
+{
+	// NOTE: This function will build a path backwards on itself if it cant go forward
+	//			Will need to fix this at some point probably.
+
+	kpuVector vStartTile, vEndTile;
+	GetTileLocation(iStartTile, vStartTile);
+	GetTileLocation(iEndTile, vEndTile);
+
+	kpuVector vStartToEnd = vEndTile - vStartTile;
+	vStartToEnd.Normalize();
+
+	// Find the best next tile
+	int iBestDirection = -1;
+	float fBestDot = -2;
+	int iBestTile = -1;
+	for( int i = 0; i < NUM_DIRECTIONS; i++ )
 	{
-		int iCurrent = -1;
-		//Get the closest tile to the target on the open list and make that the current	
-	
-		int iSmDist = m_iWidth * m_iLength;
-		for(int i = 0; i < openList->Count(); i++)
+		float fDot = vStartToEnd.Dot(s_vDirections[i]);
+		if( fDot > fBestDot )
 		{
-			Tile* nextTile = &(*openList)[i];
-
-			int iDist = nextTile->GetCords().DistanceSquared(target->GetCords());
-
-			if(iDist < iSmDist)
+			int iTile = GetTileAtLocation(vStartTile + s_vDirections[i]);
+			if( !m_pTiles[iTile].m_Actor )
 			{
-				iDist = iSmDist;
-				iCurrent = nextTile->GetTileNum();
-				current = nextTile;
+				// This tile doesnt have an actor on it, its valid for now
+				fBestDot = fDot;
+				iBestDirection = i;
+				iBestTile = iTile;
 			}
-
 		}
-
-		closedList->Add(*current);
-		//Get all adjacent squares and and add them to open list if they are walkable
-
-		//Start at top left tile and go clockwise
-
-		int iNext = iCurrent - m_iWidth - 1;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-
-		iNext = iCurrent - m_iWidth;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-
-		iNext = iCurrent - m_iWidth + 1;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-		iNext = iCurrent + 1;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-
-		iNext = iCurrent + m_iWidth + 1;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-
-		iNext = iCurrent + m_iWidth;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-
-		iNext = iCurrent - m_iWidth + 1;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
-
-		iNext = iCurrent - 1;
-		if(m_pTiles[iNext]->IsWalkable())
-			if(!openList->Contains(*m_pTiles[iNext]))
-				openList->Add(*m_pTiles[iNext]);
 	}
+	if( iBestDirection < 0 )
+		return false;		// Failed to find anywhere to move
 
-	return closedList;
-}
-
-Tile* Grid::GetTile(const kpuVector &vGroundClick)
-{
-	if(m_pTiles)
+	if( iBestTile == iEndTile )
 	{
-		//Get the tile that is being clicked
-		int iCol = (int)vGroundClick.GetX();
-		int iRow = (int)vGroundClick.GetZ();
-
-		
-		return m_pTiles[iRow * m_iWidth + iCol];		
+		// Reached the destination, just add this to the list and be done
+		outTiles[0] = iBestTile;
+		if( outTilesSize >= 2 )
+			outTiles[1] = -1;
+		return true;
 	}
 
-	return NULL;
+	if( iLastDirection != iBestDirection )
+	{
+		// Changed directions, add a waypoint
+		outTiles[0] = iBestTile;
+		outTiles++;
+		outTilesSize--;
+		if( outTilesSize <= 0 )
+			return true;			// Done building path, no more space
+	}
 
+	// Find another tile along the path
+	return BuildPath(iBestTile, iEndTile, outTiles, outTilesSize, iBestDirection);
 }
-
-
-

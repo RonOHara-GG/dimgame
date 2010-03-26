@@ -12,6 +12,7 @@
 #include "Common\Graphics\kpgLight.h"
 #include "Common\Graphics\kpgShader.h"
 #include "Common\Utility\kpuCameraController.h"
+#include "Grid.h"
 
 extern kpuCameraController*	g_pCamera;
 
@@ -49,7 +50,8 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	kpuVector vGroundPoint = vRayOrigin + (vRayDir * fT);
 	
 	// Update the players move target to the new ground point
-	m_pPlayer->SetMoveTarget(m_pCurrentLevel->GetGrid()->GetTile(vGroundPoint)->GetCenter());
+	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
+	m_pPlayer->SetMoveTarget(iTile);
 }
 
 void GameState_Default::Update(float fGameTime)
