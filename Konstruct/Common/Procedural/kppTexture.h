@@ -10,5 +10,5 @@ public:
 	virtual void Build();
 
 protected:
-	const DWORD*	m_pShaderData;
+	const BYTE*	m_pShaderData;
 };
