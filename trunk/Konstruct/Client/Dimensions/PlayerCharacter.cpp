@@ -46,14 +46,14 @@ bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)
 		{
 			fTotal += m_aClasses[i]->GetExpSplit();
 		}
-		else
-			break;
 	}
 
 	if(fTotal != 1.0f)
 		return false;
 	
 	m_aClasses[eClass] = new PlayerClass(eClass, fExpPercent);	
+
+	return true;
 
 }
 
@@ -76,8 +76,6 @@ void PlayerCharacter::GainExp(int iExp)
 			if(m_aClasses[i]->GainExp(iExp))
 				LevelUp();
 		}
-		else
-			break;
 	}
 
 
