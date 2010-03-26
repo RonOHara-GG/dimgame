@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Grid.h"
 
+
 Grid::Grid(float fWidth, float fLength)
 {
 
@@ -39,16 +40,17 @@ kpuArrayList<Tile>* Grid::FindPath(Tile* target, Tile* current)
 	kpuArrayList<Tile>* openList = new kpuArrayList<Tile>();
 	kpuArrayList<Tile>* closedList = new kpuArrayList<Tile>();
 	
-	openList->Add(current);
+	openList->Add(*current);
 
-	while(!closedList->Contains(*target) || openList->Count > 0 )
+	while(!closedList->Contains(*target) && openList->Count() > 0 )
 	{
+		int iCurrent = -1;
 		//Get the closest tile to the target on the open list and make that the current	
 	
 		int iSmDist = m_iWidth * m_iLength;
 		for(int i = 0; i < openList->Count(); i++)
 		{
-			Tile* nextTile = (*openList)[i];
+			Tile* nextTile = &(*openList)[i];
 
 			int iDist = nextTile->GetCords().DistanceSquared(target->GetCords());
 
@@ -68,38 +70,45 @@ kpuArrayList<Tile>* Grid::FindPath(Tile* target, Tile* current)
 
 		int iNext = iCurrent - m_iWidth - 1;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 
 		iNext = iCurrent - m_iWidth;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 
 		iNext = iCurrent - m_iWidth + 1;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
-
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 		iNext = iCurrent + 1;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 
 		iNext = iCurrent + m_iWidth + 1;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 
 		iNext = iCurrent + m_iWidth;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 
 		iNext = iCurrent - m_iWidth + 1;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 
 		iNext = iCurrent - 1;
 		if(m_pTiles[iNext]->IsWalkable())
-			openList->Add(*m_pTiles[iNext]);
+			if(!openList->Contains(*m_pTiles[iNext]))
+				openList->Add(*m_pTiles[iNext]);
 	}
 
-	return closeList;
+	return closedList;
 }
 
 Tile* Grid::GetTile(const kpuVector &vGroundClick)
