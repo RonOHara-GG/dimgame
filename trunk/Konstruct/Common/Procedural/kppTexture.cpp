@@ -18,7 +18,7 @@ void kppTexture::Build()
 {
 	// Create the texture shader
 	LPD3DXTEXTURESHADER pTextureShader = NULL;
-	D3DXCreateTextureShader(m_pShaderData, &pTextureShader);
+	D3DXCreateTextureShader((DWORD*)m_pShaderData, &pTextureShader);
 	pTextureShader->SetDefaults();
 
 	// Create the texture

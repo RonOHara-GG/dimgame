@@ -39,7 +39,7 @@ kpgShader::~kpgShader(void)
 	}
 }
 
-void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const ul32* pShaderData, u32 nShaderDataSize )
+void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, u32 nShaderDataSize )
 {
 	if( D3DXCreateEffect(pRenderer->GetDevice(), pShaderData, nShaderDataSize, 0, 0, 0, 0, &m_pEffect, 0) != D3D_OK )
 	{

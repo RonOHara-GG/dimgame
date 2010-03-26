@@ -15,7 +15,7 @@ public:
 	kpgShader(void);
 	~kpgShader(void);
 
-	void LoadFromMemory(kpgRenderer* pRenderer, const ul32* pShaderData, u32 nShaderDataSize);
+	void LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, u32 nShaderDataSize);
 
 	void SetDefaultTexture(const kpgTexture* pTexture);
 	void SetMatrices(const kpuMatrix& mTransform, const kpuMatrix& mWorld);
@@ -49,8 +49,8 @@ protected:
 };
 
 // Shader Data Declarations
-extern const ul32 g_DefaultShaderShaderData[];
-extern const ul32 g_ImmediateModeShaderData[];
+extern const BYTE g_DefaultShaderShaderData[];
+extern const BYTE g_ImmediateModeShaderData[];
 
 extern const u32 g_DefaultShaderShaderDataSize;
 extern const u32 g_ImmediateModeShaderDataSize;
