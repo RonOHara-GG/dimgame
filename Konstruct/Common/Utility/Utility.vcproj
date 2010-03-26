@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="Utility"
 	ProjectGUID="{32084E14-46C9-4D1B-9DAB-4638A0F8B78F}"
+	RootNamespace="Utility"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -218,6 +219,10 @@
 			</File>
 			<File
 				RelativePath=".\kpuFixedArray.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuGridCord.h"
 				>
 			</File>
 			<File
