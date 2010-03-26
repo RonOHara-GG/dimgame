@@ -18,11 +18,11 @@
 #include <memory.h>
 #include <tchar.h>
 #include <stdio.h>
+#include <assert.h>
 
 
 // TODO: reference additional headers your program requires here
 
 #include "Common/Utility/Types.h"
-#include "DamageTypes.h"
-#include "Tile.h"
-#include "Grid.h"
+#include "GameState.h"
+

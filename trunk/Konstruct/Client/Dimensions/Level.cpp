@@ -4,6 +4,7 @@
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
+#include "Grid.h"
 
 
 static const u32 s_uHash_Name =		0x7c898026;
@@ -15,6 +16,7 @@ static const u32 s_uHash_Count =	0x0;
 Level::Level(void)
 {
 	m_paModels = 0;
+	m_pLevelGrid = 0;
 }
 
 Level::~Level(void)
@@ -47,6 +49,10 @@ bool Level::Load(const char* pszLevelFile)
 			{
 				// Read the attributes
 				strcpy_s(m_szName, sizeof(m_szName), pChild->Attribute("Name"));
+				int iWidth = atoi(pChild->Attribute("Width"));
+				int iHeight = atoi(pChild->Attribute("Height"));
+				assert(!m_pLevelGrid);
+				m_pLevelGrid = new Grid(iWidth, iHeight);
 
 				// Read Elements
 				for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
@@ -104,4 +110,3 @@ void Level::Draw(kpgRenderer* pRenderer)
 	}
 }
 
-Grid* Level::GetGrid() const { return m_pLevelGrid; }

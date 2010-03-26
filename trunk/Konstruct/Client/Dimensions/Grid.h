@@ -5,39 +5,33 @@
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuGridCord.h"
 
-
-
-
 class Actor;
+class GameObject;
 
-/**
-*	This is a 2D grid use to spatially partition the tiles in the level.
-*	Each Grid is broken down into 8 grids until the size is 1 then they are broken down into the level tiles
-*	Brett Flassing
-**/
 class Grid
 {
 public:
-	Grid(float fWidth, float fLength);
+	struct sGridTile
+	{
+		GameObject*		m_Item;			// One item allowed per tile
+		Actor*			m_Actor;			// One actor allowed per tile
+	};
+
+
+	Grid(int iWidth, int iHeight);
 	~Grid(void);
 
-	void		AddObject(Actor* obj); //Adds an new object to the grid
-	void		BuildGrid(); //Builds the grid
+	int GetTileAtLocation(const kpuVector& vLocation);
+	void GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
 
-	Tile*					GetTile(const kpuVector& vGroundClick); //Gets the tile that was clicked by the mouse
-	kpuArrayList<Tile>*		FindPath(Tile* target, Tile* current);
-	
+	bool BuildPath(int iStartTile, int iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
 
 private:
-	//Divides the grid down to 1 X 1 tiles then returns a lists of all the tiles
-	void Divide(kpuLinkedList* tileList);
-	
-	//The width and height of the current gird
 	int				m_iWidth;
-	int				m_iLength;
+	int				m_iHeight;
+	kpuVector		m_vCenter;
 
-	//The tiles of the grid
-	Tile**			m_pTiles;
+	sGridTile*		m_pTiles;
 };
 
 

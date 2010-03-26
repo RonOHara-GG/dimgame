@@ -15,6 +15,8 @@ public:
 	virtual void Update(float fGameTime);
 	virtual void Draw();
 
+	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
+
 protected:
 	Level*				m_pCurrentLevel;
 
