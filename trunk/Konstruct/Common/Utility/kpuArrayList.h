@@ -39,7 +39,7 @@ public:
 		{
 			for(int i = 0; i < m_iNumElements; i++)
 			{
-				if(element == m_pData[i])
+				if(&element == &m_pData[i])
 					return true;
 			}
 
