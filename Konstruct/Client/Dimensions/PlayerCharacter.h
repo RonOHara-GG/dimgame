@@ -5,9 +5,10 @@
 #include  "Item.h"
 #include "PlayerClass.h"
 
-
 class kpgRenderer;
 class Skill;
+class Weapon;
+class Grid;
 
 #define INVENTORY_SIZE 10
 
@@ -27,6 +28,10 @@ public:
 	bool AddNewClass(PlayerClass::Class eClass, float fExpPercent); //Adds a new class to the player, returns false if the class could not be added
 	float RemoveClass(PlayerClass::Class eClass); //Removes a class from the player and returns the amount of exp that class was getting
 
+	void UseDefaultAttack(Actor* pTarget, Grid* pGrid);
+	void UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid);
+
+
 protected:
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 
@@ -34,6 +39,7 @@ protected:
 	int				m_iAttribPoints;	
 
 	//Inventory
+	Weapon*			m_pEquippedWeapon;
 	Item			m_aInventory[INVENTORY_SIZE];
 
 	PlayerClass*	m_aClasses[8];

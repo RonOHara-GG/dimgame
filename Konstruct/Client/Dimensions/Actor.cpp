@@ -153,3 +153,98 @@ bool Actor::BuildPathToDestination()
 	m_iCurrentPathNode = -1;
 	return false;
 }
+
+void Actor::TakeDamage(float fDamage, DamageType eDmgType)
+{
+	switch(eDmgType)
+	{
+	case eDT_Acid:
+		{
+			fDamage -= fDamage * (m_iAcidRes / 100);
+			break;
+		}
+	case eDT_Cold:
+		{
+			fDamage -= fDamage * (m_iColdRes / 100);
+			break;
+		}
+	case eDT_Crushing:
+		{
+			fDamage -= fDamage * (m_iCrushRes / 100);
+			break;
+		}
+	case eDT_Death:
+		{
+			fDamage -= fDamage * (m_iDeathRes / 100);
+			break;
+		}
+	case eDT_Electrical:
+		{
+			fDamage -= fDamage * (m_iElectRes / 100);
+			break;
+		}
+	case eDT_Heat:
+		{
+			fDamage -= fDamage * (m_iHeatRes / 100);
+			break;
+		}
+	case eDT_Holy:
+		{
+			fDamage -= fDamage * (m_iHolyRes / 100);
+			break;
+		}
+	case eDT_Mental:
+		{
+			fDamage -= fDamage * (m_iMentalRes / 100);
+			break;
+		}
+	case eDT_Piercing:
+		{
+			fDamage -= fDamage * (m_iPierceRes / 100);
+			break;
+		}
+	case eDT_Slashing:
+		{
+			fDamage -= fDamage * (m_iSlashRes / 100);
+			break;
+		}
+	case eDT_Viral:
+		{
+			fDamage -= fDamage * (m_iViralRes / 100);
+			break;
+		}
+	case eDT_Water:
+		{
+			fDamage -= fDamage * (m_iWaterRes / 100);
+			break;
+		}
+	}
+
+	m_iCurrentHealth -= fDamage;
+
+}
+
+bool Actor::IsInRange(Actor *pTarget, int iRange, Grid* pGrid)
+{
+	//Check if target is in range
+	kpuVector vPlayer,  vTarget;
+	pGrid->GetTileLocation(pGrid->GetTileAtLocation(GetLocation()), vPlayer);
+	pGrid->GetTileLocation(pGrid->GetTileAtLocation(pTarget->GetLocation()), vTarget);
+
+	kpuVector vPlayerToTarget = vTarget - vPlayer;
+	kpuVector vDirection = kpuVector::Normalize(vPlayerToTarget);
+
+	vPlayerToTarget *= vDirection;
+
+	float fDist = vPlayerToTarget.Dot(vPlayerToTarget);
+
+	if(fDist <= iRange)
+		return true;
+
+	return false;
+}
+
+void Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
+{
+
+}

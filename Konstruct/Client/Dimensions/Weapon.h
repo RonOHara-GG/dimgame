@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "DamageTypes.h"
 
+class Actor;
 class Weapon: public Item
 {
 public:
@@ -19,6 +20,7 @@ public:
 
 	bool IsReady() { return m_bReady; }
 	void SetReady(bool bReady) { m_bReady = bReady; }
+	void Use(Actor* pTarget);
 
 protected:
 

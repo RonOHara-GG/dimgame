@@ -24,7 +24,7 @@ public:
 	float GetExpSplit() { return m_fExpSplit; }
 	float SetExpSplit(float fExpSplit) { m_fExpSplit = fExpSplit; }
 
-	Skill GetSkill(int iIndex);		//Return a skill by given index	
+	Skill* GetSkill(int iIndex);		//Return a skill by given index	
 	
 	bool GainExp(int iExp);			//Returns true if level up from exp gain or false if not
 
@@ -37,7 +37,7 @@ private:
 	float			m_fExpSplit;
 
 	int				m_iNumSkills;
-	Skill*			m_paSkills;		//List of skills for the class
+	Skill**			m_paSkills;		//List of skills for the class
 
 	//Class Initialization
 	void ClassInit();
