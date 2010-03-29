@@ -2,11 +2,12 @@
 
 #include "Common/Utility/kpuVector.h"
 #include "GameObject.h"
-
+#include "DamageTypes.h"
 
 class kpgModel;
 class kpgRenderer;
 class Item;
+class Grid;
 
 #define MAX_PATH_NODES	20
 
@@ -19,7 +20,7 @@ public:
 	virtual void Update(float fGameTime) {};
 	virtual void Draw(kpgRenderer* pRenderer) {};
 
-	void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; }
+	void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
 
 	virtual kpuVector GetLocation();
 	virtual void SetLocation(const kpuVector& vNewLoc);
@@ -35,6 +36,13 @@ public:
 
 	virtual Reward GetReward() { return m_RewardGiven; }
 
+	bool IsInRange(Actor* pTarget, int iRange, Grid* pGrid);
+	bool Attackable() { return m_bAttackable; }
+	void TakeDamage(float fDamage, DamageType eDmgType);
+
+	virtual void UseDefaultAttack(Actor* pTarget, Grid* pGrid);
+	bool IsAlive() { return m_iCurrentHealth > 0; }
+
 protected:
 	
 	void UpdateMovement(float fDeltaTime);
@@ -46,6 +54,8 @@ protected:
 	int				m_iDestinationTile;
 	int				m_iCurrentPathNode;
 	int				m_aPathNodes[MAX_PATH_NODES];
+
+	bool			m_bAttackable;		//Wether or not this Actor is able to be attacked
 
 	//Movement varibles	
 	float			m_fSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit

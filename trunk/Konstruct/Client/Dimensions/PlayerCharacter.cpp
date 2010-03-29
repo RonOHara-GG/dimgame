@@ -3,6 +3,9 @@
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
 #include "Skill.h"
+#include "Weapon.h"
+#include "PlayerClass.h"
+
 
 PlayerCharacter::PlayerCharacter(void):Actor()
 {
@@ -73,9 +76,6 @@ void PlayerCharacter::GainExp(int iExp)
 				LevelUp();
 		}
 	}
-
-
-
 }
 
 void PlayerCharacter::LevelUp()
@@ -97,4 +97,24 @@ void PlayerCharacter::Draw(kpgRenderer* pRenderer)
 {
 	if( m_pModel )
 		m_pModel->Draw(pRenderer);
+}
+
+void PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
+{
+	if(pTarget->Attackable())
+	{
+		if(m_pEquippedWeapon->IsReady())
+		{
+			if(IsInRange(pTarget, m_pEquippedWeapon->GetRange() ,pGrid))
+			{
+				m_pEquippedWeapon->Use(pTarget);
+			}
+		}
+	}
+}
+
+void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid)
+{
+	if(m_aClasses[(int)eClass])
+		m_aClasses[(int)eClass]->GetSkill(iIndex)->Use(pTarget, this, pGrid);
 }

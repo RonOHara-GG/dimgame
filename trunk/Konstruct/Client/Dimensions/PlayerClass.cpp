@@ -48,6 +48,7 @@ PlayerClass::PlayerClass(Class eClass, float fExpPercent)
 	}
 
 	m_fExpSplit = fExpPercent;
+	ClassInit();
 }
 
 PlayerClass::~PlayerClass(void)
@@ -62,54 +63,52 @@ void PlayerClass::ClassInit()
 	m_fCurrentExp = 0.0f;
 	m_fNeededExp = 0.0f;	
 	m_fExpSplit = 100.0f;
+	m_paSkills = (Skill**)malloc(sizeof(Skill*) * m_iNumSkills);
 }
 
 void PlayerClass::BrawlerInit()
 {
-	m_iNumSkills = 19;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * 19);
+	m_iNumSkills = 19;	
 }
 
 void PlayerClass::ArcherInit()
 {
 	m_iNumSkills = 12;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * 19);
+	
 }
 
 void PlayerClass::MedicInit()
 {
 	m_iNumSkills = 12;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * m_iNumSkills);
+	
 }
 
 void PlayerClass::MarksInit()
 {
 	m_iNumSkills = 13;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * m_iNumSkills);
+	
 }
 
 void PlayerClass::OccuInit()
 {
 	m_iNumSkills = 13;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * m_iNumSkills);
 }
 
 void PlayerClass::PriestInit()
 {
 	m_iNumSkills = 12;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * m_iNumSkills);
 }
+	
 
 void PlayerClass::RocketeerInit()
 {
 	m_iNumSkills = 14;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * m_iNumSkills);
+
 }
 
 void PlayerClass::SwordsInit()
 {
 	m_iNumSkills = 18;
-	m_paSkills = (Skill*)malloc(sizeof(Skill) * m_iNumSkills);
 }
 
 bool PlayerClass::GainExp(int iExp)
@@ -132,4 +131,9 @@ void PlayerClass::LevelUp()
 	m_iLevel++;
 	m_iSkillPoints += SKILL_POINTS_MULTIPLE * m_iLevel;
 
+}
+
+Skill* PlayerClass::GetSkill(int iIndex)
+{
+	return m_paSkills[iIndex];
 }
