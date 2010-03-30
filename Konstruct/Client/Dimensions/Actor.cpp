@@ -21,7 +21,7 @@ Actor::Actor()
 	m_iStr = 0;				
 	m_iAgi = 0;			
 	m_iInt = 0;			
-	m_iCon = 0;			
+	m_iConst = 0;			
 
 	m_iMaxHealth = 0;		
 	m_iCurrentHealth = 0;	

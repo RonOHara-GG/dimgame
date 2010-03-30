@@ -43,6 +43,54 @@ public:
 	virtual void UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	bool IsAlive() { return m_iCurrentHealth > 0; }
 
+#pragma region StatAccessor/Mutators
+
+	int GetMaxHealth() { return m_iMaxHealth; }
+	int GetMaxMental() { return m_iMaxMental; }
+	int GetStr() { return m_iStr; }
+	int GetAgi() { return m_iAgi; }
+	int GetInt() { return m_iInt; }
+	int GetConst() { return m_iConst; }
+
+	void SetMaxHealth(int iMaxHealth) { m_iMaxHealth = iMaxHealth; }
+	void SetMaxMental(int iMaxMental) { m_iMaxMental = iMaxMental; }
+	void SetStr(int iStr) { m_iStr = iStr; }
+	void SetAgi(int iAgi) { m_iAgi = iAgi; }
+	void SetInt(int iInt) { m_iInt = iInt; }
+	void SetConst(int iConst) { m_iConst = iConst; }
+
+#pragma endregion
+
+#pragma region ResisitAccessor/Mutators
+
+	int GetCrushRes() { return m_iCrushRes; }
+	int GetSlashRes() { return m_iSlashRes; }
+	int GetPierceRes() { return m_iPierceRes; }
+	int GetMentalRes() { return m_iMentalRes; }
+	int GetHeatRes() { return m_iHeatRes; }
+	int GetColdRes() { return m_iColdRes; }
+	int GetElectRes() { return m_iElectRes; }
+	int GetWaterRes() { return m_iWaterRes; }
+	int GetAcidRes() { return m_iAcidRes; }
+	int GetViralRes() { return m_iViralRes; }
+	int GetHolyRes() { return m_iHolyRes; }
+	int GetDeathRes() { return m_iDeathRes; }	
+
+	void SetCrushRes(int iCrush) { m_iCrushRes = iCrush; }
+	void SetSlashRes(int iSlash) { m_iSlashRes = iSlash; }
+	void SetPierceRes(int iPierce) { m_iPierceRes = iPierce; }
+	void SetMentalRes(int iMental) { m_iMentalRes = iMental; }
+	void SetHeatRes(int iHeat) { m_iHeatRes = iHeat; }
+	void SetColdRes(int iCold) { m_iColdRes = iCold; }
+	void SetElectRes(int iElect) { m_iElectRes = iElect; }
+	void SetWaterRes(int iWater) { m_iWaterRes = iWater; }
+	void SetAcidRes(int iAcid) { m_iAcidRes = iAcid; }
+	void SetViralRes(int iViral) { m_iViralRes = iViral; }
+	void SetHolyRes(int iHoly) { m_iHolyRes = iHoly; }
+	void SetDeathRes(int iDeath) {m_iDeathRes = iDeath; }	
+
+#pragma endregion
+
 protected:
 	
 	void UpdateMovement(float fDeltaTime);
@@ -66,7 +114,7 @@ protected:
 	int				m_iStr;				//Strength determines how much force player can exert
 	int				m_iAgi;				//Agility determines quickly the character can move and react physically
 	int				m_iInt;				//Intellegence determines mental pool
-	int				m_iCon;				//Constitution determines health pool and resist
+	int				m_iConst;				//Constitution determines health pool and resist
 
 	int				m_iMaxHealth;		//The maximum health the player can have atm
 	int				m_iCurrentHealth;	//The players current health

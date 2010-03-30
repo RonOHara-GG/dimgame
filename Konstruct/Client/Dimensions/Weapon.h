@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Item.h"
+#include "equippable.h"
 #include "DamageTypes.h"
 
 class Actor;
-class Weapon: public Item
+class Weapon: public Equippable
 {
 public:
 	Weapon(void);

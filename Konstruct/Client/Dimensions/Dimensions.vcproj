@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Equippable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GameObject.cpp"
 				>
 			</File>
@@ -264,6 +268,10 @@
 			</File>
 			<File
 				RelativePath=".\Dimensions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Equippable.h"
 				>
 			</File>
 			<File
