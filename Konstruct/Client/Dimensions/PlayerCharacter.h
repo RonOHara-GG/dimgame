@@ -1,15 +1,19 @@
 #pragma once
 
 #include "Common/Utility/kpuVector.h"
+//#include "Common/Utility/kpuArrayList.h"
 #include "Actor.h"
-#include  "Item.h"
+#include "Item.h"
 #include "PlayerClass.h"
+//#include "SkillCombo.h"
 
 class kpgRenderer;
 class Skill;
 class Weapon;
 class Grid;
 class SkillCombo;
+template<typename T> class kpuArrayList;
+
 
 #define INVENTORY_SIZE 10
 
@@ -35,22 +39,31 @@ public:
 	void SetActiveSkill(Skill* pSkill) { m_pActiveSkill = pSkill; }
 	Skill* GetActiveSkill() { return m_pActiveSkill; }
 
+#pragma region ComboStuff
+
+	void CreateCombo(Skill* pFirstSkill); //Creates a combo with a given skill
+	void AddSkillToComboAt(Skill* pSkill, int iCombo);
+	void SwapSkillsInCombo(int iCombo, int iOldIndex, int iNewIndex);
+	void RemoveSkillAt(int iCombo, int iIndex);
+
+#pragma endregion
+
 
 protected:
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 	void UpdateSkills(float fGameTime);
 
 	//Leveling up stuff
-	int				m_iAttribPoints;	
+	int							m_iAttribPoints;	
 
 	//Inventory
-	Weapon*			m_pEquippedWeapon;
-	Item			m_aInventory[INVENTORY_SIZE];
+	Weapon*						m_pEquippedWeapon;
+	Item						m_aInventory[INVENTORY_SIZE];
 
-	PlayerClass*	m_aClasses[8];
+	PlayerClass*				m_aClasses[8];
 
-	Skill*			m_pActiveSkill; //The skill currently being cast/used
-	SkillCombo*		m_pSkillCombo; //Current combo
+	Skill*						m_pActiveSkill; //The skill currently being cast/used
+	kpuArrayList<SkillCombo*>*	m_pSkillCombos; //List of combos created
 	
 };
 

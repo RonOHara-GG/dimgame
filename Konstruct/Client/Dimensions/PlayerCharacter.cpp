@@ -21,7 +21,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	m_fSpeed = 1.3f;
 
-	m_pSkillCombo = 0;
+	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
 
 }
 
@@ -33,8 +33,8 @@ PlayerCharacter::~PlayerCharacter(void)
 	if(m_aClasses)
 		delete[] m_aClasses;
 
-	if(m_pSkillCombo)
-		delete m_pSkillCombo;
+	if(m_pSkillCombos)
+		delete m_pSkillCombos;
 }
 
 bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)
@@ -100,6 +100,7 @@ void PlayerCharacter::Update(float fDeltaTime)
 
 void PlayerCharacter::UpdateSkills(float fGameTime)
 {
+	//Update recovery timers of all skills
 	for(int i = 0; i < NUMBER_OF_CLASSES; i++)
 	{
 		if(m_aClasses[i])
@@ -109,9 +110,14 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 	}
 
 	//See if a combo is running
-	if(m_pSkillCombo->IsRunning())
+	for(int i = 0; i < m_pSkillCombos->Count(); i++)
 	{
-		m_pSkillCombo->Use(fGameTime, this);
+		SkillCombo* nextCombo = (*m_pSkillCombos)[i];
+
+		if(nextCombo->IsRunning())
+		{
+			nextCombo->Use(fGameTime, this);
+		}
 	}
 
 	//Update casting of current skill
@@ -151,4 +157,31 @@ void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTa
 {
 	if(m_aClasses[(int)eClass])
 		m_aClasses[(int)eClass]->GetSkill(iIndex)->Use(pTarget, this, pGrid);
+}
+
+void PlayerCharacter::AddSkillToComboAt(Skill *pSkill, int iCombo)
+{
+	(*m_pSkillCombos)[iCombo]->AddEnd(pSkill);
+}
+
+void PlayerCharacter::CreateCombo(Skill *pFirstSkill)
+{
+	//Make sure it was passed something
+	if(pFirstSkill)
+	{
+		SkillCombo* newCombo = new SkillCombo();
+		newCombo->AddEnd(pFirstSkill);
+
+		m_pSkillCombos->Add(newCombo);
+	}
+}
+
+void PlayerCharacter::SwapSkillsInCombo(int iCombo, int iOldIndex, int iNewIndex)
+{
+	(*m_pSkillCombos)[iCombo]->Swap(iOldIndex, iNewIndex);
+}
+
+void PlayerCharacter::RemoveSkillAt(int iCombo, int iIndex)
+{
+	(*m_pSkillCombos)[iCombo]->RemoveSkillAt(iIndex);
 }

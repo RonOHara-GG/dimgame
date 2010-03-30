@@ -1,10 +1,11 @@
 #include "StdAfx.h"
 #include "SkillCombo.h"
 #include "PlayerCharacter.h"
+#include "Skill.h"
 
 SkillCombo::SkillCombo(void)
 {
-	m_pSkillList = new kpuArrayList<Skill*>();
+	m_pSkillList = new kpuArrayList<Skill*>;
 	m_iNextSkill = 0;
 	m_bRunning = false;
 }
