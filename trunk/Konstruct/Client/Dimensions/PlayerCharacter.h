@@ -9,6 +9,7 @@ class kpgRenderer;
 class Skill;
 class Weapon;
 class Grid;
+class SkillCombo;
 
 #define INVENTORY_SIZE 10
 
@@ -31,9 +32,13 @@ public:
 	void UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	void UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid);
 
+	void SetActiveSkill(Skill* pSkill) { m_pActiveSkill = pSkill; }
+	Skill* GetActiveSkill() { return m_pActiveSkill; }
+
 
 protected:
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
+	void UpdateSkills(float fGameTime);
 
 	//Leveling up stuff
 	int				m_iAttribPoints;	
@@ -43,6 +48,9 @@ protected:
 	Item			m_aInventory[INVENTORY_SIZE];
 
 	PlayerClass*	m_aClasses[8];
+
+	Skill*			m_pActiveSkill; //The skill currently being cast/used
+	SkillCombo*		m_pSkillCombo; //Current combo
 	
 };
 

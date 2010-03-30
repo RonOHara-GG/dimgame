@@ -55,6 +55,14 @@ PlayerClass::~PlayerClass(void)
 {
 }
 
+void PlayerClass::UpdateSkillTimers(float fDeltaTime)
+{
+	for (int i = 0; i < m_iNumSkills; i++)
+	{
+		if(m_paSkills[i])
+			m_paSkills[i]->UpdateTimers(fDeltaTime);
+	}
+}
 
 void PlayerClass::ClassInit()
 {
