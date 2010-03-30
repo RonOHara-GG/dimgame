@@ -141,6 +141,7 @@ protected:
 	float			m_fExpGiven; //Amount of exp given to the player from this character	
 
 	Reward			m_RewardGiven;
+	Actor*			m_pTarget; //The target of the current actor
 };
 
 

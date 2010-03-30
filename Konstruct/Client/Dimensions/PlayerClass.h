@@ -28,6 +28,8 @@ public:
 	
 	bool GainExp(int iExp);			//Returns true if level up from exp gain or false if not
 
+	void UpdateSkillTimers(float fDeltaTime);
+
 
 private:
 	int				m_iLevel;

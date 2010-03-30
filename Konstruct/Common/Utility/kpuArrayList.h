@@ -21,6 +21,30 @@ public:
 
         int Count() { return m_iNumElements; }
 
+		void RemoveAt(int iIndex)
+		{
+			for(int i = iIndex + 1; i < m_iNumElements; i++)
+			{
+				m_pData[i] = m_pData[i - 1];
+			}
+
+			m_iNumElements--;
+		}
+
+		bool Remove(T const& element)
+		{
+			for(int i = 0; i < m_iNumElements; i++)
+			{
+				if(m_pData[i] == element)
+				{
+					RemoveAt(i);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
         int Add(T const& element)
         {
                 if( m_iNumElements >= m_iAllocatedElements )
@@ -34,6 +58,11 @@ public:
                 m_iNumElements++;
                 return iIndex;
         }
+
+		void Override(T const& element, int iIndex)
+		{
+			m_pData[iIndex] = element;
+		}
 
 		bool Contains(T const& element)
 		{
@@ -65,7 +94,7 @@ private:
         }
 
 protected:
-        T*                m_pData;
+        T*                 m_pData;
         int                m_iNumElements;
         int                m_iAllocatedElements;
         int                m_iAllocCount;

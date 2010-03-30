@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SkillCombo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -316,6 +320,10 @@
 			</File>
 			<File
 				RelativePath=".\Skill.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkillCombo.h"
 				>
 			</File>
 			<File

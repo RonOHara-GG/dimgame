@@ -11,9 +11,12 @@ public:
 	Skill(void);
 	~Skill(void);
 
+	bool	IsReady() { return m_bReady; }
 	bool	MeetRequiredLevel(int iCurrentLevel) { return iCurrentLevel >= m_iRequiredLevel; }
-	bool	Use(Actor* pTarget, PlayerCharacter* pSkillOwner, Grid* pGrid);
+	bool	Use(Actor* pTarget, PlayerCharacter* pSkillOwner, Grid* pGrid); //Activates the skill if all checks pass
 	void	UpdateTimers(float fGameTime);
+	bool	FinishedCasting(float fGameTime); //Updates casting timer of skill and tests wether it is finsihesed or not
+	void	ApplyEffect(Actor* pTarget); //Applys skill to target
 
 protected:
 
@@ -23,7 +26,8 @@ protected:
 	int			m_iDamage;
 	DamageType  m_eDamageType;
 	float		m_fSpeed;
+	float		m_fElaspedSinceCast;
 	float		m_fRecovery;
 	float		m_fElaspedRecovery;
-	bool		m_bReadyToUse;
+	bool		m_bReady;
 };
