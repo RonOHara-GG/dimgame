@@ -11,7 +11,7 @@
 PlayerCharacter::PlayerCharacter(void):Actor()
 {
 	m_pModel = new kpgModel();
-	if( !m_pModel->Load("Assets\\Player\\PlayerCard.dae") )
+	if(!m_pModel->Load("Assets\\Player\\brettsPlayer.dae") )//!m_pModel->Load("Assets\\Player\\PlayerCard.dae") )
 	{
 		delete m_pModel;
 		m_pModel = 0;

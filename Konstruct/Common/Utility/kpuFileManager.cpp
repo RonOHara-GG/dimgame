@@ -42,3 +42,26 @@ bool kpuFileManager::GetFullFilePath(const char* szInFile, char* szOutFile, int 
 
 	return true;
 }
+
+//void kpuFileManager::MakeRelative(const char *szInFile, char *szOutFile, int nOutFileSize)
+//{
+//	int iLength = strlen(szInFile);
+//	int iFilename = 0;
+//
+//	for(int i = iLength - 1; i > 0; i--)
+//	{
+//		if(szInFile[i] == '//')
+//		{
+//			iFileName = i;
+//			break;
+//		}
+//	}
+//
+//	strcpy_s(szInFile, iLength - iFilename, &szInFile[iFilename]);
+//	memset(szInFile[iLength - iFilename], 0, iLength - (iLength - iFilename));
+//	strcpy_s(szOutFile, nOutFileSize, szInFile);
+//
+//
+//
+//
+//}

@@ -5,6 +5,7 @@
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Grid.h"
+#include <time.h>
 
 
 static const u32 s_uHash_Name =		0x7c898026;
@@ -17,6 +18,9 @@ Level::Level(void)
 {
 	m_paModels = 0;
 	m_pLevelGrid = 0;
+
+	//Seed random
+	srand(time(NULL));
 }
 
 Level::~Level(void)

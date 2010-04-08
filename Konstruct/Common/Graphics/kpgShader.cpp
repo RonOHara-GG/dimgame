@@ -23,6 +23,7 @@ kpgShader::kpgShader(void)
 	m_hLightColor = 0;
 	m_hAmbientColor = 0;
 	m_hDefaultTexture = 0;
+	m_pDefaultTexture = 0;
 
 	m_hCurrentTechnique = 0;
 
@@ -71,8 +72,15 @@ void kpgShader::SetDefaultTexture(const kpgTexture* pTexture)
 {
 	if( m_hDefaultTexture )
 	{
+		m_pDefaultTexture = (kpgTexture*)pTexture;
 		m_pEffect->SetTexture(m_hDefaultTexture, pTexture->GetDeviceTexture());
 	}
+}
+
+void kpgShader::SetTexture(const kpgTexture* pTexture)
+{
+	m_pEffect->SetTexture(m_hDefaultTexture, pTexture->GetDeviceTexture());
+
 }
 
 void kpgShader::SetMatrices(const kpuMatrix& mTransform, const kpuMatrix& mWorld)
@@ -140,7 +148,10 @@ void kpgShader::Bind()
 void kpgShader::Unbind()
 {
 	if( m_bBound )
+	{
 		m_pEffect->End();
+		
+	}
 	m_bBound = false;
 }
 
@@ -156,4 +167,7 @@ void kpgShader::BeginPass(u32 unPass)
 void kpgShader::EndPass()
 {
 	m_pEffect->EndPass();
+
+	if(m_pDefaultTexture)
+		SetTexture(m_pDefaultTexture);
 }

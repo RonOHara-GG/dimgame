@@ -17,7 +17,9 @@ public:
 
 	void LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, u32 nShaderDataSize);
 
+	
 	void SetDefaultTexture(const kpgTexture* pTexture);
+	void SetTexture(const kpgTexture* pTexture);
 	void SetMatrices(const kpuMatrix& mTransform, const kpuMatrix& mWorld);
 	void SetMatrixParam(const char* szSemantic, const kpuMatrix& mMatrix);
 	void SetAmbientColor(const kpuVector& vAmbientColor);
@@ -45,6 +47,7 @@ protected:
 	D3DXHANDLE		m_hLightColor;
 	D3DXHANDLE		m_hAmbientColor;
 	D3DXHANDLE		m_hDefaultTexture;
+	kpgTexture*		m_pDefaultTexture;
 
 };
 

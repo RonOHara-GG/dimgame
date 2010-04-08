@@ -318,7 +318,9 @@ void kpgRenderer::DrawInstancedGeometry(kpgGeometryInstance* pInstance, kpuMatri
 	kpgGeometry* pGeometry = pInstance->GetGeometry();
 
 	kpgVertexBuffer* pVertexBuffer = pGeometry->GetVertexBuffer();
-	kpgIndexBuffer* pIndexBuffer = pGeometry->GetIndexBuffer();
+	kpgIndexBuffer* pIndexBuffer = pGeometry->GetIndexBuffer();	
+	kpgTexture*		pTexture = pGeometry->GetTexture();
+
 
 	if( pOffsetMatrix )
 		SetWorldMatrix(*pOffsetMatrix * pInstance->GetMatrix());
@@ -326,10 +328,18 @@ void kpgRenderer::DrawInstancedGeometry(kpgGeometryInstance* pInstance, kpuMatri
 		SetWorldMatrix(pInstance->GetMatrix());
 	
 	kpgShader* pShader = pGeometry->GetShader();
-	SetShader(pShader);
+	
+	if(pTexture)
+	{
+		pShader->SetTexture(pTexture);
+	}
+
+	SetShader(pShader);		
 
 	m_pDevice->SetIndices(*pIndexBuffer);
+	
 	pVertexBuffer->Bind(this);
+	
 	for( u32 i = 0; i < pShader->GetPassCount(); i++ )
 	{
 		pShader->BeginPass(i);		
@@ -337,5 +347,8 @@ void kpgRenderer::DrawInstancedGeometry(kpgGeometryInstance* pInstance, kpuMatri
 		//m_pDevice->DrawPrimitive((D3DPRIMITIVETYPE)pVertexBuffer->GetPrimType(), 0, 1);
 		pShader->EndPass();
 	}
+
 	pVertexBuffer->Unbind(this);
+
+	
 }
