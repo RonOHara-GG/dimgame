@@ -27,6 +27,7 @@ public:
 	void SetNormal(int nVertIndex, const kpuVector& vNormal, int nSetIndex = 0);
 	const kpuVector& GetNormal(int nVertIndex, int nSetIndex = 0) const;
 	void SetUV(int nVertIndex, const kpuVector& vUV, int nSetIndex = 0);
+	const kpuVector& GetUV(int nVertIndex, int nSetIndex = 0) const;
 
 protected:
 	kpgVertexFormat*				m_pVertexFormat;

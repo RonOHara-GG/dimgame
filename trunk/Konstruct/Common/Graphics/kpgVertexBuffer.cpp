@@ -158,3 +158,14 @@ void kpgVertexBuffer::SetUV(int nVertIndex, const kpuVector& vUV, int nSetIndex)
 		pVertexPointer->SetY(vUV.GetY());
 	}
 }
+
+const kpuVector& kpgVertexBuffer::GetUV(int nVertIndex, int nSetIndex) const
+{
+	if( m_bLocked )
+	{
+		kpuVector* pVertexPointer = (kpuVector*)(m_pLockPointer + (nVertIndex * m_pVertexFormat->GetStride()) + m_pVertexFormat->GetOffset(kpgVertexFormat::eVCT_TexCoord, nSetIndex));
+		return *pVertexPointer;
+	}
+
+	return kpuv_Zero;
+}

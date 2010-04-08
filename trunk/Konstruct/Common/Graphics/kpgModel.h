@@ -37,15 +37,18 @@ public:
 	kpgGeometryInstance* GetInstance(int iIndex)			{ return m_aInstances[iIndex]; }
 
 private:
-	void LoadGeometryLibrary(TiXmlElement* pLibrary);
+	kpgTexture* LoadImage(TiXmlElement* pLibrary);
+	void LoadGeometryLibrary(TiXmlElement* pLibrary, kpgTexture* pTexture);
 	void LoadVisualSceneLibrary(TiXmlElement* pLibrary);
 	kpgGeometry* LoadMesh(TiXmlElement* pMeshElement);
 	sSource* LoadSource(TiXmlElement* pSourceElement);
 	void LoadVertices(TiXmlElement* pVerticesElement, kpuLinkedList& sources);
 	int* LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
+	int* LoadPolygons(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(TiXmlElement* pInstElement);
 
 protected:
 	kpuFixedArray<kpgGeometry*>			m_aGeometries;
 	kpuFixedArray<kpgGeometryInstance*>	m_aInstances;
+	
 };

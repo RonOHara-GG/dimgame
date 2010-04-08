@@ -1,20 +1,6 @@
 #include "StdAfx.h"
 #include "Grid.h"
 
-#define NUM_DIRECTIONS	8
-static const kpuVector s_vDirections[NUM_DIRECTIONS] =
-{
-	kpuVector(1.0f,			0.0f,	0.0f,			0.0f),	// Right
-	kpuVector(0.70710678f,	0.0f,	-0.70710678f,	0.0f),	// Right/Down
-	kpuVector(0.0f,			0.0f,	-1.0f,			0.0f),	// Down
-	kpuVector(-0.70710678f,	0.0f,	-0.70710678f,	0.0f),	// Down/Left
-	kpuVector(-1.0f,		0.0f,	0.0f,			0.0f),	// Left
-	kpuVector(-0.70710678f,	0.0f,	0.70710678f,	0.0f),	// Left/Up
-	kpuVector(0.0f,			0.0f,	1.0f,			0.0f),	// Up
-	kpuVector(0.70710678f,	0.0f,	0.70710678f,	0.0f),	// Up/Right	
-};
-
-
 Grid::Grid(int iWidth, int iHeight)
 {
 	m_iWidth = iWidth;

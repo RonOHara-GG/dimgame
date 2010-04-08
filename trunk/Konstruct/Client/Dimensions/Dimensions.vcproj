@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Enemy.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Equippable.cpp"
 				>
 			</File>
@@ -206,6 +210,10 @@
 			</File>
 			<File
 				RelativePath=".\LevelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NPC.cpp"
 				>
 			</File>
 			<File
@@ -275,6 +283,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Enemy.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Equippable.h"
 				>
 			</File>
@@ -304,6 +316,10 @@
 			</File>
 			<File
 				RelativePath=".\LevelManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NPC.h"
 				>
 			</File>
 			<File
