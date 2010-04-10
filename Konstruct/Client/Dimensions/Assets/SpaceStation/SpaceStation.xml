@@ -2,7 +2,12 @@
 <Level Name="Terra Research Lab" Width="150" Height="130">
   <Meshes Count="1">
     <Mesh>
-      <Data>Assets/SpaceStation/Models/SpaceStation.dae</Data>
+		<Terrain Count="1">
+			<Data>Assets/SpaceStation/Models/SpaceStation.dae</Data>
+		</Terrain>
+		<Enemies Count="1">
+			<Data>Assets/Player/brettsPlayer.dae</Data>
+		</Enemies>
     </Mesh>
   </Meshes>
 </Level>

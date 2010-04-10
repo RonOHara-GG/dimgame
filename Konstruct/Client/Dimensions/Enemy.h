@@ -5,7 +5,7 @@ class Enemy :
 	public NPC
 {
 public:
-	Enemy(void);
+	Enemy(kpgModel* model);
 	~Enemy(void);
 
 	void Update(float fGameTime);

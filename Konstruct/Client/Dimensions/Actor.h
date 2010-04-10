@@ -18,7 +18,7 @@ public:
 	virtual ~Actor(void);
 	
 	virtual void Update(float fGameTime) {};
-	virtual void Draw(kpgRenderer* pRenderer) {};
+	virtual void Draw(kpgRenderer* pRenderer);
 
 	void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
 

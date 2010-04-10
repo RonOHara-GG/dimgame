@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Grid.h"
+#include "Actor.h"
 
 Grid::Grid(int iWidth, int iHeight)
 {
@@ -42,7 +43,7 @@ void Grid::GetTileLocation(int iTileIndex, kpuVector& vOutLocation)
 	vOutLocation -= m_vCenter;
 }
 
-bool Grid::BuildPath(int iStartTile, int iEndTile, int* outTiles, int outTilesSize, int iLastDirection)
+bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection)
 {
 	// NOTE: This function will build a path backwards on itself if it cant go forward
 	//			Will need to fix this at some point probably.
@@ -71,6 +72,18 @@ bool Grid::BuildPath(int iStartTile, int iEndTile, int* outTiles, int outTilesSi
 				iBestDirection = i;
 				iBestTile = iTile;
 			}
+			else if( iTile == iEndTile )
+			{
+				//If the next tile is the target tile but it is occupied return the path up to that tile
+				iEndTile = iStartTile;
+				outTiles[0] = iEndTile;
+				if( outTilesSize >= 2 )
+					outTiles[1] = -1;
+				return true;
+			}
+			
+
+			
 		}
 	}
 	if( iBestDirection < 0 )
@@ -97,4 +110,26 @@ bool Grid::BuildPath(int iStartTile, int iEndTile, int* outTiles, int outTilesSi
 
 	// Find another tile along the path
 	return BuildPath(iBestTile, iEndTile, outTiles, outTilesSize, iBestDirection);
+}
+
+bool Grid::AddActor(Actor* pActor)
+{
+	int iTile = GetTileAtLocation(pActor->GetLocation());
+
+	if(m_pTiles[iTile].m_Actor)
+		return false;
+
+	m_pTiles[iTile].m_Actor = pActor;
+	return true;
+}
+
+bool Grid::RemoveActor(Actor* pActor)
+{
+	int iTile = GetTileAtLocation(pActor->GetLocation());
+
+	if(!m_pTiles[iTile].m_Actor)
+		return false;
+
+	m_pTiles[iTile].m_Actor = 0;
+	return true;
 }

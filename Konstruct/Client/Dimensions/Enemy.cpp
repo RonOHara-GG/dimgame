@@ -3,8 +3,9 @@
 #include "grid.h"
 #include "level.h"
 
-Enemy::Enemy(void):NPC()
+Enemy::Enemy(kpgModel* model):NPC()
 {
+	m_pModel = model;
 	m_eCurrentState = eNS_Waiting;
 
 	m_fElaspedWanderWait = 0.0f;
@@ -19,7 +20,7 @@ void Enemy::Update(float fGameTime)
 	UpdateMovement(fGameTime);
 
 	//Simple finte state machine to control the enemy AI for now
-	switch(eNS_Waiting)
+	switch(m_eCurrentState)
 	{
 		case eNS_Waiting:
 		{
@@ -59,12 +60,14 @@ void Enemy::Wander(float fDeltaTime)
 	Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
 	int iCurrentTile = pGrid->GetTileAtLocation(GetLocation());
 
-	if(iCurrentTile == m_iDestinationTile)
+	if(m_iDestinationTile < 0)
 	{
 		m_fElaspedWanderWait += fDeltaTime;
 
 		if(m_fElaspedWanderWait >= MAX_WANDER_WAIT)
 		{
+			m_fElaspedWanderWait = 0.0f;
+
 			//Build new path to new path			
 
 			//Get target node

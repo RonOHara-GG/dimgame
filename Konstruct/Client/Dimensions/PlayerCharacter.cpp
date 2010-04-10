@@ -133,11 +133,7 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 
 }
 
-void PlayerCharacter::Draw(kpgRenderer* pRenderer)
-{
-	if( m_pModel )
-		m_pModel->Draw(pRenderer);
-}
+
 
 void PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 {

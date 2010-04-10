@@ -639,7 +639,7 @@ kpgTexture*  kpgModel::LoadImage(TiXmlElement* pLibrary)
 
 			char assetPath[512];
 
-			strcpy(assetPath, "Assets//Player//");
+			strcpy(assetPath, "Assets//");
 			strcat(assetPath, pszFilename);
 
 			kpgTexture* texture = new kpgTexture();
