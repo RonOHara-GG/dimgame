@@ -38,8 +38,10 @@ public:
 
 	int GetTileAtLocation(const kpuVector& vLocation);
 	void GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
+	bool AddActor(Actor* pActor); //Add actor to the gird, if an actor is already on the tile return false else return ture
+	bool RemoveActor(Actor* pActor);//Remove actor from his current tile, if he is not found on the current tile return false
 
-	bool BuildPath(int iStartTile, int iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
+	bool BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
 
 	
 

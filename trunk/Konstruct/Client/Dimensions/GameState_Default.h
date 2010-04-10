@@ -3,6 +3,7 @@
 
 class Level;
 class PlayerCharacter;
+class Enemy;
 
 class GameState_Default : public GameState
 {
@@ -21,4 +22,5 @@ protected:
 	Level*				m_pCurrentLevel;
 
 	PlayerCharacter*	m_pPlayer;
+	Enemy*				m_pEnemy;
 };

@@ -5,11 +5,14 @@
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Grid.h"
+#include "Enemy.h"
 #include <time.h>
 
 
 static const u32 s_uHash_Name =		0x7c898026;
 static const u32 s_uHash_Meshes =	0xc2e0bf8a;
+static const u32 s_uHash_Enemies =	0xcb2aaeeb;
+static const u32 s_uHash_Terrain =  0x39c3ab7a;
 static const u32 s_uHash_Mesh =		0x7c890592;
 static const u32 s_uHash_Data =		0x7c84053f;
 static const u32 s_uHash_Count =	0x0;
@@ -17,6 +20,7 @@ static const u32 s_uHash_Count =	0x0;
 Level::Level(void)
 {
 	m_paModels = 0;
+	m_paEnemyModels = 0;
 	m_pLevelGrid = 0;
 
 	//Seed random
@@ -64,31 +68,71 @@ bool Level::Load(const char* pszLevelFile)
 					u32 uHash = StringHash(pElement->Value());
 					if( uHash == s_uHash_Meshes )
 					{
-						int iMeshCount = atoi(pElement->Attribute("Count"));
-						if( m_paModels )
-							delete m_paModels;
-						m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
-
 						for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
 						{
 							uHash = StringHash(pEChild->Value());
 							if( uHash == s_uHash_Mesh )
-							{
+							{								
 								for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
 								{
-									uHash = StringHash(pEChild2->Value());
-									if( uHash == s_uHash_Data && m_paModels )
-									{										
-										kpgModel* pModel = new kpgModel();										
-										if( pModel->Load(pEChild2->FirstChild()->Value()) )
-										{
-											m_paModels->Add(pModel);
-											bRet = true;
-										}
+									const char* name = pEChild2->Value();
+
+									u32 uHash = StringHash(name);
+									int iMeshCount = atoi(pEChild2->Attribute("Count"));
+									switch(uHash)
+									{
+										case s_uHash_Terrain:
+											{
+												if( m_paModels )
+													delete m_paModels;
+
+												m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+												
+												for( TiXmlElement* pEChild3 = pEChild2->FirstChildElement(); pEChild3 != 0; pEChild3 = pEChild3->NextSiblingElement() )
+												{
+													uHash = StringHash(pEChild3->Value());
+													if( uHash == s_uHash_Data && m_paModels )
+													{										
+														kpgModel* pModel = new kpgModel();										
+														if( pModel->Load(pEChild3->FirstChild()->Value()) )
+														{
+															m_paModels->Add(pModel);
+															bRet = true;
+														}
+													}
+												}
+
+												break;
+											}
+										case s_uHash_Enemies:
+											{
+												if( m_paEnemyModels )
+													delete m_paEnemyModels;
+
+												m_paEnemyModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+												
+												for( TiXmlElement* pEChild3 = pEChild2->FirstChildElement(); pEChild3 != 0; pEChild3 = pEChild3->NextSiblingElement() )
+												{
+													uHash = StringHash(pEChild3->Value());
+													if( uHash == s_uHash_Data && m_paEnemyModels )
+													{										
+														kpgModel* pModel = new kpgModel();										
+														if( pModel->Load(pEChild3->FirstChild()->Value()) )
+														{
+															m_paEnemyModels->Add(pModel);
+															bRet = true;
+														}
+													}
+												}
+
+												break;
+											}
 									}
+
 								}
 							}
 						}
+						
 					}
 				}
 			}
@@ -112,5 +156,14 @@ void Level::Draw(kpgRenderer* pRenderer)
 			(*m_paModels)[i]->Draw(pRenderer);
 		}
 	}
+
+	/*if( m_paEnemyModels )
+	{
+		for( int i = 0; i < m_paEnemyModels->GetNumElements(); i++ )
+		{
+			(*m_paEnemyModels)[i]->Draw(pRenderer);
+		}
+	}*/
+
 }
 

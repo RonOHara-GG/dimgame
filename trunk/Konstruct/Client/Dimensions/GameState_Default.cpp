@@ -12,7 +12,9 @@
 #include "Common\Graphics\kpgLight.h"
 #include "Common\Graphics\kpgShader.h"
 #include "Common\Utility\kpuCameraController.h"
+#include "Common\Utility\kpuVector.h"
 #include "Grid.h"
+#include "Enemy.h"
 
 extern kpuCameraController*	g_pCamera;
 
@@ -22,12 +24,16 @@ GameState_Default::GameState_Default(void)
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
 
 	m_pPlayer = new PlayerCharacter();
+	m_pEnemy = new Enemy(m_pCurrentLevel->GetEnemyModel(0));
+	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(m_pEnemy->GetLocation());
+	m_pEnemy->SetMoveTarget(iTile + 1);
 }
 
 GameState_Default::~GameState_Default(void)
 {
 	delete m_pCurrentLevel;
 	delete m_pPlayer;
+	delete m_pEnemy;
 }
 
 void GameState_Default::MouseUpdate(int X, int Y)
@@ -65,6 +71,9 @@ void GameState_Default::Update(float fGameTime)
 
 		g_pCamera->SetLookAt(m_pPlayer->GetLocation());
 	}
+
+	if(m_pEnemy)
+		m_pEnemy->Update(fGameTime);
 }
 
 void GameState_Default::Draw()
@@ -75,4 +84,7 @@ void GameState_Default::Draw()
 
 	if( m_pPlayer )
 		m_pPlayer->Draw(pRenderer);
+
+	if(m_pEnemy)
+		m_pEnemy->Draw(pRenderer);
 }

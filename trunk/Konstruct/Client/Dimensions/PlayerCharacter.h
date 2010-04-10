@@ -24,7 +24,7 @@ public:
 	~PlayerCharacter(void);
 
 	void Update(float fDeltaTime);
-	void Draw(kpgRenderer* pRenderer);
+	
 
 	int GetLevel();
 

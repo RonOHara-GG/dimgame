@@ -15,7 +15,7 @@ Actor::Actor()
 	m_vVelocity = kpuv_Zero;
 	m_vDirection = kpuv_OneZ;
 
-	m_fSpeed = 0.0f;
+	m_fSpeed = 1.0f;
 
 	//Initalize stats to 0
 	m_iStr = 0;				
@@ -48,6 +48,12 @@ Actor::~Actor()
 {
 
 
+}
+
+void Actor::Draw(kpgRenderer* pRenderer)
+{
+	if( m_pModel )
+		m_pModel->Draw(pRenderer);
 }
 
 kpuVector Actor::GetLocation()
@@ -91,6 +97,9 @@ void Actor::UpdateMovement(float fDeltaTime)
 		float fMoveDelta = m_fSpeed * fDeltaTime;
 		while( fMoveDelta > 0 )
 		{
+			//Remove from curren tile
+			g_pGameState->GetLevel()->GetGrid()->RemoveActor(this);
+
 			int iTargetTile = m_aPathNodes[m_iCurrentPathNode];
 			kpuVector vTargetLocation;
 			g_pGameState->GetLevel()->GetGrid()->GetTileLocation(iTargetTile, vTargetLocation);
@@ -105,6 +114,10 @@ void Actor::UpdateMovement(float fDeltaTime)
 				vMyLocation += vToTarget;
 				SetLocation(vMyLocation);
 				m_iCurrentPathNode++;
+
+				//Add actor to current tile
+				g_pGameState->GetLevel()->GetGrid()->AddActor(this);
+
 				if( m_iCurrentPathNode >= MAX_PATH_NODES || m_aPathNodes[m_iCurrentPathNode] < 0 )
 				{
 					// Ran out of path
@@ -131,6 +144,10 @@ void Actor::UpdateMovement(float fDeltaTime)
 				vToTarget *= 1.0f / fDistToTarget;
 				vMyLocation += vToTarget * fMoveDelta;
 				SetLocation(vMyLocation);
+
+				//Add actor to current tile
+				g_pGameState->GetLevel()->GetGrid()->AddActor(this);
+
 				break;
 			}
 		}
