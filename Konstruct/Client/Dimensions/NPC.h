@@ -8,7 +8,7 @@ public:
 	NPC(void);
 	virtual ~NPC(void);
 
-	virtual void Update(float fGameTime) {};
+	virtual bool Update(float fGameTime) {return true;};
 
 
 protected:

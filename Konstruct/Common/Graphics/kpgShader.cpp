@@ -60,6 +60,7 @@ void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, 
 		m_hLightVector =	m_pEffect->GetParameterBySemantic(NULL, "LIGHTVECTOR");
 		m_hLightColor =		m_pEffect->GetParameterBySemantic(NULL, "LIGHTCOLOR");
 		m_hAmbientColor =	m_pEffect->GetParameterBySemantic(NULL, "AMBIENTCOLOR");
+		
 
 		// Get Default Texture Variable
 		m_hDefaultTexture =	m_pEffect->GetParameterBySemantic(NULL, "DEFAULTTEXTURE");

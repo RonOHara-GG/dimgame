@@ -4,6 +4,7 @@
 #include "Common/Utility/kpuVector.h"
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuGridCord.h"
+#include "Common/Graphics/kpgModel.h"
 
 class Actor;
 class GameObject;
@@ -30,18 +31,22 @@ public:
 	{
 		GameObject*		m_Item;			// One item allowed per tile
 		Actor*			m_Actor;			// One actor allowed per tile
+		bool			m_bWalkable;
 	};
 
 
 	Grid(int iWidth, int iHeight);
 	~Grid(void);
 
-	int GetTileAtLocation(const kpuVector& vLocation);
-	void GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
-	bool AddActor(Actor* pActor); //Add actor to the gird, if an actor is already on the tile return false else return ture
-	bool RemoveActor(Actor* pActor);//Remove actor from his current tile, if he is not found on the current tile return false
+	int			GetTileAtLocation(const kpuVector& vLocation);
+	void		GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
+	bool		AddActor(Actor* pActor); //Add actor to the gird, if an actor is already on the tile return false else return ture
+	bool		RemoveActor(Actor* pActor);//Remove actor from his current tile, if he is not found on the current tile return false
 
-	bool BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
+	bool		BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
+	void		AddTerrain(kpgModel* pTerrain); //Add a piece of terrain to the grid
+	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile
+	Actor*		GetActor(int iTile) { return m_pTiles[iTile].m_Actor; } //Get the actor at the target tile
 
 	
 

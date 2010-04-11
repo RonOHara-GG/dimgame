@@ -45,7 +45,9 @@ protected:
 	D3DXHANDLE		m_hLightType;
 	D3DXHANDLE		m_hLightVector;
 	D3DXHANDLE		m_hLightColor;
-	D3DXHANDLE		m_hAmbientColor;
+	//D3DXHANDLE		m_hLightRange;
+	//D3DXHANDLE		m_hLightAttenuation
+	D3DXHANDLE		m_hAmbientColor;	
 	D3DXHANDLE		m_hDefaultTexture;
 	kpgTexture*		m_pDefaultTexture;
 

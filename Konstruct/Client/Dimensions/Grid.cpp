@@ -1,6 +1,10 @@
 #include "StdAfx.h"
 #include "Grid.h"
 #include "Actor.h"
+#include "Common/Graphics/kpgModel.h"
+#include "Common/Graphics/kpgVertexBuffer.h"
+#include "Common/Graphics/kpgGeometryInstance.h"
+#include "Common/Graphics/kpgGeometry.h"
 
 Grid::Grid(int iWidth, int iHeight)
 {
@@ -48,6 +52,10 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 	// NOTE: This function will build a path backwards on itself if it cant go forward
 	//			Will need to fix this at some point probably.
 
+	//Make sure the end tile is a walkable choice to even move to
+	/*if(!m_pTiles[iEndTile].m_bWalkable)
+		return false;*/
+
 	kpuVector vStartTile, vEndTile;
 	GetTileLocation(iStartTile, vStartTile);
 	GetTileLocation(iEndTile, vEndTile);
@@ -65,7 +73,7 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 		if( fDot > fBestDot )
 		{
 			int iTile = GetTileAtLocation(vStartTile + s_vDirections[i]);
-			if( !m_pTiles[iTile].m_Actor )
+			if( !m_pTiles[iTile].m_Actor)
 			{
 				// This tile doesnt have an actor on it, its valid for now
 				fBestDot = fDot;
@@ -132,4 +140,33 @@ bool Grid::RemoveActor(Actor* pActor)
 
 	m_pTiles[iTile].m_Actor = 0;
 	return true;
+}
+
+void Grid::AddTerrain(kpgModel* pTerrain)
+{
+	//Get verticies
+	//if a verticies is within a tile it is walkable if not it remains unwalkable
+	for(int i = 0; i < pTerrain->GetInstanceCount(); i++)
+	{
+		kpgVertexBuffer* pVB = pTerrain->GetInstance(i)->GetGeometry()->GetVertexBuffer();
+
+		pVB->Lock();
+
+		for(int j = 0; j < pVB->GetVertexCount(); j++)
+		{
+			kpuVector vPos = pVB->GetPosition(j);
+			
+			if(vPos.GetY() == 0)
+			{
+				//find the tile and make it walkable
+				int iTile = GetTileAtLocation(vPos);
+				m_pTiles[iTile].m_bWalkable = true;
+			}				
+
+		}
+
+		pVB->Unlock();
+
+	}
+
 }

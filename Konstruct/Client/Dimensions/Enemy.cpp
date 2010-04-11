@@ -9,13 +9,15 @@ Enemy::Enemy(kpgModel* model):NPC()
 	m_eCurrentState = eNS_Waiting;
 
 	m_fElaspedWanderWait = 0.0f;
+	m_bAttackable = true;
+	m_iCurrentHealth = 100;
 }
 
 Enemy::~Enemy(void)
 {
 }
 
-void Enemy::Update(float fGameTime)
+bool Enemy::Update(float fGameTime)
 {
 	UpdateMovement(fGameTime);
 
@@ -50,7 +52,7 @@ void Enemy::Update(float fGameTime)
 	}
 
 
-
+	return m_iCurrentHealth > 0;
 
 
 }

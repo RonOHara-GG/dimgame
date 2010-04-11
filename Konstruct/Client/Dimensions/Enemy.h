@@ -8,7 +8,7 @@ public:
 	Enemy(kpgModel* model);
 	~Enemy(void);
 
-	void Update(float fGameTime);
+	bool Update(float fGameTime);
 
 protected:
 	void Wander(float fDeltaTime); //Wander around at varying distances

@@ -42,6 +42,7 @@ Actor::Actor()
 	m_iHolyRes = 0;
 	m_iDeathRes = 0;
 
+	m_bAttackable = false;
 }
 
 Actor::~Actor()
@@ -261,7 +262,7 @@ bool Actor::IsInRange(Actor *pTarget, int iRange, Grid* pGrid)
 	return false;
 }
 
-void Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
+bool Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 {
-
+	return false;
 }

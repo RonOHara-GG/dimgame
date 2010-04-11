@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnemyMaker", "EnemyMaker\EnemyMaker.csproj", "{7C8C366A-B7FA-4971-89B5-2DB9843F28FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C8C366A-B7FA-4971-89B5-2DB9843F28FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C8C366A-B7FA-4971-89B5-2DB9843F28FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C8C366A-B7FA-4971-89B5-2DB9843F28FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C8C366A-B7FA-4971-89B5-2DB9843F28FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

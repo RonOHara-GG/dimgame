@@ -24,6 +24,7 @@ GameState_Default::GameState_Default(void)
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
 
 	m_pPlayer = new PlayerCharacter();
+
 	m_pEnemy = new Enemy(m_pCurrentLevel->GetEnemyModel(0));
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(m_pEnemy->GetLocation());
 	m_pEnemy->SetMoveTarget(iTile + 1);
@@ -58,6 +59,16 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	// Update the players move target to the new ground point
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
 	m_pPlayer->SetMoveTarget(iTile);
+
+	//If target tile contains an enemy try and attack
+	Actor* pTarget = m_pCurrentLevel->GetGrid()->GetActor(iTile);
+
+	if(pTarget)
+	{
+		m_pPlayer->SetTarget(pTarget);
+		m_pPlayer->UseDefaultAttack(pTarget, m_pCurrentLevel->GetGrid());
+	}
+	
 }
 
 void GameState_Default::Update(float fGameTime)
@@ -73,7 +84,13 @@ void GameState_Default::Update(float fGameTime)
 	}
 
 	if(m_pEnemy)
-		m_pEnemy->Update(fGameTime);
+	{
+		if(!m_pEnemy->Update(fGameTime))
+		{
+			delete m_pEnemy;
+			m_pEnemy = 0;
+		}
+	}
 }
 
 void GameState_Default::Draw()

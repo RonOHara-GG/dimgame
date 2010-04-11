@@ -17,10 +17,10 @@ public:
 	Actor(void);
 	virtual ~Actor(void);
 	
-	virtual void Update(float fGameTime) {};
+	virtual bool Update(float fGameTime) {return true;};
 	virtual void Draw(kpgRenderer* pRenderer);
 
-	void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
+	virtual void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
 
 	virtual kpuVector GetLocation();
 	virtual void SetLocation(const kpuVector& vNewLoc);
@@ -40,7 +40,7 @@ public:
 	bool Attackable() { return m_bAttackable; }
 	void TakeDamage(float fDamage, DamageType eDmgType);
 
-	virtual void UseDefaultAttack(Actor* pTarget, Grid* pGrid);
+	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	bool IsAlive() { return m_iCurrentHealth > 0; }
 
 #pragma region StatAccessor/Mutators
@@ -143,5 +143,7 @@ protected:
 	Reward			m_RewardGiven;
 	Actor*			m_pTarget; //The target of the current actor
 };
+
+#define DEFAULT_MELEE_RANGE 1
 
 
