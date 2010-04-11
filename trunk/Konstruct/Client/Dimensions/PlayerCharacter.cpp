@@ -23,6 +23,10 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
 
+	//Create the player light source
+	m_pLightSource = new kpgLight(kpgLight::eLT_Point);
+	m_pLightSource->SetColor(kpuVector(0.75f, 0.75f, 0.75f, 0.75f));
+
 }
 
 PlayerCharacter::~PlayerCharacter(void)
@@ -35,6 +39,11 @@ PlayerCharacter::~PlayerCharacter(void)
 
 	if(m_pSkillCombos)
 		delete m_pSkillCombos;
+
+	delete m_pLightSource;
+	delete m_pEquippedWeapon;
+
+	delete[] m_aInventory;
 }
 
 bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)
@@ -89,13 +98,19 @@ void PlayerCharacter::LevelUp()
 	m_iAttribPoints += ATTRIBUTE_POINTS_PER_LEVEL;
 }
 
-void PlayerCharacter::Update(float fDeltaTime)
+bool PlayerCharacter::Update(float fDeltaTime)
 {
 	if( !m_pModel )
-		return;
+		return false;
 
 	// Update player position
 	UpdateMovement(fDeltaTime);
+
+	kpuVector vPos = GetLocation();
+	m_pLightSource->SetPosition(kpuVector(vPos.GetX(), vPos.GetY() + 0.9f, vPos.GetZ(), 6));
+	kpgRenderer::GetInstance()->SetLight(1, m_pLightSource);
+
+	return true;
 }
 
 void PlayerCharacter::UpdateSkills(float fGameTime)
@@ -133,20 +148,24 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 
 }
 
-
-
-void PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
+bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 {
 	if(pTarget->Attackable())
 	{
-		if(m_pEquippedWeapon->IsReady())
+		if(m_pEquippedWeapon)
 		{
-			if(IsInRange(pTarget, m_pEquippedWeapon->GetRange() ,pGrid))
+			if(m_pEquippedWeapon->IsReady())
 			{
-				m_pEquippedWeapon->Use(pTarget);
+				if(IsInRange(pTarget, m_pEquippedWeapon->GetRange() ,pGrid))
+				{
+					m_pEquippedWeapon->Use(pTarget);
+					return true;
+				}
 			}
 		}
 	}
+
+	return false;
 }
 
 void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid)
@@ -181,3 +200,4 @@ void PlayerCharacter::RemoveSkillAt(int iCombo, int iIndex)
 {
 	(*m_pSkillCombos)[iCombo]->RemoveSkillAt(iIndex);
 }
+

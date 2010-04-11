@@ -93,7 +93,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	kpuVector vLightDir(-1, -1, 0, 0);
 	vLightDir.Normalize();
 	m_pDummyLight->SetDirection(vLightDir);
-	m_pDummyLight->SetColor(kpuVector(1.0f, 1.0f, 1.0f, 1.0f));
+	m_pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.0f));
 	
 	// Process until exit
 	while( pInputManager->Update() )
@@ -117,7 +117,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		pRenderer->BeginFrame();
 		pRenderer->SetViewMatrix(g_pCamera->GetViewMatrix());
 
-		pRenderer->SetAmbientLightColor(kpuVector(0.25f, 0.25f, 0.25f, 1.0f));
+		pRenderer->SetAmbientLightColor(kpuVector(0.1f, 0.1f, 0.1f, 1.0f));
 		pRenderer->SetLight(0, m_pDummyLight);
 
 		//pRenderer->DrawInstancedGeometry(m_pGroundPlane);

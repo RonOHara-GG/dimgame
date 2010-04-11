@@ -8,7 +8,6 @@ Weapon::Weapon(void)
 	m_fDamage = 0.0f;
 	m_fRecovery = 0.0f;
 	m_fElaspedRecov = 0.0f;
-	m_fSpeed = 0.0f;
 	m_eDamageType = (DamageType)0;
 	m_bReady = true;	
 }

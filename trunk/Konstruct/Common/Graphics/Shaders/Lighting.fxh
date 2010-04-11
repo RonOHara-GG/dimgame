@@ -11,6 +11,7 @@ shared float4	g_LightVector[MAX_LIGHT_COUNT]	: LIGHTVECTOR;
 shared float4	g_LightColor[MAX_LIGHT_COUNT]	: LIGHTCOLOR;
 shared float4	g_AmbientColor					: AMBIENTCOLOR;
 
+
 float4 VertexLight(float3 vPos, float3 vNrm)
 {
 	float4 vLightColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -26,7 +27,7 @@ float4 VertexLight(float3 vPos, float3 vNrm)
 				vLightDir = normalize(vLightDir);
 				float fNdotL = max(dot(vLightDir, vNrm), 0);
 				
-				vLightColor += g_LightColor[i] * fNdotL;				
+				vLightColor += g_LightColor[i] * fNdotL * (saturate(1.0f - fDistance / g_LightVector[i].w) ) ;				
 			}			
 		}
 		else						// Directional Light

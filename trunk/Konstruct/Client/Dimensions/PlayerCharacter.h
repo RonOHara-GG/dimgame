@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Common/Utility/kpuVector.h"
-//#include "Common/Utility/kpuArrayList.h"
+#include "Common/Graphics/kpgLight.h"
 #include "Actor.h"
 #include "Item.h"
 #include "PlayerClass.h"
@@ -23,7 +23,7 @@ public:
 	PlayerCharacter(void);
 	~PlayerCharacter(void);
 
-	void Update(float fDeltaTime);
+	bool Update(float fDeltaTime);
 	
 
 	int GetLevel();
@@ -33,11 +33,16 @@ public:
 	bool AddNewClass(PlayerClass::Class eClass, float fExpPercent); //Adds a new class to the player, returns false if the class could not be added
 	float RemoveClass(PlayerClass::Class eClass); //Removes a class from the player and returns the amount of exp that class was getting
 
-	void UseDefaultAttack(Actor* pTarget, Grid* pGrid);
+	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	void UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid);
 
 	void SetActiveSkill(Skill* pSkill) { m_pActiveSkill = pSkill; }
 	Skill* GetActiveSkill() { return m_pActiveSkill; }
+
+	void SetTarget(Actor* pActor) { m_pTarget = pActor; }
+
+	kpgLight* GetLight() { return m_pLightSource; }
+	void SetLight(kpgLight* light) { m_pLightSource = light; }
 
 #pragma region ComboStuff
 
@@ -50,6 +55,7 @@ public:
 
 
 protected:
+
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 	void UpdateSkills(float fGameTime);
 
@@ -58,12 +64,14 @@ protected:
 
 	//Inventory
 	Weapon*						m_pEquippedWeapon;
-	Item						m_aInventory[INVENTORY_SIZE];
+	Item*						m_aInventory[INVENTORY_SIZE];
 
 	PlayerClass*				m_aClasses[8];
 
 	Skill*						m_pActiveSkill; //The skill currently being cast/used
 	kpuArrayList<SkillCombo*>*	m_pSkillCombos; //List of combos created
+
+	kpgLight*					m_pLightSource;
 	
 };
 

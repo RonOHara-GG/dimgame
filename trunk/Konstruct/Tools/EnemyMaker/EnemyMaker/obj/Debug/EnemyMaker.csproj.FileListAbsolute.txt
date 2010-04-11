@@ -1,0 +1,8 @@
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\bin\Debug\EnemyMaker.exe
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\bin\Debug\EnemyMaker.pdb
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\obj\Debug\EnemyMaker.EnemyMaker.resources
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\obj\Debug\EnemyMaker.Properties.Resources.resources
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\obj\Debug\EnemyMaker.csproj.GenerateResource.Cache
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\obj\Debug\EnemyMaker.exe
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\EnemyMaker\EnemyMaker\obj\Debug\EnemyMaker.pdb

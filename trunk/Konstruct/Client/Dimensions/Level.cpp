@@ -156,14 +156,5 @@ void Level::Draw(kpgRenderer* pRenderer)
 			(*m_paModels)[i]->Draw(pRenderer);
 		}
 	}
-
-	/*if( m_paEnemyModels )
-	{
-		for( int i = 0; i < m_paEnemyModels->GetNumElements(); i++ )
-		{
-			(*m_paEnemyModels)[i]->Draw(pRenderer);
-		}
-	}*/
-
 }
 
