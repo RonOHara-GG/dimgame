@@ -1,6 +1,7 @@
 #pragma once
 
 class Level;
+class Enemy;
 
 class GameState
 {
@@ -14,6 +15,8 @@ public:
 	virtual void Draw() = 0;
 
 	virtual Level* GetLevel() = 0;
+
+	virtual void AddEnemy(Enemy* pEnemy) = 0;
 };
 
 extern GameState* g_pGameState;

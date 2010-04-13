@@ -1,6 +1,5 @@
 #pragma once
 #include "Common\Utility\kpuVector.h"
-#include <d3d9.h>
 class kpgLight
 {
 public:
@@ -21,7 +20,6 @@ public:
 	void SetPosition(const kpuVector& vPosition)		{ m_vPositionDireciton = vPosition; }
 	void SetColor(const kpuVector& vColor)				{ m_vColor = vColor; }
 	void SetRange(float fRange)							{ m_fRange = fRange; }
-	void SetAttenuation(float fAttenuation)				{ m_fAttenuation = fAttenuation; }
 
 protected:
 	eLightType		m_eType;
@@ -29,6 +27,5 @@ protected:
 	kpuVector		m_vColor;
 
 	float			m_fRange;
-	float           m_fAttenuation;
-	
+
 };

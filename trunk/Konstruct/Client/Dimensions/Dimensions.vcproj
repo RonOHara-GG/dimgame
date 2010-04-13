@@ -319,6 +319,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LoadStructures.h"
+				>
+			</File>
+			<File
 				RelativePath=".\NPC.h"
 				>
 			</File>

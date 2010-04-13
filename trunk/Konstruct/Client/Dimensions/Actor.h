@@ -111,6 +111,7 @@ protected:
 	kpuVector		m_vDirection;
 
 	//Stats
+	int				m_iLevel;
 	int				m_iStr;				//Strength determines how much force player can exert
 	int				m_iAgi;				//Agility determines quickly the character can move and react physically
 	int				m_iInt;				//Intellegence determines mental pool

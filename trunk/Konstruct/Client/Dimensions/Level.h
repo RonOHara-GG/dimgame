@@ -1,5 +1,7 @@
 #pragma once
 #include "Common/Utility/kpuFixedArray.h"
+#include "Common/Utility/kpuArrayList.h"
+#include "LoadStructures.h"
 
 class kpgModel;
 class kpgRenderer;
@@ -13,6 +15,7 @@ public:
 	~Level(void);
 
 	bool Load(const char* pszLevelFile);
+	void LoadEnemyList(kpuArrayList<Enemy*>* paEnemies);
 
 	Grid*		GetGrid() const { return m_pLevelGrid; }
 	kpgModel*	GetEnemyModel(int iIndex ) const { return (*m_paEnemyModels)[iIndex]; }
@@ -27,4 +30,8 @@ protected:
 	char						m_szName[64];
 	kpuFixedArray<kpgModel*>*	m_paModels;
 	kpuFixedArray<kpgModel*>*	m_paEnemyModels;
+
+	void LoadEnemyType(const char* szFilename, kpuFixedArray<EnemyLoadStructure>* pArray);
+	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pArray, kpuArrayList<Enemy*> *pEnemies, int iSize);
+	
 };

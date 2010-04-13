@@ -32,6 +32,7 @@ float4 VertexLight(float3 vPos, float3 vNrm)
 		}
 		else						// Directional Light
 		{
+			
 			float fNdotL = max(dot(-g_LightVector[i].xyz, vNrm), 0);
 			vLightColor += g_LightColor[i] * fNdotL;
 		}

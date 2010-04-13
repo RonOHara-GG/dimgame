@@ -1,9 +1,10 @@
 #pragma once
 #include "GameState.h"
+#include "Common/Utility/kpuArrayList.h"
 
 class Level;
-class PlayerCharacter;
 class Enemy;
+class PlayerCharacter;
 
 class GameState_Default : public GameState
 {
@@ -18,9 +19,11 @@ public:
 
 	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
 
-protected:
-	Level*				m_pCurrentLevel;
+	virtual void AddEnemy(Enemy* pEnemy);
 
-	PlayerCharacter*	m_pPlayer;
-	Enemy*				m_pEnemy;
+protected:
+	Level*					m_pCurrentLevel;
+
+	PlayerCharacter*		m_pPlayer;
+	kpuArrayList<Enemy*>*	m_paEnemies;
 };
