@@ -15,14 +15,9 @@ namespace EnemyMaker
     {
         class EnemyData
         {
-            public int iNameLength;
-            public string szName;
             public int iLevel;
             public int iHealth;
             public float fSpeed;
-
-            public int iFileLength;
-            public string szModel;
 
             public int iCrushRes;
             public int iSlashRes;
@@ -41,6 +36,12 @@ namespace EnemyMaker
             public float fRange;
             public float fAttackSpeed;
             public int iDamageType;
+
+            public int iNameLength;
+            public int iFileLength;
+
+            public string szName;            
+            public string szModel;
 
         };
 
@@ -122,13 +123,21 @@ namespace EnemyMaker
                 BinaryWriter bw = new BinaryWriter(new FileStream(dlg.FileName, FileMode.Create, FileAccess.Write));
 
                 bw.Write(currentData.iNameLength);
-                bw.Write(currentData.szName);
+                bw.Write(currentData.iFileLength);
+
+                for (int i = 0; i < currentData.iNameLength; i++)
+                {
+                    bw.Write((byte)currentData.szName[i]);
+                }
+
+                for (int i = 0; i < currentData.iFileLength; i++)
+                {
+                    bw.Write((byte)currentData.szModel[i]);
+                }
+
                 bw.Write(currentData.iLevel);
                 bw.Write(currentData.iHealth);
-                bw.Write(currentData.fSpeed);
-
-                bw.Write(currentData.iFileLength);
-                bw.Write(currentData.szModel);
+                bw.Write(currentData.fSpeed);               
 
                 bw.Write(currentData.iCrushRes);
                 bw.Write(currentData.iSlashRes);
@@ -164,13 +173,15 @@ namespace EnemyMaker
                 BinaryReader br = new BinaryReader(new FileStream(dlg.FileName, FileMode.Open, FileAccess.Read));
 
                 currentData.iNameLength  = br.ReadInt32();
-                currentData.szName = br.ReadString();
+                currentData.iFileLength = br.ReadInt32();
+                currentData.szName = br.ReadString();                
+                currentData.szModel = br.ReadString();
+
                 currentData.iLevel  = br.ReadInt32();
                 currentData.iHealth  = br.ReadInt32();
                 currentData.fSpeed = br.ReadSingle();
 
-                currentData.iFileLength  = br.ReadInt32();
-                currentData.szModel = br.ReadString();
+                
 
                 currentData.iCrushRes  = br.ReadInt32();
                 currentData.iSlashRes  = br.ReadInt32();
