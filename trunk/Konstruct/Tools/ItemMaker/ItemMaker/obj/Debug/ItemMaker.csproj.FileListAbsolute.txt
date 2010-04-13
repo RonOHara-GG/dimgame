@@ -1,0 +1,8 @@
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\bin\Debug\ItemMaker.exe
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\bin\Debug\ItemMaker.pdb
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\obj\Debug\ItemMaker.Properties.Resources.resources
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\obj\Debug\ItemMaker.csproj.GenerateResource.Cache
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\obj\Debug\ItemMaker.exe
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\obj\Debug\ItemMaker.pdb
+C:\Documents and Settings\Brett\My Documents\Visual Studio 2008\Dimensions\Konstruct\Tools\ItemMaker\ItemMaker\obj\Debug\ItemMaker.ItemMaker.resources
