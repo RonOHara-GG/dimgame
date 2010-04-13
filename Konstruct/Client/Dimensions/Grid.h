@@ -47,7 +47,7 @@ public:
 	void		AddTerrain(kpgModel* pTerrain); //Add a piece of terrain to the grid
 	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile
 	Actor*		GetActor(int iTile) { return m_pTiles[iTile].m_Actor; } //Get the actor at the target tile
-
+	kpuVector	GetDimensions() { return kpuVector(m_iWidth, 0, m_iHeight, 0); }
 	
 
 private:

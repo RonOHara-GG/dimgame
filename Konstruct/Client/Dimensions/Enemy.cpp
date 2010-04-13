@@ -2,15 +2,39 @@
 #include "Enemy.h"
 #include "grid.h"
 #include "level.h"
+#include "LoadStructures.h"
 
-Enemy::Enemy(kpgModel* model):NPC()
+Enemy::Enemy(EnemyLoadStructure& loadStruct, kpgModel* pModel):NPC()
 {
-	m_pModel = model;
+	m_pModel = pModel;
+
 	m_eCurrentState = eNS_Waiting;
 
 	m_fElaspedWanderWait = 0.0f;
 	m_bAttackable = true;
-	m_iCurrentHealth = 100;
+	
+	m_iLevel = loadStruct.iLevel;
+	m_iMaxHealth = loadStruct.iHealth;
+	m_iCurrentHealth = m_iMaxHealth;
+	m_fSpeed = loadStruct.fRange;
+
+	m_iCrushRes = loadStruct.iCrushRes;
+	m_iSlashRes = loadStruct.iSlashRes;
+	m_iPierceRes = loadStruct.iPierceRes;
+    m_iMentalRes = loadStruct.iMentalRes;
+    m_iHeatRes = loadStruct.iHeatRes;
+    m_iColdRes = loadStruct.iColdRes;
+    m_iElectRes = loadStruct.iElectRes;
+    m_iWaterRes = loadStruct.iWaterRes;
+    m_iAcidRes = loadStruct.iAcidRes;
+    m_iViralRes = loadStruct.iViralRes;
+    m_iHolyRes = loadStruct.iHolyRes;
+    m_iDeathRes = loadStruct.iDeathRes;
+
+    m_iDamage = loadStruct.iDamage;
+    m_fAttackRange = loadStruct.fRange;
+    m_fAttackSpeed = loadStruct.fAttackSpeed;
+    m_eDamageType = (DamageType)loadStruct.iDamageType;
 }
 
 Enemy::~Enemy(void)

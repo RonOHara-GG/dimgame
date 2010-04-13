@@ -25,7 +25,9 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	//Create the player light source
 	m_pLightSource = new kpgLight(kpgLight::eLT_Point);
-	m_pLightSource->SetColor(kpuVector(0.75f, 0.75f, 0.75f, 0.75f));
+	m_pLightSource->SetColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));
+
+	m_pEquippedWeapon = 0;
 
 }
 
@@ -107,8 +109,8 @@ bool PlayerCharacter::Update(float fDeltaTime)
 	UpdateMovement(fDeltaTime);
 
 	kpuVector vPos = GetLocation();
-	m_pLightSource->SetPosition(kpuVector(vPos.GetX(), vPos.GetY() + 0.9f, vPos.GetZ(), 6));
-	kpgRenderer::GetInstance()->SetLight(1, m_pLightSource);
+	m_pLightSource->SetPosition(kpuVector(vPos.GetX(), -(vPos.GetY() + 0.9f), vPos.GetZ(), 6));	
+	//kpgRenderer::GetInstance()->SetLight(0, m_pLightSource);
 
 	return true;
 }
@@ -200,4 +202,3 @@ void PlayerCharacter::RemoveSkillAt(int iCombo, int iIndex)
 {
 	(*m_pSkillCombos)[iCombo]->RemoveSkillAt(iIndex);
 }
-

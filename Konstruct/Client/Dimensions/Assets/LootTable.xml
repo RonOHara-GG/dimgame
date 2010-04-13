@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<LootTable Count="1">
+  <Loot ID="0" File="Assets/ItemData/SwordofDeath.kpi"/>
+</LootTable>

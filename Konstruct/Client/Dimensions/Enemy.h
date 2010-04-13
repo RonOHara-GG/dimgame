@@ -1,11 +1,12 @@
 #pragma once
 #include "npc.h"
+#include "LoadStructures.h"
 
 class Enemy :
 	public NPC
 {
 public:
-	Enemy(kpgModel* model);
+	Enemy(EnemyLoadStructure& loadStruct, kpgModel* pModel);
 	~Enemy(void);
 
 	bool Update(float fGameTime);
@@ -14,8 +15,12 @@ protected:
 	void Wander(float fDeltaTime); //Wander around at varying distances
 	
 
-	float m_fElaspedWanderWait;
-	int m_iAttackRange;
+	float		m_fElaspedWanderWait;
+	float		m_fAttackRange;
+	float		m_fAttackSpeed;
+	int			m_iDamage;
+	DamageType	m_eDamageType;
+	
 };
 
 #define MAX_WANDER_DIST 6 //In tiles

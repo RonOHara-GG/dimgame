@@ -24,17 +24,19 @@ GameState_Default::GameState_Default(void)
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
 
 	m_pPlayer = new PlayerCharacter();
+	m_paEnemies = new kpuArrayList<Enemy*>();
+	
+	m_pCurrentLevel->LoadEnemyList(m_paEnemies);
 
-	m_pEnemy = new Enemy(m_pCurrentLevel->GetEnemyModel(0));
-	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(m_pEnemy->GetLocation());
-	m_pEnemy->SetMoveTarget(iTile + 1);
 }
 
 GameState_Default::~GameState_Default(void)
 {
 	delete m_pCurrentLevel;
 	delete m_pPlayer;
-	delete m_pEnemy;
+	
+	if(m_paEnemies)
+		delete m_paEnemies;
 }
 
 void GameState_Default::MouseUpdate(int X, int Y)
@@ -83,12 +85,18 @@ void GameState_Default::Update(float fGameTime)
 		g_pCamera->SetLookAt(m_pPlayer->GetLocation());
 	}
 
-	if(m_pEnemy)
+	if(m_paEnemies)
 	{
-		if(!m_pEnemy->Update(fGameTime))
+		for(int i = 0; i < m_paEnemies->Count(); i++)
 		{
-			delete m_pEnemy;
-			m_pEnemy = 0;
+			Enemy* pEnemy = (*m_paEnemies)[i];
+
+			if(!pEnemy->Update(fGameTime))
+			{
+				m_paEnemies->Remove(pEnemy);
+				delete pEnemy;
+				pEnemy = 0;
+			}
 		}
 	}
 }
@@ -102,6 +110,19 @@ void GameState_Default::Draw()
 	if( m_pPlayer )
 		m_pPlayer->Draw(pRenderer);
 
-	if(m_pEnemy)
-		m_pEnemy->Draw(pRenderer);
+	if(m_paEnemies)
+	{
+		for(int i = 0; i < m_paEnemies->Count(); i++)
+		{
+			Enemy* pEnemy = (*m_paEnemies)[i];
+
+			pEnemy->Draw(pRenderer);
+		}
+	}
+}
+
+void GameState_Default::AddEnemy(Enemy* pEnemy)
+{
+	if(m_paEnemies)
+		m_paEnemies->Add(pEnemy); 
 }

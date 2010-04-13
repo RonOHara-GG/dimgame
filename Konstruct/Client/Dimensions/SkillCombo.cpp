@@ -1,7 +1,9 @@
 #include "StdAfx.h"
+
 #include "SkillCombo.h"
 #include "PlayerCharacter.h"
 #include "Skill.h"
+
 
 SkillCombo::SkillCombo(void)
 {

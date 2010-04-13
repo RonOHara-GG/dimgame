@@ -2,7 +2,10 @@
 #include "Common/Utility/kpuArrayList.h"
 
 class Skill;
+//template<typename T> class kpuArrayList;
+
 class PlayerCharacter;
+
 
 class SkillCombo
 {
