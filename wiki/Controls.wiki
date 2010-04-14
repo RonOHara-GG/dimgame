@@ -6,7 +6,7 @@ The camera is a fixed 3/4 top down view with 'up' being in the top right hand co
 
 <br/> 
 *Keyboard/Mouse Controls*<br/> 
-The player can move their character to any point on the screen simply by clicking on the ground with their mouse. Alternatively, the player can move up, down, left, and/or right using the arrow keys or the wasd keys.
+The player can move their character to any point on the screen simply by clicking on the ground with their mouse. Alternatively, the player can move up, down, left, and/or right using the arrow keys or the wasd keys.<br/>
  
 The 'E' key will consume a health potion when pressed<br/>
 The 'Q' key will consume a psionic potion when pressed<br/>
