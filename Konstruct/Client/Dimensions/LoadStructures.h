@@ -29,7 +29,8 @@ typedef struct _EnemyLoadStructure
     int iDeathRes;
 
     int iDamage;
-    float fRange;
+    float fAggroRange;
+	float fAttackRange;
     float fAttackSpeed;
     int iDamageType;
 

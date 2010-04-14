@@ -15,7 +15,7 @@ Actor::Actor()
 	m_vVelocity = kpuv_Zero;
 	m_vDirection = kpuv_OneZ;
 
-	m_fSpeed = 1.0f;
+	m_fBaseSpeed = 1.0f;
 
 	//Initalize stats to 0
 	m_iStr = 0;				
@@ -69,6 +69,8 @@ kpuVector Actor::GetLocation()
 	}
 }
 
+//int Actor::GetLevel() { return m_iLevel; }
+
 void Actor::SetLocation(const kpuVector& vNewLoc)
 {
 	if( m_pModel )
@@ -95,7 +97,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 		}
 
 		// Move down the path
-		float fMoveDelta = m_fSpeed * fDeltaTime;
+		float fMoveDelta = GetSpeed() * fDeltaTime;
 		while( fMoveDelta > 0 )
 		{
 			//Remove from curren tile

@@ -10,8 +10,20 @@ public:
 	virtual ~Equippable(void);
 	virtual void Equip(PlayerCharacter* pPlayer);
 	virtual void UnEquip(PlayerCharacter* pPlayer);
-
+	virtual bool MeetsRequirements(PlayerCharacter* pPlayer);
 protected:
+	
+
+	//****************************************
+	//*************Requirements***************
+	int			m_iStrReq;
+	int			m_iAgiReq;
+	int			m_iIntReq;
+	int			m_iConstReq;
+
+
+	//****************************************
+	//************Bonuses*********************
 	int			m_iStrBonus;
 	int			m_iAgiBonus;
 	int			m_iIntBonus;

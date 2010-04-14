@@ -4,6 +4,7 @@
 #include "Common/Graphics/kpgGeometryInstance.h"
 #include "Skill.h"
 #include "Weapon.h"
+#include "Armor.h"
 #include "PlayerClass.h"
 #include "SkillCombo.h"
 
@@ -19,7 +20,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
 
-	m_fSpeed = 1.3f;
+	m_fBaseSpeed = 1.3f;
 
 	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
 
@@ -98,6 +99,8 @@ void PlayerCharacter::GainExp(int iExp)
 void PlayerCharacter::LevelUp()
 {
 	m_iAttribPoints += ATTRIBUTE_POINTS_PER_LEVEL;
+	m_iSkillPoints += SKILL_POINTS_FACTOR * GetLevel();
+	ReconfigHealthMental();
 }
 
 bool PlayerCharacter::Update(float fDeltaTime)
@@ -161,6 +164,9 @@ bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 				if(IsInRange(pTarget, m_pEquippedWeapon->GetRange() ,pGrid))
 				{
 					m_pEquippedWeapon->Use(pTarget);
+
+					//Check target status
+					CheckTargetStatus(pTarget);
 					return true;
 				}
 			}
@@ -173,7 +179,20 @@ bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid)
 {
 	if(m_aClasses[(int)eClass])
+	{
 		m_aClasses[(int)eClass]->GetSkill(iIndex)->Use(pTarget, this, pGrid);
+		CheckTargetStatus(pTarget);
+	}
+}
+
+void PlayerCharacter::CheckTargetStatus(Actor* pTarget)
+{
+	if(!pTarget->IsAlive())
+	{
+		int iExp = pow(pTarget->GetLevel(), EXP_EXPONENT);
+		GainExp(iExp);
+	}
+
 }
 
 void PlayerCharacter::AddSkillToComboAt(Skill *pSkill, int iCombo)
@@ -202,3 +221,69 @@ void PlayerCharacter::RemoveSkillAt(int iCombo, int iIndex)
 {
 	(*m_pSkillCombos)[iCombo]->RemoveSkillAt(iIndex);
 }
+
+int PlayerCharacter::GetLevel()
+{
+	int iLevel = 0;
+
+	for(int i = 0; i < NUMBER_OF_CLASSES; i++)
+	{
+		if(m_aClasses[i])
+		{
+			iLevel += m_aClasses[i]->GetLevel();
+		}
+	}
+
+	return iLevel;
+}
+
+void PlayerCharacter::ReconfigHealthMental()
+{
+	int iLevel = GetLevel();
+
+	m_iMaxHealth = m_iConst * iLevel * MENTAL_PER_LEVEL;
+	m_iMaxMental = m_iInt * iLevel * MENTAL_PER_LEVEL;
+
+}
+
+void PlayerCharacter::SetInt(int iInt)
+{
+	m_iInt = iInt;
+	ReconfigHealthMental();
+}
+
+void PlayerCharacter::SetConst(int iConst)
+{
+	m_iConst = iConst;
+	ReconfigHealthMental();
+}
+
+bool PlayerCharacter::EquipWeapon(Weapon* weapon)
+{
+	//TODO: Implement equippng weapon from inventory
+
+	if(!weapon->MeetsRequirements(this))
+		return false;
+
+	if(m_pEquippedWeapon)
+	{
+		//See if we can remove the currently equipped weapon
+		for(int i = 0; i < INVENTORY_SIZE; i++)
+		{
+			if(!m_aInventory[i])
+			{
+				m_aInventory[i] = m_pEquippedWeapon;
+				m_pEquippedWeapon = 0;
+			}
+		}
+
+		if(m_pEquippedWeapon)
+			return false;
+	}
+
+	
+	
+
+	return true;
+}
+

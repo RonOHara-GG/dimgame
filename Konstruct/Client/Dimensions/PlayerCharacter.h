@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "Common/Utility/kpuArrayList.h"
+#include "Common/Utility/kpuArrayList.h"
 #include "Common/Utility/kpuVector.h"
 #include "Common/Graphics/kpgLight.h"
 #include "Actor.h"
@@ -13,10 +13,16 @@ class Skill;
 class Weapon;
 class Grid;
 class SkillCombo;
-template<typename T> class kpuArrayList;
-
+class Weapon;
+class Armor;
 
 #define INVENTORY_SIZE 10
+
+#define ATTRIBUTE_POINTS_PER_LEVEL 5
+#define EXP_EXPONENT 3.75
+#define SKILL_POINTS_FACTOR 2
+#define SPEED_AGILITY_RATIO 5
+#define MENTAL_PER_LEVEL 5
 
 class PlayerCharacter:public Actor
 {
@@ -26,7 +32,7 @@ public:
 
 	bool Update(float fDeltaTime);
 
-	int GetLevel();
+	
 
 	void GainExp(int iExp); //Distributes exp over player's classes
 
@@ -44,6 +50,23 @@ public:
 	kpgLight* GetLight() { return m_pLightSource; }
 	void SetLight(kpgLight* light) { m_pLightSource = light; }
 
+	//If equipping or unequipping the item fails these functions return false
+	bool EquipWeapon(Weapon* weapon);
+	bool UnequipWeapon();
+
+	bool EquipArmor(Armor* armor);
+	bool UnequipArmor();
+
+#pragma region Stat Accessors/Mutators
+
+	int		GetLevel();
+	float	GetSpeed() { return m_fBaseSpeed + 0.1 * (m_iAgi / SPEED_AGILITY_RATIO); }
+	
+	void	SetConst(int iConst);
+	void	SetInt(int iInt);
+
+#pragma endregion
+
 #pragma region ComboStuff
 
 	void CreateCombo(Skill* pFirstSkill); //Creates a combo with a given skill
@@ -56,13 +79,17 @@ public:
 
 protected:
 
+	void ReconfigHealthMental();
+	void CheckTargetStatus(Actor* pTarget);
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 	void UpdateSkills(float fGameTime);
 
 	//Leveling up stuff
 	int							m_iAttribPoints;	
+	int							m_iSkillPoints;
 
 	//Inventory
+	Armor*						m_pEqupipedArmor;
 	Weapon*						m_pEquippedWeapon;
 	Item*						m_aInventory[INVENTORY_SIZE];
 
@@ -75,6 +102,3 @@ protected:
 	
 };
 
-#define ATTRIBUTE_POINTS_PER_LEVEL 5
-
-#define EXP_EXPONENT 3.75

@@ -45,6 +45,8 @@ public:
 
 #pragma region StatAccessor/Mutators
 
+	virtual int GetLevel() { return m_iLevel; }
+	virtual float GetSpeed() { return m_fBaseSpeed; }
 	int GetMaxHealth() { return m_iMaxHealth; }
 	int GetMaxMental() { return m_iMaxMental; }
 	int GetStr() { return m_iStr; }
@@ -56,8 +58,8 @@ public:
 	void SetMaxMental(int iMaxMental) { m_iMaxMental = iMaxMental; }
 	void SetStr(int iStr) { m_iStr = iStr; }
 	void SetAgi(int iAgi) { m_iAgi = iAgi; }
-	void SetInt(int iInt) { m_iInt = iInt; }
-	void SetConst(int iConst) { m_iConst = iConst; }
+	virtual void SetInt(int iInt) { m_iInt = iInt; }
+	virtual void SetConst(int iConst) { m_iConst = iConst; }
 
 #pragma endregion
 
@@ -106,7 +108,7 @@ protected:
 	bool			m_bAttackable;		//Wether or not this Actor is able to be attacked
 
 	//Movement varibles	
-	float			m_fSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit
+	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit
 	kpuVector		m_vVelocity;
 	kpuVector		m_vDirection;
 
@@ -115,7 +117,7 @@ protected:
 	int				m_iStr;				//Strength determines how much force player can exert
 	int				m_iAgi;				//Agility determines quickly the character can move and react physically
 	int				m_iInt;				//Intellegence determines mental pool
-	int				m_iConst;				//Constitution determines health pool and resist
+	int				m_iConst;			//Constitution determines health pool and resist
 
 	int				m_iMaxHealth;		//The maximum health the player can have atm
 	int				m_iCurrentHealth;	//The players current health

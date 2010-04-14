@@ -30,8 +30,27 @@ Equippable::~Equippable(void)
 {
 }
 
+bool Equippable::MeetsRequirements(PlayerCharacter* pPlayer)
+{
+	if (pPlayer->GetStr() < m_iStrReq)
+		return false;
+
+	if (pPlayer->GetAgi() < m_iAgiReq)
+		return false;
+
+	if (pPlayer->GetConst() < m_iConstReq)
+		return false;
+
+	if (pPlayer->GetInt() < m_iIntReq)
+		return false;
+
+	return true;
+
+}
+
 void Equippable::Equip(PlayerCharacter *pPlayer)
 {
+	
 	//Stat bonuses
 	pPlayer->SetStr(pPlayer->GetStr() + m_iStrBonus);
 	pPlayer->SetAgi(pPlayer->GetAgi() + m_iAgiBonus);
@@ -56,7 +75,6 @@ void Equippable::Equip(PlayerCharacter *pPlayer)
 	pPlayer->SetViralRes(pPlayer->GetViralRes() + m_iViralResBonus);
 	pPlayer->SetHolyRes(pPlayer->GetHolyRes() + m_iHolyResBonus);
 	pPlayer->SetDeathRes(pPlayer->GetDeathRes() + m_iDeathResBonus);
-
 
 }
 
