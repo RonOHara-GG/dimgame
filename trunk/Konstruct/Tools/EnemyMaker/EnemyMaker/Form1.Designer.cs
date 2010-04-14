@@ -85,14 +85,16 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.CB_DamageType = new System.Windows.Forms.ComboBox();
             this.TXT_AttackSpeed = new System.Windows.Forms.TextBox();
             this.TXT_Damge = new System.Windows.Forms.TextBox();
-            this.TXT_Range = new System.Windows.Forms.TextBox();
+            this.TXT_AggroRange = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.CB_DamageType = new System.Windows.Forms.ComboBox();
+            this.TXT_AttackRange = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -615,10 +617,12 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.TXT_AttackRange);
+            this.groupBox3.Controls.Add(this.label35);
             this.groupBox3.Controls.Add(this.CB_DamageType);
             this.groupBox3.Controls.Add(this.TXT_AttackSpeed);
             this.groupBox3.Controls.Add(this.TXT_Damge);
-            this.groupBox3.Controls.Add(this.TXT_Range);
+            this.groupBox3.Controls.Add(this.TXT_AggroRange);
             this.groupBox3.Controls.Add(this.label21);
             this.groupBox3.Controls.Add(this.label20);
             this.groupBox3.Controls.Add(this.label19);
@@ -628,63 +632,6 @@
             this.groupBox3.Size = new System.Drawing.Size(486, 100);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
-            // 
-            // TXT_AttackSpeed
-            // 
-            this.TXT_AttackSpeed.Location = new System.Drawing.Point(288, 26);
-            this.TXT_AttackSpeed.Name = "TXT_AttackSpeed";
-            this.TXT_AttackSpeed.Size = new System.Drawing.Size(39, 20);
-            this.TXT_AttackSpeed.TabIndex = 19;
-            // 
-            // TXT_Damge
-            // 
-            this.TXT_Damge.Location = new System.Drawing.Point(82, 26);
-            this.TXT_Damge.Name = "TXT_Damge";
-            this.TXT_Damge.Size = new System.Drawing.Size(39, 20);
-            this.TXT_Damge.TabIndex = 17;
-            // 
-            // TXT_Range
-            // 
-            this.TXT_Range.Location = new System.Drawing.Point(82, 63);
-            this.TXT_Range.Name = "TXT_Range";
-            this.TXT_Range.Size = new System.Drawing.Size(39, 20);
-            this.TXT_Range.TabIndex = 18;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(210, 29);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(72, 13);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "AttackSpeed:";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(34, 66);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(42, 13);
-            this.label20.TabIndex = 2;
-            this.label20.Text = "Range:";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(210, 66);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(74, 13);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "DamageType:";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(26, 29);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(50, 13);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Damage:";
             // 
             // CB_DamageType
             // 
@@ -702,10 +649,83 @@
             "Viral",
             "Holy",
             "Death"});
-            this.CB_DamageType.Location = new System.Drawing.Point(288, 63);
+            this.CB_DamageType.Location = new System.Drawing.Point(355, 26);
             this.CB_DamageType.Name = "CB_DamageType";
             this.CB_DamageType.Size = new System.Drawing.Size(121, 21);
-            this.CB_DamageType.TabIndex = 20;
+            this.CB_DamageType.TabIndex = 21;
+            // 
+            // TXT_AttackSpeed
+            // 
+            this.TXT_AttackSpeed.Location = new System.Drawing.Point(213, 63);
+            this.TXT_AttackSpeed.Name = "TXT_AttackSpeed";
+            this.TXT_AttackSpeed.Size = new System.Drawing.Size(39, 20);
+            this.TXT_AttackSpeed.TabIndex = 20;
+            // 
+            // TXT_Damge
+            // 
+            this.TXT_Damge.Location = new System.Drawing.Point(82, 26);
+            this.TXT_Damge.Name = "TXT_Damge";
+            this.TXT_Damge.Size = new System.Drawing.Size(39, 20);
+            this.TXT_Damge.TabIndex = 17;
+            // 
+            // TXT_AggroRange
+            // 
+            this.TXT_AggroRange.Location = new System.Drawing.Point(82, 63);
+            this.TXT_AggroRange.Name = "TXT_AggroRange";
+            this.TXT_AggroRange.Size = new System.Drawing.Size(39, 20);
+            this.TXT_AggroRange.TabIndex = 18;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(135, 66);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(72, 13);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "AttackSpeed:";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(3, 66);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(73, 13);
+            this.label20.TabIndex = 2;
+            this.label20.Text = "Aggro Range:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(277, 29);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(74, 13);
+            this.label19.TabIndex = 1;
+            this.label19.Text = "DamageType:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(26, 29);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(50, 13);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Damage:";
+            // 
+            // TXT_AttackRange
+            // 
+            this.TXT_AttackRange.Location = new System.Drawing.Point(213, 26);
+            this.TXT_AttackRange.Name = "TXT_AttackRange";
+            this.TXT_AttackRange.Size = new System.Drawing.Size(39, 20);
+            this.TXT_AttackRange.TabIndex = 19;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(134, 29);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(76, 13);
+            this.label35.TabIndex = 21;
+            this.label35.Text = "Attack Range:";
             // 
             // EnemyMaker
             // 
@@ -782,7 +802,7 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox TXT_AttackSpeed;
         private System.Windows.Forms.TextBox TXT_Damge;
-        private System.Windows.Forms.TextBox TXT_Range;
+        private System.Windows.Forms.TextBox TXT_AggroRange;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label34;
@@ -799,6 +819,8 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button BTN_LoadModel;
         private System.Windows.Forms.ComboBox CB_DamageType;
+        private System.Windows.Forms.TextBox TXT_AttackRange;
+        private System.Windows.Forms.Label label35;
     }
 }
 

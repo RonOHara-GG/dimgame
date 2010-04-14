@@ -16,7 +16,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct, kpgModel* pModel):NPC()
 	m_iLevel = loadStruct.iLevel;
 	m_iMaxHealth = loadStruct.iHealth;
 	m_iCurrentHealth = m_iMaxHealth;
-	m_fSpeed = loadStruct.fRange;
+	m_fBaseSpeed = loadStruct.fSpeed;
 
 	m_iCrushRes = loadStruct.iCrushRes;
 	m_iSlashRes = loadStruct.iSlashRes;
@@ -32,7 +32,8 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct, kpgModel* pModel):NPC()
     m_iDeathRes = loadStruct.iDeathRes;
 
     m_iDamage = loadStruct.iDamage;
-    m_fAttackRange = loadStruct.fRange;
+    m_fAttackRange = loadStruct.fAttackRange;
+	m_fAggroRange = loadStruct.fAggroRange;
     m_fAttackSpeed = loadStruct.fAttackSpeed;
     m_eDamageType = (DamageType)loadStruct.iDamageType;
 }

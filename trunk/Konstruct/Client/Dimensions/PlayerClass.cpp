@@ -67,7 +67,6 @@ void PlayerClass::UpdateSkillTimers(float fDeltaTime)
 void PlayerClass::ClassInit()
 {
 	m_iLevel = 0;
-	m_iSkillPoints = 0;
 	m_fCurrentExp = 0.0f;
 	m_fNeededExp = 0.0f;	
 	m_fExpSplit = 100.0f;
@@ -137,8 +136,6 @@ bool PlayerClass::GainExp(int iExp)
 void PlayerClass::LevelUp()
 {
 	m_iLevel++;
-	m_iSkillPoints += SKILL_POINTS_MULTIPLE * m_iLevel;
-
 }
 
 Skill* PlayerClass::GetSkill(int iIndex)

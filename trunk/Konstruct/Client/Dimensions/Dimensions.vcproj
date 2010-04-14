@@ -177,6 +177,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Armor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Dimensions.cpp"
 				>
 			</File>
@@ -272,6 +276,10 @@
 			>
 			<File
 				RelativePath=".\Actor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Armor.h"
 				>
 			</File>
 			<File

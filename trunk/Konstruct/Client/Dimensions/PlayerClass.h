@@ -21,6 +21,7 @@ public:
 	PlayerClass(Class eCL_Class, float fExpPercent);
 	~PlayerClass(void);
 
+	int GetLevel() { return m_iLevel; }
 	float GetExpSplit() { return m_fExpSplit; }
 	float SetExpSplit(float fExpSplit) { m_fExpSplit = fExpSplit; }
 
@@ -33,7 +34,7 @@ public:
 
 private:
 	int				m_iLevel;
-	int				m_iSkillPoints;
+	
 	float			m_fCurrentExp;
 	float			m_fNeededExp;	
 	float			m_fExpSplit;
@@ -57,4 +58,3 @@ private:
 
 #define MIN_EXP_SPLIT 0.05
 #define NUMBER_OF_CLASSES 8
-#define SKILL_POINTS_MULTIPLE 2

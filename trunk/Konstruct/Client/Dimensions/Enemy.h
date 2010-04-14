@@ -16,6 +16,7 @@ protected:
 	
 
 	float		m_fElaspedWanderWait;
+	float		m_fAggroRange;
 	float		m_fAttackRange;
 	float		m_fAttackSpeed;
 	int			m_iDamage;

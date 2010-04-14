@@ -33,7 +33,8 @@ namespace EnemyMaker
             public int iDeathRes;
 
             public int iDamage;
-            public float fRange;
+            public float fAggroRange;
+            public float fAttackRange;
             public float fAttackSpeed;
             public int iDamageType;
 
@@ -153,7 +154,8 @@ namespace EnemyMaker
                 bw.Write(currentData.iDeathRes);
 
                 bw.Write(currentData.iDamage);
-                bw.Write(currentData.fRange);
+                bw.Write(currentData.fAggroRange);
+                bw.Write(currentData.fAttackRange);
                 bw.Write(currentData.fAttackSpeed);
                 bw.Write(currentData.iDamageType);
 
@@ -174,8 +176,23 @@ namespace EnemyMaker
 
                 currentData.iNameLength  = br.ReadInt32();
                 currentData.iFileLength = br.ReadInt32();
-                currentData.szName = br.ReadString();                
-                currentData.szModel = br.ReadString();
+                char[] szName = new char[currentData.iNameLength];
+
+                for (int i = 0; i < currentData.iNameLength; i++)
+                {
+                    szName[i] = Convert.ToChar(br.ReadByte());
+                }
+
+                currentData.szName = new string(szName);
+
+                szName = new char[currentData.iFileLength];
+
+                for (int i = 0; i < currentData.iFileLength; i++)
+                {
+                    szName[i] = Convert.ToChar(br.ReadByte());
+                }
+
+                currentData.szModel = new string(szName);
 
                 currentData.iLevel  = br.ReadInt32();
                 currentData.iHealth  = br.ReadInt32();
@@ -197,7 +214,8 @@ namespace EnemyMaker
                 currentData.iDeathRes  = br.ReadInt32();
 
                 currentData.iDamage  = br.ReadInt32();
-                currentData.fRange = br.ReadSingle();
+                currentData.fAggroRange = br.ReadSingle();
+                currentData.fAttackRange = br.ReadSingle();
                 currentData.fAttackSpeed = br.ReadSingle();
                 currentData.iDamageType  = br.ReadInt32();
 
@@ -326,10 +344,15 @@ namespace EnemyMaker
             else
                 currentData.iDamage = 1;
 
-            if (TXT_Range.Text != "")
-                currentData.fRange = float.Parse(TXT_Range.Text);
+            if (TXT_AggroRange.Text != "")
+                currentData.fAggroRange = float.Parse(TXT_AggroRange.Text);
             else
-                currentData.fRange = 1;
+                currentData.fAggroRange = 1;
+
+            if (TXT_AttackRange.Text != "")
+                currentData.fAttackRange = float.Parse(TXT_AttackRange.Text);
+            else
+                currentData.fAttackRange = 1;
 
             if (TXT_AttackSpeed.Text != "")
                 currentData.fAttackSpeed = float.Parse(TXT_AttackSpeed.Text);
@@ -382,7 +405,9 @@ namespace EnemyMaker
 
             TXT_Damge.Text = currentData.iDamage.ToString();
 
-            TXT_Range.Text = currentData.fRange.ToString();
+            TXT_AggroRange.Text = currentData.fAggroRange.ToString();
+
+            TXT_AttackRange.Text = currentData.fAttackRange.ToString();
 
             TXT_AttackSpeed.Text = currentData.fAttackSpeed.ToString();
 
@@ -429,7 +454,9 @@ namespace EnemyMaker
 
             TXT_Damge.Text = "";
 
-            TXT_Range.Text = "";
+            TXT_AttackRange.Text = "";
+
+            TXT_AggroRange.Text = "";
 
             TXT_AttackSpeed.Text = "";
 
