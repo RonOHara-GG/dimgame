@@ -29,12 +29,17 @@ public:
 	kpgModel(void);
 	~kpgModel(void);
 
+	void RotateY(float fRadians);
+
 	bool Load(const char* szFileName);
 
 	void Draw(kpgRenderer* pRenderer = kpgRenderer::GetInstance());
 
 	int GetInstanceCount()									{ return m_aInstances.GetNumElements(); }
 	kpgGeometryInstance* GetInstance(int iIndex)			{ return m_aInstances[iIndex]; }
+	kpuVector GetDimensions() { return m_vDimensions; }		
+	kpuVector GetPosition();
+	void	  SetPosition(kpuVector& vPos);
 
 private:
 	kpgTexture* LoadImage(TiXmlElement* pLibrary);
@@ -46,9 +51,11 @@ private:
 	int* LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	int* LoadPolygons(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(TiXmlElement* pInstElement);
+	void CalculateDimensions(kpuFixedArray<float>	&aFloats);
 
 protected:
 	kpuFixedArray<kpgGeometry*>			m_aGeometries;
 	kpuFixedArray<kpgGeometryInstance*>	m_aInstances;
+	kpuVector							m_vDimensions;
 	
 };

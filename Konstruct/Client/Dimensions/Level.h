@@ -33,5 +33,6 @@ protected:
 
 	void LoadEnemyType(const char* szFilename, kpuFixedArray<EnemyLoadStructure>* pArray);
 	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pArray, kpuArrayList<Enemy*> *pEnemies, int iSize);
+	void GenerateTerrain(kpuArrayList<kpgModel*>* paModules);
 	
 };

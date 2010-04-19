@@ -51,6 +51,11 @@ public:
 		return m_iNumElements;
 	}
 
+	const int GetNumElementsUsed()
+	{
+		return m_iNumUsedElements;
+	}
+
 	T& operator[](const int iIndex)
 	{
 		return m_pElements[iIndex];

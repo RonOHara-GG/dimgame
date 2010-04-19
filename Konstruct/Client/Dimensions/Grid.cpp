@@ -73,7 +73,7 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 		if( fDot > fBestDot )
 		{
 			int iTile = GetTileAtLocation(vStartTile + s_vDirections[i]);
-			if( !m_pTiles[iTile].m_Actor)
+			if( !m_pTiles[iTile].m_Actor && m_pTiles[iTile].m_bWalkable)
 			{
 				// This tile doesnt have an actor on it, its valid for now
 				fBestDot = fDot;
@@ -142,31 +142,70 @@ bool Grid::RemoveActor(Actor* pActor)
 	return true;
 }
 
-void Grid::AddTerrain(kpgModel* pTerrain)
+bool Grid::AddTerrain(kpgModel* pTerrain)
 {
-	//Get verticies
-	//if a verticies is within a tile it is walkable if not it remains unwalkable
-	for(int i = 0; i < pTerrain->GetInstanceCount(); i++)
+	//Get Dimensions
+	kpuVector vDimensions = pTerrain->GetDimensions();
+
+	kpuVector vLocation = pTerrain->GetPosition();
+
+	//Adjuct location to upper left corner of model
+	vLocation -= (vDimensions * 0.5f);
+
+	//Get the tile at center
+	int iTopTile = GetTileAtLocation(vLocation);
+
+	//Make get location of first tile
+	GetTileLocation(iTopTile, vLocation);
+	
+	kpuFixedArray<sGridTile> tilesUsed;
+	tilesUsed.SetSize(vDimensions.GetX() * vDimensions.GetZ());
+
+
+	bool bValid = true;
+
+	//try and fill in tiles 
+	for(int i = 0; i < vDimensions.GetZ(); i++)
 	{
-		kpgVertexBuffer* pVB = pTerrain->GetInstance(i)->GetGeometry()->GetVertexBuffer();
-
-		pVB->Lock();
-
-		for(int j = 0; j < pVB->GetVertexCount(); j++)
+		for(int j = 0; j < vDimensions.GetX(); j++)
 		{
-			kpuVector vPos = pVB->GetPosition(j);
-			
-			if(vPos.GetY() == 0)
+			//Get next tile
+			int iNextTile = GetTileAtLocation( kpuVector(j, 0, i, 0) + vLocation );
+
+			if(m_pTiles[iNextTile].m_bTerrain)
 			{
-				//find the tile and make it walkable
-				int iTile = GetTileAtLocation(vPos);
-				m_pTiles[iTile].m_bWalkable = true;
-			}				
+				//Already covered so can't go here
+				bValid = false;
+				break;
+			}
+
+
+			m_pTiles[iNextTile].m_bTerrain = true;
+			m_pTiles[iNextTile].m_bWalkable = true;
+			tilesUsed.Add(m_pTiles[iNextTile]);
 
 		}
 
-		pVB->Unlock();
-
+		if(!bValid)
+			break;
 	}
 
+	if(!bValid)
+	{
+		for(int i = 0 ; i < tilesUsed.GetNumElementsUsed(); i++)
+		{
+			tilesUsed[i].m_bTerrain = false;
+			tilesUsed[i].m_bWalkable = false;
+		}
+
+		return false;
+	}
+
+	
+	return true;
+}
+
+bool Grid::IsWalkable(int iTile)
+{
+	return m_pTiles[iTile].m_bWalkable;
 }

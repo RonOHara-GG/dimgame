@@ -6,6 +6,7 @@ typedef enum _eLevelID
 {
 	eLID_FrontEnd,
 	eLID_SpaceStation,
+	eLID_Bastarak,
 
 	eLID_Last
 } eLevelID;

@@ -8,8 +8,8 @@ typedef struct _EnemyLoadStructure
 {
 	int iNameLength;
 	int iFileLength;
-    char szName[512];	
-    char szModel[512];
+    char szName[128];	
+    char szModel[2048];
 
     int iLevel;
     int iHealth;

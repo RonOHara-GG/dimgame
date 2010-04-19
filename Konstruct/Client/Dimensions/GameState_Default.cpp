@@ -21,8 +21,8 @@ extern kpuCameraController*	g_pCamera;
 GameState_Default::GameState_Default(void)
 {
 	LevelManager* pLevelManager = LevelManager::GetInstance();
-	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
-
+	//m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
+	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_Bastarak);
 	m_pPlayer = new PlayerCharacter();
 	m_paEnemies = new kpuArrayList<Enemy*>();
 	
@@ -60,7 +60,9 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	
 	// Update the players move target to the new ground point
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
-	m_pPlayer->SetMoveTarget(iTile);
+
+	if ( m_pCurrentLevel->GetGrid()->IsWalkable(iTile) )
+		m_pPlayer->SetMoveTarget(iTile);		
 
 	//If target tile contains an enemy try and attack
 	Actor* pTarget = m_pCurrentLevel->GetGrid()->GetActor(iTile);
