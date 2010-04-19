@@ -43,6 +43,7 @@ static const u32 s_uHash_rotateZ =				0x56858f2e;
 
 kpgModel::kpgModel(void)
 {
+	m_vDimensions = kpuVector(0,0,0,0);
 }
 
 kpgModel::~kpgModel(void)
@@ -281,6 +282,8 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 		pGeometry->CreateIndexBuffer(iIndexCount);
 
 		kpgVertexBuffer* pVertexBuffer = pGeometry->GetVertexBuffer();
+		CalculateDimensions(pPositions->aFloats);
+
 		pVertexBuffer->Lock();
 		for( int i = 0; i < iVertCount; i++ )
 		{
@@ -747,5 +750,63 @@ void kpgModel::Draw(kpgRenderer* pRenderer)
 	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
 	{
 		pRenderer->DrawInstancedGeometry(m_aInstances[i]);
+	}
+}
+
+void kpgModel::RotateY(float fRadians)
+{
+	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
+	{
+		m_aInstances[i]->SetRotation(0.0f, fRadians, 0.0f);
+	}
+
+}
+
+void kpgModel::CalculateDimensions(kpuFixedArray<float>	&aFloats)
+{
+	float fXMin, fXMax, fZMin, fZMax;
+	fXMin = fXMax = aFloats[0];
+	fZMin = fZMax = aFloats[2];
+
+	for(int i = 0; i < aFloats.GetNumElements(); i+=3)
+	{
+		float fNextX = aFloats[i];
+		float fNextZ = aFloats[i + 2];
+		
+		//Check X min/max
+		if ( fNextX < fXMin )
+			fXMin = fNextX;
+		else if ( fNextX > fXMax )
+			fXMax = fNextX;
+
+		//Check Z min/max
+
+		if ( fNextZ < fZMin ) 
+			fZMin = fNextZ;
+		else if ( fNextZ > fZMax)
+			fZMax = fNextZ;
+
+	}
+
+	float fXDim = fXMax - fXMin;
+	float fZDim = fZMax - fZMin;
+
+	if ( fXDim > m_vDimensions.GetX() )
+		m_vDimensions.SetX(fXDim);
+
+	if ( fZDim > m_vDimensions.GetZ() )
+		m_vDimensions.SetZ(fZDim);
+}
+
+kpuVector kpgModel::GetPosition()
+{
+	return m_aInstances[0]->GetMatrix().GetD();
+}
+
+void kpgModel::SetPosition(kpuVector& vPos)
+{
+	for(int i = 0; i < m_aInstances.GetNumElements(); i++)
+	{
+		m_aInstances[i]->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
 	}
 }

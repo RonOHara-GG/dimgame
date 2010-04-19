@@ -26,7 +26,7 @@ public:
 		{
 			for(int i = iIndex + 1; i < m_iNumElements; i++)
 			{
-				m_pData[i] = m_pData[i - 1];
+				m_pData[i - 1] = m_pData[i];
 			}
 
 			m_iNumElements--;

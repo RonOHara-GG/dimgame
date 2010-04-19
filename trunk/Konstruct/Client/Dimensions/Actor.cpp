@@ -9,11 +9,11 @@ Actor::Actor()
 {
 	m_pModel = 0;
 
+	m_fRotation = 0.0f;
 	m_iDestinationTile = -1;
 	m_iCurrentPathNode = -1;
 
 	m_vVelocity = kpuv_Zero;
-	m_vDirection = kpuv_OneZ;
 
 	m_fBaseSpeed = 1.0f;
 
@@ -81,6 +81,8 @@ void Actor::SetLocation(const kpuVector& vNewLoc)
 
 void Actor::UpdateMovement(float fDeltaTime)
 {
+	m_pModel->RotateY(m_fRotation);
+
 	// Check to see if we even should move
 	if( m_iDestinationTile >= 0 )
 	{
@@ -109,6 +111,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 			kpuVector vMyLocation = GetLocation();
 			kpuVector vToTarget = vTargetLocation - vMyLocation;
+
 			vToTarget.SetY(0);
 			float fDistToTarget = vToTarget.Length();
 			if( fDistToTarget < fMoveDelta )
@@ -116,6 +119,8 @@ void Actor::UpdateMovement(float fDeltaTime)
 				fMoveDelta -= fDistToTarget;
 				vMyLocation += vToTarget;
 				SetLocation(vMyLocation);
+				
+
 				m_iCurrentPathNode++;
 
 				//Add actor to current tile
@@ -140,6 +145,15 @@ void Actor::UpdateMovement(float fDeltaTime)
 						return;
 					}
 				}
+
+				m_fRotation = atan2(vToTarget.GetX(),vToTarget.GetZ());
+
+				/*vToTarget.Normalize();
+				m_fRotation = acos(vToTarget.GetZ());
+
+				if(vToTarget.GetX() < 0)
+					m_fRotation += PI;*/
+
 			}
 			else
 			{
@@ -147,6 +161,11 @@ void Actor::UpdateMovement(float fDeltaTime)
 				vToTarget *= 1.0f / fDistToTarget;
 				vMyLocation += vToTarget * fMoveDelta;
 				SetLocation(vMyLocation);
+
+				
+				m_fRotation = atan2(vToTarget.GetX(),vToTarget.GetZ());
+				/*if(vToTarget.GetX() < 0)
+					m_fRotation += PI;*/
 
 				//Add actor to current tile
 				g_pGameState->GetLevel()->GetGrid()->AddActor(this);

@@ -43,6 +43,8 @@ Level::~Level(void)
 
 bool Level::Load(const char* pszLevelFile)
 {
+	kpuArrayList<kpgModel*>* paModules = new kpuArrayList<kpgModel*>();
+
 	bool bRet = false;
 
 	char szFileName[2048];
@@ -70,9 +72,12 @@ bool Level::Load(const char* pszLevelFile)
                         if( uHash == s_uHash_Meshes )
                         {
                                 int iMeshCount = atoi(pElement->Attribute("Count"));
-                                if( m_paModels )
-                                        delete m_paModels;
-                                m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+                               // if( m_paModels )
+                                       // delete m_paModels;
+
+                                //m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+
+								
 
                                 for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
                                 {
@@ -82,29 +87,33 @@ bool Level::Load(const char* pszLevelFile)
                                                 for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
                                                 {
                                                         uHash = StringHash(pEChild2->Value());
-                                                        if( uHash == s_uHash_Data && m_paModels )
+                                                        if( uHash == s_uHash_Data && paModules ) //m_paModels )
                                                         {                                                                               
                                                                 kpgModel* pModel = new kpgModel();                                                                              
                                                                 if( pModel->Load(pEChild2->FirstChild()->Value()) )
                                                                 {
-                                                                        m_paModels->Add(pModel);
+                                                                        //m_paModels->Add(pModel);
+																		paModules->Add(pModel);
                                                                         bRet = true;
                                                                 }
                                                         }
                                                 }
                                         }
                                 }
-                        }
-                                }
+
+
+						}
+				}
 			}
 		}
 	}
 
 
 
-	
+	//attempt to build terrain
+	GenerateTerrain(paModules);
 
-
+	delete paModules;
 
 	return bRet;
 }
@@ -159,7 +168,7 @@ void Level::GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pArray, kpuArrayL
 		Enemy* pEnemy = new Enemy((*pArray)[iType], pModel);
 
 		//get random location
-		kpuVector vPos(rand() % (int)vGridDim.GetX(), 0.0, rand() % (int)vGridDim.GetZ(), 0);
+		kpuVector vPos((vGridDim.GetX() / 2 * -1) + rand() % (int)vGridDim.GetX(), 0.0,(vGridDim.GetZ() / 2 * -1) + rand() % (int)vGridDim.GetZ(), 0);
 
 		pEnemy->SetMoveTarget(m_pLevelGrid->GetTileAtLocation(vPos));
 
@@ -215,3 +224,74 @@ void Level::Draw(kpgRenderer* pRenderer)
 	}
 }
 
+void Level::GenerateTerrain(kpuArrayList<kpgModel*>* paModules)
+{
+	if( m_paModels )
+       delete m_paModels;
+
+    m_paModels = new kpuFixedArray<kpgModel*>(paModules->Count());
+
+	//Get the first module to build from
+	int iModule = rand() % paModules->Count();
+	kpgModel* module = (*paModules)[iModule];
+
+	if ( m_pLevelGrid->AddTerrain(module) )
+	{
+		//Add to list of final terrain
+		m_paModels->Add(module);
+		paModules->RemoveAt(iModule);
+
+		//Keep adding until avilable modules are all used
+		while ( paModules->Count() > 0 )
+		{
+			//Get another module
+			module = (*paModules)[0];
+
+			//Build off of a random terrain already added
+			kpgModel* base = (*m_paModels)[rand() % m_paModels->GetNumElementsUsed() ];
+
+			//Find which end to build from for now
+			kpuVector vBuildNorm(0,0,0,0);
+
+			do 
+			{
+				float fNorm = 0.0f;
+
+				//Find the build norm
+				while (fNorm == 0.0f)
+				{
+					fNorm = -1 + rand() % 3;
+					vBuildNorm.SetX(fNorm);
+
+					if ( vBuildNorm.GetX() == 0.0f )
+					{
+						fNorm = -1 + rand() % 3;
+						vBuildNorm.SetZ(fNorm);
+					}
+				}
+
+				kpuVector vLocation = base->GetPosition();
+
+				//Get location at end where we will build
+				vLocation += kpuVector( ( base->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( base->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);
+
+				//add in the dimensions the piece we are building
+				vLocation += kpuVector( ( module->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( module->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);			
+
+				module->SetPosition(vLocation);
+
+			}while( !m_pLevelGrid->AddTerrain(module) );
+
+			paModules->RemoveAt(0);
+			m_paModels->Add(module);
+
+		}
+	}
+
+
+
+
+
+
+
+}

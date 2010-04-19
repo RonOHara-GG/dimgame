@@ -109,8 +109,9 @@ protected:
 
 	//Movement varibles	
 	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit
+	float			m_fRotation;
 	kpuVector		m_vVelocity;
-	kpuVector		m_vDirection;
+	
 
 	//Stats
 	int				m_iLevel;
@@ -148,5 +149,5 @@ protected:
 };
 
 #define DEFAULT_MELEE_RANGE 1
-
+#define PI 3.141592
 
