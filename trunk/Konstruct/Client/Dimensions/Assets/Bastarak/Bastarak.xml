@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Level Name="Bastarak" Width="150" Height="150">
-  <Meshes Count="2">
+  <Meshes Count="3">
     <Mesh>
 		<Data>Assets/Modules/TestRoom1.dae</Data>
-		<Data>Assets/Modules/TestRoom2.dae</Data>		
+		<Data>Assets/Modules/TestRoom2.dae</Data>	
+		<Data>Assets/Modules/TestRoom1.dae</Data>		
     </Mesh>
   </Meshes>
 </Level>

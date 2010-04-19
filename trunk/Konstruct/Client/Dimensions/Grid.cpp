@@ -152,6 +152,16 @@ bool Grid::AddTerrain(kpgModel* pTerrain)
 	//Adjuct location to upper left corner of model
 	vLocation -= vDimensions * 0.5f;
 
+	//Make sure the object fits in the map
+	if ( vLocation.GetX() < -m_iWidth )
+		return false;
+	else if ( vLocation.GetX() + vDimensions.GetX() > m_iWidth )
+		return false;
+	else if ( vLocation.GetZ() < -m_iHeight )
+		return false;
+	else if ( vLocation.GetZ() + vDimensions.GetZ() > m_iHeight )
+		return false;
+
 	//Get the tile at start
 	int iTopTile = GetTileAtLocation(vLocation);
 
