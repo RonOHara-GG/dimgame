@@ -260,10 +260,15 @@ void Level::GenerateTerrain(kpuArrayList<kpgModel*>* paModules)
 				//Find the build norm
 				while (fNorm == 0.0f)
 				{
-					fNorm = -1 + rand() % 3;
-					vBuildNorm.SetX(fNorm);
+					int XorZ = rand() % 2;
 
-					if ( vBuildNorm.GetX() == 0.0f )
+					if(XorZ == 0 )
+					{
+						fNorm = -1 + rand() % 3;
+						vBuildNorm.SetX(fNorm);
+					}
+
+					if ( XorZ == 1 )
 					{
 						fNorm = -1 + rand() % 3;
 						vBuildNorm.SetZ(fNorm);
@@ -276,7 +281,14 @@ void Level::GenerateTerrain(kpuArrayList<kpgModel*>* paModules)
 				vLocation += kpuVector( ( base->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( base->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);
 
 				//add in the dimensions the piece we are building
-				vLocation += kpuVector( ( module->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( module->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);			
+				vLocation += kpuVector( ( module->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( module->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);	
+
+				//Set location anywhere along width of base edge
+				if ( vBuildNorm.GetX() != 0 )
+					vLocation.SetZ( vLocation.GetZ() + (int)( -1 * base->GetDimensions().GetZ() / 2 ) + ( rand() % (int)base->GetDimensions().GetZ() ));
+				else
+					vLocation.SetX( vLocation.GetX() + (int)( -1 * base->GetDimensions().GetX() / 2 ) + ( rand() % (int)base->GetDimensions().GetX() ));
+				
 
 				module->SetPosition(vLocation);
 

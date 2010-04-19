@@ -53,8 +53,8 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 	//			Will need to fix this at some point probably.
 
 	//Make sure the end tile is a walkable choice to even move to
-	/*if(!m_pTiles[iEndTile].m_bWalkable)
-		return false;*/
+	if(!m_pTiles[iEndTile].m_bWalkable)
+		return false;
 
 	kpuVector vStartTile, vEndTile;
 	GetTileLocation(iStartTile, vStartTile);
@@ -150,14 +150,14 @@ bool Grid::AddTerrain(kpgModel* pTerrain)
 	kpuVector vLocation = pTerrain->GetPosition();
 
 	//Adjuct location to upper left corner of model
-	vLocation -= (vDimensions * 0.5f);
+	vLocation -= vDimensions * 0.5f;
 
-	//Get the tile at center
+	//Get the tile at start
 	int iTopTile = GetTileAtLocation(vLocation);
 
 	//Make get location of first tile
-	GetTileLocation(iTopTile, vLocation);
-	
+	GetTileLocation(iTopTile, vLocation);	
+
 	kpuFixedArray<sGridTile> tilesUsed;
 	tilesUsed.SetSize(vDimensions.GetX() * vDimensions.GetZ());
 
