@@ -21,6 +21,7 @@ public:
 	virtual void Draw(kpgRenderer* pRenderer);
 
 	virtual void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
+	virtual void CancelMovement() { m_iCurrentPathNode = -1; m_iDestinationTile = -1; }
 
 	virtual kpuVector GetLocation();
 	virtual void SetLocation(const kpuVector& vNewLoc);
