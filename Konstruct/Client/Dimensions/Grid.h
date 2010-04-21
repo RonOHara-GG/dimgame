@@ -8,6 +8,7 @@
 
 class Actor;
 class GameObject;
+class TerrainModule;
 
 #define NUM_DIRECTIONS	8
 
@@ -39,6 +40,7 @@ public:
 	Grid(int iWidth, int iHeight);
 	~Grid(void);
 
+	int			GetNumOfTiles() { return m_iWidth * m_iHeight; }
 	int			GetTileAtLocation(const kpuVector& vLocation);
 	void		GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
 	bool		AddActor(Actor* pActor); //Add actor to the gird, if an actor is already on the tile return false else return ture
@@ -46,7 +48,7 @@ public:
 	bool		IsWalkable(int iTile); //Determines if a tile is walkable or not
 
 	bool		BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
-	bool		AddTerrain(kpgModel* pTerrain); //Add a piece of terrain to the grid if tiles not occupied
+	int 		AddTerrain(TerrainModule* pTerrain, int iTile); //Add a piece of terrain to the grid if tiles not occupied at give tile
 	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile
 	Actor*		GetActor(int iTile) { return m_pTiles[iTile].m_Actor; } //Get the actor at the target tile
 	kpuVector	GetDimensions() { return kpuVector(m_iWidth, 0, m_iHeight, 0); }

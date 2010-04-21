@@ -4,6 +4,7 @@
 #include "LoadStructures.h"
 
 class kpgModel;
+class TerrainModule;
 class kpgRenderer;
 class Grid;
 class Enemy;
@@ -26,13 +27,13 @@ public:
 
 protected:
 	
-	Grid*						m_pLevelGrid; //The tile grid of the current level
-	char						m_szName[64];
-	kpuFixedArray<kpgModel*>*	m_paModels;
-	kpuFixedArray<kpgModel*>*	m_paEnemyModels;
+	Grid*							m_pLevelGrid; //The tile grid of the current level
+	char						    m_szName[64];
+	kpuArrayList<TerrainModule*>*		m_paModels;
+	kpuFixedArray<kpgModel*>*		m_paEnemyModels;
 
 	void LoadEnemyType(const char* szFilename, kpuFixedArray<EnemyLoadStructure>* pArray);
 	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pArray, kpuArrayList<Enemy*> *pEnemies, int iSize);
-	void GenerateTerrain(kpuArrayList<kpgModel*>* paModules);
+	void GenerateTerrain(kpuArrayList<TerrainModule*>* paModules);
 	
 };

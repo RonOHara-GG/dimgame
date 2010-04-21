@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Grid.h"
 #include "Actor.h"
+#include "TerrainModule.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgVertexBuffer.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
@@ -142,37 +143,31 @@ bool Grid::RemoveActor(Actor* pActor)
 	return true;
 }
 
-bool Grid::AddTerrain(kpgModel* pTerrain)
+int Grid::AddTerrain(TerrainModule* pTerrain, int iTile)
 {
 	//Get Dimensions
 	kpuVector vDimensions = pTerrain->GetDimensions();
 
-	kpuVector vLocation = pTerrain->GetPosition();
+	//Move terrain to the given tile
+	kpuVector vLocation;
 
-	//Adjuct location to upper left corner of model
-	vLocation -= vDimensions * 0.5f;
+	//Get and set the new location of the model
+	GetTileLocation(iTile, vLocation);
+	vLocation -= kpuVector(0.5f, 0, 0.5f, 0);
+	vLocation += vDimensions * 0.5f;
+	pTerrain->GetModel()->SetPosition(vLocation);
 
 	//Make sure the object fits in the map
-	if ( vLocation.GetX() < -m_iWidth )
-		return false;
-	else if ( vLocation.GetX() + vDimensions.GetX() > m_iWidth )
-		return false;
-	else if ( vLocation.GetZ() < -m_iHeight )
-		return false;
-	else if ( vLocation.GetZ() + vDimensions.GetZ() > m_iHeight )
-		return false;
+	if( iTile % m_iWidth + vDimensions.GetX() > m_iWidth )
+		return iTile;
+	if( iTile + vDimensions.GetZ() > GetNumOfTiles() )
+		return iTile;
 
-	//Get the tile at start
-	int iTopTile = GetTileAtLocation(vLocation);
-
-	//Make get location of first tile
-	GetTileLocation(iTopTile, vLocation);	
-
-	kpuFixedArray<sGridTile> tilesUsed;
+	//Array to hold the tiles this terrain takes up, in case we have to undo what we did
+	kpuFixedArray<sGridTile*> tilesUsed;
 	tilesUsed.SetSize(vDimensions.GetX() * vDimensions.GetZ());
 
-
-	bool bValid = true;
+	int iRet = -1;
 
 	//try and fill in tiles 
 	for(int i = 0; i < vDimensions.GetZ(); i++)
@@ -180,42 +175,148 @@ bool Grid::AddTerrain(kpgModel* pTerrain)
 		for(int j = 0; j < vDimensions.GetX(); j++)
 		{
 			//Get next tile
-			int iNextTile = GetTileAtLocation( kpuVector(j, 0, i, 0) + vLocation );
+			//int iNextTile = GetTileAtLocation( kpuVector(j, 0, i, 0) + vLocation );
+
+			int iNextTile = iTile + ( i * m_iWidth ) + j;
 
 			if(m_pTiles[iNextTile].m_bTerrain)
 			{
 				//Already covered so can't go here
-				bValid = false;
+				iRet = iTile;
 				break;
 			}
 
 
 			m_pTiles[iNextTile].m_bTerrain = true;
 			m_pTiles[iNextTile].m_bWalkable = true;
-			tilesUsed.Add(m_pTiles[iNextTile]);
+			tilesUsed.Add(&m_pTiles[iNextTile]);
 
 		}
 
-		if(!bValid)
+		
+
+		if(iRet == iTile)
 			break;
 	}
 
-	if(!bValid)
+	//Fill in any tiles with walls as unwalkable
+	kpuArrayList<kpuVector>* paWalls = pTerrain->GetWalls();
+
+	for(int i = 0; i < paWalls->Count(); i++)
+	{
+		kpuVector vWall = (*paWalls)[i];
+
+		//Unnormalize the sides of the terrain the doors are on
+		vWall.SetX( vWall.GetX() * ( vDimensions.GetX() - 1 ) );
+		vWall.SetY( vWall.GetY() * ( vDimensions.GetZ() - 1 ) );
+		
+		int iNextTile = iTile;
+
+		iNextTile += vWall.GetX();
+		iNextTile += vWall.GetY() * m_iWidth;			
+
+		//Add offset from corner
+		iNextTile += vWall.GetZ();
+
+		for(int j = 0; j < vWall.GetW(); j++)
+		{
+			m_pTiles[iNextTile].m_bWalkable = false;
+
+			int iIncrement = 1;
+
+			//if we are at the max Z then the move will be negaive from here
+			if( vWall.GetY() == vDimensions.GetZ() - 1 )
+				iIncrement *= -1;
+
+			if( ( vWall.GetX() == vDimensions.GetX() - 1 && vWall.GetY() == vDimensions.GetZ() - 1 ) || ( vWall.GetX() == 0.0f && vWall.GetY() == 0.0f ))
+					iNextTile += iIncrement;
+			else
+				iNextTile += m_iWidth * iIncrement;
+
+			
+		}
+
+
+	}
+
+	//Now fill in any doors
+	kpuArrayList<kpuVector>* paDoors = pTerrain->GetDoors();
+
+	for(int i = 0; i < paDoors->Count(); i++)
+	{
+		kpuVector vDoor = (*paDoors)[i];		
+
+		//Unnormalize the sides of the terrain the doors are on
+		vDoor.SetX( vDoor.GetX() * ( vDimensions.GetX() - 1 ) );
+		vDoor.SetZ( vDoor.GetZ() * ( vDimensions.GetZ() - 1 ) );
+		
+		int iDoorTile = iTile;
+
+		iDoorTile += vDoor.GetX();
+		iDoorTile += vDoor.GetZ() * m_iWidth;
+
+		int iSign = 1;
+
+		//if we are at the max Z then the move will be negaive from here
+		if( vDoor.GetZ() == vDimensions.GetZ() - 1 )
+			iSign = -1;	
+
+		int iTestTile = iDoorTile;
+
+		if( ( vDoor.GetX() == vDimensions.GetX() - 1 && vDoor.GetZ() == vDimensions.GetZ() - 1 ) || ( vDoor.GetX() == 0.0f && vDoor.GetZ() == 0.0f ))
+		{				
+			iDoorTile += vDoor.GetW() * iSign;
+			iTestTile = iDoorTile + m_iWidth * -iSign;
+		}
+		else
+		{
+			iDoorTile += m_iWidth * vDoor.GetW() * iSign;
+			iTestTile = iDoorTile + -iSign;
+		}
+
+		//Make sure tile doesn't lead off the grid and make sure if it isn't walkable it isn't covered by another peice of terrain
+		if( ( iDoorTile % m_iWidth - 1 == 0 || iDoorTile % m_iWidth == 0 || iTestTile > GetNumOfTiles() || iTestTile < 0 )
+					|| ( !m_pTiles[iTestTile].m_bWalkable &&  m_pTiles[iTestTile].m_bTerrain ) )
+		{
+			iRet = iTile;
+			break;
+		}
+
+		m_pTiles[iDoorTile].m_bWalkable = true;
+	}
+
+	//tile cannot go here, undo what we changed
+	if(iRet == iTile)
 	{
 		for(int i = 0 ; i < tilesUsed.GetNumElementsUsed(); i++)
 		{
-			tilesUsed[i].m_bTerrain = false;
-			tilesUsed[i].m_bWalkable = false;
+			tilesUsed[i]->m_bTerrain = false;
+			tilesUsed[i]->m_bWalkable = false;
 		}
 
-		return false;
+		return iRet;
 	}
-
 	
-	return true;
+	//Get the next tile to start from
+	iTile += vDimensions.GetX();
+		
+	//If next tile is off the grid move down a level
+	if( iTile % m_iWidth == 0 )
+	{
+		iTile = 0;
+
+		while(iTile < GetNumOfTiles() && m_pTiles[iTile].m_bTerrain )
+			iTile += m_iWidth;
+
+	}
+	
+	return iTile;
 }
 
 bool Grid::IsWalkable(int iTile)
 {
+	if( iTile < 0 || iTile > GetNumOfTiles() )
+		return false;
+
 	return m_pTiles[iTile].m_bWalkable;
 }
