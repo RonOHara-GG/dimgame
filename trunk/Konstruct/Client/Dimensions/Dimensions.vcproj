@@ -257,6 +257,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\TerrainModule.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Tile.cpp"
 				>
 			</File>
@@ -360,6 +364,10 @@
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TerrainModule.h"
 				>
 			</File>
 			<File

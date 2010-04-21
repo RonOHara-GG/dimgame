@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level Name="Bastarak" Width="150" Height="150">
-  <Meshes Count="3">
+<Level Name="Bastarak" Width="128" Height="128">
+  <Meshes Count="4">
     <Mesh>
-		<Data>Assets/Modules/TestRoom1.dae</Data>
-		<Data>Assets/Modules/TestRoom2.dae</Data>	
-		<Data>Assets/Modules/TestRoom1.dae</Data>		
+		<Data File="Assets/Modules/TestRoom1.dae" Width="32" Height="32">
+			<Doors Count="4">1 0 1 15 1 0 1 16 1 0 0 16 1 0 0 17</Doors>
+			<Walls Count="4">0 0 0 32 1 0 0 32 1 1 0 32 0 1 0 32</Walls>
+		</Data>	
+		<Data File="Assets/Modules/TestRoom2.dae" Width="32" Height="32">
+			<Doors Count="6">1 0 1 15 1 0 1 16 1 0 0 16 1 0 0 17 0 0 0 15 0 0 0 14</Doors>
+			<Walls Count="4">0 0 0 32 1 0 0 32 1 1 0 32 0 1 0 32</Walls>
+		</Data>	
+		<Data File="Assets/Modules/TestRoom3.dae" Width="32" Height="32">
+			<Doors Count="8">1 0 1 15 1 0 1 16 1 0 0 16 1 0 0 17 0 0 0 15 0 0 0 14 0 0 1 14 0 0 1 15</Doors>
+			<Walls Count="4">0 0 0 32 1 0 0 32 1 1 0 32 0 1 0 32</Walls>
+		</Data>	
+		<Data File="Assets/Modules/TestRoom4.dae" Width="32" Height="32">
+			<Doors Count="0"></Doors>
+			<Walls Count="0"></Walls>
+		</Data>	
     </Mesh>
   </Meshes>
 </Level>

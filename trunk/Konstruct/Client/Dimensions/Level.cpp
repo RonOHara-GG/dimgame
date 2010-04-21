@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include <time.h>
 #include "LoadStructures.h"
+#include "TerrainModule.h"
 
 
 static const u32 s_uHash_Name =		0x7c898026;
@@ -31,9 +32,9 @@ Level::~Level(void)
 {
 	if( m_paModels )
 	{
-		for( int i = 0; i < m_paModels->GetNumElements(); i++ )
+		for( int i = 0; i < m_paModels->Count(); i++ )
 		{
-			kpgModel* pModel = m_paModels->GetElement(i);
+			TerrainModule* pModel = (*m_paModels)[i];
 			if( pModel )
 				delete pModel;
 		}
@@ -43,7 +44,7 @@ Level::~Level(void)
 
 bool Level::Load(const char* pszLevelFile)
 {
-	kpuArrayList<kpgModel*>* paModules = new kpuArrayList<kpgModel*>();
+	kpuArrayList<TerrainModule*>* paModules = new kpuArrayList<TerrainModule*>();
 
 	bool bRet = false;
 
@@ -75,9 +76,7 @@ bool Level::Load(const char* pszLevelFile)
                                // if( m_paModels )
                                        // delete m_paModels;
 
-                                //m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
-
-								
+                                //m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);								
 
                                 for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
                                 {
@@ -88,14 +87,21 @@ bool Level::Load(const char* pszLevelFile)
                                                 {
                                                         uHash = StringHash(pEChild2->Value());
                                                         if( uHash == s_uHash_Data && paModules ) //m_paModels )
-                                                        {                                                                               
-                                                                kpgModel* pModel = new kpgModel();                                                                              
-                                                                if( pModel->Load(pEChild2->FirstChild()->Value()) )
-                                                                {
-                                                                        //m_paModels->Add(pModel);
-																		paModules->Add(pModel);
-                                                                        bRet = true;
-                                                                }
+                                                        {                
+															TerrainModule* mod = new TerrainModule();
+															if( mod->Load(pEChild2) )
+															{
+																paModules->Add(mod);
+																bRet = true;
+															}
+
+                  //                                              kpgModel* pModel = new kpgModel();                                                                              
+                  //                                              if( pModel->Load(pEChild2->FirstChild()->Value()) )
+                  //                                              {
+                  //                                                      //m_paModels->Add(pModel);
+																		//paModules->Add(pModel);
+                  //                                                      bRet = true;
+                  //                                              }
                                                         }
                                                 }
                                         }
@@ -217,88 +223,131 @@ void Level::Draw(kpgRenderer* pRenderer)
 {
 	if( m_paModels )
 	{
-		for( int i = 0; i < m_paModels->GetNumElements(); i++ )
+		for( int i = 0; i < m_paModels->Count(); i++ )
 		{
 			(*m_paModels)[i]->Draw(pRenderer);
 		}
 	}
 }
 
-void Level::GenerateTerrain(kpuArrayList<kpgModel*>* paModules)
+void Level::GenerateTerrain(kpuArrayList<TerrainModule*>* paModules)
 {
 	if( m_paModels )
        delete m_paModels;
 
-    m_paModels = new kpuFixedArray<kpgModel*>(paModules->Count());
+    m_paModels = new kpuArrayList<TerrainModule*>();
 
-	//Get the first module to build from
-	int iModule = rand() % paModules->Count();
-	kpgModel* module = (*paModules)[iModule];
+	/*TerrainModule* module = (*paModules)[2];
 
-	if ( m_pLevelGrid->AddTerrain(module) )
+	int iRotations = rand() % 4;
+
+	module->RotateClockWise(iRotations);
+
+	m_pLevelGrid->AddTerrain(module, 8112);
+
+	m_paModels->Add(module);*/
+
+	int iTile = 0;
+
+	//go until all tiles are filled
+	while( iTile < m_pLevelGrid->GetNumOfTiles() )
 	{
-		//Add to list of final terrain
-		m_paModels->Add(module);
-		paModules->RemoveAt(iModule);
+		//add random piece to start of map
+		TerrainModule* module = (*paModules)[rand() % paModules->Count()];
+		module = module->CreateCopy();
 
-		//Keep adding until avilable modules are all used
-		while ( paModules->Count() > 0 )
+		int iRotations = rand() % 4;
+
+		module->RotateClockWise(iRotations);
+
+		int iNextTile = m_pLevelGrid->AddTerrain(module, iTile);
+
+		//Check if the peice was added
+		if( iNextTile != iTile )
 		{
-			//Get another module
-			module = (*paModules)[0];
-
-			//Build off of a random terrain already added
-			kpgModel* base = (*m_paModels)[rand() % m_paModels->GetNumElementsUsed() ];
-
-			//Find which end to build from for now
-			kpuVector vBuildNorm(0,0,0,0);
-
-			do 
-			{
-				float fNorm = 0.0f;
-
-				//Find the build norm
-				while (fNorm == 0.0f)
-				{
-					int XorZ = rand() % 2;
-
-					if(XorZ == 0 )
-					{
-						fNorm = -1 + rand() % 3;
-						vBuildNorm.SetX(fNorm);
-					}
-
-					if ( XorZ == 1 )
-					{
-						fNorm = -1 + rand() % 3;
-						vBuildNorm.SetZ(fNorm);
-					}
-				}
-
-				kpuVector vLocation = base->GetPosition();
-
-				//Get location at end where we will build
-				vLocation += kpuVector( ( base->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( base->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);
-
-				//add in the dimensions the piece we are building
-				vLocation += kpuVector( ( module->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( module->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);	
-
-				//Set location anywhere along width of base edge
-				if ( vBuildNorm.GetX() != 0 )
-					vLocation.SetZ( vLocation.GetZ() + (int)( -1 * base->GetDimensions().GetZ() / 2 ) + ( rand() % (int)base->GetDimensions().GetZ() ));
-				else
-					vLocation.SetX( vLocation.GetX() + (int)( -1 * base->GetDimensions().GetX() / 2 ) + ( rand() % (int)base->GetDimensions().GetX() ));
-				
-
-				module->SetPosition(vLocation);
-
-			}while( !m_pLevelGrid->AddTerrain(module) );
-
-			paModules->RemoveAt(0);
 			m_paModels->Add(module);
 
+			//Get next build location
+			iTile = iNextTile;
 		}
+		else
+			delete module;
 	}
+
+
+	
+
+	//if ( m_pLevelGrid->AddTerrain(module) )
+	//{
+	//	//Add to list of final terrain
+	//	m_paModels->Add(module);
+	//	paModules->RemoveAt(iModule);
+
+	//	//Keep adding until avilable modules are all used
+	//	while ( paModules->Count() > 0 )
+	//	{
+	//		//Get another module
+	//		module = (*paModules)[0];
+
+	//		//Build off of a random terrain already added
+	//		TerrainModule* base = (*m_paModels)[rand() % m_paModels->GetNumElementsUsed() ];
+
+	//		//Find which end to build from for now
+	//		kpuVector vBuildNorm(0,0,0,0);
+
+
+	//		do 
+	//		{				
+	//			float fNorm = 0.0f;
+
+	//			//Find the build norm
+	//			while (fNorm == 0.0f)
+	//			{
+	//				int XorZ = rand() % 2;
+
+	//				if(XorZ == 0 )
+	//				{
+	//					fNorm = -1 + rand() % 3;
+	//					vBuildNorm.SetX(fNorm);
+	//				}
+
+	//				if ( XorZ == 1 )
+	//				{
+	//					fNorm = -1 + rand() % 3;
+	//					vBuildNorm.SetZ(fNorm);
+	//				}
+
+	//				iRotations = 3;
+	//			}
+	//		
+
+	//			kpuVector vLocation = base->GetPosition();
+
+	//			//Get location at end where we will build
+	//			vLocation += kpuVector( ( base->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( base->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);
+
+	//			//add in the dimensions of the piece we are building
+	//			vLocation += kpuVector( ( module->GetDimensions().GetX() / 2 ) * vBuildNorm.GetX(), 0, ( module->GetDimensions().GetZ() / 2 ) * vBuildNorm.GetZ(), 0);	
+
+	//			//Set location anywhere along width of base edge
+	//			if ( vBuildNorm.GetX() != 0 )
+	//				vLocation.SetZ( vLocation.GetZ() + (int)( -1 * base->GetDimensions().GetZ() / 2 ) + ( rand() % (int)base->GetDimensions().GetZ() ));
+	//			else
+	//				vLocation.SetX( vLocation.GetX() + (int)( -1 * base->GetDimensions().GetX() / 2 ) + ( rand() % (int)base->GetDimensions().GetX() ));
+	//			
+
+	//			module->GetModel()->SetPosition(vLocation);
+
+
+	//		}while( !m_pLevelGrid->AddTerrain(module));
+
+	//		
+	//			paModules->RemoveAt(0);
+	//			m_paModels->Add(module);
+	//	
+
+	//	}
+	//}
 
 
 
