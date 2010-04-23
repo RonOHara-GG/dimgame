@@ -20,7 +20,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
 
-	m_fBaseSpeed = 1.3f;
+	m_fBaseSpeed = 10.0f;
 
 	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
 

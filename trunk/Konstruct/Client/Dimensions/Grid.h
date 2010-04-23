@@ -45,10 +45,9 @@ public:
 	void		GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
 	bool		AddActor(Actor* pActor); //Add actor to the gird, if an actor is already on the tile return false else return ture
 	bool		RemoveActor(Actor* pActor);//Remove actor from his current tile, if he is not found on the current tile return false
-	bool		IsWalkable(int iTile); //Determines if a tile is walkable or not
+	
 
 	bool		BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
-	int 		AddTerrain(TerrainModule* pTerrain, int iTile); //Add a piece of terrain to the grid if tiles not occupied at give tile
 	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile
 	Actor*		GetActor(int iTile) { return m_pTiles[iTile].m_Actor; } //Get the actor at the target tile
 	kpuVector	GetDimensions() { return kpuVector(m_iWidth, 0, m_iHeight, 0); }

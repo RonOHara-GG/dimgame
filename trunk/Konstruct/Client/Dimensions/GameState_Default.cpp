@@ -61,10 +61,8 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	// Update the players move target to the new ground point
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
 
-	if ( m_pCurrentLevel->GetGrid()->IsWalkable(iTile) )
-		m_pPlayer->SetMoveTarget(iTile);
-	else
-		m_pPlayer->CancelMovement();
+	m_pPlayer->SetMoveTarget(iTile);
+	
 
 	//If target tile contains an enemy try and attack
 	Actor* pTarget = m_pCurrentLevel->GetGrid()->GetActor(iTile);

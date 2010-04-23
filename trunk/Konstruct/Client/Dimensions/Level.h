@@ -4,7 +4,7 @@
 #include "LoadStructures.h"
 
 class kpgModel;
-class TerrainModule;
+class kpgTerrainModel;
 class kpgRenderer;
 class Grid;
 class Enemy;
@@ -29,11 +29,11 @@ protected:
 	
 	Grid*							m_pLevelGrid; //The tile grid of the current level
 	char						    m_szName[64];
-	kpuArrayList<TerrainModule*>*		m_paModels;
+	kpgTerrainModel*				m_pTerrain;
 	kpuFixedArray<kpgModel*>*		m_paEnemyModels;
 
 	void LoadEnemyType(const char* szFilename, kpuFixedArray<EnemyLoadStructure>* pArray);
 	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pArray, kpuArrayList<Enemy*> *pEnemies, int iSize);
-	void GenerateTerrain(kpuArrayList<TerrainModule*>* paModules);
+	
 	
 };
