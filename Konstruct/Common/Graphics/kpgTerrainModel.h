@@ -32,4 +32,6 @@ private:
 		Space(int x = 0, int y= 0, int w= 0, int h= 0) { iX = x; iY = y; iWidth = w; iHeight = h; }
 	};
 
+	bool SpacesMatch(int iDoorS1, int iDoorE1, int iDoorS2, int iDoorE2, int iLength);
+
 };

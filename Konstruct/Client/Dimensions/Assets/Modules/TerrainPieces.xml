@@ -1,64 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
- <Modules Count="6">
-	<Data File="Assets/Modules/TestRoom4.dae" Width="32" Height="32">
-		<Door Side="Top">-1</Door>
-		<Door Side="Right">-1</Door>
-		<Door Side="Bottom">-1</Door>
-		<Door Side="Left">-1</Door>		
-		<Wall Side="Top">-1</Wall>
-		<Wall Side="Right">-1</Wall>
-		<Wall Side="Bottom">-1</Wall>
-		<Wall Side="Left">-1</Wall>
+ <Modules Count="7">	
+	<!-- The doors are stored as followed: start tile of door, # of tiles door spaces.
+		If the side has no holes in the wall on one side store it as 0 0 if it has no walls
+		store it as - 1 0 -->
+	<Data File="Assets/Modules/TestRoom3.dae" Width="32" Height="32">
+		<Door Side="Top">14 2</Door>
+		<Door Side="Right">16 2</Door>
+		<Door Side="Bottom">15 2</Door>
+		<Door Side="Left">14 2</Door>		
 	</Data>	
+	<Data File="Assets/Modules/SquareRoom_8X8.dae" Width="8" Height="8">
+		<Door Side="Top">0 0</Door>
+		<Door Side="Right">0 0</Door>
+		<Door Side="Bottom">3 2</Door>
+		<Door Side="Left">0 0</Door>		
+	</Data>		
 	<Data File="Assets/Modules/TestRoom2.dae" Width="32" Height="32">
 		<Door Side="Top">14 2</Door>
 		<Door Side="Right">16 2</Door>
 		<Door Side="Bottom">15 2</Door>
-		<Door Side="Left">-1</Door>		
-		<Wall Side="Top">0 32 </Wall>
-		<Wall Side="Right">0 32 </Wall>
-		<Wall Side="Bottom">0 32</Wall>
-		<Wall Side="Left">0 32</Wall>
+		<Door Side="Left">0 0</Door>		
 	</Data>	
 	<Data File="Assets/Modules/LongRoom_16X8.dae" Width="16" Height="8">
-		<Door Side="Top">-1</Door>
+		<Door Side="Top">0 0</Door>
 		<Door Side="Right">3 2</Door>
-		<Door Side="Bottom">3 2</Door>
-		<Door Side="Left">-1</Door>		
-		<Wall Side="Top">0 16</Wall>
-		<Wall Side="Right">0 8</Wall>
-		<Wall Side="Bottom">0 16</Wall>
-		<Wall Side="Left">0 8</Wall>
-	</Data>	
-	<Data File="Assets/Modules/TestRoom3.dae" Width="32" Height="32">
-		<Door Side="Top">14</Door>
-		<Door Side="Right">16</Door>
-		<Door Side="Bottom">15</Door>
-		<Door Side="Left">14</Door>		
-		<Wall Side="Top">0 32 </Wall>
-		<Wall Side="Right">0 32 </Wall>
-		<Wall Side="Bottom">0 32</Wall>
-		<Wall Side="Left">0 32</Wall>
-	</Data>
-<Data File="Assets/Modules/SquareRoom_8X8.dae" Width="8" Height="8">
-		<Door Side="Top">-1</Door>
-		<Door Side="Right">-1</Door>
-		<Door Side="Bottom">3 2</Door>
-		<Door Side="Left">-1</Door>		
-		<Wall Side="Top">0 8</Wall>
-		<Wall Side="Right">0 8</Wall>
-		<Wall Side="Bottom">0 8</Wall>
-		<Wall Side="Left">0 8</Wall>
+		<Door Side="Bottom">0 0</Door>
+		<Door Side="Left">3 2</Door>		
 	</Data>	
 	<Data File="Assets/Modules/LoneTile_2X2.dae" Width="2" Height="2">
-		<Door Side="Top">-1</Door>
-		<Door Side="Right">-1</Door>
-		<Door Side="Bottom">-1</Door>
-		<Door Side="Left">-1</Door>		
-		<Wall Side="Top">-1</Wall>
-		<Wall Side="Right">-1</Wall>
-		<Wall Side="Bottom">-1</Wall>
-		<Wall Side="Left">-1</Wall>
+		<Door Side="Top">-1 0</Door>
+		<Door Side="Right">-1 0</Door>
+		<Door Side="Bottom">-1 0</Door>
+		<Door Side="Left">-1 0</Door>		
+	</Data>
+	<Data File="Assets/Modules/Empty_4X4.dae" Width="4" Height="4">
+		<Door Side="Top">-1 0</Door>
+		<Door Side="Right">-1 0</Door>
+		<Door Side="Bottom">-1 0</Door>
+		<Door Side="Left">-1 0</Door>			
 	</Data>	
-	
+	<Data File="Assets/Modules/Empty_8X8.dae" Width="8" Height="8">
+		<Door Side="Top">-1 0</Door>
+		<Door Side="Right">-1 0</Door>
+		<Door Side="Bottom">-1 0</Door>
+		<Door Side="Left">-1 0</Door>			
+	</Data>	
+
+
 </Modules> 
