@@ -146,6 +146,7 @@ bool Grid::TileWalkable(int iTile)
 {
 	if( iTile < 0 || iTile >= m_iHeight * m_iWidth )
 		return false;
+
 }
 
 

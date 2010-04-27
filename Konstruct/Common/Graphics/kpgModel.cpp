@@ -774,3 +774,9 @@ void kpgModel::SetPosition(kpuVector& vPos)
 		m_aInstances[i]->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
 	}
 }
+
+void kpgModel::SetGeometryInstance(kpgGeometryInstance* pInst)
+{
+	m_aInstances.SetSize(1);
+	m_aInstances.Add(new kpgGeometryInstance(pInst->GetGeometry()));
+}

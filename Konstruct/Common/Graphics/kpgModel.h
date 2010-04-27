@@ -37,6 +37,8 @@ public:
 
 	int GetInstanceCount()									{ return m_aInstances.GetNumElements(); }
 	kpgGeometryInstance* GetInstance(int iIndex)			{ return m_aInstances[iIndex]; }	
+	void SetGeometryInstance(kpgGeometryInstance* pInst);
+
 	kpuVector GetPosition();
 	void	  SetPosition(kpuVector& vPos);
 
