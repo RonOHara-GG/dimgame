@@ -6,7 +6,7 @@ class Enemy :
 	public NPC
 {
 public:
-	Enemy(EnemyLoadStructure& loadStruct, kpgModel* pModel);
+	Enemy(EnemyLoadStructure& loadStruct);
 	~Enemy(void);
 
 	bool Update(float fGameTime);

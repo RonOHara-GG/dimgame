@@ -4,9 +4,11 @@
 #include "level.h"
 #include "LoadStructures.h"
 
-Enemy::Enemy(EnemyLoadStructure& loadStruct, kpgModel* pModel):NPC()
+
+Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 {
-	m_pModel = pModel;
+	m_pModel = new kpgModel();
+	m_pModel->SetGeometryInstance(loadStruct.pModel->GetInstance(0));
 
 	m_eCurrentState = eNS_Waiting;
 

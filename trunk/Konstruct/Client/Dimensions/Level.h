@@ -32,8 +32,8 @@ protected:
 	kpgTerrainModel*				m_pTerrain;
 	kpuFixedArray<kpgModel*>*		m_paEnemyModels;
 
-	void LoadEnemyType(const char* szFilename, kpuFixedArray<EnemyLoadStructure>* pArray);
-	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pArray, kpuArrayList<Enemy*> *pEnemies, int iSize);
+	void LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray);
+	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pTypes, kpuArrayList<Enemy*> *pEnemies, int iSize);
 	
 	
 };

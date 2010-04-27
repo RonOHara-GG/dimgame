@@ -8,8 +8,7 @@ typedef struct _EnemyLoadStructure
 {
 	int iNameLength;
 	int iFileLength;
-    char szName[128];	
-    char szModel[2048];
+    char* pszName;//[128];	
 
     int iLevel;
     int iHealth;
@@ -33,6 +32,7 @@ typedef struct _EnemyLoadStructure
 	float fAttackRange;
     float fAttackSpeed;
     int iDamageType;
+	kpgModel* pModel;
 
 
 }EnemyLoadStructure;
