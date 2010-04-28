@@ -3,8 +3,9 @@
 #include "Common/Utility/kpuVector.h"
 #include "Common/Utility/kpuArrayList.h"
 #include "Common/Utility/kpuBoundingBox.h"
+#include "Common/Utility/kpuLinkedList.h"
 
-class GameObject;
+class kpuPhysicalObject;
 
 class kpuQuadTree
 {
@@ -13,13 +14,14 @@ public:
 	~kpuQuadTree(void);
 
 	void Divide(); //Divides the tree into 4 smaller nodes
-	bool Add(GameObject* obj);
-	void Remove(GameObject* obj);
-	bool ObjectCollide(GameObject* obj);
+	bool Add(kpuPhysicalObject* obj);
+	void Remove(kpuPhysicalObject* obj);
+	void ObjectCollide(kpuPhysicalObject* obj, kpuLinkedList &collidedObjects);
 
 private:
 
 	kpuArrayList<GameObject*>*		m_paObjects;
+	kpuQuadTree*					m_pParent;
 	kpuQuadTree**					m_pNodes;
 	kpuBoundingBox					m_bBox;
 
