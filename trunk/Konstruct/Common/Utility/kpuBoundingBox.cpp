@@ -32,6 +32,14 @@ bool kpuBoundingBox::Intersects(kpuBoundingBox &bBox)
 	return false;
 }
 
+bool kpuBoundingBox::Contains(kpuBoundingBox& bBox)
+{
+	if( bBox.m_vMin.GetX() > m_vMin.GetX() && bBox.GetMax().GetX() < m_vMax.GetX() && bBox.m_vMin.GetZ() > m_vMin.GetZ() && bBox.m_vMax.GetZ() < m_vMax.GetZ() )
+		return true;
+
+	return false;
+}
+
 bool kpuBoundingBox::Intersects(kpuBoundingSphere &bSphere)
 {
 

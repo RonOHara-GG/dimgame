@@ -34,93 +34,51 @@ void kpuQuadTree::Divide()
 		//bottom left
 		m_pNodes[3] = new kpuQuadTree(kpuVector(m_bBox.GetMin().GetX(), 0.0f, m_bBox.GetMin().GetZ()  + vDim.GetZ() / 2, 0.0f), vDim.GetX() * 0.5, vDim.GetZ() * 0.5);
 	}
-	else
-	{
-		//divide subtrees
-		for(int i = 0; i < 4; i++)
-		{
-			m_pNodes[i]->Divide();
-		}
-	}
 
 }
 
-void kpuQuadTree::GetContainingNodes(GameObject* obj, kpuLinkedList &nodeList)
+
+
+bool kpuQuadTree::Add(GameObject *obj)
 {
-	if( !m_pNodes )
+	if( m_bBox.Contains(obj->GetBoundingBox()) )
 	{
-		//See if the object is in this node
-		nodeList.Insert(this);
-	}
-	else
-	{
-		//find which child node it is in
-		for(int i = 0; i < 4; i++)
+		Divide();
+
+		if( m_pNodes )
 		{
-			if( obj->GetBoundingBox().Intersects(m_pNodes[i]->m_bBox) )
-				m_pNodes[i]->GetContainingNodes(obj, nodeList);
+			bool bAdded = false;
+
+			//find which child node it is in
+			for(int i = 0; i < NUMBER_OF_KIDS; i++)
+			{
+				if( m_pNodes[i]->Add(obj) )
+				{
+					bAdded = true;
+					break;
+				}
+			}
+
+			//couldn't find a fit so it will be put in here
+			if( !bAdded )
+				m_paObjects->Add(obj);
+
+			return true;
 		}
-
-	}
-}
-
-void kpuQuadTree::Add(GameObject *obj)
-{
-	kpuLinkedList containingNodes;
-
-	GetContainingNodes(obj, containingNodes);
-
-	kpuLinkedList* finalList = containingNodes.First();
-
-	while( finalList->Next() )
-	{
-		kpuQuadTree* node = (kpuQuadTree*)finalList->Next();
-		node->m_paObjects->Add(obj);
-
-		finalList = finalList->Next();
 	}
 
+	return false;
+		
 }
 
 void kpuQuadTree::Remove(GameObject *obj)
 {
-	kpuLinkedList containingNodes;
-
-	GetContainingNodes(obj, containingNodes);
-
-	kpuLinkedList* finalList = containingNodes.First();
-
-	while( finalList->Next() )
-	{
-		kpuQuadTree* node = (kpuQuadTree*)finalList->Next();
-		node->m_paObjects->Remove(obj);
-
-		finalList = finalList->Next();
-	}
+	
 
 }
 
 bool kpuQuadTree::ObjectCollide(GameObject *obj)
 {
-	kpuLinkedList containingNodes;
-
-	GetContainingNodes(obj, containingNodes);
-
-	kpuLinkedList* finalList = containingNodes.First();
-
-	while( finalList->Next() )
-	{
-		kpuQuadTree* node = (kpuQuadTree*)finalList->Next();
-		
-		for(int i = 0; i < node->m_paObjects->Count(); i++)
-		{
-			GameObject* obj2 = (*node->m_paObjects)[i];
-
-			if( obj->GetBoundingBox().Intersects(obj2->GetBoundingBox()) )
-				return true;
-		}
-
-		finalList = finalList->Next();
-	}
-
+	
+	return false;
 }

@@ -2,7 +2,6 @@
 
 #include "Common/Utility/kpuVector.h"
 #include "Common/Utility/kpuArrayList.h"
-#include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuBoundingBox.h"
 
 class GameObject;
@@ -14,12 +13,11 @@ public:
 	~kpuQuadTree(void);
 
 	void Divide(); //Divides the tree into 4 smaller nodes
-	void Add(GameObject* obj);
+	bool Add(GameObject* obj);
 	void Remove(GameObject* obj);
 	bool ObjectCollide(GameObject* obj);
 
 private:
-	void							GetContainingNodes(GameObject* obj, kpuLinkedList &nodeList);
 
 	kpuArrayList<GameObject*>*		m_paObjects;
 	kpuQuadTree**					m_pNodes;
@@ -27,3 +25,5 @@ private:
 
 
 };
+
+#define NUMBER_OF_KIDS 4

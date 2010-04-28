@@ -13,6 +13,8 @@ public:
 	bool Intersects(kpuBoundingBox& bBox);
 	bool Intersects(kpuBoundingSphere& bSphere);
 
+	bool Contains(kpuBoundingBox& bBox);
+
 	kpuVector GetMax()	{ return m_vMax; }
 	kpuVector GetMin()	{ return m_vMin; }
 
