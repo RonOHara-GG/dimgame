@@ -172,6 +172,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpuPhysicalObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuQuadTree.cpp"
 				>
 			</File>
@@ -251,6 +255,10 @@
 			</File>
 			<File
 				RelativePath=".\kpuMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuPhysicalObject.h"
 				>
 			</File>
 			<File
