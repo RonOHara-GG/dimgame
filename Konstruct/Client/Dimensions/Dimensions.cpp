@@ -6,6 +6,10 @@
 #include "LevelManager.h"
 #include "GameState.h"
 #include "GameState_Default.h"
+#include "LoadStructures.h"
+#include "External/tinyxml/tinyxml.h"
+#include "Common/Utility/kpuFixedArray.h"
+#include "Common/Graphics/kpgModel.h"
 #include "Common/Utility/kpuCameraController.h"
 #include "Common/Utility/kpuThreeQuarterTopDownCamera.h"
 #include "Common/Utility/kpuFileManager.h"
@@ -31,8 +35,13 @@ bool					g_bExitGame = false;
 __int64					g_iStart, g_iEnd, g_iFrequency;
 float					g_fElasped;
 
+//Global game data
+extern kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
+
 void UpdateGame();
 void DrawGame();
+void LoadEnemyList();
+void LoadEnemyType(const char* pszFile);
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -95,7 +104,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	m_pDummyLight->SetDirection(vLightDir);
 	m_pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
 
-	
+	//Load enemies
+	LoadEnemyList();
+
 	// Process until exit
 	while( pInputManager->Update() )
 	{
@@ -140,6 +151,19 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	LevelManager::Shutdown();
 
+	//delete enemy types loaded
+	if( g_paEnemyTypes )
+	{
+		for( int i = 0; i < g_paEnemyTypes->GetNumElements(); i++)
+		{
+			EnemyLoadStructure* type = (*g_paEnemyTypes)[i];
+			delete type->pModel;
+			delete type;
+		}
+
+		delete g_paEnemyTypes;
+	}
+
 	// Destroy the UI manager
 	delete pUIManager;
 
@@ -156,6 +180,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 }
 
 GameState* g_pGameState = 0;
+
+//Global game data
+kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 
 void UpdateGame()
 {
@@ -174,4 +201,77 @@ void DrawGame()
 	{
 		g_pGameState->Draw();
 	}
+}
+void LoadEnemyList()
+{
+	char szFileName[2048];
+	TiXmlDocument doc;
+
+	kpuFileManager::GetFullFilePath("/Assets/EnemyData/EnemyMasterList.xml", szFileName, sizeof(szFileName));
+	//Load all enemy types and generate them
+	if(doc.LoadFile(szFileName))
+	{
+		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement())
+		{
+			int iCount = atoi(pElement->Attribute("Count"));
+
+			//kpuFixedArray<EnemyLoadStructure>* paEnemyTypes = new kpuFixedArray<EnemyLoadStructure>(iCount);
+			g_paEnemyTypes = new kpuFixedArray<EnemyLoadStructure*>(iCount);
+
+			for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement())
+			{
+				const char* szFilename = pChild->FirstChild()->Value();
+
+				LoadEnemyType(szFilename);
+			}		
+
+		}
+	}
+}
+
+void LoadEnemyType(const char* pszFile)
+{
+	char szFilename[2048];
+
+	kpuFileManager::GetFullFilePath(pszFile, szFilename, sizeof(szFilename) );
+
+	TiXmlDocument doc;
+
+	if( doc.LoadFile(szFilename) )
+	{
+		TiXmlElement* pElement = doc.FirstChildElement();
+
+		EnemyLoadStructure*	enemyType = new EnemyLoadStructure();
+
+		enemyType->pszName = (char*)pElement->Attribute("Name");
+		enemyType->iLevel = atoi(pElement->Attribute("Level"));
+		enemyType->iHealth = atoi(pElement->Attribute("Health"));
+		enemyType->fSpeed = atof(pElement->Attribute("Speed"));
+		enemyType->pModel = new kpgModel();
+		enemyType->pModel->Load(pElement->Attribute("Model"));
+		enemyType->iDamage = atoi(pElement->Attribute("Damage"));
+		enemyType->fAggroRange = atof(pElement->Attribute("Aggro"));
+		enemyType->fAttackRange = atof(pElement->Attribute("AtkRange"));
+		enemyType->fAttackSpeed = atof(pElement->Attribute("AtkSpeed"));
+		enemyType->iDamageType = atof(pElement->Attribute("DamageType"));
+
+		//goto resits
+		TiXmlElement* pResits = pElement->FirstChildElement();
+
+		enemyType->iCrushRes = atoi(pResits->Attribute("Crushing"));
+		enemyType->iPierceRes = atoi(pResits->Attribute("Piercing"));
+		enemyType->iSlashRes = atoi(pResits->Attribute("Slashing"));	
+		enemyType->iMentalRes = atoi(pResits->Attribute("Mental"));
+		enemyType->iHeatRes = atoi(pResits->Attribute("Heat"));
+		enemyType->iColdRes = atoi(pResits->Attribute("Cold"));
+		enemyType->iAcidRes = atoi(pResits->Attribute("Acid"));
+		enemyType->iViralRes = atoi(pResits->Attribute("Viral"));
+		enemyType->iHolyRes = atoi(pResits->Attribute("Holy"));
+		enemyType->iWaterRes = atoi(pResits->Attribute("Water"));
+		enemyType->iDeathRes = atoi(pResits->Attribute("Death"));
+		enemyType->iElectRes = atoi(pResits->Attribute("Electric"));
+
+		g_paEnemyTypes->Add(enemyType);
+	}
+
 }

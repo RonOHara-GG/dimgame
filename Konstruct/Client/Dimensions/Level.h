@@ -16,7 +16,8 @@ public:
 	~Level(void);
 
 	bool Load(const char* pszLevelFile);
-	void LoadEnemyList(kpuArrayList<Enemy*>* paEnemies);
+	void GenerateEnemies(kpuArrayList<Enemy*> *pEnemies);
+	//void LoadEnemyList(kpuArrayList<Enemy*>* paEnemies);
 
 	Grid*		GetGrid() const { return m_pLevelGrid; }
 	kpgModel*	GetEnemyModel(int iIndex ) const { return (*m_paEnemyModels)[iIndex]; }
@@ -32,8 +33,8 @@ protected:
 	kpgTerrainModel*				m_pTerrain;
 	kpuFixedArray<kpgModel*>*		m_paEnemyModels;
 
-	void LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray);
-	void GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pTypes, kpuArrayList<Enemy*> *pEnemies, int iSize);
+	//void LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray);
+	
 	
 	
 };

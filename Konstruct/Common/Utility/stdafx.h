@@ -11,3 +11,4 @@
 #include <windows.h>
 
 #include "Common\Utility\Types.h"
+#include <malloc.h>
