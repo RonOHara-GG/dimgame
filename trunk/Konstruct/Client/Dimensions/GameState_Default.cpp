@@ -26,7 +26,8 @@ GameState_Default::GameState_Default(void)
 	m_pPlayer = new PlayerCharacter();
 	m_paEnemies = new kpuArrayList<Enemy*>();
 	
-	m_pCurrentLevel->LoadEnemyList(m_paEnemies);
+	//m_pCurrentLevel->LoadEnemyList(m_paEnemies);
+	m_pCurrentLevel->GenerateEnemies(m_paEnemies); 
 
 }
 

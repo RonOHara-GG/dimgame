@@ -152,6 +152,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\kpuBoundingBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuBoundingSphere.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuCameraController.cpp"
 				>
 			</File>
@@ -161,6 +169,10 @@
 			</File>
 			<File
 				RelativePath=".\kpuMatrix.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuQuadTree.cpp"
 				>
 			</File>
 			<File
@@ -210,6 +222,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpuBoundingBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuBoundingSphere.h"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuCameraController.h"
 				>
 			</File>
@@ -231,6 +251,10 @@
 			</File>
 			<File
 				RelativePath=".\kpuMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuQuadTree.h"
 				>
 			</File>
 			<File

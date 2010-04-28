@@ -98,45 +98,48 @@ bool Level::Load(const char* pszLevelFile)
 		}
 	}
 
+	
+
 	return bRet;
 }
 
-void Level::LoadEnemyList(kpuArrayList<Enemy*>* paEnemies)
+//void Level::LoadEnemyList(kpuArrayList<Enemy*>* paEnemies)
+//{
+//	char szFileName[2048];
+//	TiXmlDocument doc;
+//
+//	kpuFileManager::GetFullFilePath("/Assets/EnemyData/EnemyMasterList.xml", szFileName, sizeof(szFileName));
+//	//Load all enemy types and generate them
+//	if(doc.LoadFile(szFileName))
+//	{
+//		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement())
+//		{
+//			int iCount = atoi(pElement->Attribute("Count"));
+//
+//			kpuFixedArray<EnemyLoadStructure>* paEnemyTypes = new kpuFixedArray<EnemyLoadStructure>(iCount);
+//
+//			for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement())
+//			{
+//				const char* szFilename = pChild->FirstChild()->Value();
+//
+//				LoadEnemyType(szFilename, paEnemyTypes);
+//			}
+//
+//			if(iCount > 0)
+//			{
+//				//Make some enemies
+//				GenerateEnemies(paEnemyTypes, paEnemies, iCount);
+//			}
+//
+//		}
+//	}
+//
+//}
+
+
+void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 {
-	char szFileName[2048];
-	TiXmlDocument doc;
-
-	kpuFileManager::GetFullFilePath("/Assets/EnemyData/EnemyMasterList.xml", szFileName, sizeof(szFileName));
-	//Load all enemy types and generate them
-	if(doc.LoadFile(szFileName))
-	{
-		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement())
-		{
-			int iCount = atoi(pElement->Attribute("Count"));
-
-			kpuFixedArray<EnemyLoadStructure>* paEnemyTypes = new kpuFixedArray<EnemyLoadStructure>(iCount);
-
-			for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement())
-			{
-				const char* szFilename = pChild->FirstChild()->Value();
-
-				LoadEnemyType(szFilename, paEnemyTypes);
-			}
-
-			if(iCount > 0)
-			{
-				//Make some enemies
-				GenerateEnemies(paEnemyTypes, paEnemies, iCount);
-			}
-
-		}
-	}
-
-}
-
-
-void Level::GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pTypes, kpuArrayList<Enemy*> *pEnemies, int iSize)
-{
+	
 	//Max number to spawn is 4 for now
 	kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
 
@@ -149,14 +152,14 @@ void Level::GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pTypes, kpuArrayL
 	while( iX < vGridDim.GetX() && iY < vGridDim.GetZ() )
 	{
 		int iSpawns =  rand() % iMaxSpawns;
-		int iEnemyType = rand() % pTypes->GetNumElements();
+		int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
 
 		for(int i = 0; i < iSpawns; i++)
 		{
 			//tile location of enemy
 			kpuVector vPos(iX + rand() % iDistBetweenSpawns , 0.0f, iY + rand() % iDistBetweenSpawns, 0.0f);
 
-			Enemy* pEnemy = new Enemy((*pTypes)[iEnemyType]);
+			Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[iEnemyType]);
 			pEnemy->SetLocation(vPos);
 
 			//add enemy to the grid
@@ -204,75 +207,75 @@ void Level::GenerateEnemies(kpuFixedArray<EnemyLoadStructure> *pTypes, kpuArrayL
 
 }
 
-void Level::LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray)
-{
-	char szFilename[2048];
-
-	kpuFileManager::GetFullFilePath(pszFile, szFilename, sizeof(szFilename) );
-
-	TiXmlDocument doc;
-
-	if( doc.LoadFile(szFilename) )
-	{
-		TiXmlElement* pElement = doc.FirstChildElement();
-
-		EnemyLoadStructure enemyType;
-		enemyType.pszName = (char*)pElement->Attribute("Name");
-		enemyType.iLevel = atoi(pElement->Attribute("Level"));
-		enemyType.iHealth = atoi(pElement->Attribute("Health"));
-		enemyType.fSpeed = atof(pElement->Attribute("Speed"));
-		enemyType.pModel = new kpgModel();
-		enemyType.pModel->Load(pElement->Attribute("Model"));
-		enemyType.iDamage = atoi(pElement->Attribute("Damage"));
-		enemyType.fAggroRange = atof(pElement->Attribute("Aggro"));
-		enemyType.fAttackRange = atof(pElement->Attribute("AtkRange"));
-		enemyType.fAttackSpeed = atof(pElement->Attribute("AtkSpeed"));
-		enemyType.iDamageType = atof(pElement->Attribute("DamageType"));
-
-		//goto resits
-		TiXmlElement* pResits = pElement->FirstChildElement();
-
-		enemyType.iCrushRes = atoi(pResits->Attribute("Crushing"));
-		enemyType.iPierceRes = atoi(pResits->Attribute("Piercing"));
-		enemyType.iSlashRes = atoi(pResits->Attribute("Slashing"));	
-		enemyType.iMentalRes = atoi(pResits->Attribute("Mental"));
-		enemyType.iHeatRes = atoi(pResits->Attribute("Heat"));
-		enemyType.iColdRes = atoi(pResits->Attribute("Cold"));
-		enemyType.iAcidRes = atoi(pResits->Attribute("Acid"));
-		enemyType.iViralRes = atoi(pResits->Attribute("Viral"));
-		enemyType.iHolyRes = atoi(pResits->Attribute("Holy"));
-		enemyType.iWaterRes = atoi(pResits->Attribute("Water"));
-		enemyType.iDeathRes = atoi(pResits->Attribute("Death"));
-		enemyType.iElectRes = atoi(pResits->Attribute("Electric"));
-
-		pArray->Add(enemyType);
-	}
-    
-	//FILE* pFile = 0;
-	//pFile = fopen(szFilename, "rb");
-
-	//if(pFile)
-	//{
-	//	EnemyenemyTypeure enemyLoad;
-
-	//	//Get the enemy name and dae file location
-	//	fread(&enemyLoad.iNameLength, 4, 2, pFile);
-
-	//	fread(enemyLoad.szName, enemyLoad.iNameLength, 1, pFile);
-	//	fread(enemyLoad.szModel, enemyLoad.iFileLength, 1, pFile);
-
-	//	enemyLoad.szName[enemyLoad.iNameLength] = 0;
-	//	enemyLoad.szModel[enemyLoad.iFileLength] = 0;
-
-	//	//read rest of data
-	//	fread((char*)&enemyLoad.iLevel, sizeof(enemyLoad) - enemyLoad.iNameLength - enemyLoad.iFileLength, 1, pFile);
-
-
-	//	pArray->Add(enemyLoad);
-
-	//	fclose(pFile);
-	//}
-}
+//void Level::LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray)
+//{
+//	char szFilename[2048];
+//
+//	kpuFileManager::GetFullFilePath(pszFile, szFilename, sizeof(szFilename) );
+//
+//	TiXmlDocument doc;
+//
+//	if( doc.LoadFile(szFilename) )
+//	{
+//		TiXmlElement* pElement = doc.FirstChildElement();
+//
+//		EnemyLoadStructure enemyType;
+//		enemyType.pszName = (char*)pElement->Attribute("Name");
+//		enemyType.iLevel = atoi(pElement->Attribute("Level"));
+//		enemyType.iHealth = atoi(pElement->Attribute("Health"));
+//		enemyType.fSpeed = atof(pElement->Attribute("Speed"));
+//		enemyType.pModel = new kpgModel();
+//		enemyType.pModel->Load(pElement->Attribute("Model"));
+//		enemyType.iDamage = atoi(pElement->Attribute("Damage"));
+//		enemyType.fAggroRange = atof(pElement->Attribute("Aggro"));
+//		enemyType.fAttackRange = atof(pElement->Attribute("AtkRange"));
+//		enemyType.fAttackSpeed = atof(pElement->Attribute("AtkSpeed"));
+//		enemyType.iDamageType = atof(pElement->Attribute("DamageType"));
+//
+//		//goto resits
+//		TiXmlElement* pResits = pElement->FirstChildElement();
+//
+//		enemyType.iCrushRes = atoi(pResits->Attribute("Crushing"));
+//		enemyType.iPierceRes = atoi(pResits->Attribute("Piercing"));
+//		enemyType.iSlashRes = atoi(pResits->Attribute("Slashing"));	
+//		enemyType.iMentalRes = atoi(pResits->Attribute("Mental"));
+//		enemyType.iHeatRes = atoi(pResits->Attribute("Heat"));
+//		enemyType.iColdRes = atoi(pResits->Attribute("Cold"));
+//		enemyType.iAcidRes = atoi(pResits->Attribute("Acid"));
+//		enemyType.iViralRes = atoi(pResits->Attribute("Viral"));
+//		enemyType.iHolyRes = atoi(pResits->Attribute("Holy"));
+//		enemyType.iWaterRes = atoi(pResits->Attribute("Water"));
+//		enemyType.iDeathRes = atoi(pResits->Attribute("Death"));
+//		enemyType.iElectRes = atoi(pResits->Attribute("Electric"));
+//
+//		pArray->Add(enemyType);
+//	}
+//    
+//	//FILE* pFile = 0;
+//	//pFile = fopen(szFilename, "rb");
+//
+//	//if(pFile)
+//	//{
+//	//	EnemyenemyTypeure enemyLoad;
+//
+//	//	//Get the enemy name and dae file location
+//	//	fread(&enemyLoad.iNameLength, 4, 2, pFile);
+//
+//	//	fread(enemyLoad.szName, enemyLoad.iNameLength, 1, pFile);
+//	//	fread(enemyLoad.szModel, enemyLoad.iFileLength, 1, pFile);
+//
+//	//	enemyLoad.szName[enemyLoad.iNameLength] = 0;
+//	//	enemyLoad.szModel[enemyLoad.iFileLength] = 0;
+//
+//	//	//read rest of data
+//	//	fread((char*)&enemyLoad.iLevel, sizeof(enemyLoad) - enemyLoad.iNameLength - enemyLoad.iFileLength, 1, pFile);
+//
+//
+//	//	pArray->Add(enemyLoad);
+//
+//	//	fclose(pFile);
+//	//}
+//}
 
 void Level::Update()
 {
