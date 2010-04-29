@@ -11,10 +11,10 @@ kpuBoundingSphere::~kpuBoundingSphere(void)
 {
 }
 
-bool kpuBoundingSphere::Intersect(kpuBoundingSphere &sphere)
+bool kpuBoundingSphere::Intersects(kpuBoundingSphere &sphere)
 {
 	float fDistSquared = kpuVector::DistanceSquared(m_vLocation, sphere.m_vLocation);
-	float fCombinedRadiSqr = ( m_fRadius * m_fRadius ) + ( sphere.fRadius * sphere.fRadius );
+	float fCombinedRadiSqr = ( m_fRadius * m_fRadius ) + ( sphere.m_fRadius * sphere.m_fRadius );
 
 	return fDistSquared < fCombinedRadiSqr;
 }

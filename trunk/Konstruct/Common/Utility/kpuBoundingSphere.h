@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Common/Utility/kpuVector.h"
+#include "kpuVector.h"
 
 class kpuBoundingSphere
 {
 public:
-	kpuBoundingSphere(float fRadius. kpuVector vLoc);
+	kpuBoundingSphere(float fRadius = 0.0f, kpuVector vLoc = kpuv_Zero);
 	~kpuBoundingSphere(void);
 
-	bool Intersect(kpuBoundingSphere& sphere);
+	bool Intersects(kpuBoundingSphere& sphere);
 protected:
-	float		fRadius;
+	float		m_fRadius;
 	kpuVector	m_vLocation;
 };

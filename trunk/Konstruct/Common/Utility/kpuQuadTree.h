@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Common/Utility/kpuVector.h"
-#include "Common/Utility/kpuArrayList.h"
-#include "Common/Utility/kpuBoundingBox.h"
-#include "Common/Utility/kpuLinkedList.h"
+#include "kpuVector.h"
+#include "kpuArrayList.h"
+#include "kpuBoundingBox.h"
+#include "kpuLinkedList.h"
 
 class kpuPhysicalObject;
 
@@ -20,7 +20,7 @@ public:
 
 private:
 
-	kpuArrayList<GameObject*>*		m_paObjects;
+	kpuArrayList<kpuPhysicalObject*>*		m_paObjects;
 	kpuQuadTree*					m_pParent;
 	kpuQuadTree**					m_pNodes;
 	kpuBoundingBox					m_bBox;

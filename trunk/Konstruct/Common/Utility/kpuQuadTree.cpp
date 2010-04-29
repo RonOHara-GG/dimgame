@@ -1,13 +1,14 @@
 #include "StdAfx.h"
 #include "kpuQuadTree.h"
+#include "kpuPhysicalObject.h"
 
 
 kpuQuadTree::kpuQuadTree(kpuVector vLoc, float fWidth, float fHeight)
 {
-	m_bBox = kpuBoundingBox(vLoc, kpuVector(fWidth, 0.0f, fHeight, 0.0f) );
+	m_bBox = kpuBoundingBox(vLoc, kpuVector(fWidth, 0.0f, fHeight, 0.0f));
 	m_pNodes = 0;
 	m_pParent = 0;
-	m_paObjects = new kpuArrayList<GameObject*>();
+	m_paObjects = new kpuArrayList<kpuPhysicalObject*>();
 }
 
 kpuQuadTree::~kpuQuadTree(void)
@@ -82,28 +83,7 @@ bool kpuQuadTree::Add(kpuPhysicalObject* obj)
 void kpuQuadTree::Remove(kpuPhysicalObject* obj)
 {
 	//search till containing node is found
-	if( m_bBox.Contains(obj) )
-	{
-		bool bRemoved = false;
-
-		if( m_pNodes )
-		{
-			for(int i = 0; i < NUMBER_OF_KIDS; i++)
-			{
-				if( m_pNodes[i]->Remove(obj) )
-				{
-					bRemoved = true;
-					break;
-				}
-			}
-		}
-
-		if( !bRemoved )
-		{
-			m_paObjects->Remove(obj);
-			obj->SetCurrentNode(0);
-		}
-	}
+	
 
 }
 
@@ -116,11 +96,11 @@ void kpuQuadTree::ObjectCollide(kpuPhysicalObject* obj, kpuLinkedList &collidedO
 	{
 		for(int i = 0; i < NUMBER_OF_KIDS; i++)
 		{
-			m_pNodes[i]->ObjectCollide(obj, collideObjects);
+			m_pNodes[i]->ObjectCollide(obj, collidedObjects);
 		}
 	}
 
-	for( int i = 0; i m_paObjects->Count(); i++ )
+	for( int i = 0; i < m_paObjects->Count(); i++ )
 	{
 		kpuPhysicalObject* testObj = (*m_paObjects)[i];
 
