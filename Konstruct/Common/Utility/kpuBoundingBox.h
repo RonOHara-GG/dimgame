@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Common/Utility/kpuVector.h"
+#include "kpuVector.h"
 
 class kpuBoundingSphere;
 
 class kpuBoundingBox
 {
 public:
-	kpuBoundingBox(kpuVector vMin = kpuv_Zero, kpuVector vMax = kpuv_Zero);
+	kpuBoundingBox(kpuVector vMin = kpuv_Zero ,kpuVector vMax= kpuv_Zero );
 	~kpuBoundingBox(void);
 
 	bool Intersects(kpuBoundingBox& bBox);
