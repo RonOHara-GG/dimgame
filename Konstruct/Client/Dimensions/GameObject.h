@@ -3,7 +3,7 @@
 #include "Common/Utility/kpuVector.h"
 #include "Common/Utility/kpuPhysicalObject.h"
 
-class GameObject:kpuPhysicalObject
+class GameObject:public kpuPhysicalObject
 {
 public:
 	GameObject(void);
