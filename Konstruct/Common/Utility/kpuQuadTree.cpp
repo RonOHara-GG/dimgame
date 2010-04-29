@@ -4,7 +4,7 @@
 
 kpuQuadTree::kpuQuadTree(kpuVector vLoc, float fWidth, float fHeight)
 {
-	m_bBox = kpuBoundingBox(vLoc.GetX(), vLoc.GetZ(), fWidth, fHeight);
+	m_bBox = kpuBoundingBox(vLoc, kpuVector(fWidth, 0.0f, fHeight, 0.0f) );
 	m_pNodes = 0;
 	m_pParent = 0;
 	m_paObjects = new kpuArrayList<GameObject*>();

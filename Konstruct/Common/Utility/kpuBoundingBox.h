@@ -7,7 +7,7 @@ class kpuBoundingSphere;
 class kpuBoundingBox
 {
 public:
-	kpuBoundingBox(float fX = 0.0f, float fZ = 0.0f, float fWidth = 0.0f, float fHeight = 0.0f);
+	kpuBoundingBox(kpuVector vMin = kpuv_Zero, kpuVector vMax = kpuv_Zero);
 	~kpuBoundingBox(void);
 
 	bool Intersects(kpuBoundingBox& bBox);
