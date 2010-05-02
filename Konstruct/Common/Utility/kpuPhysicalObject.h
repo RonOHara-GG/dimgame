@@ -16,6 +16,9 @@ public:
 	void				Init(kpuVector vMin, kpuVector vMax);
 	kpuBoundingBox		GetBoundingBox()	{ return m_bBox; }
 	kpuBoundingSphere	GetSphere()			{ return m_bSphere; }
+	kpgModel*			GetCollisionMesh()	{ return m_pCollisionModel; }
+	void				SetCollisionMesh(kpgModel* pMesh) { m_pCollisionModel = pMesh; }
+
 	kpuQuadTree*		GetCurrentNode()	{ return m_pCurrentNode; }
 	void				SetCurrentNode(kpuQuadTree* node) { m_pCurrentNode = node; }
 

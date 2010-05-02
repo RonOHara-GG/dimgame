@@ -183,6 +183,13 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 void Actor::Move(kpuVector& vVel)
 {
+	//for now use model as collision mesh
+	if ( !m_pCollisionModel )
+	{
+		m_pCollisionModel = new kpgModel();
+		m_pCollisionModel->SetGeometryInstance(m_pModel->GetInstance(0));
+	}
+
 	kpuPhysicalObject::Move(vVel);
 
 	SetLocation(GetLocation() + vVel);

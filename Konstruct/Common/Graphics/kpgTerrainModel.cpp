@@ -552,8 +552,14 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 
 		vPos += ( aFinalMap[i].vDimensions * -0.5 );
 		vPos.SetY(0);
+	
+		//make a new physical object and set its collision mesh
+		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions);
+		kpgModel* collisionMesh = new kpgModel();
+		collisionMesh->SetGeometryInstance(pInst);
+		obj->SetCollisionMesh(collisionMesh);
 
-		m_paPhysicalObjects->Add(new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions));	
+		m_paPhysicalObjects->Add(obj);	
 	}
 
 	return true;

@@ -46,7 +46,7 @@ public:
 	float Dot4(const kpuVector& v) const;
 	float Length() const;
 
-	kpuVector Cross(const kpuVector& v1, const kpuVector& v2);
+	static kpuVector Cross(const kpuVector& v1, const kpuVector& v2);
 
 	static	kpuVector		 Normalize(const kpuVector &v);
 	static	float			 DistanceSquared(const kpuVector& v1, const kpuVector& v2);

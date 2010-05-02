@@ -5,6 +5,7 @@
 
 kpuPhysicalObject::kpuPhysicalObject(void)
 {
+	m_pCollisionModel = 0;
 
 }
 
@@ -16,6 +17,8 @@ kpuPhysicalObject::kpuPhysicalObject(kpuVector vMin, kpuVector vMax)
 
 kpuPhysicalObject::~kpuPhysicalObject(void)
 {
+	if ( m_pCollisionModel )
+		delete m_pCollisionModel;
 }
 
 void kpuPhysicalObject::Init(kpuVector vMin, kpuVector vMax)
@@ -28,6 +31,8 @@ void kpuPhysicalObject::Init(kpuVector vMin, kpuVector vMax)
 	kpuVector vCenter = (vMax - vMin ) * 0.5 + vMin;
 
 	m_bSphere = kpuBoundingSphere(fRadius / 2, vCenter);
+
+	
 
 
 }
