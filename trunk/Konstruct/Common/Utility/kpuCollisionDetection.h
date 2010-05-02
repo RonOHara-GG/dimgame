@@ -1,27 +1,28 @@
+#pragma once
+
 #include "stdafx.h"
-#include "Common/Utility/kpuBoundingBox.h"
-#include "Common/Utility/kpuBoundingSphere.h"
-#include "Common/Utility/kpuPlane.h"
-#include "Common/Utility/kpuPhysicsObject.h"
+#include "kpuBoundingBox.h"
+#include "kpuBoundingSphere.h"
+#include "kpuPlane.h"
+#include "kpuRay.h"
+#include "kpuPhysicalObject.h"
 
 namespace kpuCollisionDetection
 {
 	typedef struct _CollisionData
 	{
 		float fDeltaTime;
-		PhysicsObject* obj;
+		kpuPhysicalObject* obj;
 
 		kpuVector vVelocity;
 		
 
 		bool bCollided;
 		float fDist;
-		float fTime;
-
 
 	}CollisionData;
 
-	bool SphereCollision(kpuBoundingSphere& sphere1, kpuBoundingSphere& sphere2)
+	float SphereCollision(kpuBoundingSphere& sphere1, kpuBoundingSphere& sphere2)
 	{
 		return sphere1.Intersects(sphere2);
 	}
@@ -31,13 +32,23 @@ namespace kpuCollisionDetection
 		return box1.Intersects(box2);
 	}
 
-	bool SpherePlaneCollision(kpuSphere sphere, kpuPlane plane)
+	bool SpherePlaneCollision(kpuBoundingSphere sphere, kpuPlane plane)
 	{
-		float fDist = kpuVector::Dot(sphere.
+		float fDist = sphere.GetLocation().Dot(plane.GetNorm());
+
+		fDist *= fDist;
+
+		if( fDist < sphere.GetRadius() * sphere.GetRadius() )
+			return true;
+
+		return false;
+	}
+
+	kpuVector RayPlaneIntersection(kpuRay ray, kpuPlane plane)
+	{
 
 
-
-
+		return kpuv_Zero;
 	}
 
 

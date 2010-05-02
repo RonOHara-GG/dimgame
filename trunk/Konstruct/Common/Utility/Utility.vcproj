@@ -172,15 +172,15 @@
 				>
 			</File>
 			<File
-<<<<<<< .mine				RelativePath=".\kpuPlane.cpp"
+				RelativePath=".\kpuPlane.cpp"
 				>
 			</File>
 			<File
-=======				RelativePath=".\kpuPhysicalObject.cpp"
+				RelativePath=".\kpuPhysicalObject.cpp"
 				>
 			</File>
 			<File
->>>>>>> .theirs				RelativePath=".\kpuQuadTree.cpp"
+				RelativePath=".\kpuQuadTree.cpp"
 				>
 			</File>
 			<File
@@ -270,15 +270,15 @@
 				>
 			</File>
 			<File
-<<<<<<< .mine				RelativePath=".\kpuPlane.h"
+				RelativePath=".\kpuPlane.h"
 				>
 			</File>
 			<File
-=======				RelativePath=".\kpuPhysicalObject.h"
+				RelativePath=".\kpuPhysicalObject.h"
 				>
 			</File>
 			<File
->>>>>>> .theirs				RelativePath=".\kpuQuadTree.h"
+				RelativePath=".\kpuQuadTree.h"
 				>
 			</File>
 			<File

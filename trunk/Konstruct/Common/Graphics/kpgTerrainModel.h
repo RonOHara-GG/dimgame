@@ -1,6 +1,7 @@
 #pragma once
 #include "kpgmodel.h"
 
+
 class kpgTerrainModel :
 	public kpgModel
 {
@@ -9,7 +10,11 @@ public:
 	~kpgTerrainModel(void);
 
 	bool LoadTerrain(const char* pszFile, int iWidth, int iHeigth);
+	kpuFixedArray<kpuPhysicalObject*>* GetPeices() { return m_paPhysicalObjects; }
 private:
+
+	kpuFixedArray<kpuPhysicalObject*>*	m_paPhysicalObjects;
+
 	struct TerrainData
 	{
 		int								iX;

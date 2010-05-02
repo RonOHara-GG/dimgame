@@ -283,6 +283,7 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 
 		kpgVertexBuffer* pVertexBuffer = pGeometry->GetVertexBuffer();
 
+		CalculateBoundingBox(pPositions->aFloats);
 
 		pVertexBuffer->Lock();
 		for( int i = 0; i < iVertCount; i++ )
@@ -779,4 +780,43 @@ void kpgModel::SetGeometryInstance(kpgGeometryInstance* pInst)
 {
 	m_aInstances.SetSize(1);
 	m_aInstances.Add(new kpgGeometryInstance(pInst->GetGeometry()));
+}
+
+void kpgModel::CalculateBoundingBox(kpuFixedArray<float>	&aFloats)
+{
+	float fXMin, fXMax, fZMin, fZMax, fYMin, fYMax;
+	fXMin = fXMax = aFloats[0];
+	fYMin = fYMax = aFloats[1];
+	fZMin = fZMax = aFloats[2];
+
+	for(int i = 0; i < aFloats.GetNumElements(); i+=3)
+	{
+		float fNextX = aFloats[i];
+		float fNextY = aFloats[i + 1];
+		float fNextZ = aFloats[i + 2];
+
+		//Check X min/max
+		if ( fNextX < fXMin )
+			fXMin = fNextX;
+
+		if ( fNextX > fXMax )
+			fXMax = fNextX;
+
+		//Check Y min/max
+		if ( fNextY < fYMin )
+			fYMin = fNextY;
+		
+		if ( fNextY > fYMax )
+			fYMax = fNextY;
+
+		//Check Z min/max
+		if ( fNextZ < fZMin )
+			fZMin = fNextZ;
+
+		if ( fNextZ > fZMax)
+			fZMax = fNextZ;
+
+	}
+
+	m_bBox = kpuBoundingBox(kpuVector(fXMin, fYMin, fZMin, 0.0f), kpuVector(fXMax, fYMax, fZMax, 0.0f));
 }

@@ -73,10 +73,14 @@ kpuVector Actor::GetLocation()
 
 void Actor::SetLocation(const kpuVector& vNewLoc)
 {
+	//move bounding objects
+	m_bBox.Move(vNewLoc - GetLocation());
+	m_bSphere.Move(vNewLoc - GetLocation());
+
 	if( m_pModel )
 	{
 		m_pModel->GetInstance(0)->SetPosition(vNewLoc.GetX(), vNewLoc.GetY(), vNewLoc.GetZ());
-	}
+	}	
 }
 
 void Actor::UpdateMovement(float fDeltaTime)
@@ -117,8 +121,9 @@ void Actor::UpdateMovement(float fDeltaTime)
 			if( fDistToTarget < fMoveDelta )
 			{
 				fMoveDelta -= fDistToTarget;
-				vMyLocation += vToTarget;
-				SetLocation(vMyLocation);
+				Move(vToTarget);
+				//vMyLocation += vToTarget;
+				//SetLocation(vMyLocation);
 				
 
 				m_iCurrentPathNode++;
@@ -159,9 +164,9 @@ void Actor::UpdateMovement(float fDeltaTime)
 			{
 				// We have a ways to go before we hit the target
 				vToTarget *= 1.0f / fDistToTarget;
-				vMyLocation += vToTarget * fMoveDelta;
-				SetLocation(vMyLocation);
-
+				//vMyLocation += vToTarget * fMoveDelta;
+				//SetLocation(vMyLocation);
+				Move(vToTarget * fMoveDelta);
 				
 				m_fRotation = atan2(vToTarget.GetX(),vToTarget.GetZ());
 				/*if(vToTarget.GetX() < 0)
@@ -173,6 +178,20 @@ void Actor::UpdateMovement(float fDeltaTime)
 				break;
 			}
 		}
+	}
+}
+
+void Actor::Move(kpuVector& vVel)
+{
+	kpuPhysicalObject::Move(vVel);
+
+	SetLocation(GetLocation() + vVel);
+
+	//if velocity comes back zero clear path
+	if ( vVel == kpuv_Zero )
+	{
+		m_iDestinationTile = -1;
+		m_iCurrentPathNode = -1; 
 	}
 }
 

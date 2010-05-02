@@ -15,6 +15,7 @@
 #include "Common\Utility\kpuVector.h"
 #include "Grid.h"
 #include "Enemy.h"
+#include "Common/Utility/kpuQuadTree.h"
 
 extern kpuCameraController*	g_pCamera;
 
@@ -23,7 +24,7 @@ GameState_Default::GameState_Default(void)
 	LevelManager* pLevelManager = LevelManager::GetInstance();
 	//m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_Bastarak);
-	m_pPlayer = new PlayerCharacter();
+	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer = new PlayerCharacter());
 	m_paEnemies = new kpuArrayList<Enemy*>();
 	
 	//m_pCurrentLevel->LoadEnemyList(m_paEnemies);

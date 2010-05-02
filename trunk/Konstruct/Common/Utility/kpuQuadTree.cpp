@@ -1,11 +1,13 @@
 #include "StdAfx.h"
 #include "kpuQuadTree.h"
 #include "kpuPhysicalObject.h"
+#include "kpuCollisionDetection.h"
+
 
 
 kpuQuadTree::kpuQuadTree(kpuVector vLoc, float fWidth, float fHeight)
 {
-	m_bBox = kpuBoundingBox(vLoc, kpuVector(fWidth, 0.0f, fHeight, 0.0f));
+	m_bBox = kpuBoundingBox(vLoc, vLoc + kpuVector(fWidth, 0.0f, fHeight, 0.0f));
 	m_pNodes = 0;
 	m_pParent = 0;
 	m_paObjects = new kpuArrayList<kpuPhysicalObject*>();
@@ -47,7 +49,7 @@ void kpuQuadTree::Divide()
 
 bool kpuQuadTree::Add(kpuPhysicalObject* obj)
 {
-	if( m_bBox.Contains(obj->GetBoundingBox()) )
+	if( m_bBox.Contains2D(obj->GetBoundingBox()) )
 	{
 		Divide();
 
@@ -69,7 +71,7 @@ bool kpuQuadTree::Add(kpuPhysicalObject* obj)
 			if( !bAdded )
 			{
 				m_paObjects->Add(obj);
-				obj->SetCurrentNode(this);
+				obj->SetCurrentNode(this);				
 			}
 
 			return true;
@@ -82,36 +84,89 @@ bool kpuQuadTree::Add(kpuPhysicalObject* obj)
 
 void kpuQuadTree::Remove(kpuPhysicalObject* obj)
 {
-	//search till containing node is found
-	
-
+	obj->GetCurrentNode()->m_paObjects->Remove(obj);
+	obj->SetCurrentNode(0);
 }
 
-void kpuQuadTree::ObjectCollide(kpuPhysicalObject* obj, kpuLinkedList &collidedObjects)
-{
+void kpuQuadTree::GetCollisions(kpuPhysicalObject* pObj, kpuLinkedList &collidedObjects)
+{	
 	//Check from the parent node down for for collison
-	kpuQuadTree* pCurrentNode = obj->GetCurrentNode()->m_pParent;
-
-	if( pCurrentNode->m_pNodes )
+	if( m_pNodes )
 	{
 		for(int i = 0; i < NUMBER_OF_KIDS; i++)
 		{
-			m_pNodes[i]->ObjectCollide(obj, collidedObjects);
+			m_pNodes[i]->GetCollisions(pObj, collidedObjects);
 		}
 	}
 
 	for( int i = 0; i < m_paObjects->Count(); i++ )
 	{
-		kpuPhysicalObject* testObj = (*m_paObjects)[i];
-
-		if( testObj != obj )
+		kpuPhysicalObject* pTest = (*m_paObjects)[i];
+		//Check collision 			
+		if( kpuCollisionDetection::SphereCollision(pObj->GetSphere(), pTest->GetSphere()))
 		{
-			//Check collision 
-			if(obj->GetSphere().Intersects(testObj->GetSphere()))
+			//Check boxes
+			if ( kpuCollisionDetection::BoxCollision(pObj->GetBoundingBox(), pTest->GetBoundingBox()) )
 			{
-				collidedObjects.Insert(testObj);
+				//Handle collision
+				collidedObjects.Insert(pTest);
 			}
-
 		}
+		
 	}
+}
+
+float kpuQuadTree::CheckMove(kpuPhysicalObject *pObj, float fVelLength)
+{
+	//Check from the parent node down for for collison
+	if( m_pNodes )
+	{
+
+		for(int i = 0; i < NUMBER_OF_KIDS; i++)
+		{
+			float fDist = m_pNodes[i]->CheckMove(pObj, fVelLength);			
+
+			if (fDist < fVelLength )
+				return fDist;
+		}
+
+	}
+
+	for( int i = 0; i < m_paObjects->Count(); i++ )
+	{
+		kpuPhysicalObject* pTest = (*m_paObjects)[i];
+		//Check collision 			
+		if( kpuCollisionDetection::SphereCollision(pObj->GetSphere(), pTest->GetSphere()) < 0)
+		{
+			//Check boxes
+			if ( kpuCollisionDetection::BoxCollision(pObj->GetBoundingBox(), pTest->GetBoundingBox()) )
+			{
+				//return distance to the collision
+				return 0.0f;
+			}
+		}
+		
+	}
+
+	return fVelLength;
+
+
+}
+float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
+{
+	kpuLinkedList lCollisions;
+
+	m_paObjects->Remove(pObj);
+
+	kpuQuadTree* pCurrentNode = pObj->GetCurrentNode();
+
+	while ( pCurrentNode->m_pParent )
+		pCurrentNode = pCurrentNode->m_pParent;
+
+	float fVelLength = vVel.Dot(vVel);
+
+	float fDist = CheckMove(pObj, fVelLength);	
+
+	return fDist / fVelLength;
+
 }
