@@ -9,6 +9,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 {
 	m_pModel = new kpgModel();
 	m_pModel->SetGeometryInstance(loadStruct.pModel->GetInstance(0));
+	
 
 	m_eCurrentState = eNS_Waiting;
 
@@ -38,6 +39,10 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	m_fAggroRange = loadStruct.fAggroRange;
     m_fAttackSpeed = loadStruct.fAttackSpeed;
     m_eDamageType = (DamageType)loadStruct.iDamageType;
+
+	Init(loadStruct.pModel->GetBoundingBox().GetMin(), loadStruct.pModel->GetBoundingBox().GetMax());
+	m_bBox.Move(GetLocation());
+	m_bSphere.Move(GetLocation());
 }
 
 Enemy::~Enemy(void)

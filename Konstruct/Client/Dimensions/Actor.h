@@ -44,6 +44,8 @@ public:
 	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	bool IsAlive() { return m_iCurrentHealth > 0; }
 
+	void Move(kpuVector& vVel);
+
 #pragma region StatAccessor/Mutators
 
 	virtual int GetLevel() { return m_iLevel; }
@@ -99,19 +101,20 @@ protected:
 	void UpdateMovement(float fDeltaTime);
 	bool BuildPathToDestination();
 
-
-	kpgModel*		m_pModel;
-	
 	int				m_iDestinationTile;
 	int				m_iCurrentPathNode;
 	int				m_aPathNodes[MAX_PATH_NODES];
 
 	bool			m_bAttackable;		//Wether or not this Actor is able to be attacked
 
+	
+	kpgModel*		m_pModel;
+
 	//Movement varibles	
 	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit
 	float			m_fRotation;
 	kpuVector		m_vVelocity;
+	
 	
 
 	//Stats
@@ -150,5 +153,4 @@ protected:
 };
 
 #define DEFAULT_MELEE_RANGE 1
-#define PI 3.141592
 

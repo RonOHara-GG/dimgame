@@ -1,13 +1,14 @@
 #pragma once
 #include "Common/Utility/kpuFixedArray.h"
 #include "Common/Graphics/kpgRenderer.h"
+#include "Common/Utility/kpuPhysicalObject.h"
 
 class kpuLinkedList;
 class kpgGeometry;
 class kpgGeometryInstance;
 class TiXmlElement;
 
-class kpgModel
+class kpgModel: public kpuPhysicalObject
 {
 	typedef enum _eVertexSemantic
 	{
@@ -52,6 +53,7 @@ private:
 	int* LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	int* LoadPolygons(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(TiXmlElement* pInstElement);
+	void CalculateBoundingBox(kpuFixedArray<float>	&aFloats);
 
 
 protected:

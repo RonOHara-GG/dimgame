@@ -5,6 +5,7 @@
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTerrainModel.h"
+#include "Common/Utility/kpuQuadTree.h"
 #include "Grid.h"
 #include "Enemy.h"
 #include <time.h>
@@ -24,6 +25,7 @@ Level::Level(void)
 	/*m_paModels = 0;*/
 	m_paEnemyModels = 0;
 	m_pLevelGrid = 0;
+	m_pQuadTree = 0;
 
 	//Seed random
 	srand(time(NULL));
@@ -44,6 +46,9 @@ Level::~Level(void)
 
 	if( m_pTerrain )
 		delete m_pTerrain;
+
+	if( m_pQuadTree )
+		delete m_pQuadTree;
 
 
 }
@@ -72,13 +77,18 @@ bool Level::Load(const char* pszLevelFile)
 				assert(!m_pLevelGrid);
 				m_pLevelGrid = new Grid(iWidth, iHeight);
 
+				//create quadtree
+				if ( m_pQuadTree )
+					delete m_pQuadTree;
+
+				m_pQuadTree = new kpuQuadTree(kpuVector(iWidth * -0.5, 0.0f, iHeight * -0.5, 0.0f), iWidth, iHeight);
+
 				// Read Elements
                 for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
                 {
                         u32 uHash = StringHash(pElement->Value());
                         if( uHash == s_uHash_Modules )
                         {
-
 							if(	m_pTerrain )
 								delete m_pTerrain;
 
@@ -88,6 +98,14 @@ bool Level::Load(const char* pszLevelFile)
 							{
 								bRet = false;
 								break;
+							}
+
+							//add all peices of terrain to quadtree
+							kpuFixedArray<kpuPhysicalObject*>* pPieces = m_pTerrain->GetPeices();
+
+							for(int i = 0; i < pPieces->GetNumElements(); i++)
+							{
+								m_pQuadTree->Add((*pPieces)[i]);
 							}
 
                             bRet = true;
@@ -146,10 +164,10 @@ void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 	int iDistBetweenSpawns = 8;
 	int iMaxSpawns = 5;
 
-	int iX = ( vGridDim.GetX() * -1 ) + 1;
-	int iY = ( vGridDim.GetZ() * -1 ) + 1;
+	float fX = ( vGridDim.GetX() * -1 ) + 0.5f;
+	float fY = ( vGridDim.GetZ() * -1 ) + 0.5f;
 
-	while( iX < vGridDim.GetX() && iY < vGridDim.GetZ() )
+	while( fX < vGridDim.GetX() && fY < vGridDim.GetZ() )
 	{
 		int iSpawns =  rand() % iMaxSpawns;
 		int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
@@ -157,7 +175,7 @@ void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 		for(int i = 0; i < iSpawns; i++)
 		{
 			//tile location of enemy
-			kpuVector vPos(iX + rand() % iDistBetweenSpawns , 0.0f, iY + rand() % iDistBetweenSpawns, 0.0f);
+			kpuVector vPos(fX + rand() % iDistBetweenSpawns , 0.0f, fY + rand() % iDistBetweenSpawns, 0.0f);
 
 			Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[iEnemyType]);
 			pEnemy->SetLocation(vPos);
@@ -166,21 +184,28 @@ void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 			while( !m_pLevelGrid->AddActor(pEnemy) )
 			{
 				//move the enemy around till he finds a spot
-				vPos.SetX(iX + rand() % iDistBetweenSpawns);
-				vPos.SetZ(iY + rand() % iDistBetweenSpawns);
+				vPos.SetX(fX + rand() % iDistBetweenSpawns);
+				vPos.SetZ(fY + rand() % iDistBetweenSpawns);
+
+				//int iTile = m_pLevelGrid->GetTileAtLocation(vPos);
+				//m_pLevelGrid->GetTileLocation(iTile, vPos);
+
 				pEnemy->SetLocation(vPos);
 			}
 
 			pEnemies->Add(pEnemy);
+			
+			//add enemy to quad tree
+			m_pQuadTree->Add(pEnemy);
 		}
 
 		//move to next spawn point
-		iX += iDistBetweenSpawns;	
+		fX += iDistBetweenSpawns;	
 
-		if(iX  >= vGridDim.GetX() )
+		if(fX  >= vGridDim.GetX() )
 		{
-			iY += iDistBetweenSpawns;
-			iX = ( vGridDim.GetX() * -1 ) + 1;
+			fY += iDistBetweenSpawns;
+			fX = ( vGridDim.GetX() * -1 ) + 0.5f;
 		}
 	}
 

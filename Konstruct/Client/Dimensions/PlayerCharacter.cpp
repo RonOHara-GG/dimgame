@@ -30,6 +30,10 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	m_pEquippedWeapon = 0;
 
+	Init(m_pModel->GetBoundingBox().GetMin(), m_pModel->GetBoundingBox().GetMax());
+	m_bBox.Move(GetLocation());
+	m_bSphere.Move(GetLocation());
+
 }
 
 PlayerCharacter::~PlayerCharacter(void)

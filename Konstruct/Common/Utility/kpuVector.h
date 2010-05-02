@@ -46,6 +46,8 @@ public:
 	float Dot4(const kpuVector& v) const;
 	float Length() const;
 
+	kpuVector Cross(const kpuVector& v1, const kpuVector& v2);
+
 	static	kpuVector		 Normalize(const kpuVector &v);
 	static	float			 DistanceSquared(const kpuVector& v1, const kpuVector& v2);
 
@@ -232,6 +234,12 @@ inline float kpuVector::Dot4(const kpuVector& v) const
 inline float kpuVector::Length() const
 {
 	return sqrtf(Dot(*this));
+}
+
+inline kpuVector kpuVector::Cross(const kpuVector& v1, const kpuVector& v2)
+{
+	return kpuVector(v1.m_fY * v2.m_fZ - v1.m_fZ * v2.m_fY, v1.m_fZ * v2.m_fX - v1.m_fX * v2.m_fZ
+		, v1.m_fX * v2.m_fY - v1.m_fY * v2.m_fX, 0.0f);
 }
 
 inline void kpuVector::Normalize()

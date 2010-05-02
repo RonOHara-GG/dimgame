@@ -25,6 +25,15 @@ kpgTerrainModel::kpgTerrainModel(void)
 
 kpgTerrainModel::~kpgTerrainModel(void)
 {
+	if (m_paPhysicalObjects)
+	{
+		for(int i = 0; i < m_paPhysicalObjects->GetNumElements(); i++)
+		{
+			delete (*m_paPhysicalObjects)[i];
+		}
+
+		delete m_paPhysicalObjects;
+	}
 }
 
 bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
@@ -54,7 +63,7 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 				if( uHash == s_uHash_Data )
 				{					
 					aTerrainData[iPiece].szModelFile = (char*)pEChild->Attribute("File");
-					aTerrainData[iPiece].vDimensions = kpuVector(atof(pEChild->Attribute("Width")), 0.0f, atof(pEChild->Attribute("Height")), 0.0f);
+					aTerrainData[iPiece].vDimensions = kpuVector(atof(pEChild->Attribute("Width")), atof(pEChild->Attribute("Height")), atof(pEChild->Attribute("Lenght")), 0.0f);
 
 					for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
 					{				
@@ -526,6 +535,9 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 	}
 
 	m_aInstances.SetSize(aFinalMap.Count());
+
+	m_paPhysicalObjects = new kpuFixedArray<kpuPhysicalObject*>(aFinalMap.Count());
+
 	//add all instances to this model
 	for(int i = 0; i < aFinalMap.Count(); i++)
 	{		
@@ -533,9 +545,15 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		kpgGeometryInstance* pInst = new kpgGeometryInstance(m_aGeometries[aFinalMap[i].iPiece]);
 
 		pInst->SetPermYRotation( aFinalMap[i].iRotations * -1.570796 );
-		pInst->SetPosition( aFinalMap[i].iX - iWidth / 2 + aFinalMap[i].vDimensions.GetX() / 2, 0.0f , aFinalMap[i].iY  - iHeigth / 2+ aFinalMap[i].vDimensions.GetZ() / 2);
+		kpuVector vPos(aFinalMap[i].iX - iWidth / 2 + aFinalMap[i].vDimensions.GetX() / 2, 0.0f , aFinalMap[i].iY  - iHeigth / 2+ aFinalMap[i].vDimensions.GetZ() / 2, 0.0f);
+		pInst->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
 		
 		m_aInstances.Add(pInst);
+
+		vPos += ( aFinalMap[i].vDimensions * -0.5 );
+		vPos.SetY(0);
+
+		m_paPhysicalObjects->Add(new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions));	
 	}
 
 	return true;

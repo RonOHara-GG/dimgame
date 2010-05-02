@@ -16,14 +16,17 @@ public:
 	void Divide(); //Divides the tree into 4 smaller nodes
 	bool Add(kpuPhysicalObject* obj);
 	void Remove(kpuPhysicalObject* obj);
-	void ObjectCollide(kpuPhysicalObject* obj, kpuLinkedList &collidedObjects);
+	
+	float Move(kpuVector& vVel, kpuPhysicalObject* pObj);
 
 private:
+	void GetCollisions(kpuPhysicalObject* pObj, kpuLinkedList &collidedObjects);
+	float CheckMove(kpuPhysicalObject* pObj, float fVelLength);
 
 	kpuArrayList<kpuPhysicalObject*>*		m_paObjects;
-	kpuQuadTree*					m_pParent;
-	kpuQuadTree**					m_pNodes;
-	kpuBoundingBox					m_bBox;
+	kpuQuadTree*							m_pParent;
+	kpuQuadTree**							m_pNodes;
+	kpuBoundingBox							m_bBox;
 
 
 };
