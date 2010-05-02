@@ -24,6 +24,7 @@ public:
 
 	void SetPosition(int nVertIndex, const kpuVector& vPos, int nSetIndex = 0);
 	const kpuVector& GetPosition(int nVertIndex, int nSetIndex = 0) const;
+	
 	void SetNormal(int nVertIndex, const kpuVector& vNormal, int nSetIndex = 0);
 	const kpuVector& GetNormal(int nVertIndex, int nSetIndex = 0) const;
 	void SetUV(int nVertIndex, const kpuVector& vUV, int nSetIndex = 0);

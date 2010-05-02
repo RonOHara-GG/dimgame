@@ -142,7 +142,7 @@ float kpuQuadTree::CheckMove(kpuPhysicalObject *pObj, float fVelLength)
 			if ( kpuCollisionDetection::BoxCollision(pObj->GetBoundingBox(), pTest->GetBoundingBox()) )
 			{
 				//return distance to the collision
-				return 0.0f;
+				return kpuCollisionDetection::MeshCollision(pObj->GetCollisionMesh(), pTest->GetCollisionMesh());
 			}
 		}
 		

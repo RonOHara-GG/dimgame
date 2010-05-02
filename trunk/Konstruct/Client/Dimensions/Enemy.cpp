@@ -43,6 +43,12 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	Init(loadStruct.pModel->GetBoundingBox().GetMin(), loadStruct.pModel->GetBoundingBox().GetMax());
 	m_bBox.Move(GetLocation());
 	m_bSphere.Move(GetLocation());
+
+	if ( !m_pCollisionModel )
+	{
+		m_pCollisionModel = new kpgModel();
+		m_pCollisionModel->SetGeometryInstance(m_pModel->GetInstance(0));
+	}
 }
 
 Enemy::~Enemy(void)
