@@ -1,11 +1,13 @@
 #pragma once
 
+#include "kpuCollisionData.h"
 #include "kpuVector.h"
 #include "kpuArrayList.h"
 #include "kpuBoundingBox.h"
 #include "kpuLinkedList.h"
 
 class kpuPhysicalObject;
+class kpuBoundingCapsule;
 
 class kpuQuadTree
 {
@@ -15,12 +17,13 @@ public:
 
 	void Divide(); //Divides the tree into 4 smaller nodes
 	bool Add(kpuPhysicalObject* obj);
+	bool ReAdd(kpuPhysicalObject* obj);
 	void Remove(kpuPhysicalObject* obj);
 	
 	float Move(kpuVector& vVel, kpuPhysicalObject* pObj);
 
 private:
-	void GetCollisions(kpuPhysicalObject* pObj, kpuLinkedList &collidedObjects);
+	void GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData> &collidedObjects);
 	float CheckMove(kpuPhysicalObject* pObj, float fVelLength);
 
 	kpuArrayList<kpuPhysicalObject*>*		m_paObjects;

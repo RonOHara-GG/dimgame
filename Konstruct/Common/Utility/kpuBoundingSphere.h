@@ -1,8 +1,7 @@
 #pragma once
+#include "kpuBoundingVolume.h"
 
-#include "kpuVector.h"
-
-class kpuBoundingSphere
+class kpuBoundingSphere: public kpuBoundingVolume
 {
 public:
 	kpuBoundingSphere(float fRadius = 0.0f, kpuVector vLoc = kpuv_Zero);
@@ -11,9 +10,11 @@ public:
 
 	void operator =(const kpuBoundingSphere& bSphere);
 
-	float Intersects(kpuBoundingSphere& sphere);
+	kpuCollisionData Intersects(kpuBoundingVolume &bOther);
 
-	void Move(kpuVector vVel)		{ m_vLocation +=  vVel; }
+	void Transform(const kpuMatrix &matrix);
+
+	void Move(kpuVector vVel)		    { m_vLocation +=  vVel; }
 	kpuVector GetLocation()				{ return m_vLocation; }
 	float	GetRadius()					{ return m_fRadius; }
 

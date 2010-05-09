@@ -14,7 +14,7 @@ public:
 	void SetPermYRotation(float fY)						{ m_mLocalToWorld.SetRotationY(fY); }
 
 	kpgGeometry* GetGeometry()							{ return m_pGeometry; }
-	const kpuMatrix& GetMatrix()						{ return m_mLocalToWorld; }
+	const kpuMatrix& GetMatrix()						    { return m_mLocalToWorld; }
 	void SetMatrix(const kpuMatrix& matrix)				{ m_mLocalToWorld = matrix; }
 
 protected:

@@ -1,10 +1,7 @@
 #pragma once
+#include "Common/Utility/kpuBoundingVolume.h"
 
-#include "kpuVector.h"
-
-class kpuBoundingSphere;
-
-class kpuBoundingBox
+class kpuBoundingBox: public kpuBoundingVolume
 {
 public:
 	kpuBoundingBox(kpuVector vMin = kpuv_Zero ,kpuVector vMax= kpuv_Zero );
@@ -13,8 +10,8 @@ public:
 
 	void operator=(const kpuBoundingBox& bBox);
 
-	bool Intersects(kpuBoundingBox& bBox);
-	bool Intersects(kpuBoundingSphere& bSphere);
+	kpuCollisionData Intersects(kpuBoundingVolume &bOther);
+	void Transform(const kpuMatrix& matrix);
 
 	bool Contains2D(kpuBoundingBox& bBox);
 

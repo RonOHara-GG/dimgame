@@ -63,6 +63,11 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 				if( uHash == s_uHash_Data )
 				{					
 					aTerrainData[iPiece].szModelFile = (char*)pEChild->Attribute("File");
+					aTerrainData[iPiece].szCollisionMeshFile = (char*)pEChild->Attribute("Collision");
+
+					if( strlen(aTerrainData[iPiece].szCollisionMeshFile) < 1 )
+						aTerrainData[iPiece].szCollisionMeshFile = 0;
+
 					aTerrainData[iPiece].vDimensions = kpuVector(atof(pEChild->Attribute("Width")), atof(pEChild->Attribute("Height")), atof(pEChild->Attribute("Lenght")), 0.0f);
 
 					for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
@@ -127,62 +132,6 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 										}
 										break;
 									}
-								/*case s_uHash_Wall:
-									{
-										uHash = StringHash( pEChild2->Attribute("Side"));
-										switch(uHash)
-										{
-											case s_uHash_Top:
-												{
-													char* szData = (char*)pEChild2->FirstChild()->Value();
-
-													aTerrainData[iPiece].aWallRanges[0] = atoi(&szData[0]);
-
-													while(*szData && *szData != ' ') szData++;
-													szData++;
-
-													aTerrainData[iPiece].aWallRanges[1] = atoi(&szData[0]);
-													break;
-												}
-											case s_uHash_Right:
-												{
-													char* szData = (char*)pEChild2->FirstChild()->Value();
-
-													aTerrainData[iPiece].aWallRanges[2] = atoi(&szData[0]);
-
-													while(*szData && *szData != ' ') szData++;
-													szData++;
-
-													aTerrainData[iPiece].aWallRanges[3] = atoi(&szData[0]);
-													break;
-												}
-											case s_uHash_Bottom:
-												{
-													char* szData = (char*)pEChild2->FirstChild()->Value();
-
-													aTerrainData[iPiece].aWallRanges[4] = atoi(&szData[0]);
-
-													while(*szData && *szData != ' ') szData++;
-													szData++;
-
-													aTerrainData[iPiece].aWallRanges[5] = atoi(&szData[0]);
-													break;
-												}
-											case s_uHash_Left:
-												{
-													char* szData = (char*)pEChild2->FirstChild()->Value();
-
-													aTerrainData[iPiece].aWallRanges[6] = atoi(&szData[0]);
-
-													while(*szData && *szData != ' ') szData++;
-													szData++;
-
-													aTerrainData[iPiece].aWallRanges[7] = atoi(&szData[0]);
-													break;
-												}
-										}
-										break;
-									}*/
 							}							
 					}
 
@@ -523,6 +472,7 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 	}
 
 	m_aGeometries.SetSize(aTerrainData.GetNumElements());
+	kpuFixedArray<kpgModel*> aCollisionMeshes(aTerrainData.GetNumElements());
 
 	//Load geometries
 	for(int i = 0; i < aTerrainData.GetNumElements(); i++)
@@ -530,8 +480,17 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		kpgModel* model = new kpgModel();
 
 		model->Load(aTerrainData[i].szModelFile);
-		
 		m_aGeometries.Add(model->GetInstance(0)->GetGeometry());
+
+		/*if( aTerrainData[i].szCollisionMeshFile )
+		{
+			model = new kpgModel();
+			model->Load(aTerrainData[i].szCollisionMeshFile);
+			aCollisionMeshes.Add(model);
+		}
+		else
+			aCollisionMeshes.Add(0);*/		
+		
 	}
 
 	m_aInstances.SetSize(aFinalMap.Count());
@@ -555,11 +514,18 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 	
 		//make a new physical object and set its collision mesh
 		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions);
-		kpgModel* collisionMesh = new kpgModel();
-		collisionMesh->SetGeometryInstance(pInst);
-		obj->SetCollisionMesh(collisionMesh);
+
+		/*if( aFinalMap[i].szCollisionMeshFile )
+			obj->SetSmallBoxes(aCollisionMeshes[i]->GetSmallBoxes());*/
 
 		m_paPhysicalObjects->Add(obj);	
+	}
+
+	//delete collision meshes
+	for(int i = 0; i < aCollisionMeshes.GetNumElements(); i++)
+	{
+		if ( aCollisionMeshes[i] )
+			delete aCollisionMeshes[i];
 	}
 
 	return true;

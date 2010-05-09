@@ -156,11 +156,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpuBoundingCapsule.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuBoundingSphere.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\kpuBoundingVolume.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuCameraController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuCollisionDetection.cpp"
 				>
 			</File>
 			<File
@@ -172,11 +184,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\kpuPlane.cpp"
+				RelativePath=".\kpuPhysicalObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\kpuPhysicalObject.cpp"
+				RelativePath=".\kpuPlane.cpp"
 				>
 			</File>
 			<File
@@ -238,11 +250,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpuBoundingCapsule.h"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuBoundingSphere.h"
 				>
 			</File>
 			<File
+				RelativePath=".\kpuBoundingVolume.h"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuCameraController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuCollisionData.h"
 				>
 			</File>
 			<File
@@ -270,11 +294,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\kpuPlane.h"
+				RelativePath=".\kpuPhysicalObject.h"
 				>
 			</File>
 			<File
-				RelativePath=".\kpuPhysicalObject.h"
+				RelativePath=".\kpuPlane.h"
 				>
 			</File>
 			<File
@@ -316,6 +340,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

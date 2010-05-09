@@ -6,7 +6,7 @@
 #include "Actor.h"
 #include "Item.h"
 #include "PlayerClass.h"
-#//include "SkillCombo.h"
+//#include "SkillCombo.h"
 
 class kpgRenderer;
 class Skill;
