@@ -1,16 +1,22 @@
 #include "StdAfx.h"
 #include "kpuBoundingBox.h"
+#include "kpuBoundingSphere.h"
+#include "kpuBoundingCapsule.h"
+#include "kpuCollisionDetection.h"
+
 
 kpuBoundingBox::kpuBoundingBox(kpuVector vMin ,kpuVector vMax)
 {
 	m_vMax = vMax;
 	m_vMin = vMin;
+	m_eType = eVT_Box;
 }
 
 kpuBoundingBox::kpuBoundingBox(const kpuBoundingBox& bBox)
 {
 	m_vMax = bBox.m_vMax;
 	m_vMin = bBox.m_vMin;
+	m_eType = eVT_Box;
 }
 
 kpuBoundingBox::~kpuBoundingBox(void)
@@ -23,26 +29,59 @@ void kpuBoundingBox::operator =(const kpuBoundingBox& bBox)
 	m_vMin = bBox.m_vMin;
 }
 
-bool kpuBoundingBox::Intersects(kpuBoundingBox &bBox)
+kpuCollisionData kpuBoundingBox::Intersects(kpuBoundingVolume &bOther)
 {
-	if(m_vMin.GetX() >= bBox.m_vMax.GetX() )
-		return false;
-	if(m_vMax.GetX() <= bBox.m_vMin.GetX() )
-		return false;
+	kpuCollisionData collisionData;
 
-	if(m_vMin.GetY() >= bBox.m_vMax.GetY() )
-		return false;
-	if(m_vMax.GetY() <= bBox.m_vMin.GetY() )
-		return false;
+	switch ( bOther.GetType() )
+	{
+	case eVT_Sphere:
+		{
+			kpuBoundingSphere* pSphere = (kpuBoundingSphere*)&bOther;
+			return kpuCollisionDetection::SphereVsBox(pSphere->GetLocation(), pSphere->GetRadius(),m_vMin, m_vMax); 
+		}
+	case eVT_Box:
+		{
+			kpuBoundingBox* pBox = (kpuBoundingBox*)&bOther;
+			return kpuCollisionDetection::BoxVsBox(m_vMin, m_vMax, pBox->m_vMin, pBox->m_vMax);
+		}
+	case eVT_Capsule:
+		{
+			kpuBoundingCapsule* pCapsule = (kpuBoundingCapsule*)&bOther;
+			return kpuCollisionDetection::BoxVsCapsule(m_vMin, m_vMax, pCapsule->GetStart(), pCapsule->GetEnd(), pCapsule->GetRadius());
+		}
+	}
 
-	if(m_vMin.GetZ() >= bBox.m_vMax.GetZ() )
-		return false;
-	if(m_vMax.GetZ() <= bBox.m_vMin.GetZ() )
-		return false;
-	
-			
-	return true;
+	return collisionData;
+
 }
+
+void kpuBoundingBox::Transform(const kpuMatrix &matrix)
+{
+	m_vMin *= matrix;
+	m_vMax *= matrix;
+}
+
+//bool kpuBoundingBox::Intersects(kpuBoundingBox &bBox)
+//{
+//	if(m_vMin.GetX() >= bBox.m_vMax.GetX() )
+//		return false;
+//	if(m_vMax.GetX() <= bBox.m_vMin.GetX() )
+//		return false;
+//
+//	if(m_vMin.GetY() >= bBox.m_vMax.GetY() )
+//		return false;
+//	if(m_vMax.GetY() <= bBox.m_vMin.GetY() )
+//		return false;
+//
+//	if(m_vMin.GetZ() >= bBox.m_vMax.GetZ() )
+//		return false;
+//	if(m_vMax.GetZ() <= bBox.m_vMin.GetZ() )
+//		return false;
+//	
+//			
+//	return true;
+//}
 
 bool kpuBoundingBox::Contains2D(kpuBoundingBox& bBox)
 {
@@ -58,12 +97,6 @@ bool kpuBoundingBox::Contains2D(kpuBoundingBox& bBox)
 		}
 	}
 
-
-	return false;
-}
-
-bool kpuBoundingBox::Intersects(kpuBoundingSphere &bSphere)
-{
 
 	return false;
 }

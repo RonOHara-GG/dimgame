@@ -57,31 +57,11 @@ void Actor::Draw(kpgRenderer* pRenderer)
 		m_pModel->Draw(pRenderer);
 }
 
-kpuVector Actor::GetLocation()
-{
-	if( m_pModel )
-	{
-		return m_pModel->GetInstance(0)->GetMatrix().GetD();
-	}
-	else
-	{
-		return kpuVector();
-	}
-}
+
 
 //int Actor::GetLevel() { return m_iLevel; }
 
-void Actor::SetLocation(const kpuVector& vNewLoc)
-{
-	//move bounding objects
-	m_bBox.Move(vNewLoc - GetLocation());
-	m_bSphere.Move(vNewLoc - GetLocation());
 
-	if( m_pModel )
-	{
-		m_pModel->GetInstance(0)->SetPosition(vNewLoc.GetX(), vNewLoc.GetY(), vNewLoc.GetZ());
-	}	
-}
 
 void Actor::UpdateMovement(float fDeltaTime)
 {
@@ -183,13 +163,6 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 void Actor::Move(kpuVector& vVel)
 {
-	//for now use model as collision mesh
-	if ( !m_pCollisionModel )
-	{
-		m_pCollisionModel = new kpgModel();
-		m_pCollisionModel->SetGeometryInstance(m_pModel->GetInstance(0));
-	}
-
 	kpuPhysicalObject::Move(vVel);
 
 	SetLocation(GetLocation() + vVel);

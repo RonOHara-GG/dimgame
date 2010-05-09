@@ -53,7 +53,7 @@ private:
 	int* LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	int* LoadPolygons(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(TiXmlElement* pInstElement);
-	void CalculateBoundingBox(kpuFixedArray<float>	&aFloats);
+	kpuBoundingBox CalculateBoundingBox(kpuFixedArray<float>	&aFloats);
 
 
 protected:

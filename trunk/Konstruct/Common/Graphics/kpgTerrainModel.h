@@ -21,6 +21,7 @@ private:
 		int								iY;
 		int								iRotations;
 		char*							szModelFile;
+		char*							szCollisionMeshFile;
 		kpuVector					    vDimensions;
 		int								aWallRanges[8];
 		int								aDoorLocations[8];

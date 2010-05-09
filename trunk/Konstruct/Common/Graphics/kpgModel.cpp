@@ -110,6 +110,7 @@ bool kpgModel::Load(const char* cszFileName)
 		DWORD dwErr = GetLastError();
 		Printf("Failed to load file: %s\n", szFileName);
 	}
+
 	return bRet;
 }
 
@@ -283,7 +284,7 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 
 		kpgVertexBuffer* pVertexBuffer = pGeometry->GetVertexBuffer();
 
-		CalculateBoundingBox(pPositions->aFloats);
+		m_aCollisionPrimatives.Add(CalculateBoundingBox(pPositions->aFloats));
 
 		pVertexBuffer->Lock();
 		for( int i = 0; i < iVertCount; i++ )
@@ -298,6 +299,7 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 			pVertexBuffer->SetNormal(i, vNrm);
 			pVertexBuffer->SetUV(i, vUV);
 		}
+
 		pVertexBuffer->Unlock();
 
 		kpgIndexBuffer* pIndexBuffer = pGeometry->GetIndexBuffer();
@@ -782,7 +784,7 @@ void kpgModel::SetGeometryInstance(kpgGeometryInstance* pInst)
 	m_aInstances.Add(new kpgGeometryInstance(pInst->GetGeometry()));
 }
 
-void kpgModel::CalculateBoundingBox(kpuFixedArray<float>	&aFloats)
+kpuBoundingBox kpgModel::CalculateBoundingBox(kpuFixedArray<float> &aFloats)
 {
 	float fXMin, fXMax, fZMin, fZMax, fYMin, fYMax;
 	fXMin = fXMax = aFloats[0];
@@ -818,5 +820,5 @@ void kpgModel::CalculateBoundingBox(kpuFixedArray<float>	&aFloats)
 
 	}
 
-	m_bBox = kpuBoundingBox(kpuVector(fXMin, fYMin, fZMin, 0.0f), kpuVector(fXMax, fYMax, fZMax, 0.0f));
+	return kpuBoundingBox(kpuVector(fXMin, fYMin, fZMin, 0.0f), kpuVector(fXMax, fYMax, fZMax, 0.0f));
 }
