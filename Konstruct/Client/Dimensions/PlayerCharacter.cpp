@@ -18,6 +18,13 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 		m_pModel = 0;
 	}
 
+	kpgModel* pCollision = new kpgModel();
+
+	if( pCollision->Load("Assets\\Player\\PlayerCollision.dae") )
+		CalculateBoundingVolumes(pCollision);
+
+	delete pCollision;
+
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
 
 	m_fBaseSpeed = 10.0f;
@@ -30,16 +37,15 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	m_pEquippedWeapon = 0;
 
-	Init(m_pModel->GetBoundingBox().GetMin(), m_pModel->GetBoundingBox().GetMax());
+	/*Init(m_pModel->GetBoundingBox().GetMin(), m_pModel->GetBoundingBox().GetMax());
 	m_bBox.Move(GetLocation());
-	m_bSphere.Move(GetLocation());
+	m_bSphere.Move(GetLocation());*/
 
 }
 
 PlayerCharacter::~PlayerCharacter(void)
 {
-	if(m_pModel)
-		delete m_pModel;
+
 
 	if(m_aClasses)
 		delete[] m_aClasses;

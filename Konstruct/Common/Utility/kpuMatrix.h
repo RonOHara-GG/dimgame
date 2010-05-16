@@ -227,3 +227,16 @@ inline void kpuVector::operator *=(const kpuMatrix& m)
 
 	Set(fX, fY, fZ, fW);
 }
+
+inline kpuVector kpuVector::operator *(const kpuMatrix& m)
+{
+	kpuMatrix trans = m;
+	trans.Transpose();	
+
+	float fX = Dot4(trans.m_vA);
+	float fY = Dot4(trans.m_vB);
+	float fZ = Dot4(trans.m_vC);
+	float fW = Dot4(trans.m_vD);
+
+	return kpuVector(fX, fY, fZ, fW);
+}

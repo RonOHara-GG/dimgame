@@ -33,6 +33,7 @@ typedef struct _EnemyLoadStructure
     float fAttackSpeed;
     int iDamageType;
 	kpgModel* pModel;
+	kpgModel* pCollision;
 
 
 }EnemyLoadStructure;

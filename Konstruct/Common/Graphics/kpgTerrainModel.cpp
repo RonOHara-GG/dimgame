@@ -471,6 +471,14 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		}
 	}
 
+	//TerrainData data = aTerrainData[0];
+	//data.iPiece = 0;
+	//data.iRotations = 1;
+	//data.iX = 50;
+	//data.iY = 50;
+	//aFinalMap.Add(data);
+
+
 	m_aGeometries.SetSize(aTerrainData.GetNumElements());
 	kpuFixedArray<kpgModel*> aCollisionMeshes(aTerrainData.GetNumElements());
 
@@ -481,16 +489,10 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 
 		model->Load(aTerrainData[i].szModelFile);
 		m_aGeometries.Add(model->GetInstance(0)->GetGeometry());
-
-		/*if( aTerrainData[i].szCollisionMeshFile )
-		{
-			model = new kpgModel();
-			model->Load(aTerrainData[i].szCollisionMeshFile);
-			aCollisionMeshes.Add(model);
-		}
-		else
-			aCollisionMeshes.Add(0);*/		
 		
+		model = new kpgModel();
+		model->Load(aTerrainData[i].szCollisionMeshFile);
+		aCollisionMeshes.Add(model);		
 	}
 
 	m_aInstances.SetSize(aFinalMap.Count());
@@ -504,7 +506,7 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		kpgGeometryInstance* pInst = new kpgGeometryInstance(m_aGeometries[aFinalMap[i].iPiece]);
 
 		pInst->SetPermYRotation( aFinalMap[i].iRotations * -1.570796 );
-		kpuVector vPos(aFinalMap[i].iX - iWidth / 2 + aFinalMap[i].vDimensions.GetX() / 2, 0.0f , aFinalMap[i].iY  - iHeigth / 2+ aFinalMap[i].vDimensions.GetZ() / 2, 0.0f);
+		kpuVector vPos(aFinalMap[i].iX - iWidth / 2 + aFinalMap[i].vDimensions.GetX() / 2, 0.0f , aFinalMap[i].iY  - iHeigth / 2+ aFinalMap[i].vDimensions.GetZ() / 2, 1.0f);
 		pInst->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
 		
 		m_aInstances.Add(pInst);
@@ -512,11 +514,12 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		vPos += ( aFinalMap[i].vDimensions * -0.5 );
 		vPos.SetY(0);
 	
+		kpgModel* pModel = new kpgModel();
+		pModel->SetGeometryInstance(pInst, pInst->GetMatrix());
 		//make a new physical object and set its collision mesh
-		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions);
-
-		/*if( aFinalMap[i].szCollisionMeshFile )
-			obj->SetSmallBoxes(aCollisionMeshes[i]->GetSmallBoxes());*/
+		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions, pModel);
+		
+		obj->CalculateBoundingVolumes(aCollisionMeshes[aFinalMap[i].iPiece]);		
 
 		m_paPhysicalObjects->Add(obj);	
 	}

@@ -111,6 +111,47 @@ bool kpgModel::Load(const char* cszFileName)
 		Printf("Failed to load file: %s\n", szFileName);
 	}
 
+	//Create bounding volumes for this model
+	kpgVertexBuffer* vb = m_aInstances[0]->GetGeometry()->GetVertexBuffer();
+	vb->Lock();
+	kpuVector vMin, vMax;
+	
+	vMax = vb->GetPosition(0);
+	vMin = vMax;
+	
+
+	for(int i = 0; i < m_aInstances.GetNumElements(); i++)
+	{
+		vb = m_aInstances[i]->GetGeometry()->GetVertexBuffer();
+		vb->Lock();
+
+		for(int j = 0; j < vb->GetVertexCount(); j++)
+		{
+			kpuVector vNext = vb->GetPosition(j);
+
+			if( vNext.GetX() > vMax.GetX() )
+				vMax.SetX(vNext.GetX());
+			if( vNext.GetY() > vMax.GetY() )
+				vMax.SetY(vNext.GetY());
+			if( vNext.GetZ() > vMax.GetZ() )
+				vMax.SetZ(vNext.GetZ());
+
+			if( vNext.GetX() < vMin.GetX() )
+				vMin.SetX(vNext.GetX());
+			if( vNext.GetY() < vMin.GetY() )
+				vMin.SetY(vNext.GetY());
+			if( vNext.GetZ() < vMin.GetZ() )
+				vMin.SetZ(vNext.GetZ());
+		}
+		vb->Unlock();
+	}
+
+	vMax.SetW(1);
+	vMin.SetW(1);
+
+	Init(vMin, vMax);
+	
+
 	return bRet;
 }
 
@@ -284,7 +325,7 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 
 		kpgVertexBuffer* pVertexBuffer = pGeometry->GetVertexBuffer();
 
-		m_aCollisionPrimatives.Add(CalculateBoundingBox(pPositions->aFloats));
+		m_aCollisionPrimatives.Add(new kpuBoundingBox(CalculateBoundingBox(pPositions->aFloats)));
 
 		pVertexBuffer->Lock();
 		for( int i = 0; i < iVertCount; i++ )
@@ -784,41 +825,9 @@ void kpgModel::SetGeometryInstance(kpgGeometryInstance* pInst)
 	m_aInstances.Add(new kpgGeometryInstance(pInst->GetGeometry()));
 }
 
-kpuBoundingBox kpgModel::CalculateBoundingBox(kpuFixedArray<float> &aFloats)
+void kpgModel::SetGeometryInstance(kpgGeometryInstance* pInst, const kpuMatrix& mLocalToWorld)
 {
-	float fXMin, fXMax, fZMin, fZMax, fYMin, fYMax;
-	fXMin = fXMax = aFloats[0];
-	fYMin = fYMax = aFloats[1];
-	fZMin = fZMax = aFloats[2];
-
-	for(int i = 0; i < aFloats.GetNumElements(); i+=3)
-	{
-		float fNextX = aFloats[i];
-		float fNextY = aFloats[i + 1];
-		float fNextZ = aFloats[i + 2];
-
-		//Check X min/max
-		if ( fNextX < fXMin )
-			fXMin = fNextX;
-
-		if ( fNextX > fXMax )
-			fXMax = fNextX;
-
-		//Check Y min/max
-		if ( fNextY < fYMin )
-			fYMin = fNextY;
-		
-		if ( fNextY > fYMax )
-			fYMax = fNextY;
-
-		//Check Z min/max
-		if ( fNextZ < fZMin )
-			fZMin = fNextZ;
-
-		if ( fNextZ > fZMax)
-			fZMax = fNextZ;
-
-	}
-
-	return kpuBoundingBox(kpuVector(fXMin, fYMin, fZMin, 0.0f), kpuVector(fXMax, fYMax, fZMax, 0.0f));
+	m_aInstances.SetSize(1);
+	m_aInstances.Add(new kpgGeometryInstance(pInst->GetGeometry(), mLocalToWorld));
 }
+

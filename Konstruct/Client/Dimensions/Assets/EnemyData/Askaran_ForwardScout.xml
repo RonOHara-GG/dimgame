@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Enemy Name="Askaran Forward Scout" Level="1" Health="50" Speed="2.5" Model="Assets/Player/brettsPlayer.dae"
+<Enemy Name="Askaran Forward Scout" Level="1" Health="50" Speed="2.5" Model="Assets/Player/brettsPlayer.dae" Collision="Assets/Player/PlayerCollision.dae"
 		Damage="0" Aggro="0" AtkRange="0" AtkSpeed="0" DamageType="0">
 	<!-- Resists are given as percents out of 100 -->
 	<Resists Crushing="0" Piercing="0" Slashing="0" Mental="0" Heat="15" Cold="15"

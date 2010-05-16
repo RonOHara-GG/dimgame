@@ -5,6 +5,7 @@
 #include "kpuVector.h"
 #include "kpuArrayList.h"
 #include "kpuMatrix.h"
+#include "kpuFixedArray.h"
 
 class kpgModel;
 class kpuQuadTree;
@@ -13,30 +14,36 @@ class kpuPhysicalObject
 {
 public:
 	kpuPhysicalObject(void);
-	kpuPhysicalObject(kpuVector vMin, kpuVector vMax);
+	kpuPhysicalObject(kpuVector vMin, kpuVector vMax, kpgModel* pModel);
 	virtual ~kpuPhysicalObject(void);
 
-	virtual kpuVector				GetLocation();
-	virtual void					SetLocation(const kpuVector& vNewLoc);
-	const kpuMatrix&				GetMatrix();
-	void							Init(kpuVector vMin, kpuVector vMax);
-	kpuBoundingBox					GetBoundingBox()	{ return m_bBox; }
-	kpuBoundingSphere				GetSphere()			{ return m_bSphere; }
-	kpuBoundingVolume				GetPrimative(int i) { return m_aCollisionPrimatives[i]; }
-	int								GetPrimativeCount()	{ return m_aCollisionPrimatives.Count(); }
-	void							SetPrimatives(kpuArrayList<kpuBoundingVolume> &aVolumes);
+	virtual kpuVector					GetLocation();
+	virtual void						SetLocation(const kpuVector& vNewLoc);
+	const kpuMatrix&					GetMatrix();
+	void								Init(kpuVector vMin, kpuVector vMax);
+	
+	kpuBoundingBox						GetBoundingBox()										{ return m_bBox; }
+	kpuBoundingSphere					GetSphere()												{ return m_bSphere; }
+	kpuBoundingVolume*					GetPrimative(int i)										{ return m_aCollisionPrimatives[i]; }
+	kpuArrayList<kpuBoundingVolume*>*	GetPrimatives()											{ return &m_aCollisionPrimatives; }
+	int									GetPrimativeCount()										{ return m_aCollisionPrimatives.Count(); }
+	void								CalculateBoundingVolumes(kpgModel* pCollisionMesh);
 
-	kpuQuadTree*					GetCurrentNode()	{ return m_pCurrentNode; }
-	void							SetCurrentNode(kpuQuadTree* node) { m_pCurrentNode = node; }
+	kpuQuadTree*						GetCurrentNode()										{ return m_pCurrentNode; }
+	void								SetCurrentNode(kpuQuadTree* node)						{ m_pCurrentNode = node; }
 
-	virtual void					Move(kpuVector& vVel);	
+	virtual void						Move(kpuVector vVel);	
 
 protected:
+	kpuBoundingBox						CalculateBoundingBox(kpuFixedArray<float> &aFloats);
+
 	kpgModel*							m_pModel;
 	kpuBoundingSphere					m_bSphere;
 	kpuBoundingBox						m_bBox;
-	kpuArrayList<kpuBoundingVolume>		m_aCollisionPrimatives;
+	kpuArrayList<kpuBoundingVolume*>	m_aCollisionPrimatives;
 
-	kpuQuadTree*		m_pCurrentNode;
+	kpuQuadTree*						m_pCurrentNode;
+
+	
 	
 };

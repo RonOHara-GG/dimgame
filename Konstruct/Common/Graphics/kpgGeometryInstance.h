@@ -7,6 +7,7 @@ class kpgGeometryInstance
 {
 public:
 	kpgGeometryInstance(kpgGeometry* pGeometry);
+	kpgGeometryInstance(kpgGeometry* pGeometry, const kpuMatrix& mLocalToWorld);
 	virtual ~kpgGeometryInstance(void);
 					
 	void SetRotation(float fX, float fY, float fZ)		{ m_mLocalToWorld.SetAxisRotation(fX, fY, fZ); }

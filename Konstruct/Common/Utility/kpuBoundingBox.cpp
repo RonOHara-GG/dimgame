@@ -29,37 +29,70 @@ void kpuBoundingBox::operator =(const kpuBoundingBox& bBox)
 	m_vMin = bBox.m_vMin;
 }
 
-kpuCollisionData kpuBoundingBox::Intersects(kpuBoundingVolume &bOther)
+void kpuBoundingBox::Intersects(kpuBoundingVolume* bOther, const kpuMatrix& matrix, kpuCollisionData& data)
 {
-	kpuCollisionData collisionData;
-
-	switch ( bOther.GetType() )
+	switch ( bOther->GetType() )
 	{
 	case eVT_Sphere:
 		{
-			kpuBoundingSphere* pSphere = (kpuBoundingSphere*)&bOther;
-			return kpuCollisionDetection::SphereVsBox(pSphere->GetLocation(), pSphere->GetRadius(),m_vMin, m_vMax); 
+			kpuBoundingSphere pSphere = *(kpuBoundingSphere*)bOther;
+			pSphere.Transform(matrix);
+			kpuCollisionDetection::SphereVsBox(pSphere.GetLocation(), pSphere.GetRadius(), m_vMin, m_vMax, data); 
+			break;
 		}
 	case eVT_Box:
 		{
-			kpuBoundingBox* pBox = (kpuBoundingBox*)&bOther;
-			return kpuCollisionDetection::BoxVsBox(m_vMin, m_vMax, pBox->m_vMin, pBox->m_vMax);
+			kpuBoundingBox pBox = *(kpuBoundingBox*)bOther;
+			pBox.Transform(matrix);
+			kpuCollisionDetection::BoxVsBox(m_vMin, m_vMax, pBox.m_vMin, pBox.m_vMax, data);
+			break;
 		}
 	case eVT_Capsule:
 		{
-			kpuBoundingCapsule* pCapsule = (kpuBoundingCapsule*)&bOther;
-			return kpuCollisionDetection::BoxVsCapsule(m_vMin, m_vMax, pCapsule->GetStart(), pCapsule->GetEnd(), pCapsule->GetRadius());
+			kpuBoundingCapsule pCapsule = *(kpuBoundingCapsule*)bOther;
+			pCapsule.Transform(matrix);
+			kpuCollisionDetection::BoxVsCapsule(m_vMin, m_vMax, pCapsule.GetStart(), pCapsule.GetEnd(), pCapsule.GetRadius(), data);
+			break;
 		}
 	}
-
-	return collisionData;
 
 }
 
 void kpuBoundingBox::Transform(const kpuMatrix &matrix)
 {
-	m_vMin *= matrix;
-	m_vMax *= matrix;
+	float fWidth = m_vMax.GetX() - m_vMin.GetX();
+	float fHeight = m_vMax.GetY() - m_vMin.GetY();
+	float fLength = m_vMax.GetZ() - m_vMin.GetZ();
+
+	//rotate min and max
+	kpuVector transformMin = m_vMin * matrix;
+	kpuVector transformMax = m_vMax * matrix;
+
+	//find new min and max
+	if( transformMin.GetX() > transformMax.GetX() )
+	{	
+		float fMin = transformMax.GetX();
+		transformMax.SetX(transformMin.GetX());
+		transformMin.SetX(fMin);
+	}
+
+	if( transformMin.GetY() > transformMax.GetY() )
+	{	
+		float fMin = transformMax.GetY();
+		transformMax.SetY(transformMin.GetY());
+		transformMin.SetY(fMin);
+	}
+
+	if( transformMin.GetZ() > transformMax.GetZ() )
+	{	
+		float fMin = transformMax.GetZ();
+		transformMax.SetZ(transformMin.GetZ());
+		transformMin.SetZ(fMin);
+	}
+
+	m_vMax = transformMax;
+	m_vMin = transformMin;
+
 }
 
 //bool kpuBoundingBox::Intersects(kpuBoundingBox &bBox)
@@ -99,4 +132,44 @@ bool kpuBoundingBox::Contains2D(kpuBoundingBox& bBox)
 
 
 	return false;
+}
+
+
+bool kpuBoundingBox::Contains2D(kpuBoundingCapsule &bCapsule)
+{
+	bool bCollided = false;
+	if( bCapsule.GetStart().GetX() > m_vMax.GetX() )
+	{
+		//then the capsule end must be less than this boxes max x
+		bCollided = bCapsule.GetEnd().GetX() - bCapsule.GetRadius() < m_vMax.GetX();
+
+	}
+
+	if( bCapsule.GetStart().GetX() < m_vMin.GetX() )
+	{
+		//then the capsule end must be greater than this boxes min x
+		bCollided = bCapsule.GetEnd().GetX() + bCapsule.GetRadius() > m_vMin.GetX();
+	}
+
+	if( bCapsule.GetStart().GetZ() > m_vMax.GetZ() )
+	{
+		//then the capsule end must be less than this boxes max z
+		bCollided = bCapsule.GetEnd().GetZ() - bCapsule.GetRadius() < m_vMax.GetZ();
+
+	}
+
+	if( bCapsule.GetStart().GetZ() < m_vMin.GetZ() )
+	{
+		//then the capsule end must be greater than this boxes min z
+		bCollided = bCapsule.GetEnd().GetZ() + bCapsule.GetRadius() > m_vMin.GetZ();
+	}
+
+	//or the box contains the start or end
+	if( bCapsule.GetStart().GetX() > m_vMin.GetX() && bCapsule.GetStart().GetX() < m_vMax.GetX() && bCapsule.GetStart().GetZ() > m_vMin.GetZ() && bCapsule.GetStart().GetZ() < m_vMax.GetZ() )
+		bCollided = true;
+
+	if( bCapsule.GetEnd().GetX() > m_vMin.GetX() && bCapsule.GetEnd().GetX() < m_vMax.GetX() && bCapsule.GetEnd().GetZ() > m_vMin.GetZ() && bCapsule.GetEnd().GetZ() < m_vMax.GetZ() )
+		bCollided = true;
+
+	return bCollided;
 }

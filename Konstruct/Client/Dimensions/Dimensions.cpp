@@ -158,6 +158,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		{
 			EnemyLoadStructure* type = (*g_paEnemyTypes)[i];
 			delete type->pModel;
+			delete type->pCollision;
 			delete type;
 		}
 
@@ -249,6 +250,8 @@ void LoadEnemyType(const char* pszFile)
 		enemyType->fSpeed = atof(pElement->Attribute("Speed"));
 		enemyType->pModel = new kpgModel();
 		enemyType->pModel->Load(pElement->Attribute("Model"));
+		enemyType->pCollision = new kpgModel();
+		enemyType->pCollision->Load(pElement->Attribute("Collision"));
 		enemyType->iDamage = atoi(pElement->Attribute("Damage"));
 		enemyType->fAggroRange = atof(pElement->Attribute("Aggro"));
 		enemyType->fAttackRange = atof(pElement->Attribute("AtkRange"));

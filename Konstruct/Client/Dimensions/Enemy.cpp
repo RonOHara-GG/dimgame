@@ -3,6 +3,7 @@
 #include "grid.h"
 #include "level.h"
 #include "LoadStructures.h"
+#include "Common/Graphics/kpgGeometryInstance.h"
 
 
 Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
@@ -10,6 +11,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	m_pModel = new kpgModel();
 	m_pModel->SetGeometryInstance(loadStruct.pModel->GetInstance(0));
 	
+	CalculateBoundingVolumes(loadStruct.pCollision);
 
 	m_eCurrentState = eNS_Waiting;
 
@@ -39,10 +41,6 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	m_fAggroRange = loadStruct.fAggroRange;
     m_fAttackSpeed = loadStruct.fAttackSpeed;
     m_eDamageType = (DamageType)loadStruct.iDamageType;
-
-	Init(loadStruct.pModel->GetBoundingBox().GetMin(), loadStruct.pModel->GetBoundingBox().GetMax());
-	m_bBox.Move(GetLocation());
-	m_bSphere.Move(GetLocation());
 
 }
 

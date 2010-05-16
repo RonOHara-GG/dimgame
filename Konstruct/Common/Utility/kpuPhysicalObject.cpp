@@ -3,28 +3,65 @@
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Utility/kpuQuadTree.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
+#include "Common/Graphics/kpgGeometry.h"
+#include "Common/Graphics/kpgVertexBuffer.h"
 
 kpuPhysicalObject::kpuPhysicalObject(void)
 {
+	m_pModel = 0;
 	
 
 }
 
-kpuPhysicalObject::kpuPhysicalObject(kpuVector vMin, kpuVector vMax)
+kpuPhysicalObject::kpuPhysicalObject(kpuVector vMin, kpuVector vMax, kpgModel* pModel)
 {
+	m_pModel = pModel;
 	Init(vMin, vMax);
 }
 
 kpuPhysicalObject::~kpuPhysicalObject(void)
 {
+	if(m_pModel)
+		delete m_pModel;
 
 }
-void kpuPhysicalObject::SetPrimatives(kpuArrayList<kpuBoundingVolume>& aVolumes)
+
+//kpuBoundingVolume*  kpuPhysicalObject::GetPrimative(int i)
+//{
+//	kpuBoundingVolume* volume = m_aCollisionPrimatives[i];
+//
+//	switch(volume->GetType())
+//	{
+//	case kpuBoundingVolume::eVT_Box:
+//		{
+//			return kpuBoundingBox(*(kpuBoundingBox*)m_aCollisionPrimatives[i]);
+//		}
+//	case kpuBoundingVolume::eVT_Sphere:
+//		{
+//			return kpuBoundingSphere(*(kpuBoundingSphere*)m_aCollisionPrimatives[i]);
+//		}
+//	case kpuBoundingVolume::eVT_Capsule:
+//		{
+//			return kpuBoundingCapsule(*(kpuBoundingCapsule*)m_aCollisionPrimatives[i]);
+//		}	
+//	}
+//
+//	return volume;
+//}
+
+void kpuPhysicalObject::CalculateBoundingVolumes(kpgModel* pCollisionMesh)
 {
-	for(int i = 0; i < aVolumes.Count(); i++ )
-	{
-		m_aCollisionPrimatives.Add(aVolumes[i]);
-	}
+	kpuArrayList<kpuBoundingVolume*>* aVolumes = pCollisionMesh->GetPrimatives();
+
+	//get smaller primatives
+	for(int i = 0; i < aVolumes->Count(); i++ )
+    {	
+		kpuBoundingVolume* volume = (*aVolumes)[i];		
+		m_aCollisionPrimatives.Add(volume);		
+    }
+
+	m_bBox = pCollisionMesh->GetBoundingBox();
+	m_bSphere = pCollisionMesh->GetSphere();	
 
 }
 
@@ -62,19 +99,70 @@ void kpuPhysicalObject::Init(kpuVector vMin, kpuVector vMax)
 	m_bBox = kpuBoundingBox(vMin, vMax);
 
 	//find longest side for radius
-	float fRadius = (vMax - vMin).Length();	
+	float fRadius = (vMax- vMin).Length();
 
 	kpuVector vCenter = (vMax - vMin ) * 0.5 + vMin;
 
 	m_bSphere = kpuBoundingSphere(fRadius / 2, vCenter);
 }
-void kpuPhysicalObject::Move(kpuVector& vVel)
+
+void kpuPhysicalObject::Move(kpuVector vVel)
 {
+	/*if( vVel != kpuv_Zero )
+	{
+		kpuVector vDir = vVel;
+		vDir.Normalize();
+
+		m_fRotation = atan2(vDir.GetX(),vDir.GetZ());
+		m_pModel->RotateY(m_fRotation);
+	}*/
+
 	m_pCurrentNode->Remove(this);
 
 	float fPercent = m_pCurrentNode->Move(vVel, this);
 	vVel *= fPercent;
 
+	SetLocation(GetLocation() + vVel);	
+
 	
+}
+
+kpuBoundingBox kpuPhysicalObject::CalculateBoundingBox(kpuFixedArray<float> &aFloats)
+{
+	float fXMin, fXMax, fZMin, fZMax, fYMin, fYMax;
+	fXMin = fXMax = aFloats[0];
+	fYMin = fYMax = aFloats[1];
+	fZMin = fZMax = aFloats[2];
+
+	for(int i = 0; i < aFloats.GetNumElements(); i+=3)
+	{
+		float fNextX = aFloats[i];
+		float fNextY = aFloats[i + 1];
+		float fNextZ = aFloats[i + 2];
+
+		//Check X min/max
+		if ( fNextX < fXMin )
+			fXMin = fNextX;
+
+		if ( fNextX > fXMax )
+			fXMax = fNextX;
+
+		//Check Y min/max
+		if ( fNextY < fYMin )
+			fYMin = fNextY;
+		
+		if ( fNextY > fYMax )
+			fYMax = fNextY;
+
+		//Check Z min/max
+		if ( fNextZ < fZMin )
+			fZMin = fNextZ;
+
+		if ( fNextZ > fZMax)
+			fZMax = fNextZ;
+
+	}
+
+	return kpuBoundingBox(kpuVector(fXMin, fYMin, fZMin, 1.0f), kpuVector(fXMax, fYMax, fZMax, 1.0f));
 }
 

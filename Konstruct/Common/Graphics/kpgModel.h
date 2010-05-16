@@ -39,6 +39,7 @@ public:
 	int GetInstanceCount()									{ return m_aInstances.GetNumElements(); }
 	kpgGeometryInstance* GetInstance(int iIndex)			{ return m_aInstances[iIndex]; }	
 	void SetGeometryInstance(kpgGeometryInstance* pInst);
+	void SetGeometryInstance(kpgGeometryInstance* pInst, const kpuMatrix& mLocalToWolrd);
 
 	kpuVector GetPosition();
 	void	  SetPosition(kpuVector& vPos);
@@ -53,7 +54,7 @@ private:
 	int* LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	int* LoadPolygons(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(TiXmlElement* pInstElement);
-	kpuBoundingBox CalculateBoundingBox(kpuFixedArray<float>	&aFloats);
+	
 
 
 protected:
