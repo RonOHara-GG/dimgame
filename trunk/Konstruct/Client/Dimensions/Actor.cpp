@@ -131,26 +131,13 @@ void Actor::UpdateMovement(float fDeltaTime)
 					}
 				}
 
-				m_fRotation = atan2(vToTarget.GetX(),vToTarget.GetZ());
-
-				/*vToTarget.Normalize();
-				m_fRotation = acos(vToTarget.GetZ());
-
-				if(vToTarget.GetX() < 0)
-					m_fRotation += PI;*/
-
 			}
 			else
 			{
 				// We have a ways to go before we hit the target
 				vToTarget *= 1.0f / fDistToTarget;
-				//vMyLocation += vToTarget * fMoveDelta;
 				//SetLocation(vMyLocation);
 				Move(vToTarget * fMoveDelta);
-				
-				m_fRotation = atan2(vToTarget.GetX(),vToTarget.GetZ());
-				/*if(vToTarget.GetX() < 0)
-					m_fRotation += PI;*/
 
 				//Add actor to current tile
 				g_pGameState->GetLevel()->GetGrid()->AddActor(this);
@@ -161,17 +148,20 @@ void Actor::UpdateMovement(float fDeltaTime)
 	}
 }
 
-void Actor::Move(kpuVector& vVel)
+void Actor::Move(kpuVector vVel)
 {
 	kpuPhysicalObject::Move(vVel);
-
-	SetLocation(GetLocation() + vVel);
 
 	//if velocity comes back zero clear path
 	if ( vVel == kpuv_Zero )
 	{
 		m_iDestinationTile = -1;
 		m_iCurrentPathNode = -1; 
+	}
+	else
+	{
+		vVel.Normalize();
+		m_fRotation = atan2(vVel.GetX(),vVel.GetZ());
 	}
 }
 

@@ -29,6 +29,7 @@ public:
 	kpuVector	operator *(float fScalar) const;			// Scale
 	kpuVector	operator /(const kpuVector& v) const;		// Divide
 	kpuVector	operator %(const kpuVector& v) const;		// Cross
+	kpuVector   operator *(const kpuMatrix& m);
 	void     	operator =(const kpuVector& v);				//Equals
 
 	void		operator +=(const kpuVector& v);			// Add

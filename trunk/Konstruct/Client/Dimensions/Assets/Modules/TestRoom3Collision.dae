@@ -15,8 +15,8 @@
 		</comments>
       <source_data>file:///C:/Projects/Dimensions/Konstruct/Client/Dimensions/Assets/Modules/TestRoom3Collision.mb</source_data>
     </contributor>
-    <created>2010-05-04T15:38:43</created>
-    <modified>2010-05-04T15:38:43</modified>
+    <created>2010-05-13T13:50:31</created>
+    <modified>2010-05-13T13:50:31</modified>
     <unit name="centimeter" meter="0.01"/>
     <up_axis>Y_UP</up_axis>
   </asset>
@@ -243,54 +243,6 @@
         </technique>
       </extra>
     </geometry>
-    <geometry id="pCubeShape9" name="pCubeShape9">
-      <mesh>
-        <source id="pCubeShape9-positions" name="pCubeShape9-positions">
-          <float_array id="pCubeShape9-positions-array" count="24">-16 0 -0.06268883 -15 0 -0.06268883 -16 3 -0.06268883 -15 3 -0.06268883 -16 3 -16.06269 -15 3 -16.06269 -16 0 -16.06269 -15 0 -16.06269</float_array>
-          <technique_common>
-            <accessor source="#pCubeShape9-positions-array" count="8" stride="3">
-              <param name="X" type="float"/>
-              <param name="Y" type="float"/>
-              <param name="Z" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="pCubeShape9-normals" name="pCubeShape9-normals">
-          <float_array id="pCubeShape9-normals-array" count="72">0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 -1 0 0 -1 0 0 -1 0 0 -1 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0</float_array>
-          <technique_common>
-            <accessor source="#pCubeShape9-normals-array" count="24" stride="3">
-              <param name="X" type="float"/>
-              <param name="Y" type="float"/>
-              <param name="Z" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="pCubeShape9-map1" name="pCubeShape9-map1">
-          <float_array id="pCubeShape9-map1-array" count="28">0.375 0 0.625 0 0.375 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0 0.875 0.25 0.125 0 0.125 0.25</float_array>
-          <technique_common>
-            <accessor source="#pCubeShape9-map1-array" count="14" stride="2">
-              <param name="S" type="float"/>
-              <param name="T" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <vertices id="pCubeShape9-vertices" name="pCubeShape9-vertices">
-          <input semantic="POSITION" source="#pCubeShape9-positions"/>
-        </vertices>
-        <triangles material="initialShadingGroup" count="12">
-          <input semantic="VERTEX" source="#pCubeShape9-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#pCubeShape9-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#pCubeShape9-map1" offset="2" set="0"/>
-          <p>0 0 0 1 1 1 2 3 2 2 3 2 1 1 1 3 2 3 2 4 2 3 5 3 4 7 4 4 7 4 3 5 3 5 6 5 4 8 4 5 9 5 6 11 6 6 11 6 5 9 5 7 10 7 6 12 6 7 13 7 0 15 8 0 15 8 7 13 7 1 14 9 1 16 1 7 17 10 3 19 3 3 19 3 7 17 10 5 18 11 6 20 12 0 21 0 4 23 13 4 23 13 0 21 0 2 22 2</p>
-        </triangles>
-      </mesh>
-      <extra>
-        <technique profile="OpenCOLLADAMaya">
-          <originalMayaNodeId>pCubeShape9</originalMayaNodeId>
-          <double_sided>1</double_sided>
-        </technique>
-      </extra>
-    </geometry>
     <geometry id="pCubeShape10" name="pCubeShape10">
       <mesh>
         <source id="pCubeShape10-positions" name="pCubeShape10-positions">
@@ -342,7 +294,7 @@
     <geometry id="pCubeShape12" name="pCubeShape12">
       <mesh>
         <source id="pCubeShape12-positions" name="pCubeShape12-positions">
-          <float_array id="pCubeShape12-positions-array" count="24">-16 0 -0.06268883 -15 0 -0.06268883 -16 3 -0.06268883 -15 3 -0.06268883 -16 3 -16.06269 -15 3 -16.06269 -16 0 -16.06269 -15 0 -16.06269</float_array>
+          <float_array id="pCubeShape12-positions-array" count="24">-16 0 3.11375e-4 -15 0 3.11375e-4 -16 3 3.11375e-4 -15 3 3.11375e-4 -16 3 -15.99969 -15 3 -15.99969 -16 0 -15.99969 -15 0 -15.99969</float_array>
           <technique_common>
             <accessor source="#pCubeShape12-positions-array" count="8" stride="3">
               <param name="X" type="float"/>
@@ -352,7 +304,7 @@
           </technique_common>
         </source>
         <source id="pCubeShape12-normals" name="pCubeShape12-normals">
-          <float_array id="pCubeShape12-normals-array" count="72">0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 -1 0 0 -1 0 0 -1 0 0 -1 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0</float_array>
+          <float_array id="pCubeShape12-normals-array" count="72">0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0.9999999 0 0 0.9999999 0 0 0.9999999 0 0 0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0</float_array>
           <technique_common>
             <accessor source="#pCubeShape12-normals-array" count="24" stride="3">
               <param name="X" type="float"/>
@@ -591,21 +543,6 @@
         <extra>
           <technique profile="OpenCOLLADAMaya">
             <originalMayaNodeId>pCube8</originalMayaNodeId>
-          </technique>
-        </extra>
-      </node>
-      <node id="pCube9" name="pCube9" type="NODE">
-        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
-        <instance_geometry url="#pCubeShape9">
-          <bind_material>
-            <technique_common>
-              <instance_material symbol="initialShadingGroup" target="#lambert1"/>
-            </technique_common>
-          </bind_material>
-        </instance_geometry>
-        <extra>
-          <technique profile="OpenCOLLADAMaya">
-            <originalMayaNodeId>pCube9</originalMayaNodeId>
           </technique>
         </extra>
       </node>

@@ -8,7 +8,7 @@ public:
 	kpuBoundingCapsule(kpuVector v1, kpuVector v2, float fRadius);
 	~kpuBoundingCapsule(void);
 
-	kpuCollisionData Intersects(kpuBoundingVolume &bOther);
+	void Intersects(kpuBoundingVolume* bOther, const kpuMatrix& matrix, kpuCollisionData& data);
 	void Transform(const kpuMatrix& matrix);
 
 	kpuVector GetStart() { return m_vStart; }

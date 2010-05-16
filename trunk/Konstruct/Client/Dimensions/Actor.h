@@ -43,7 +43,7 @@ public:
 	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	bool IsAlive() { return m_iCurrentHealth > 0; }
 
-	void Move(kpuVector& vVel);
+	void Move(kpuVector vVel);
 
 #pragma region StatAccessor/Mutators
 
@@ -110,7 +110,7 @@ protected:
 	
 
 	//Movement varibles	
-	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit
+	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit	
 	float			m_fRotation;
 	kpuVector		m_vVelocity;
 	

@@ -81,7 +81,7 @@ bool Level::Load(const char* pszLevelFile)
 				if ( m_pQuadTree )
 					delete m_pQuadTree;
 
-				m_pQuadTree = new kpuQuadTree(kpuVector(iWidth * -0.5, 0.0f, iHeight * -0.5, 0.0f), iWidth, iHeight);
+				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5, 0.0f, ( iHeight + 1) * -0.5, 0.0f), iWidth + 1, iHeight + 1);
 
 				// Read Elements
                 for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
@@ -157,7 +157,6 @@ bool Level::Load(const char* pszLevelFile)
 
 void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 {
-	
 	//Max number to spawn is 4 for now
 	kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
 
@@ -181,7 +180,7 @@ void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 			pEnemy->SetLocation(vPos);
 
 			//add enemy to the grid
-			while( !m_pLevelGrid->AddActor(pEnemy) )
+			while( m_pQuadTree->CheckCollision(pEnemy) || !m_pLevelGrid->AddActor(pEnemy) )
 			{
 				//move the enemy around till he finds a spot
 				vPos.SetX(fX + rand() % iDistBetweenSpawns);
@@ -195,7 +194,7 @@ void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 
 			pEnemies->Add(pEnemy);
 			
-			//add enemy to quad tree
+			//add enemy to quad tree			
 			m_pQuadTree->Add(pEnemy);
 		}
 

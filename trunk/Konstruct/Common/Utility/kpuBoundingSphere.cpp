@@ -29,31 +29,32 @@ void kpuBoundingSphere::operator =(const kpuBoundingSphere& bSphere)
 	m_vLocation = bSphere.m_vLocation;
 }
 
-kpuCollisionData kpuBoundingSphere::Intersects(kpuBoundingVolume &bOther)
+void kpuBoundingSphere::Intersects(kpuBoundingVolume* bOther, const kpuMatrix& matrix, kpuCollisionData& data)
 {
-	kpuCollisionData collisionData;
-
-	switch ( bOther.GetType() )
+	switch ( bOther->GetType() )
 	{
 	case eVT_Sphere:
 		{
-			kpuBoundingSphere* pSphere = (kpuBoundingSphere*)&bOther;
-			return kpuCollisionDetection::SphereVsSphere(m_vLocation, m_fRadius, pSphere->m_vLocation, pSphere->m_fRadius); 
+			kpuBoundingSphere pSphere = *(kpuBoundingSphere*)bOther;
+			pSphere.Transform(matrix);
+			kpuCollisionDetection::SphereVsSphere(m_vLocation, m_fRadius, pSphere.m_vLocation, pSphere.m_fRadius, data); 
+			break;
 		}
 	case eVT_Box:
 		{
-			kpuBoundingBox* pBox = (kpuBoundingBox*)&bOther;
-			return kpuCollisionDetection::SphereVsBox(m_vLocation, m_fRadius, pBox->GetMin(), pBox->GetMax());
+			kpuBoundingBox pBox = *(kpuBoundingBox*)bOther;
+			pBox.Transform(matrix);
+			kpuCollisionDetection::SphereVsBox(m_vLocation, m_fRadius, pBox.GetMin(), pBox.GetMax(), data);
+			break;
 		}
 	case eVT_Capsule:
 		{
-			kpuBoundingCapsule* pCapsule = (kpuBoundingCapsule*)&bOther;
-			return kpuCollisionDetection::SphereVsCapsule(m_vLocation, m_fRadius, pCapsule->GetStart(), pCapsule->GetEnd(), pCapsule->GetRadius());
+			kpuBoundingCapsule pCapsule = *(kpuBoundingCapsule*)bOther;
+			pCapsule.Transform(matrix);
+			kpuCollisionDetection::SphereVsCapsule(m_vLocation, m_fRadius, pCapsule.GetStart(), pCapsule.GetEnd(), pCapsule.GetRadius(), data );
+			break;
 		}
 	}
-
-	return collisionData;
-	
 }
 
 void kpuBoundingSphere::Transform(const kpuMatrix &matrix)

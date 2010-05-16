@@ -1,4 +1,5 @@
 #pragma once
+#include "kpuVector.h"
 
 class kpuPhysicalObject;
 
@@ -13,6 +14,8 @@ public:
 	{	}
 
 	float m_fDist;
+	float m_fVelLength;
+	kpuVector m_vVelocity;
 	bool m_bCollided;
 	kpuPhysicalObject* m_pObject;
 };

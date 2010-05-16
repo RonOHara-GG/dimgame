@@ -18,9 +18,11 @@ public:
 	kpuBoundingVolume(void);
 	virtual ~kpuBoundingVolume(void);
 
-	virtual kpuCollisionData Intersects(kpuBoundingVolume& bOther) { return kpuCollisionData(); }
+	virtual void Intersects(kpuBoundingVolume* bOther, const kpuMatrix& matrix, kpuCollisionData& data) { }
 
 	virtual void Transform(const kpuMatrix& matrix) { };
+
+	
 
 	eVolumeType GetType() { return m_eType; }
 

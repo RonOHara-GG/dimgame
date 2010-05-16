@@ -10,9 +10,10 @@ public:
 
 	void operator =(const kpuBoundingSphere& bSphere);
 
-	kpuCollisionData Intersects(kpuBoundingVolume &bOther);
+	void Intersects(kpuBoundingVolume* bOther, const kpuMatrix& matrix, kpuCollisionData& data);
 
 	void Transform(const kpuMatrix &matrix);
+	
 
 	void Move(kpuVector vVel)		    { m_vLocation +=  vVel; }
 	kpuVector GetLocation()				{ return m_vLocation; }

@@ -21,10 +21,11 @@ public:
 	void Remove(kpuPhysicalObject* obj);
 	
 	float Move(kpuVector& vVel, kpuPhysicalObject* pObj);
+	bool CheckCollision(kpuPhysicalObject* pObj);
 
 private:
-	void GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData> &collidedObjects);
-	float CheckMove(kpuPhysicalObject* pObj, float fVelLength);
+	void GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData>* collidedObjects);
+	
 
 	kpuArrayList<kpuPhysicalObject*>*		m_paObjects;
 	kpuQuadTree*							m_pParent;
