@@ -4,10 +4,15 @@
 #include "Common/Graphics/kpgGeometryInstance.h"
 #include "Level.h"
 #include "Grid.h"
+#include "Common/Utility/kpuBoundingCapsule.h"
+#include "Common/Utility/kpuCollisionDetection.h"
+#include "Common/Utility/kpuCollisionData.h"
+#include "Common/Utility/kpuQuadTree.h"
 
 Actor::Actor()
 {
 	m_pModel = 0;
+	m_pTarget = 0;
 
 	m_fRotation = 0.0f;
 	m_iDestinationTile = -1;
@@ -71,8 +76,10 @@ void Actor::UpdateMovement(float fDeltaTime)
 	if( m_iDestinationTile >= 0 )
 	{
 		// Make sure we have a path to our destination
-		if( m_iCurrentPathNode < 0 )
+		if( m_iCurrentPathNode < 0 )//|| g_pGameState->GetLevel()->GetGrid()->TileWalkable(m_iDestinationTile) )
 		{
+			//m_iCurrentPathNode = -1;
+
 			// Need to build a path to the destination
 			if( !BuildPathToDestination() )
 			{
@@ -84,6 +91,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 		// Move down the path
 		float fMoveDelta = GetSpeed() * fDeltaTime;
+
 		while( fMoveDelta > 0 )
 		{
 			//Remove from curren tile
@@ -95,16 +103,24 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 			kpuVector vMyLocation = GetLocation();
 			kpuVector vToTarget = vTargetLocation - vMyLocation;
+			vToTarget.SetW(0);
 
 			vToTarget.SetY(0);
 			float fDistToTarget = vToTarget.Length();
+
+			if( fDistToTarget == 0.0f )
+			{
+				m_iDestinationTile = -1;
+				m_iCurrentPathNode = -1; 
+				break;
+			}
+
 			if( fDistToTarget < fMoveDelta )
 			{
 				fMoveDelta -= fDistToTarget;
 				Move(vToTarget);
 				//vMyLocation += vToTarget;
-				//SetLocation(vMyLocation);
-				
+				//SetLocation(vMyLocation);				
 
 				m_iCurrentPathNode++;
 
@@ -252,27 +268,69 @@ void Actor::TakeDamage(float fDamage, DamageType eDmgType)
 
 }
 
-bool Actor::IsInRange(Actor *pTarget, int iRange, Grid* pGrid)
+bool Actor::IsInRange(Actor *pTarget, int iRange)
 {
-	//Check if target is in range
-	kpuVector vPlayer,  vTarget;
-	pGrid->GetTileLocation(pGrid->GetTileAtLocation(GetLocation()), vPlayer);
-	pGrid->GetTileLocation(pGrid->GetTileAtLocation(pTarget->GetLocation()), vTarget);
+	////Check if target is in range
+	//kpuVector vPlayer,  vTarget;
+	//pGrid->GetTileLocation(pGrid->GetTileAtLocation(GetLocation()), vPlayer);
+	//pGrid->GetTileLocation(pGrid->GetTileAtLocation(pTarget->GetLocation()), vTarget);
 
-	kpuVector vPlayerToTarget = vTarget - vPlayer;
-	kpuVector vDirection = kpuVector::Normalize(vPlayerToTarget);
+	//kpuVector vPlayerToTarget = vTarget - vPlayer;
+	//kpuVector vDirection = kpuVector::Normalize(vPlayerToTarget);
 
-	vPlayerToTarget *= vDirection;
+	//vPlayerToTarget *= vDirection;
 
-	float fDist = vPlayerToTarget.Dot(vPlayerToTarget);
+	//float fDist = vPlayerToTarget.Dot(vPlayerToTarget);
 
-	if(fDist <= iRange)
-		return true;
-
-	return false;
+	//if(fDist <= iRange)
+	//	return true;
+	return g_pGameState->GetLevel()->GetGrid()->Distance(this, pTarget) <= iRange;
 }
 
 bool Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 {
+	return false;
+}
+
+bool Actor::InSight(Actor *pTarget, int iRange)
+{
+	//This player will be the start of the capsule and the parameter will be the end
+	//We will get the collisions from the quad tree and check a line segment from the center of this actor to the target and see if there are any collisions
+
+	float fDist = kpuVector::DistanceSquared(GetLocation(), pTarget->GetLocation());
+
+	if(fDist <= iRange * iRange)
+	{
+		kpuBoundingSphere sphere1 = m_bSphere;
+		sphere1.Transform(GetMatrix());
+
+		kpuBoundingSphere sphere2 = pTarget->GetSphere();
+		sphere2.Transform(pTarget->GetMatrix());
+		kpuBoundingCapsule capsule(sphere1.GetLocation(), sphere2.GetLocation(), 0.0f);
+
+		kpuArrayList<kpuCollisionData> aCollisions;
+
+		g_pGameState->GetLevel()->GetQuadTree()->GetCollisions(capsule, &aCollisions);
+
+		//if there is a collision between here and the target then no line of sight
+		for(int i = 0; i < aCollisions.Count(); i++)
+		{
+			if( aCollisions[i].m_pObject != pTarget && aCollisions[i].m_pObject != this )
+			{
+				//check bounding box vs sphere
+				kpuBoundingBox box = aCollisions[i].m_pObject->GetBoundingBox();			
+				kpuCollisionData data;
+				capsule.Intersects(&box, aCollisions[i].m_pObject->GetMatrix(), data);
+
+				if( data.m_bCollided )
+				{
+					return false;	
+				}
+			}
+		}
+
+		return true;
+	}
+
 	return false;
 }

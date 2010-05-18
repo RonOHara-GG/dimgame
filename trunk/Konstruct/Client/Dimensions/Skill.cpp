@@ -28,7 +28,7 @@ bool Skill::Use(Actor *pTarget, PlayerCharacter *pSkillOwner, Grid *pGrid)
 		//Check if target is attack able
 		if(pTarget->Attackable())
 		{
-			if(pSkillOwner->IsInRange(pTarget, m_iRange, pGrid))
+			if(pSkillOwner->IsInRange(pTarget, m_iRange))
 			{
 				pSkillOwner->SetActiveSkill(this);
 				m_bReady = false;

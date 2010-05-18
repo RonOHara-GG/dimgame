@@ -22,11 +22,9 @@ public:
 	
 	float Move(kpuVector& vVel, kpuPhysicalObject* pObj);
 	bool CheckCollision(kpuPhysicalObject* pObj);
+	void GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData>* collidedObjects);
 
 private:
-	void GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData>* collidedObjects);
-	
-
 	kpuArrayList<kpuPhysicalObject*>*		m_paObjects;
 	kpuQuadTree*							m_pParent;
 	kpuQuadTree**							m_pNodes;

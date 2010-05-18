@@ -177,7 +177,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AIControl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Armor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AskaranAI.cpp"
 				>
 			</File>
 			<File
@@ -279,7 +287,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AIControl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Armor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AskaranAI.h"
 				>
 			</File>
 			<File

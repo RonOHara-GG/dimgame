@@ -2,6 +2,7 @@
 
 class Level;
 class Enemy;
+class PlayerCharacter;
 
 class GameState
 {
@@ -17,6 +18,8 @@ public:
 	virtual Level* GetLevel() = 0;
 
 	virtual void AddEnemy(Enemy* pEnemy) = 0;
+	virtual PlayerCharacter* GetPlayer() = 0;
+	//virtual kpuArrayList<Enemy*>*	GetEnemies() = 0;
 };
 
 extern GameState* g_pGameState;

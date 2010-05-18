@@ -88,10 +88,7 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 				if( outTilesSize >= 2 )
 					outTiles[1] = -1;
 				return true;
-			}
-			
-
-			
+			}			
 		}
 	}
 	if( iBestDirection < 0 )
@@ -147,8 +144,23 @@ bool Grid::TileWalkable(int iTile)
 	if( iTile < 0 || iTile >= m_iHeight * m_iWidth )
 		return false;
 
+	if( m_pTiles[iTile].m_Actor )
+		return false;
+
 	return true;
 }
 
+int Grid::Distance(Actor* pActor1, Actor* pActor2)
+{
+	int iTile = GetTileAtLocation(pActor1->GetLocation());
+	kpuVector v1;
+	GetTileLocation(iTile, v1);
+
+	iTile = GetTileAtLocation(pActor2->GetLocation());
+	kpuVector v2;
+	GetTileLocation(iTile, v2);
+
+	return  (int)sqrt(kpuVector::DistanceSquared(v1, v2));
+}
 
 

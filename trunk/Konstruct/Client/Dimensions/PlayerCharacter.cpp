@@ -171,7 +171,7 @@ bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 		{
 			if(m_pEquippedWeapon->IsReady())
 			{
-				if(IsInRange(pTarget, m_pEquippedWeapon->GetRange() ,pGrid))
+				if(IsInRange(pTarget, m_pEquippedWeapon->GetRange()))
 				{
 					m_pEquippedWeapon->Use(pTarget);
 
