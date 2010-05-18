@@ -9,7 +9,6 @@
 kpuPhysicalObject::kpuPhysicalObject(void)
 {
 	m_pModel = 0;
-	
 
 }
 
@@ -23,6 +22,11 @@ kpuPhysicalObject::~kpuPhysicalObject(void)
 {
 	if(m_pModel)
 		delete m_pModel;
+
+	/*for(int i = 0; i < m_aCollisionPrimatives.Count(); i++)
+	{
+		delete m_aCollisionPrimatives[i];
+	}*/
 
 }
 
@@ -108,23 +112,18 @@ void kpuPhysicalObject::Init(kpuVector vMin, kpuVector vMax)
 
 void kpuPhysicalObject::Move(kpuVector vVel)
 {
-	/*if( vVel != kpuv_Zero )
+	if( vVel != kpuv_Zero )
 	{
-		kpuVector vDir = vVel;
-		vDir.Normalize();
+		m_pCurrentNode->Remove(this);
 
-		m_fRotation = atan2(vDir.GetX(),vDir.GetZ());
-		m_pModel->RotateY(m_fRotation);
-	}*/
+		float fPercent = m_pCurrentNode->Move(vVel, this);
+		vVel *= fPercent;
 
-	m_pCurrentNode->Remove(this);
+		SetLocation(GetLocation() + vVel);	
 
-	float fPercent = m_pCurrentNode->Move(vVel, this);
-	vVel *= fPercent;
+		m_pCurrentNode->ReAdd(this);	
 
-	SetLocation(GetLocation() + vVel);	
-
-	
+	}
 }
 
 kpuBoundingBox kpuPhysicalObject::CalculateBoundingBox(kpuFixedArray<float> &aFloats)

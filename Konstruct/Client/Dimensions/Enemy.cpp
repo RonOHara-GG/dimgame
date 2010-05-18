@@ -4,6 +4,7 @@
 #include "level.h"
 #include "LoadStructures.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
+#include "AskaranAI.h"
 
 
 Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
@@ -13,7 +14,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	
 	CalculateBoundingVolumes(loadStruct.pCollision);
 
-	m_eCurrentState = eNS_Waiting;
+	m_pAIBehavior = new AskaranAI();
 
 	m_fElaspedWanderWait = 0.0f;
 	m_bAttackable = true;
@@ -37,7 +38,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
     m_iDeathRes = loadStruct.iDeathRes;
 
     m_iDamage = loadStruct.iDamage;
-    m_fAttackRange = loadStruct.fAttackRange;
+    m_fActionRange = loadStruct.fAttackRange;
 	m_fAggroRange = loadStruct.fAggroRange;
     m_fAttackSpeed = loadStruct.fAttackSpeed;
     m_eDamageType = (DamageType)loadStruct.iDamageType;
@@ -50,42 +51,11 @@ Enemy::~Enemy(void)
 
 bool Enemy::Update(float fGameTime)
 {
-	UpdateMovement(fGameTime);
+	UpdateMovement(fGameTime);	
 
-	//Simple finte state machine to control the enemy AI for now
-	switch(m_eCurrentState)
-	{
-		case eNS_Waiting:
-		{
-			//This will be for things that just stand and wait until they are given some kind of
-			//stimuli to do something
-
-			break;
-		}
-		case eNS_Wandering:
-		{
-			Wander(fGameTime);
-
-			break;
-		}
-		case eNS_Aggroed:
-		{
-			break;
-		}
-		case eNS_Attacking:
-		{
-			break;
-		}
-		case eNS_Dead:
-		{
-			break;
-		}
-	}
-
+	m_pAIBehavior->Update(this);
 
 	return m_iCurrentHealth > 0;
-
-
 }
 
 void Enemy::Wander(float fDeltaTime)

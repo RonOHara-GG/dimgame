@@ -42,6 +42,7 @@ public:
 
 	int			GetNumOfTiles() { return m_iWidth * m_iHeight; }
 	int			GetTileAtLocation(const kpuVector& vLocation);
+	int			Distance(Actor* pActor1, Actor* pActor2);
 	bool		TileWalkable(int iTile);
 	void		GetTileLocation(int iTileIndex, kpuVector& vOutLocation);
 	bool		AddActor(Actor* pActor); //Add actor to the gird, if an actor is already on the tile return false else return ture

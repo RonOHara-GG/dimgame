@@ -228,7 +228,7 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 
 	kpuBoundingCapsule bCapsule(sphere.GetLocation(), sphere.GetLocation() + vVel, pObj->GetSphere().GetRadius() );
 
-	GetCollisions(bCapsule, &aCollisions);
+	pCurrentNode->GetCollisions(bCapsule, &aCollisions);
 
 	//check collisions in the closest order	
 	kpuCollisionData finalData;
@@ -298,6 +298,7 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 
 					if ( finalData.m_bCollided )
 					{
+						finalData.m_pObject = pClosest->m_pObject;
 						break;
 					}
 				}
@@ -342,11 +343,8 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 
 bool kpuQuadTree::ReAdd(kpuPhysicalObject* pObj)
 {
-	kpuQuadTree* pCurrent = pObj->GetCurrentNode();
-
-	//Get highest node and add object
-	while( pCurrent->m_pParent )
-		pCurrent = pCurrent->m_pParent;
-
-	return pCurrent->Add(pObj);
+	if( m_pParent )
+		m_pParent->ReAdd(pObj);
+	else
+		return Add(pObj);
 }

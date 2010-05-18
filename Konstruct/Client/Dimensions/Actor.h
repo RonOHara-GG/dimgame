@@ -36,7 +36,8 @@ public:
 
 	virtual Reward GetReward() { return m_RewardGiven; }
 
-	bool IsInRange(Actor* pTarget, int iRange, Grid* pGrid);
+	bool IsInRange(Actor* pTarget, int iRange);
+	bool InSight(Actor* pTarget, int iRange); //Checks if the target is in this actor's line of sight
 	bool Attackable() { return m_bAttackable; }
 	void TakeDamage(float fDamage, DamageType eDmgType);
 
@@ -49,6 +50,8 @@ public:
 
 	virtual int GetLevel() { return m_iLevel; }
 	virtual float GetSpeed() { return m_fBaseSpeed; }
+	Actor* GetTarget() { return m_pTarget; }
+	int	GetCurrentHealth() { return m_iCurrentHealth; }
 	int GetMaxHealth() { return m_iMaxHealth; }
 	int GetMaxMental() { return m_iMaxMental; }
 	int GetStr() { return m_iStr; }
@@ -56,6 +59,8 @@ public:
 	int GetInt() { return m_iInt; }
 	int GetConst() { return m_iConst; }
 
+	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
+	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }
 	void SetMaxHealth(int iMaxHealth) { m_iMaxHealth = iMaxHealth; }
 	void SetMaxMental(int iMaxMental) { m_iMaxMental = iMaxMental; }
 	void SetStr(int iStr) { m_iStr = iStr; }

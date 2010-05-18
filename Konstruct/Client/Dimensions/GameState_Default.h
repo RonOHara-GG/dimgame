@@ -17,7 +17,9 @@ public:
 	virtual void Update(float fGameTime);
 	virtual void Draw();
 
-	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
+	virtual Level*					GetLevel()		{ return m_pCurrentLevel; }
+	virtual PlayerCharacter*		GetPlayer()		{ return m_pPlayer; }
+	virtual kpuArrayList<Enemy*>*	GetEnemies()	{ return m_paEnemies; }
 
 	virtual void AddEnemy(Enemy* pEnemy);
 
