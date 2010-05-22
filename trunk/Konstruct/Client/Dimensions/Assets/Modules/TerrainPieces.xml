@@ -27,19 +27,19 @@
 		<Door Side="Bottom">0 0</Door>
 		<Door Side="Left">3 2</Door>		
 	</Data>	
-	<Data File="Assets/Modules/LoneTile_2X2.dae" Collision="Assets/Modules/LoneTile_2X2.dae"  Width="2" Height="0" Lenght="2">
+	<Data File="Assets/Modules/LoneTile_2X2.dae" Collision="Assets/Modules/NoCollision.dae"  Width="2" Height="0" Lenght="2">
 		<Door Side="Top">-1 0</Door>
 		<Door Side="Right">-1 0</Door>
 		<Door Side="Bottom">-1 0</Door>
 		<Door Side="Left">-1 0</Door>		
 	</Data>
-	<Data File="Assets/Modules/Empty_4X4.dae" Collision="Assets/Modules/Empty_4X4.dae" Width="4" Height="0" Lenght="4">
+	<Data File="Assets/Modules/Empty_4X4.dae" Collision="Assets/Modules/NoCollision.dae" Width="4" Height="0" Lenght="4">
 		<Door Side="Top">-1 0</Door>
 		<Door Side="Right">-1 0</Door>
 		<Door Side="Bottom">-1 0</Door>
 		<Door Side="Left">-1 0</Door>			
 	</Data>	
-	<Data File="Assets/Modules/Empty_8X8.dae" Collision="Assets/Modules/Empty_8X8.dae" Width="8" Height="0" Lenght="8">
+	<Data File="Assets/Modules/Empty_8X8.dae" Collision="Assets/Modules/NoCollision.dae" Width="8" Height="0" Lenght="8">
 		<Door Side="Top">-1 0</Door>
 		<Door Side="Right">-1 0</Door>
 		<Door Side="Bottom">-1 0</Door>

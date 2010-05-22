@@ -88,16 +88,23 @@ void Actor::UpdateMovement(float fDeltaTime)
 				return;
 			}
 		}
+		
 
 		// Move down the path
 		float fMoveDelta = GetSpeed() * fDeltaTime;
 
 		while( fMoveDelta > 0 )
 		{
-			//Remove from curren tile
-			g_pGameState->GetLevel()->GetGrid()->RemoveActor(this);
 
 			int iTargetTile = m_aPathNodes[m_iCurrentPathNode];
+
+			//make sure the next tile is still walkable
+			if( !g_pGameState->GetLevel()->GetGrid()->TileWalkable(iTargetTile) )
+			{				
+				m_iCurrentPathNode = -1;
+				return;
+			}
+
 			kpuVector vTargetLocation;
 			g_pGameState->GetLevel()->GetGrid()->GetTileLocation(iTargetTile, vTargetLocation);
 
@@ -113,7 +120,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 				m_iDestinationTile = -1;
 				m_iCurrentPathNode = -1; 
 				break;
-			}
+			}			
 
 			if( fDistToTarget < fMoveDelta )
 			{
@@ -122,12 +129,9 @@ void Actor::UpdateMovement(float fDeltaTime)
 				//vMyLocation += vToTarget;
 				//SetLocation(vMyLocation);				
 
-				m_iCurrentPathNode++;
+				m_iCurrentPathNode++;			
 
-				//Add actor to current tile
-				g_pGameState->GetLevel()->GetGrid()->AddActor(this);
-
-				if( m_iCurrentPathNode >= MAX_PATH_NODES || m_aPathNodes[m_iCurrentPathNode] < 0 )
+				if(m_iCurrentPathNode >= MAX_PATH_NODES || m_aPathNodes[m_iCurrentPathNode] < 0 )
 				{
 					// Ran out of path
 					if( iTargetTile == m_iDestinationTile )
@@ -145,7 +149,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 						m_iDestinationTile = -1;
 						return;
 					}
-				}
+				}				
 
 			}
 			else
@@ -154,10 +158,6 @@ void Actor::UpdateMovement(float fDeltaTime)
 				vToTarget *= 1.0f / fDistToTarget;
 				//SetLocation(vMyLocation);
 				Move(vToTarget * fMoveDelta);
-
-				//Add actor to current tile
-				g_pGameState->GetLevel()->GetGrid()->AddActor(this);
-
 				break;
 			}
 		}
@@ -165,20 +165,28 @@ void Actor::UpdateMovement(float fDeltaTime)
 }
 
 void Actor::Move(kpuVector vVel)
-{
-	kpuPhysicalObject::Move(vVel);
+{	
+	//Remove from current tile
+	g_pGameState->GetLevel()->GetGrid()->RemoveActor(this);
+	
+	m_pCurrentNode->Remove(this);			
 
-	//if velocity comes back zero clear path
-	if ( vVel == kpuv_Zero )
-	{
-		m_iDestinationTile = -1;
-		m_iCurrentPathNode = -1; 
-	}
-	else
-	{
-		vVel.Normalize();
-		m_fRotation = atan2(vVel.GetX(),vVel.GetZ());
-	}
+	SetLocation(GetLocation() + vVel);
+	
+	vVel.Normalize();
+	m_fRotation = atan2(vVel.GetX(),vVel.GetZ());
+
+	m_pCurrentNode->ReAdd(this);	
+
+	//Add actor to current tile
+	g_pGameState->GetLevel()->GetGrid()->AddActor(this);		
+}
+
+void Actor::Move(float fDeltaTime, kpuVector vDir)
+{
+	kpuPhysicalObject::Move(vDir * m_fBaseSpeed);
+	m_fRotation = atan2(vDir.GetX(),vDir.GetZ());
+
 }
 
 bool Actor::BuildPathToDestination()
@@ -187,13 +195,13 @@ bool Actor::BuildPathToDestination()
 
 	// Get my current tile
 	int iCurrentTile = pGrid->GetTileAtLocation(GetLocation());
-
 	// Build the path
-	if( pGrid->BuildPath(iCurrentTile, m_iDestinationTile, m_aPathNodes, MAX_PATH_NODES) )
+	if( pGrid->BuildPath(iCurrentTile, m_iDestinationTile, m_aPathNodes, MAX_PATH_NODES, this) )
 	{
-		m_iCurrentPathNode = 0;
+		m_iCurrentPathNode = 0;		
 		return true;
-	}
+	}	
+
 	m_iCurrentPathNode = -1;
 	return false;
 }

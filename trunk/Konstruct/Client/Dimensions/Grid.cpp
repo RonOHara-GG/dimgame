@@ -1,10 +1,15 @@
 #include "StdAfx.h"
 #include "Grid.h"
 #include "Actor.h"
+#include "Level.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgVertexBuffer.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
 #include "Common/Graphics/kpgGeometry.h"
+#include "Common/Utility/kpuQuadTree.h"
+#include "Common/Utility/kpuBoundingCapsule.h"
+
+
 
 Grid::Grid(int iWidth, int iHeight)
 {
@@ -47,7 +52,7 @@ void Grid::GetTileLocation(int iTileIndex, kpuVector& vOutLocation)
 	vOutLocation -= m_vCenter;
 }
 
-bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection)
+bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSize, Actor* pActor, int outTilesSize, int iLastDirection)
 {
 	// NOTE: This function will build a path backwards on itself if it cant go forward
 	//			Will need to fix this at some point probably.
@@ -61,7 +66,7 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 	GetTileLocation(iEndTile, vEndTile);
 
 	kpuVector vStartToEnd = vEndTile - vStartTile;
-	vStartToEnd.Normalize();
+	vStartToEnd.Normalize();	
 
 	// Find the best next tile
 	int iBestDirection = -1;
@@ -73,14 +78,39 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 		if( fDot > fBestDot )
 		{
 			int iTile = GetTileAtLocation(vStartTile + s_vDirections[i]);
-			if( !m_pTiles[iTile].m_Actor)
+			if( !m_pTiles[iTile].m_Actor )
 			{
-				// This tile doesnt have an actor on it, its valid for now
-				fBestDot = fDot;
-				iBestDirection = i;
-				iBestTile = iTile;
+				bool bValid = true;
+
+				//check if the tile is already in the list
+				for(int i = 0; i < outTilesSize; i++)
+				{
+					if(outTiles[i] == iTile)
+					{
+						bValid = false;
+						break;
+					}
+				}				
+
+				if( bValid )
+				{
+					//Check if there is anything that will collide in the path
+					kpuVector v2;
+					GetTileLocation(iTile, v2);
+					kpuBoundingCapsule capsule(vStartTile, v2, TILE_SIZE * 0.5f);
+
+					if( !g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(capsule, pActor) )
+					{
+						// This tile doesnt have an actor on it, its valid for now
+						fBestDot = fDot;
+						iBestDirection = i;
+						iBestTile = iTile;
+					}
+				}
+				
+
 			}
-			else if( iTile == iEndTile )
+			/*else if( iTile == iEndTile )
 			{
 				//If the next tile is the target tile but it is occupied return the path up to that tile
 				iEndTile = iStartTile;
@@ -88,33 +118,36 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesS
 				if( outTilesSize >= 2 )
 					outTiles[1] = -1;
 				return true;
-			}			
+			}	*/		
 		}
 	}
+
 	if( iBestDirection < 0 )
 		return false;		// Failed to find anywhere to move
 
 	if( iBestTile == iEndTile )
 	{
 		// Reached the destination, just add this to the list and be done
-		outTiles[0] = iBestTile;
-		if( outTilesSize >= 2 )
-			outTiles[1] = -1;
+		outTiles[outTilesSize] = iBestTile;
+		if( maxOutSize - outTilesSize >= 2 )
+			outTiles[outTilesSize + 1] = -1;
 		return true;
 	}
+
+	
 
 	if( iLastDirection != iBestDirection )
 	{
 		// Changed directions, add a waypoint
-		outTiles[0] = iBestTile;
-		outTiles++;
-		outTilesSize--;
-		if( outTilesSize <= 0 )
+		outTiles[outTilesSize] = iBestTile;
+		//outTiles++;
+		outTilesSize++;
+		if( outTilesSize >= maxOutSize )
 			return true;			// Done building path, no more space
 	}
 
 	// Find another tile along the path
-	return BuildPath(iBestTile, iEndTile, outTiles, outTilesSize, iBestDirection);
+	return BuildPath(iBestTile, iEndTile, outTiles, maxOutSize, pActor, outTilesSize, iBestDirection);
 }
 
 bool Grid::AddActor(Actor* pActor)

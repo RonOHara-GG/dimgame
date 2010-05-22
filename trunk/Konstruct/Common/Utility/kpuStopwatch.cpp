@@ -5,6 +5,8 @@ static s64 s_nFrequency = 0;
 
 kpuStopwatch::kpuStopwatch(void)
 {
+	Reset();
+
 	if( !s_nFrequency )
 	{
 		LARGE_INTEGER freq;
@@ -15,6 +17,11 @@ kpuStopwatch::kpuStopwatch(void)
 
 kpuStopwatch::~kpuStopwatch(void)
 {
+}
+
+float kpuStopwatch::GetMilliseconds()
+{
+	return ( (m_iEnd - m_iStart) / (float)s_nFrequency ) * 1000;
 }
 
 void kpuStopwatch::SetSeconds(int nSeconds)

@@ -111,46 +111,50 @@ bool kpgModel::Load(const char* cszFileName)
 		Printf("Failed to load file: %s\n", szFileName);
 	}
 
-	//Create bounding volumes for this model
-	kpgVertexBuffer* vb = m_aInstances[0]->GetGeometry()->GetVertexBuffer();
-	vb->Lock();
 	kpuVector vMin, vMax;
-	
-	vMax = vb->GetPosition(0);
-	vMin = vMax;
-	
 
-	for(int i = 0; i < m_aInstances.GetNumElements(); i++)
+	if( m_aInstances.GetNumElements() > 0 )
 	{
-		vb = m_aInstances[i]->GetGeometry()->GetVertexBuffer();
-		vb->Lock();
 
-		for(int j = 0; j < vb->GetVertexCount(); j++)
+		//Create bounding volumes for this model
+		kpgVertexBuffer* vb = m_aInstances[0]->GetGeometry()->GetVertexBuffer();
+		vb->Lock();		
+		
+		vMax = vb->GetPosition(0);
+		vMin = vMax;		
+
+		for(int i = 0; i < m_aInstances.GetNumElements(); i++)
 		{
-			kpuVector vNext = vb->GetPosition(j);
+			vb = m_aInstances[i]->GetGeometry()->GetVertexBuffer();
+			vb->Lock();
 
-			if( vNext.GetX() > vMax.GetX() )
-				vMax.SetX(vNext.GetX());
-			if( vNext.GetY() > vMax.GetY() )
-				vMax.SetY(vNext.GetY());
-			if( vNext.GetZ() > vMax.GetZ() )
-				vMax.SetZ(vNext.GetZ());
+			for(int j = 0; j < vb->GetVertexCount(); j++)
+			{
+				kpuVector vNext = vb->GetPosition(j);
 
-			if( vNext.GetX() < vMin.GetX() )
-				vMin.SetX(vNext.GetX());
-			if( vNext.GetY() < vMin.GetY() )
-				vMin.SetY(vNext.GetY());
-			if( vNext.GetZ() < vMin.GetZ() )
-				vMin.SetZ(vNext.GetZ());
+				if( vNext.GetX() > vMax.GetX() )
+					vMax.SetX(vNext.GetX());
+				if( vNext.GetY() > vMax.GetY() )
+					vMax.SetY(vNext.GetY());
+				if( vNext.GetZ() > vMax.GetZ() )
+					vMax.SetZ(vNext.GetZ());
+
+				if( vNext.GetX() < vMin.GetX() )
+					vMin.SetX(vNext.GetX());
+				if( vNext.GetY() < vMin.GetY() )
+					vMin.SetY(vNext.GetY());
+				if( vNext.GetZ() < vMin.GetZ() )
+					vMin.SetZ(vNext.GetZ());
+			}
+			vb->Unlock();
 		}
-		vb->Unlock();
+
 	}
 
 	vMax.SetW(1);
 	vMin.SetW(1);
 
-	Init(vMin, vMax);
-	
+	Init(vMin, vMax);	
 
 	return bRet;
 }

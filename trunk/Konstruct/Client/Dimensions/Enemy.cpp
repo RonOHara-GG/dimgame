@@ -53,7 +53,7 @@ bool Enemy::Update(float fGameTime)
 {
 	UpdateMovement(fGameTime);	
 
-	m_pAIBehavior->Update(this);
+	m_pAIBehavior->Update(this, fGameTime);
 
 	return m_iCurrentHealth > 0;
 }
@@ -78,7 +78,7 @@ void Enemy::Wander(float fDeltaTime)
 
 			m_iDestinationTile = pGrid->GetTileAtLocation(GetLocation() + (vDirection * (rand() / ((float)RAND_MAX + 1)) * MAX_WANDER_DIST));
 
-			if( pGrid->BuildPath(iCurrentTile, m_iDestinationTile, m_aPathNodes, MAX_PATH_NODES) )
+			if( pGrid->BuildPath(iCurrentTile, m_iDestinationTile, m_aPathNodes, MAX_PATH_NODES, this) )
 			{
 				m_iCurrentPathNode = 0;
 				return;

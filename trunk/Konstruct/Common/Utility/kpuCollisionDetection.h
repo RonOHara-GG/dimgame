@@ -9,16 +9,17 @@ namespace kpuCollisionDetection
 {
 	void SphereVsSphere(kpuVector vPos1, float fRadius1, kpuVector vPos2, float fRadius2, kpuCollisionData& data);
 
-	void SphereVsBox(kpuVector vPos, float fRadius, kpuVector vMin, kpuVector vMax, kpuCollisionData& data);
+	void SphereVsBox(kpuVector vPos, float fRadius, kpuVector vMin, kpuVector vMax, kpuCollisionData& data, bool bIs3D = false);
 
 
-	void BoxVsBox(kpuVector vMin1, kpuVector vMax1, kpuVector vMin2, kpuVector vMax2, kpuCollisionData& data);
+	void BoxVsBox(kpuVector vMin1, kpuVector vMax1, kpuVector vMin2, kpuVector vMax2, kpuCollisionData& data, bool bIs3D = false);
 
 
-	void BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVector vStart, kpuVector vEnd, float fRadius, kpuCollisionData& data);
+	void BoxVsCapsule(kpuVector vCenter, kpuVector vOffset, kpuVector vStart, kpuVector vEnd, float fRadius, kpuCollisionData& data, bool bIs3D = false);
 
 
 	void SphereVsCapsule(kpuVector vPos1, float fRadius1, kpuVector vStart, kpuVector vEnd, float fRadius2, kpuCollisionData& data);
+	void SphereVsCapsuleRadiiSquared(kpuVector vPos1, float fRadius1, kpuVector vStart, kpuVector vEnd, float fRadius2, kpuCollisionData& data);
 
 
 	void CapsuleVsCapsule(kpuVector vStart1, kpuVector vEnd1, float fRadius1, kpuVector vStart2, kpuVector vEnd2, float fRadius2, kpuCollisionData& data);

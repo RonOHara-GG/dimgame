@@ -49,7 +49,7 @@ public:
 	bool		RemoveActor(Actor* pActor);//Remove actor from his current tile, if he is not found on the current tile return false
 	
 
-	bool		BuildPath(int iStartTile, int& iEndTile, int* outTiles, int outTilesSize, int iLastDirection = -1);
+	bool		BuildPath(int iStartTile, int& iEndTile, int* outTiles, int maxOutSize, Actor* pActor, int outTilesSize = 0, int iLastDirection = -1);
 	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile
 	Actor*		GetActor(int iTile) { return m_pTiles[iTile].m_Actor; } //Get the actor at the target tile
 	kpuVector	GetDimensions() { return kpuVector(m_iWidth, 0, m_iHeight, 0); }
@@ -62,6 +62,8 @@ private:
 
 	sGridTile*		m_pTiles;
 };
+
+#define TILE_SIZE 1
 
 
 
