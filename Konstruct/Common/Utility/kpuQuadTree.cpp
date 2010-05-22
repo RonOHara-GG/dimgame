@@ -4,6 +4,9 @@
 #include "kpuCollisionData.h"
 #include "kpuBoundingCapsule.h"
 
+//timing include
+#include "Common/Utility/kpuStopwatch.h"
+
 kpuQuadTree::kpuQuadTree(kpuVector vLoc, float fWidth, float fHeight)
 {
 	m_bBox = kpuBoundingBox(vLoc, vLoc + kpuVector(fWidth, 0.0f, fHeight, 1.0f));
@@ -119,6 +122,69 @@ void kpuQuadTree::GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCo
 		}		
 		
 	}
+}
+
+bool kpuQuadTree::CheckCollision(kpuBoundingCapsule& capsule, kpuPhysicalObject* pObj)
+{
+	//Check from the parent node down for for collison
+	if( m_pNodes )
+	{
+		for(int i = 0; i < NUMBER_OF_KIDS; i++)
+		{
+			if (m_pNodes[i]->m_bBox.Contains2D(capsule) )
+			{
+				if( m_pNodes[i]->CheckCollision(capsule, pObj) )
+					return true;
+			}
+		}		
+	}
+
+	for( int i = 0; i < m_paObjects->Count(); i++ )
+	{
+		kpuPhysicalObject* pTest = (*m_paObjects)[i];
+
+		if( pTest != pObj )
+		{
+			kpuBoundingSphere sphere = pTest->GetSphere();
+			//sphere.Transform( pTest->GetMatrix() );
+
+			kpuCollisionData data;
+
+			kpuStopwatch watch;
+			watch.Start();
+
+			capsule.Intersects(&sphere, pTest->GetMatrix(), data);
+
+			watch.End();
+			float f = watch.GetMilliseconds();
+
+			if( data.m_bCollided )
+			{
+				data.m_bCollided = false;			
+
+				for(int j = 0; j < pTest->GetPrimativeCount(); j++)
+				{
+					kpuBoundingVolume* bVolume = pTest->GetPrimative(j);
+
+					kpuStopwatch watch;
+					watch.Reset();
+					watch.Start();
+					capsule.Intersects(bVolume, pTest->GetMatrix(), data);
+
+					watch.End();
+					f = watch.GetMilliseconds();
+
+					if( data.m_bCollided )
+					{
+						return true;
+					}
+				}			
+			}	
+		}
+	}
+
+	return false;
+	
 }
 
 bool kpuQuadTree::CheckCollision(kpuPhysicalObject *pObj)

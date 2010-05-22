@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "kpuCollisionDetection.h"
 
-
 void kpuCollisionDetection::SphereVsSphere(kpuVector vPos1, float fRadius1, kpuVector vPos2, float fRadius2, kpuCollisionData &data)
 {
 	float fDist = kpuVector::DistanceSquared(vPos1, vPos2);
@@ -12,7 +11,7 @@ void kpuCollisionDetection::SphereVsSphere(kpuVector vPos1, float fRadius1, kpuV
 	data.m_bCollided = fDist < fCombinedRadi;	
 }
 
-void kpuCollisionDetection::SphereVsBox(kpuVector vPos, float fRadius, kpuVector vMin, kpuVector vMax, kpuCollisionData &data)
+void kpuCollisionDetection::SphereVsBox(kpuVector vPos, float fRadius, kpuVector vMin, kpuVector vMax, kpuCollisionData &data, bool bIs3D)
 {	
 	//Create a plane for each face and check if the sphere crosses the plane
 
@@ -101,7 +100,7 @@ void kpuCollisionDetection::SphereVsBox(kpuVector vPos, float fRadius, kpuVector
 	}	
 }
 
-void kpuCollisionDetection::BoxVsBox(kpuVector vMin1, kpuVector vMax1, kpuVector vMin2, kpuVector vMax2, kpuCollisionData &data)
+void kpuCollisionDetection::BoxVsBox(kpuVector vMin1, kpuVector vMax1, kpuVector vMin2, kpuVector vMax2, kpuCollisionData &data, bool bIs3D)
 {	
 	//check to see if two faces line up then check distance between them
 
@@ -197,30 +196,48 @@ void kpuCollisionDetection::BoxVsBox(kpuVector vMin1, kpuVector vMax1, kpuVector
 		
 }
 
-void kpuCollisionDetection::BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVector vStart, kpuVector vEnd, float fRadius, kpuCollisionData &data)
-{
+void kpuCollisionDetection::BoxVsCapsule(kpuVector vCenter, kpuVector vOffset, kpuVector vStart, kpuVector vEnd, float fRadius, kpuCollisionData &data, bool bIs3D)
+{	
+	
 	//Same as SphereVSBox but now we need to find the point closest to the each face then find the distance from the point to the plane
 	//Equation of line segment P = vStart - fDelta(vEnd - vStart)
 	// Find point of intersection between line and plane
 	// if distance from start to intersecting is <= capsule length we have intersection
 	// dist to intersection = ( N dot ( plane.point - vStart ) ) / ( N dot ( vEnd - vStart ) )
 
+	kpuVector vMin = vCenter - vOffset;
+	kpuVector vMax = vCenter + vOffset;
+	SphereVsCapsuleRadiiSquared(vCenter, vOffset.Dot(vOffset), vStart, vEnd, fRadius * fRadius, data);
+
+	//check capsule vs sphere before 
+	if( !data.m_bCollided )
+	{
+		return;
+	}
+
+	data.m_bCollided = false;
+
+
 	//add the radius to the end, don't need to worry about radius from start since it isn't moving back in time
 	float fDelta = 0.0f;
 	float fDist = 0.0f;
 	kpuVector vPos;
 	kpuVector vFaceNormal;
+	kpuVector vStartToFace = vMax - vStart;
+	kpuVector vEndToFace = vMax - vEnd;
+	kpuVector vFaceToStart = vStart - vMax;
+	kpuVector vStartToEnd = vEnd - vStart;
 
 	//right face
 	//Normal in +X direction
 	vFaceNormal = kpuv_OneX;
 
 	//Check parallel
-	float fDenom = ( vFaceNormal.Dot( vEnd - vStart ) );
+	float fDenom = ( vFaceNormal.Dot( vStartToEnd ) );	
 
 	if( fDenom != 0 )
 	{
-		fDelta = ( vFaceNormal.Dot(vMax - vStart ) ) / fDenom;
+		fDelta = vFaceNormal.Dot(vStartToFace ) / fDenom;
 
 		fDist = 0.0f;
 
@@ -228,75 +245,25 @@ void kpuCollisionDetection::BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVect
 		if( fDelta > 1.0f )	
 		{
 			//see if it intersects
-			fDist = vFaceNormal.Dot(vEnd - vMax);			
+			fDist = vFaceNormal.Dot(vEndToFace);		
 			vPos = vEnd;			
 		}
 		else if(fDelta < 0.0f)
 		{		
-			fDist = vFaceNormal.Dot(vStart - vMax);
+			fDist = vFaceNormal.Dot(vFaceToStart);
 			vPos = vStart;			
 		}
 		else
 		{		
 			vPos = vStart;
-			vPos += (vEnd - vStart) * fDelta;
-			fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
-		}
-
-		//See if intersection is inside the face
-		if( vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() &&  vPos.GetY() - fRadius < vMax.GetY() && vPos.GetY() + fRadius > vMin.GetY()  )
-		{
-			if( fDist * fDist <= fRadius * fRadius )
-			{
-				data.m_fDist = 0.0f;
-				data.m_bCollided = true;
-				return;
-			}
-			else if( fDelta >= 0 && fDelta <= 1)
-			{
-				data.m_fDist = abs(fDist) - fRadius;
-				data.m_bCollided = true;
-				return;
-			}			
-		}
-	}
-
-	//Left side
-	//Normal in -X direction	
-	vFaceNormal = -kpuv_OneX;
-
-	//Check parallel
-	fDenom = ( vFaceNormal.Dot( vEnd - vStart ) );
-
-	if( fDenom != 0 )
-	{
-		fDelta = ( vFaceNormal.Dot(vMin - vStart ) ) / fDenom;
-		float fDist = 0.0f;
-
-		//Get point of intersection
-		if( fDelta > 1.0f )	
-		{
-			//see if it intersects
-			fDist = vFaceNormal.Dot(vEnd - vMin);
-			vPos = vEnd;			
-		}
-		else if(fDelta < 0.0f)
-		{			
-			//see if it intersects
-			fDist = vFaceNormal.Dot(vStart - vMin);
-			vPos = vStart;			
-		}
-		else
-		{		
-			vPos = vStart;
-			vPos += (vEnd - vStart) * fDelta;
+			vPos += (vStartToEnd) * ( fDelta  );
 			fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
 		}
 
 		//Check the distance and make sure the sphere is even within the bound of the plane
 		if( vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() &&  vPos.GetY() - fRadius < vMax.GetY() && vPos.GetY() + fRadius > vMin.GetY() )
 		{
-			if( fDist * fDist <= fRadius * fRadius )
+			if( fDist * fDist < fRadius * fRadius )
 			{
 				data.m_fDist = 0.0f;
 				data.m_bCollided = true;
@@ -311,93 +278,42 @@ void kpuCollisionDetection::BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVect
 		}
 	}
 
-	//Front side
-	// Normal in +Z direction
+	//front face
+	//Normal in +Z direction
 	vFaceNormal = kpuv_OneZ;
 
 	//Check parallel
-	fDenom = ( vFaceNormal.Dot( vEnd - vStart ) );
-	
+	fDenom = ( vFaceNormal.Dot( vStartToEnd ) );
+
 	if( fDenom != 0 )
 	{
-		fDelta = ( vFaceNormal.Dot(vMax - vStart ) ) / fDenom;
-		float fDist = 0.0f;
+		fDelta = vFaceNormal.Dot(vStartToFace ) / fDenom;
+
+		fDist = 0.0f;
 
 		//Get point of intersection
 		if( fDelta > 1.0f )	
 		{
 			//see if it intersects
-			fDist = vFaceNormal.Dot(vEnd - vMax);
+			fDist = vFaceNormal.Dot(vEndToFace);	
 			vPos = vEnd;			
 		}
 		else if(fDelta < 0.0f)
-		{			
-			//see if it intersects
-			fDist = vFaceNormal.Dot(vStart - vMax);
+		{		
+			fDist = vFaceNormal.Dot(vFaceToStart);
 			vPos = vStart;			
 		}
 		else
 		{		
 			vPos = vStart;
-			vPos += (vEnd - vStart) * fDelta;	
-			fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
-		}
-
-		//Check the distance and make sure the sphere is even within the bound of the plane
-		if(  vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetY() - fRadius < vMax.GetY() && vPos.GetY() + fRadius > vMin.GetY() )
-		{
-			if( fDist * fDist <= fRadius * fRadius )
-			{
-				data.m_fDist = 0.0f;
-				data.m_bCollided = true;
-				return;
-			}
-			else if( fDelta >= 0 && fDelta <= 1)
-			{
-				data.m_fDist = abs(fDist) - fRadius;
-				data.m_bCollided = true;
-				return;
-			}	
-		}
-
-	}
-
-	//Back side
-	// Normal in -Z direction
-	vFaceNormal = -kpuv_OneZ;
-
-	//Check parallel
-	fDenom = ( vFaceNormal.Dot( vEnd - vStart ) );
-
-	if( fDenom != 0 )
-	{
-		fDelta = ( vFaceNormal.Dot(vMin - vStart ) ) / fDenom;
-		float fDist = 0.0f;
-
-			//Get point of intersection
-		if( fDelta > 1.0f )	
-		{
-			//see if it intersects
-			fDist = vFaceNormal.Dot(vEnd - vMin);
-			vPos = vEnd;			
-		}
-		else if(fDelta < 0.0f)
-		{			
-			//see if it intersects
-			fDist = vFaceNormal.Dot(vStart - vMin);
-			vPos = vStart;			
-		}
-		else
-		{		
-			vPos = vStart;
-			vPos += (vEnd - vStart) * fDelta;	
+			vPos += (vStartToEnd) * ( fDelta  );
 			fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
 		}
 
 		//Check the distance and make sure the sphere is even within the bound of the plane
 		if( vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetY() - fRadius < vMax.GetY() && vPos.GetY() + fRadius > vMin.GetY() )
 		{
-			if( fDist * fDist <= fRadius * fRadius )
+			if( fDist * fDist < fRadius * fRadius )
 			{
 				data.m_fDist = 0.0f;
 				data.m_bCollided = true;
@@ -412,41 +328,100 @@ void kpuCollisionDetection::BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVect
 		}
 	}
 
-	//Top side
-	// Normal in +Y direction
-	vFaceNormal = kpuv_OneY;
+	if( bIs3D )
+	{
+		//Top side
+		// Normal in +Y direction
+		vFaceNormal = kpuv_OneY;
+
+		//Check parallel
+		fDenom = ( vFaceNormal.Dot( vStartToEnd ) );
+
+		if( fDenom != 0 )
+		{
+			fDelta = vFaceNormal.Dot(vStartToFace ) / fDenom;
+
+			fDist = 0.0f;
+
+			//Get point of intersection
+			if( fDelta > 1.0f )	
+			{
+				//see if it intersects
+				fDist = vFaceNormal.Dot(vEndToFace);		
+				vPos = vEnd;			
+			}
+			else if(fDelta < 0.0f)
+			{		
+				fDist = vFaceNormal.Dot(vFaceToStart);
+				vPos = vStart;			
+			}
+			else
+			{		
+				vPos = vStart;
+				vPos += (vStartToEnd) * ( fDelta  );
+				fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
+			}
+
+			//Check the distance and make sure the sphere is even within the bound of the plane
+			if( vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() )
+			{
+				if( fDist * fDist < fRadius * fRadius )
+				{
+					data.m_fDist = 0.0f;
+					data.m_bCollided = true;
+					return;
+				}
+				else if( fDelta >= 0 && fDelta <= 1)
+				{
+					data.m_fDist = abs(fDist) - fRadius;
+					data.m_bCollided = true;
+					return;
+				}	
+			}
+		}
+	}
+
+	vStartToFace = vMin - vStart;
+	vFaceToStart = vStart - vMin;
+	vEndToFace = vMin - vEnd;
+
+	//Left side
+	//Normal in -X direction	
+	vFaceNormal = -kpuv_OneX;
 
 	//Check parallel
-	fDenom = ( vFaceNormal.Dot( vEnd - vStart ) );
+	fDenom = ( vFaceNormal.Dot( vStartToEnd ) );
 
 	if( fDenom != 0 )
 	{
-		fDelta = ( vFaceNormal.Dot(vMax - vStart ) ) / fDenom;
-		float fDist = 0.0f;
-			//Get point of intersection
+		
+		fDelta = vFaceNormal.Dot(vStartToFace ) / fDenom;
+
+		fDist = 0.0f;
+
+		//Get point of intersection
 		if( fDelta > 1.0f )	
 		{
 			//see if it intersects
-			fDist = vFaceNormal.Dot(vEnd - vMax);
+			fDist = vFaceNormal.Dot(vEndToFace);	
 			vPos = vEnd;			
 		}
 		else if(fDelta < 0.0f)
-		{			
-			//see if it intersects
-			fDist = vFaceNormal.Dot(vStart - vMax);
+		{		
+			fDist = vFaceNormal.Dot(vFaceToStart);
 			vPos = vStart;			
 		}
 		else
 		{		
 			vPos = vStart;
-			vPos += (vEnd - vStart) * fDelta;	
+			vPos += (vStartToEnd) * ( fDelta  );
 			fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
 		}
 
 		//Check the distance and make sure the sphere is even within the bound of the plane
-		if( vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() )
+		if( vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() &&  vPos.GetY() - fRadius < vMax.GetY() && vPos.GetY() + fRadius > vMin.GetY() )
 		{
-			if( fDist * fDist <= fRadius * fRadius )
+			if( fDist * fDist < fRadius * fRadius )
 			{
 				data.m_fDist = 0.0f;
 				data.m_bCollided = true;
@@ -461,42 +436,44 @@ void kpuCollisionDetection::BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVect
 		}
 	}
 
-	//Bottom side
-	// Normal in -Y direction
-	vFaceNormal = -kpuv_OneY;
+	
+
+	//Back side
+	// Normal in -Z direction
+	vFaceNormal = -kpuv_OneZ;
 
 	//Check parallel
-	fDenom = ( vFaceNormal.Dot( vEnd - vStart ) );
+	fDenom = ( vFaceNormal.Dot( vStartToEnd ) );
 
 	if( fDenom != 0 )
 	{
-		fDelta = ( vFaceNormal.Dot(vMin - vStart ) ) / fDenom;
-		float fDist = 0.0f;
+		fDelta = vFaceNormal.Dot(vStartToFace ) / fDenom;
 
-			//Get point of intersection
+		fDist = 0.0f;
+
+		//Get point of intersection
 		if( fDelta > 1.0f )	
 		{
 			//see if it intersects
-			float fDist = vFaceNormal.Dot(vEnd - vMin);
+			fDist = vFaceNormal.Dot(vEndToFace);	
 			vPos = vEnd;			
 		}
 		else if(fDelta < 0.0f)
-		{			
-			//see if it intersects
-			float fDist = vFaceNormal.Dot(vStart - vMin);
+		{		
+			fDist = vFaceNormal.Dot(vFaceToStart);
 			vPos = vStart;			
 		}
 		else
 		{		
 			vPos = vStart;
-			vPos += (vEnd - vStart) * fDelta;	
-			fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
+			vPos += (vStartToEnd) * ( fDelta  );
+			//fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
 		}
 
 		//Check the distance and make sure the sphere is even within the bound of the plane
-		if( vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() )
+		if( vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetY() - fRadius < vMax.GetY() && vPos.GetY() + fRadius > vMin.GetY() )
 		{
-			if( fDist * fDist <= fRadius * fRadius )
+			if( fDist * fDist < fRadius * fRadius )
 			{
 				data.m_fDist = 0.0f;
 				data.m_bCollided = true;
@@ -509,44 +486,101 @@ void kpuCollisionDetection::BoxVsCapsule(kpuVector vMin, kpuVector vMax, kpuVect
 				return;
 			}	
 		}
+	}
 
-	}	
+
+	if( bIs3D )
+	{
+		//Bottom side
+		// Normal in -Y direction
+		vFaceNormal = -kpuv_OneY;
+
+		//Check parallel
+		fDenom = ( vFaceNormal.Dot( vStartToEnd ) );
+
+		if( fDenom != 0 )
+		{
+			fDelta = vFaceNormal.Dot(vStartToFace ) / fDenom;
+
+			fDist = 0.0f;
+
+			//Get point of intersection
+			if( fDelta > 1.0f )	
+			{
+				//see if it intersects
+				fDist = vFaceNormal.Dot(vEndToFace);			
+				vPos = vEnd;			
+			}
+			else if(fDelta < 0.0f)
+			{		
+				fDist = vFaceNormal.Dot(vFaceToStart);
+				vPos = vStart;			
+			}
+			else
+			{		
+				vPos = vStart;
+				vPos += (vStartToEnd) * ( fDelta  );
+				//fDist = sqrt(kpuVector::DistanceSquared(vPos, vStart));
+			}
+
+			//Check the distance and make sure the sphere is even within the bound of the plane
+			if( vPos.GetX() - fRadius < vMax.GetX() && vPos.GetX() + fRadius > vMin.GetX() &&  vPos.GetZ() - fRadius < vMax.GetZ() && vPos.GetZ() + fRadius > vMin.GetZ() )
+			{
+				if( fDist * fDist <= fRadius * fRadius )
+				{
+					data.m_fDist = 0.0f;
+					data.m_bCollided = true;
+					return;
+				}
+				else if( fDelta >= 0 && fDelta <= 1)
+				{
+					data.m_fDist = abs(fDist) - fRadius;
+					data.m_bCollided = true;
+					return;
+				}	
+			}
+
+		}	
+	}
+	
 }
 
-void kpuCollisionDetection::SphereVsCapsule(kpuVector vPos1, float fRadius1, kpuVector vStart, kpuVector vEnd, float fRadius2, kpuCollisionData &data)
+void kpuCollisionDetection::SphereVsCapsuleRadiiSquared(kpuVector vPos1, float fRadius1, kpuVector vStart, kpuVector vEnd, float fRadius2, kpuCollisionData &data)
 {
 	//Equation of line P = vStart - fDelta(vEnd - vStart)
 	// when (vPos - P) dot (vEnd - vStart ) = 0 we have point perpendicula to vPos and the line
 	// combine and solve for fDelta 	
-	float denom = (vEnd - vStart).Dot(vEnd - vStart );
+	kpuVector vStartToEnd = vEnd - vStart;
+
+	float denom = (vStartToEnd).Dot(vStartToEnd);
 
 	if (denom == 0 )
 	{
 		data.m_bCollided = false;
 		return;
 	}
+	//float fDelta = ( ( vPos1.GetX() - vStart.GetX())*( vEnd.GetX() - vStart.GetX() ) + ( vPos1.GetY() - vStart.GetY())*( vEnd.GetY() - vStart.GetY() ) + ( vPos1.GetZ() - vStart.GetZ())*( vEnd.GetZ() - vStart.GetZ() ) ) / denom;
+	kpuVector vStartToCenter = vPos1 - vStart;
 
-	float fDelta = ( ( vPos1.GetX() - vStart.GetX())*( vEnd.GetX() - vStart.GetX() ) + ( vPos1.GetY() - vStart.GetY())*( vEnd.GetY() - vStart.GetY() ) + ( vPos1.GetZ() - vStart.GetZ())*( vEnd.GetZ() - vStart.GetZ() ) ) / denom;
+	float fDelta = vStartToCenter.Dot(vStartToEnd);
 
-	float fDist = 0.0f;
+	float fDist = denom - fDelta; 
 
 	if( fDelta < 0 )	
 		fDist = kpuVector::DistanceSquared(vStart, vPos1);
-	else if( fDelta <= 1 )
+	else if( fDist > 0 )
 	{
-		kpuVector vPointOnLine(vStart.GetX() + ( fDelta * (vEnd.GetX() - vStart.GetX() ) ), vStart.GetY() + ( fDelta * (vEnd.GetY() - vStart.GetY() ) ), vStart.GetZ() + ( fDelta * (vEnd.GetZ() - vStart.GetZ() ) ) , 0.0f);
-
-		fDist = kpuVector::DistanceSquared(vPos1, vPointOnLine);
+		fDist = kpuVector::DistanceSquared(vPos1, vStart + (vStartToEnd * (fDelta / denom)));
 	}
-	else	
+	else if( fDist < 0 )	
 		fDist = kpuVector::DistanceSquared(vEnd, vPos1);
 
 	data.m_fDist = fDist;
 
-	float fCombinedRadi = (fRadius1 * fRadius1) + (fRadius2 * fRadius2);
+	float fCombinedRadi = fRadius1 +  fRadius2;
 	data.m_bCollided = fDist < fCombinedRadi;
-	
-	return;		
+
+
 }
 
 void kpuCollisionDetection::CapsuleVsCapsule(kpuVector vStart1, kpuVector vEnd1, float fRadius1, kpuVector vStart2, kpuVector vEnd2, float fRadius2, kpuCollisionData &data)
@@ -597,4 +631,9 @@ void kpuCollisionDetection::CapsuleVsCapsule(kpuVector vStart1, kpuVector vEnd1,
 
 	data.m_fDist = fDist;
 	data.m_bCollided = fDist < fCombinedRadi;
+}
+
+void kpuCollisionDetection::SphereVsCapsule(kpuVector vPos1, float fRadius1, kpuVector vStart, kpuVector vEnd, float fRadius2, kpuCollisionData &data)
+{
+	SphereVsCapsuleRadiiSquared(vPos1, fRadius1 * fRadius1, vStart, vEnd, fRadius2 * fRadius2, data);	
 }

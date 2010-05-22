@@ -5,7 +5,7 @@
 class kpuBoundingBox: public kpuBoundingVolume
 {
 public:
-	kpuBoundingBox(kpuVector vMin = kpuv_OneW ,kpuVector = kpuv_OneW );
+	kpuBoundingBox(kpuVector vMin = kpuv_OneW ,kpuVector vMax = kpuv_OneW );
 	kpuBoundingBox(const kpuBoundingBox& bBox);
 	~kpuBoundingBox(void);
 
@@ -18,15 +18,15 @@ public:
 	bool Contains2D(kpuBoundingBox& bBox);
 	bool Contains2D(kpuBoundingCapsule& bCapsule);
 
-	kpuVector GetMax()	{ return m_vMax; }
-	kpuVector GetMin()	{ return m_vMin; }
-	void	  SetMin(kpuVector vMin)  { m_vMin = vMin; }
-	void	  SetMax(kpuVector vMax) { m_vMax = vMax; }
+	kpuVector GetMax()	{ return m_vCenter + m_vOffset; }
+	kpuVector GetMin()	{ return m_vCenter - m_vOffset; }
+	kpuVector GetCenter()	{ return m_vCenter; }
+	kpuVector GetOffset()	{ return m_vOffset; }
 
-	void Move(kpuVector vVel)	{ m_vMin +=  vVel; m_vMax += vVel; }
+	void Move(kpuVector vVel)	{ m_vCenter +=  vVel; }
 
 private:
-	kpuVector m_vMax;
-	kpuVector m_vMin;
+	kpuVector m_vCenter;
+	kpuVector m_vOffset;
 
 };

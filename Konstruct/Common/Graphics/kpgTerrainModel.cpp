@@ -471,12 +471,12 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		}
 	}
 
-	//TerrainData data = aTerrainData[0];
-	//data.iPiece = 0;
-	//data.iRotations = 1;
-	//data.iX = 50;
-	//data.iY = 50;
-	//aFinalMap.Add(data);
+	/*TerrainData data = aTerrainData[0];
+	data.iPiece = 0;
+	data.iRotations = 0;
+	data.iX = 50;
+	data.iY = 50;
+	aFinalMap.Add(data);*/
 
 
 	m_aGeometries.SetSize(aTerrainData.GetNumElements());

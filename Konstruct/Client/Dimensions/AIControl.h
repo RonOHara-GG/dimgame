@@ -7,6 +7,6 @@ class AIControl
 public:
 	AIControl(void);
 	virtual ~AIControl(void);
-	virtual void Update(NPC* pNpc) {}
+	virtual void Update(NPC* pNpc, float fDeltaTime) {}
 
 };

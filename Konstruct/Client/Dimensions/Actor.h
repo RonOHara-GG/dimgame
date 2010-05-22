@@ -45,6 +45,7 @@ public:
 	bool IsAlive() { return m_iCurrentHealth > 0; }
 
 	void Move(kpuVector vVel);
+	void Move(float fDeltaTime, kpuVector vDir);
 
 #pragma region StatAccessor/Mutators
 
@@ -58,6 +59,7 @@ public:
 	int GetAgi() { return m_iAgi; }
 	int GetInt() { return m_iInt; }
 	int GetConst() { return m_iConst; }
+	int GetDestinationTile() { return m_iDestinationTile; }
 
 	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
 	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }

@@ -31,7 +31,7 @@ void kpuBoundingCapsule::Intersects(kpuBoundingVolume* bOther, const kpuMatrix& 
 		{
 			kpuBoundingBox pBox = *(kpuBoundingBox*)bOther;
 			pBox.Transform(matrix);
-			kpuCollisionDetection::BoxVsCapsule(pBox.GetMin(), pBox.GetMax(),m_vStart, m_vEnd, m_fRadius, data);
+			kpuCollisionDetection::BoxVsCapsule(pBox.GetCenter(), pBox.GetOffset(),m_vStart, m_vEnd, m_fRadius, data);
 			break;
 		}
 	case eVT_Capsule:
