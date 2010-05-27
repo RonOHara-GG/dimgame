@@ -17,6 +17,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	m_pAIBehavior = new AskaranAI();
 
 	m_fElaspedWanderWait = 0.0f;
+	m_fElaspedAttack = 0.0f;
 	m_bAttackable = true;
 	
 	m_iLevel = loadStruct.iLevel;
@@ -51,11 +52,39 @@ Enemy::~Enemy(void)
 
 bool Enemy::Update(float fGameTime)
 {
-	UpdateMovement(fGameTime);	
+	if( m_iCurrentHealth > 0 )
+	{
+		UpdateMovement(fGameTime);	
 
-	m_pAIBehavior->Update(this, fGameTime);
+		m_pAIBehavior->Update(this, fGameTime);
 
-	return m_iCurrentHealth > 0;
+		//update timers
+		if( m_fElaspedAttack < m_fAttackSpeed )
+			m_fElaspedAttack += fGameTime;
+
+		return true;
+	}
+
+	return false;
+}
+
+void Enemy::UpdateMovement(float fDeltaTime)
+{
+	//if not at destination check to see if target has an actor in it
+	if( m_iDestinationTile > -1 && m_iCurrentPathNode > -1)
+	{
+ 		Actor* pTileActor = g_pGameState->GetLevel()->GetGrid()->GetActor(m_aPathNodes[m_iCurrentPathNode]);
+
+		//make sure the next tile is still walkable
+		if( pTileActor && pTileActor != this )
+		{		
+			//Set target tile has current tile
+			SetNextMove(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(GetLocation()));			
+		}
+		
+	}
+
+	Actor::UpdateMovement(fDeltaTime);
 }
 
 void Enemy::Wander(float fDeltaTime)
@@ -87,4 +116,21 @@ void Enemy::Wander(float fDeltaTime)
 			m_iCurrentPathNode = -1;
 		}
 	}
+}
+
+bool Enemy::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
+{
+	if(pTarget->Attackable())
+	{		
+		if( m_fElaspedAttack >= m_fAttackSpeed )
+		{			
+			m_fElaspedAttack = 0.0f;
+			pTarget->TakeDamage(m_iDamage, m_eDamageType);
+
+			return true;
+			
+		}		
+	}
+
+	return false;
 }

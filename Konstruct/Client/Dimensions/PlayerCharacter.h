@@ -24,6 +24,10 @@ class Armor;
 #define SPEED_AGILITY_RATIO 5
 #define MENTAL_PER_LEVEL 5
 
+#define DEFAULT_MELEE_DMG 5
+#define DEFAULT_ATTACK_RATE 0.25f
+#define DEFAULT_ATTACK_RANGE 1
+
 class PlayerCharacter:public Actor
 {
 public:
@@ -31,8 +35,7 @@ public:
 	~PlayerCharacter(void);
 
 	bool Update(float fDeltaTime);
-
-	
+	void UpdateMovement(float fDeltaTime);	
 
 	void GainExp(int iExp); //Distributes exp over player's classes
 
@@ -61,6 +64,7 @@ public:
 
 	int		GetLevel();
 	float	GetSpeed() { return m_fBaseSpeed + 0.1 * (m_iAgi / SPEED_AGILITY_RATIO); }
+	float 	GetRange();
 	
 	void	SetConst(int iConst);
 	void	SetInt(int iInt);
@@ -99,6 +103,10 @@ protected:
 	kpuArrayList<SkillCombo*>*	m_pSkillCombos; //List of combos created
 
 	kpgLight*					m_pLightSource;
+
+	//combat
+	float						m_fElaspedDefaultAtk;
 	
 };
+
 

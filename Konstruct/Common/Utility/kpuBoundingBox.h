@@ -1,6 +1,8 @@
 #pragma once
 #include "Common/Utility/kpuBoundingVolume.h"
-#include "kpuBoundingCapsule.h"
+
+class kpuBoundingSphere;
+class kpuBoundingCapsule;
 
 class kpuBoundingBox: public kpuBoundingVolume
 {
@@ -17,6 +19,7 @@ public:
 
 	bool Contains2D(kpuBoundingBox& bBox);
 	bool Contains2D(kpuBoundingCapsule& bCapsule);
+	bool Contains2D(kpuBoundingSphere& sphere);
 
 	kpuVector GetMax()	{ return m_vCenter + m_vOffset; }
 	kpuVector GetMin()	{ return m_vCenter - m_vOffset; }

@@ -52,6 +52,43 @@ void Grid::GetTileLocation(int iTileIndex, kpuVector& vOutLocation)
 	vOutLocation -= m_vCenter;
 }
 
+int Grid::BestMove(kpuVector vNorm, int iStartTile)
+{
+	kpuVector vStart;
+	float fBestDot = -1;
+	int iBestTile = -1;//GetTileAtLocation(vStart);
+
+	GetTileLocation(iStartTile, vStart);
+
+	for( int i = 0; i < NUM_DIRECTIONS; i++ )
+	{
+		float fDot = vNorm.Dot(s_vDirections[i]);
+		if( fDot > fBestDot )
+		{
+			int iTile = GetTileAtLocation(vStart + s_vDirections[i]);
+
+			if(!m_pTiles[iTile].m_Actor ) 
+			{
+				//Check if there is anything that will collide in the path
+				kpuVector v2;
+				GetTileLocation(iTile, v2);
+				kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);
+
+				if( !g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, 0) )
+				{
+					// This tile doesnt have an actor on it, its valid for now
+					fBestDot = fDot;
+					iBestTile = iTile;
+				}
+			}
+					
+		}
+	}
+	
+	return iBestTile;
+}
+
+
 bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSize, Actor* pActor, int outTilesSize, int iLastDirection)
 {
 	// NOTE: This function will build a path backwards on itself if it cant go forward
@@ -78,7 +115,7 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSi
 		if( fDot > fBestDot )
 		{
 			int iTile = GetTileAtLocation(vStartTile + s_vDirections[i]);
-			if( !m_pTiles[iTile].m_Actor )
+			if( !m_pTiles[iTile].m_Actor || m_pTiles[iTile].m_Actor == pActor)
 			{
 				bool bValid = true;
 
@@ -97,9 +134,9 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSi
 					//Check if there is anything that will collide in the path
 					kpuVector v2;
 					GetTileLocation(iTile, v2);
-					kpuBoundingCapsule capsule(vStartTile, v2, TILE_SIZE * 0.5f);
+					kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);
 
-					if( !g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(capsule, pActor) )
+					if( !g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, pActor) )
 					{
 						// This tile doesnt have an actor on it, its valid for now
 						fBestDot = fDot;
@@ -107,8 +144,6 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSi
 						iBestTile = iTile;
 					}
 				}
-				
-
 			}
 			/*else if( iTile == iEndTile )
 			{
@@ -175,9 +210,6 @@ bool Grid::RemoveActor(Actor* pActor)
 bool Grid::TileWalkable(int iTile)
 {
 	if( iTile < 0 || iTile >= m_iHeight * m_iWidth )
-		return false;
-
-	if( m_pTiles[iTile].m_Actor )
 		return false;
 
 	return true;

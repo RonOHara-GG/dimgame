@@ -21,9 +21,10 @@ public:
 	virtual void Draw(kpgRenderer* pRenderer);
 
 	virtual void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
+	void	SetNextMove(int iTile);
 	virtual void CancelMovement() { m_iCurrentPathNode = -1; m_iDestinationTile = -1; }
 
-	
+	bool BuildPathToDestination();
 
 	virtual float GetExpGiven() { return m_fExpGiven; }
 
@@ -105,7 +106,7 @@ public:
 protected:
 	
 	void UpdateMovement(float fDeltaTime);
-	bool BuildPathToDestination();
+	
 
 	int				m_iDestinationTile;
 	int				m_iCurrentPathNode;

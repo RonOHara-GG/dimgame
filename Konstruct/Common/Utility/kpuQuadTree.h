@@ -23,6 +23,7 @@ public:
 	float Move(kpuVector& vVel, kpuPhysicalObject* pObj);
 	bool CheckCollision(kpuPhysicalObject* pObj);
 	bool CheckCollision(kpuBoundingCapsule& bCapsule, kpuPhysicalObject* pObj);
+	bool CheckCollision(kpuBoundingSphere& bSphere, kpuPhysicalObject* pObj);
 	void GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData>* collidedObjects);
 
 private:

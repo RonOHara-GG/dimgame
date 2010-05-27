@@ -12,3 +12,8 @@ NPC::~NPC(void)
 	if( m_pAIBehavior )
 		delete m_pAIBehavior;
 }
+
+
+
+
+

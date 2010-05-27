@@ -113,6 +113,16 @@ void kpuBoundingBox::Transform(const kpuMatrix &matrix)
 //			
 //	return true;
 //}
+bool kpuBoundingBox::Contains2D(kpuBoundingSphere& sphere)
+{
+	kpuVector vMax = m_vCenter + m_vOffset;
+	kpuVector vMin = m_vCenter - m_vOffset;
+
+	if( sphere.GetLocation().GetX() + sphere.GetRadius() > vMin.GetX() && sphere.GetLocation().GetX()- sphere.GetRadius() < vMax.GetX()  && sphere.GetLocation().GetZ()+ sphere.GetRadius() > vMin.GetZ() && sphere.GetLocation().GetZ() -  sphere.GetRadius() < vMax.GetZ() )
+		return true;
+
+	return false;
+}
 
 bool kpuBoundingBox::Contains2D(kpuBoundingBox& bBox)
 {

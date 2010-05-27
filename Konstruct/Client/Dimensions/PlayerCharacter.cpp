@@ -7,6 +7,8 @@
 #include "Armor.h"
 #include "PlayerClass.h"
 #include "SkillCombo.h"
+#include "Level.h"
+#include "Grid.h"
 
 
 PlayerCharacter::PlayerCharacter(void):Actor()
@@ -36,17 +38,19 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_pLightSource->SetColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));
 
 	m_pEquippedWeapon = 0;
+	m_fElaspedDefaultAtk = 0.0f;
 
 	/*Init(m_pModel->GetBoundingBox().GetMin(), m_pModel->GetBoundingBox().GetMax());
 	m_bBox.Move(GetLocation());
 	m_bSphere.Move(GetLocation());*/
 
+	m_bAttackable = true;
+	m_iCurrentHealth = m_iMaxHealth = 100;
+
 }
 
 PlayerCharacter::~PlayerCharacter(void)
 {
-
-
 	if(m_aClasses)
 		delete[] m_aClasses;
 
@@ -125,7 +129,40 @@ bool PlayerCharacter::Update(float fDeltaTime)
 	m_pLightSource->SetPosition(kpuVector(vPos.GetX(), -(vPos.GetY() + 0.9f), vPos.GetZ(), 6));	
 	//kpgRenderer::GetInstance()->SetLight(0, m_pLightSource);
 
+	//update any timers for weapons, skills, etc
+	if( m_pEquippedWeapon )
+		m_pEquippedWeapon->Update(fDeltaTime);
+	else
+	{
+		//update default attack		
+		if( m_fElaspedDefaultAtk < DEFAULT_ATTACK_RATE )
+			m_fElaspedDefaultAtk += fDeltaTime;
+	}
+
 	return true;
+}
+
+void PlayerCharacter::UpdateMovement(float fDeltaTime)
+{
+	//check to make sure target doesn't contain a actor
+	if( m_iDestinationTile > -1 && m_iCurrentPathNode > -1 )
+	{
+		Actor* pTileActor = g_pGameState->GetLevel()->GetGrid()->GetActor(m_aPathNodes[m_iCurrentPathNode]);
+
+		//make sure the next tile is still walkable
+		if( pTileActor && pTileActor != this )
+		{		
+			//rebuild path
+			if( !BuildPathToDestination() )
+			{
+				//stay and move to center of tile
+				SetNextMove(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(GetLocation()));
+			}
+			
+		}
+	}
+
+	Actor::UpdateMovement(fDeltaTime);
 }
 
 void PlayerCharacter::UpdateSkills(float fGameTime)
@@ -181,9 +218,30 @@ bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 				}
 			}
 		}
+		else
+		{
+			if( m_fElaspedDefaultAtk >= DEFAULT_ATTACK_RATE )
+			{
+				if(IsInRange(pTarget, DEFAULT_ATTACK_RANGE))
+				{
+					m_fElaspedDefaultAtk = 0.0f;
+					pTarget->TakeDamage(m_iStr * 0.5f + DEFAULT_MELEE_DMG, eDT_Crushing);
+
+					//Check target status
+					CheckTargetStatus(pTarget);
+					return true;				
+				}
+			}			
+
+		}
 	}
 
 	return false;
+}
+
+float PlayerCharacter::GetRange()
+{
+	 return ( m_pEquippedWeapon ) ? m_pEquippedWeapon->GetRange()	: DEFAULT_MELEE_RANGE;
 }
 
 void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid)
