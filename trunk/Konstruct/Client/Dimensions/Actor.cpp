@@ -66,7 +66,14 @@ void Actor::Draw(kpgRenderer* pRenderer)
 
 //int Actor::GetLevel() { return m_iLevel; }
 
+void Actor::SetNextMove(int iTile)
+{
+	m_aPathNodes[0] = iTile;
+	m_aPathNodes[1] = -1;
 
+	m_iDestinationTile = iTile;
+	m_iCurrentPathNode = 0;	
+}
 
 void Actor::UpdateMovement(float fDeltaTime)
 {
@@ -95,25 +102,34 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 		while( fMoveDelta > 0 )
 		{
-
 			int iTargetTile = m_aPathNodes[m_iCurrentPathNode];
+			
 
-			//make sure the next tile is still walkable
-			if( !g_pGameState->GetLevel()->GetGrid()->TileWalkable(iTargetTile) )
-			{				
-				m_iCurrentPathNode = -1;
-				return;
-			}
+			//Actor* pTileActor = g_pGameState->GetLevel()->GetGrid()->GetActor(iTargetTile);
+			////make sure the next tile is still walkable
+			//if( pTileActor && pTileActor != this )
+			//{				
+			//	m_iCurrentPathNode = -1;
+			//	return;
+			//}
 
 			kpuVector vTargetLocation;
-			g_pGameState->GetLevel()->GetGrid()->GetTileLocation(iTargetTile, vTargetLocation);
+			//g_pGameState->GetLevel()->GetGrid()->GetTileLocation(iTargetTile, vTargetLocation);
 
 			kpuVector vMyLocation = GetLocation();
+
+			//Find the closest tile to the destination
+			//kpuVector vTargetToThisActor = vMyLocation - vTargetLocation;
+			//vTargetToThisActor.Normalize();
+			//int iCurrentDest = g_pGameState->GetLevel()->GetGrid()->NearestTile(vTargetToThisActor, m_iDestinationTile, this);
+
+			g_pGameState->GetLevel()->GetGrid()->GetTileLocation(iTargetTile, vTargetLocation);
 			kpuVector vToTarget = vTargetLocation - vMyLocation;
 			vToTarget.SetW(0);
 
 			vToTarget.SetY(0);
-			float fDistToTarget = vToTarget.Length();
+			float fDistToTarget = vToTarget.Length();		
+			
 
 			if( fDistToTarget == 0.0f )
 			{
@@ -195,8 +211,20 @@ bool Actor::BuildPathToDestination()
 
 	// Get my current tile
 	int iCurrentTile = pGrid->GetTileAtLocation(GetLocation());
+	kpuVector vStart, vEnd, vEndToStart;
+
+	pGrid->GetTileLocation(iCurrentTile, vStart);
+	pGrid->GetTileLocation(m_iDestinationTile, vEnd);
+	vEndToStart = vStart - vEnd;
+	vEndToStart.Normalize();
+
+	int iBestDestination = m_iDestinationTile; 
+
+	if( pGrid->GetActor(iBestDestination) )
+		iBestDestination = pGrid->BestMove(vEndToStart, m_iDestinationTile);
+
 	// Build the path
-	if( pGrid->BuildPath(iCurrentTile, m_iDestinationTile, m_aPathNodes, MAX_PATH_NODES, this) )
+	if(iBestDestination > 0 && pGrid->BuildPath(iCurrentTile, iBestDestination, m_aPathNodes, MAX_PATH_NODES, this) )
 	{
 		m_iCurrentPathNode = 0;		
 		return true;
@@ -212,62 +240,62 @@ void Actor::TakeDamage(float fDamage, DamageType eDmgType)
 	{
 	case eDT_Acid:
 		{
-			fDamage -= fDamage * (m_iAcidRes / 100);
+			fDamage -= fDamage * (m_iAcidRes / 100.0f);
 			break;
 		}
 	case eDT_Cold:
 		{
-			fDamage -= fDamage * (m_iColdRes / 100);
+			fDamage -= fDamage * (m_iColdRes / 100.0f);
 			break;
 		}
 	case eDT_Crushing:
 		{
-			fDamage -= fDamage * (m_iCrushRes / 100);
+			fDamage -= fDamage * (m_iCrushRes / 100.0f);
 			break;
 		}
 	case eDT_Death:
 		{
-			fDamage -= fDamage * (m_iDeathRes / 100);
+			fDamage -= fDamage * (m_iDeathRes / 100.0f);
 			break;
 		}
 	case eDT_Electrical:
 		{
-			fDamage -= fDamage * (m_iElectRes / 100);
+			fDamage -= fDamage * (m_iElectRes / 100.0f);
 			break;
 		}
 	case eDT_Heat:
 		{
-			fDamage -= fDamage * (m_iHeatRes / 100);
+			fDamage -= fDamage * (m_iHeatRes / 100.0f);
 			break;
 		}
 	case eDT_Holy:
 		{
-			fDamage -= fDamage * (m_iHolyRes / 100);
+			fDamage -= fDamage * (m_iHolyRes / 100.0f);
 			break;
 		}
 	case eDT_Mental:
 		{
-			fDamage -= fDamage * (m_iMentalRes / 100);
+			fDamage -= fDamage * (m_iMentalRes / 100.0f);
 			break;
 		}
 	case eDT_Piercing:
 		{
-			fDamage -= fDamage * (m_iPierceRes / 100);
+			fDamage -= fDamage * (m_iPierceRes / 100.0f);
 			break;
 		}
 	case eDT_Slashing:
 		{
-			fDamage -= fDamage * (m_iSlashRes / 100);
+			fDamage -= fDamage * (m_iSlashRes / 100.0f);
 			break;
 		}
 	case eDT_Viral:
 		{
-			fDamage -= fDamage * (m_iViralRes / 100);
+			fDamage -= fDamage * (m_iViralRes / 100.0f);
 			break;
 		}
 	case eDT_Water:
 		{
-			fDamage -= fDamage * (m_iWaterRes / 100);
+			fDamage -= fDamage * (m_iWaterRes / 100.0f);
 			break;
 		}
 	}

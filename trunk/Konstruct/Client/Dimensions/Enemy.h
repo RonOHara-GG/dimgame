@@ -10,6 +10,8 @@ public:
 	~Enemy(void);
 
 	bool Update(float fGameTime);
+	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
+	void UpdateMovement(float fDeltaTime);
 
 protected:
 	void Wander(float fDeltaTime); //Wander around at varying distances
@@ -17,6 +19,7 @@ protected:
 
 	float			m_fElaspedWanderWait;
 	
+	float			m_fElaspedAttack;
 	float			m_fAttackSpeed;
 	int				m_iDamage;
 	DamageType		m_eDamageType;

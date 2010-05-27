@@ -26,8 +26,7 @@ GameState_Default::GameState_Default(void)
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_Bastarak);
 	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer = new PlayerCharacter());
 	m_paEnemies = new kpuArrayList<Enemy*>();
-	
-	//m_pCurrentLevel->LoadEnemyList(m_paEnemies);
+
 	m_pCurrentLevel->GenerateEnemies(m_paEnemies); 
 
 }
@@ -64,18 +63,17 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
 
 	if( m_pCurrentLevel->GetGrid()->TileWalkable(iTile) )
-	{
-		m_pPlayer->SetMoveTarget(iTile);
-		
-
+	{	
 		//If target tile contains an enemy try and attack
 		Actor* pTarget = m_pCurrentLevel->GetGrid()->GetActor(iTile);
 
-		if(pTarget)
+		if( pTarget && pTarget->Attackable() && m_pPlayer->IsInRange(pTarget, m_pPlayer->GetRange()) )
 		{
 			m_pPlayer->SetTarget(pTarget);
 			m_pPlayer->UseDefaultAttack(pTarget, m_pCurrentLevel->GetGrid());
 		}
+		else
+			m_pPlayer->SetMoveTarget(iTile);	
 	}
 	
 }
@@ -101,6 +99,8 @@ void GameState_Default::Update(float fGameTime)
 			if(!pEnemy->Update(fGameTime))
 			{
 				m_paEnemies->Remove(pEnemy);
+				pEnemy->GetCurrentNode()->Remove(pEnemy);
+				m_pCurrentLevel->GetGrid()->RemoveActor(pEnemy);
 				delete pEnemy;
 				pEnemy = 0;
 			}
