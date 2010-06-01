@@ -3,7 +3,9 @@
 
 class Actor;
 class PlayerCharacter;
-class Grid;
+class TiXmlElement;
+
+#define SKILL_NAME_LENGTH 32
 
 class Skill
 {
@@ -11,23 +13,24 @@ public:
 	Skill(void);
 	~Skill(void);
 
-	bool	IsReady() { return m_bReady; }
-	bool	MeetRequiredLevel(int iCurrentLevel) { return iCurrentLevel >= m_iRequiredLevel; }
-	bool	Use(Actor* pTarget, PlayerCharacter* pSkillOwner, Grid* pGrid); //Activates the skill if all checks pass
-	void	UpdateTimers(float fGameTime);
-	bool	FinishedCasting(float fGameTime); //Updates casting timer of skill and tests wether it is finsihesed or not
-	void	ApplyEffect(Actor* pTarget); //Applys skill to target
+	bool			IsReady() { return m_bReady; }
+	bool			MeetRequiredLevel(int iCurrentLevel) { return iCurrentLevel >= m_iRequiredLevel; }
+	virtual bool	Use(PlayerCharacter* pSkillOwner) { return false; } //Activates the skill if all checks pass
+	virtual bool	ApplyEffect(PlayerCharacter *pSkillOwner, float fDeltaTime) { return false; }
+	void			UpdateTimers(float fGameTime);
+	//bool			FinishedCasting(float fGameTime); //Updates casting timer of skill and tests wether it is finsihesed or not
+	bool			Load(TiXmlElement* pStart) { return false; }
+
+	char*			GetName() { return m_szName; }
+	
 
 protected:
-
+	char		m_szName[SKILL_NAME_LENGTH];
 	int			m_iRequiredLevel;
-	int			m_iRange; //In tiles
-	int			m_iRadius;  //In tiles
-	int			m_iDamage;
-	DamageType  m_eDamageType;
-	float		m_fSpeed;
+	int			m_iSkillRank;
 	float		m_fElaspedSinceCast;
 	float		m_fRecovery;
 	float		m_fElaspedRecovery;
+	float		m_fSpeed;
 	bool		m_bReady;
 };

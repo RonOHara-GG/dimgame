@@ -11,7 +11,7 @@ typedef struct _EnemyLoadStructure
     char* pszName;//[128];	
 
     int iLevel;
-    int iHealth;
+    float fHealth;
     float fSpeed;
 
     int iCrushRes;
@@ -27,7 +27,7 @@ typedef struct _EnemyLoadStructure
     int iHolyRes;
     int iDeathRes;
 
-    int iDamage;
+    float fDamage;
     float fAggroRange;
 	float fAttackRange;
     float fAttackSpeed;

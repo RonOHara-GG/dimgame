@@ -45,7 +45,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_bSphere.Move(GetLocation());*/
 
 	m_bAttackable = true;
-	m_iCurrentHealth = m_iMaxHealth = 100;
+	m_fCurrentHealth = m_fMaxHealth = 100;
 
 }
 
@@ -190,14 +190,9 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 	//Update casting of current skill
 	if(m_pActiveSkill)
 	{
-		if(m_pActiveSkill->FinishedCasting(fGameTime))
-		{
-			m_pActiveSkill->ApplyEffect(m_pTarget);
-			m_pTarget = 0;
-		}
+		if(m_pActiveSkill->ApplyEffect(this, fGameTime))		
+			m_pActiveSkill = 0;
 	}
-
-
 }
 
 bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
@@ -248,7 +243,7 @@ void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTa
 {
 	if(m_aClasses[(int)eClass])
 	{
-		m_aClasses[(int)eClass]->GetSkill(iIndex)->Use(pTarget, this, pGrid);
+		m_aClasses[(int)eClass]->GetSkill(iIndex)->Use(this);
 		CheckTargetStatus(pTarget);
 	}
 }
@@ -309,8 +304,8 @@ void PlayerCharacter::ReconfigHealthMental()
 {
 	int iLevel = GetLevel();
 
-	m_iMaxHealth = m_iConst * iLevel * MENTAL_PER_LEVEL;
-	m_iMaxMental = m_iInt * iLevel * MENTAL_PER_LEVEL;
+	m_fMaxHealth = m_iConst * iLevel * MENTAL_PER_LEVEL;
+	m_fMaxMental = m_iInt * iLevel * MENTAL_PER_LEVEL;
 
 }
 

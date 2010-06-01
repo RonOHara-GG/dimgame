@@ -237,10 +237,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Skill.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SkillCombo.cpp"
 				>
 			</File>
@@ -276,6 +272,38 @@
 				RelativePath=".\Window.cpp"
 				>
 			</File>
+			<Filter
+				Name="Skills"
+				>
+				<File
+					RelativePath=".\Skill.cpp"
+					>
+				</File>
+				<Filter
+					Name="Brawler"
+					>
+					<File
+						RelativePath=".\BearHug.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ButterflyKick.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HeadButt.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ReverseRoundHouse.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Strike.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -363,10 +391,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Skill.h"
-				>
-			</File>
-			<File
 				RelativePath=".\SkillCombo.h"
 				>
 			</File>
@@ -386,6 +410,38 @@
 				RelativePath=".\Weapon.h"
 				>
 			</File>
+			<Filter
+				Name="Skills"
+				>
+				<File
+					RelativePath=".\Skill.h"
+					>
+				</File>
+				<Filter
+					Name="Brawler"
+					>
+					<File
+						RelativePath=".\BearHug.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ButterflyKick.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HeadButt.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ReverseRoundHouse.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Strike.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
