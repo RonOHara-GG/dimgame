@@ -21,7 +21,7 @@ protected:
 	
 	float			m_fElaspedAttack;
 	float			m_fAttackSpeed;
-	int				m_iDamage;
+	int				m_fDamage;
 	DamageType		m_eDamageType;
 	
 };

@@ -28,10 +28,10 @@ Actor::Actor()
 	m_iInt = 0;			
 	m_iConst = 0;			
 
-	m_iMaxHealth = 0;		
-	m_iCurrentHealth = 0;	
-	m_iMaxMental = 0;		
-	m_iCurrentMental = 0;
+	m_fMaxHealth = 0;		
+	m_fCurrentHealth = 0;	
+	m_fMaxMental = 0;		
+	m_fCurrentMental = 0;
 
 	//Initalize Resisits to 0
 	m_iCrushRes = 0;
@@ -191,6 +191,7 @@ void Actor::Move(kpuVector vVel)
 	
 	vVel.Normalize();
 	m_fRotation = atan2(vVel.GetX(),vVel.GetZ());
+	m_vHeading = vVel;
 
 	m_pCurrentNode->ReAdd(this);	
 
@@ -202,6 +203,7 @@ void Actor::Move(float fDeltaTime, kpuVector vDir)
 {
 	kpuPhysicalObject::Move(vDir * m_fBaseSpeed);
 	m_fRotation = atan2(vDir.GetX(),vDir.GetZ());
+	m_vHeading = vDir;
 
 }
 
@@ -300,7 +302,7 @@ void Actor::TakeDamage(float fDamage, DamageType eDmgType)
 		}
 	}
 
-	m_iCurrentHealth -= fDamage;
+	m_fCurrentHealth -= fDamage;
 
 }
 

@@ -15,7 +15,7 @@ public:
 	float	GetAggroRange()		{ return m_fAggroRange; }
 
 	
-	bool	AtDestination()		{ return m_iDestinationTile < 0; }
+	
 
 
 protected:

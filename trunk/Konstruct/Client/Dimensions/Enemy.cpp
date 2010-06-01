@@ -21,8 +21,8 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	m_bAttackable = true;
 	
 	m_iLevel = loadStruct.iLevel;
-	m_iMaxHealth = loadStruct.iHealth;
-	m_iCurrentHealth = m_iMaxHealth;
+	m_fMaxHealth = loadStruct.fHealth;
+	m_fCurrentHealth = m_fMaxHealth;
 	m_fBaseSpeed = loadStruct.fSpeed;
 
 	m_iCrushRes = loadStruct.iCrushRes;
@@ -38,7 +38,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
     m_iHolyRes = loadStruct.iHolyRes;
     m_iDeathRes = loadStruct.iDeathRes;
 
-    m_iDamage = loadStruct.iDamage;
+    m_fDamage = loadStruct.fDamage;
     m_fActionRange = loadStruct.fAttackRange;
 	m_fAggroRange = loadStruct.fAggroRange;
     m_fAttackSpeed = loadStruct.fAttackSpeed;
@@ -52,7 +52,7 @@ Enemy::~Enemy(void)
 
 bool Enemy::Update(float fGameTime)
 {
-	if( m_iCurrentHealth > 0 )
+	if( m_fCurrentHealth > 0 )
 	{
 		UpdateMovement(fGameTime);	
 
@@ -125,7 +125,7 @@ bool Enemy::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 		if( m_fElaspedAttack >= m_fAttackSpeed )
 		{			
 			m_fElaspedAttack = 0.0f;
-			pTarget->TakeDamage(m_iDamage, m_eDamageType);
+			pTarget->TakeDamage(m_fDamage, m_eDamageType);
 
 			return true;
 			

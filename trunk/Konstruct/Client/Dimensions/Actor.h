@@ -23,6 +23,7 @@ public:
 	virtual void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
 	void	SetNextMove(int iTile);
 	virtual void CancelMovement() { m_iCurrentPathNode = -1; m_iDestinationTile = -1; }
+	bool	AtDestination()		{ return m_iDestinationTile < 0; }
 
 	bool BuildPathToDestination();
 
@@ -43,7 +44,7 @@ public:
 	void TakeDamage(float fDamage, DamageType eDmgType);
 
 	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
-	bool IsAlive() { return m_iCurrentHealth > 0; }
+	bool IsAlive() { return m_fCurrentHealth > 0; }
 
 	void Move(kpuVector vVel);
 	void Move(float fDeltaTime, kpuVector vDir);
@@ -52,10 +53,11 @@ public:
 
 	virtual int GetLevel() { return m_iLevel; }
 	virtual float GetSpeed() { return m_fBaseSpeed; }
+	kpuVector GetHeading()	{ return m_vHeading; }
 	Actor* GetTarget() { return m_pTarget; }
-	int	GetCurrentHealth() { return m_iCurrentHealth; }
-	int GetMaxHealth() { return m_iMaxHealth; }
-	int GetMaxMental() { return m_iMaxMental; }
+	float GetCurrentHealth() { return m_fCurrentHealth; }
+	float GetMaxHealth() { return m_fMaxHealth; }
+	float GetMaxMental() { return m_fMaxMental; }
 	int GetStr() { return m_iStr; }
 	int GetAgi() { return m_iAgi; }
 	int GetInt() { return m_iInt; }
@@ -64,8 +66,8 @@ public:
 
 	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
 	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }
-	void SetMaxHealth(int iMaxHealth) { m_iMaxHealth = iMaxHealth; }
-	void SetMaxMental(int iMaxMental) { m_iMaxMental = iMaxMental; }
+	void SetMaxHealth(float fMaxHealth) { m_fMaxHealth = fMaxHealth; }
+	void SetMaxMental(float fMaxMental) { m_fMaxMental = fMaxMental; }
 	void SetStr(int iStr) { m_iStr = iStr; }
 	void SetAgi(int iAgi) { m_iAgi = iAgi; }
 	virtual void SetInt(int iInt) { m_iInt = iInt; }
@@ -121,6 +123,7 @@ protected:
 	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit	
 	float			m_fRotation;
 	kpuVector		m_vVelocity;
+	kpuVector		m_vHeading;
 	
 	
 
@@ -131,10 +134,10 @@ protected:
 	int				m_iInt;				//Intellegence determines mental pool
 	int				m_iConst;			//Constitution determines health pool and resist
 
-	int				m_iMaxHealth;		//The maximum health the player can have atm
-	int				m_iCurrentHealth;	//The players current health
-	int				m_iMaxMental;		
-	int				m_iCurrentMental;
+	float			m_fMaxHealth;		//The maximum health the player can have atm
+	float			m_fCurrentHealth;	//The players current health
+	float			m_fMaxMental;		
+	float			m_fCurrentMental;
 
 	//Resitances
 	int				m_iCrushRes;
