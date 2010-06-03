@@ -12,60 +12,79 @@ ReverseRoundHouse::~ReverseRoundHouse(void)
 {
 }
 
-bool ReverseRoundHouse::ApplyEffect(PlayerCharacter* pSkillOwner, float fDeltaTime)
+bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
 	m_fElaspedSinceCast += fDeltaTime;
 
-	if(m_fElaspedSinceCast >= m_fSpeed)
+	//Hit all targets in front arc
+	Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
+	int iStartTile = pGrid->GetTileAtLocation(pSkillOwner->GetLocation());
+
+	kpuVector vStart;
+	pGrid->GetTileLocation(iStartTile, vStart);
+
+	int iTargetTile; // = pGrid->GetTileAtLocation(pSkillOwner->GetHeading());
+
+	Actor* pTarget = 0; // = pGrid->GetActor(iTargetTile);
+
+	if(m_fElaspedSinceCast >= m_fContactTime )
 	{
-		//Hit all targets in front arc
-		Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
-		int iStartTile = pGrid->GetTileAtLocation(pSkillOwner->GetLocation());
+		kpuVector vDirection = pSkillOwner->GetHeading() % kpuv_OneY;
+		vDirection *= -1;
 
-		kpuVector vStart;
-		pGrid->GetTileLocation(iStartTile, vStart);
+		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection);
 
-		int iTargetTile = pGrid->GetTileAtLocation(pSkillOwner->GetHeading());
+		if( pTarget )	
+			pTarget->TakeDamage(m_fDamage, m_eDamageType);
+	}
+	else if( m_fElaspedSinceCast >= m_fContactTime * 2 )
+	{
 
-		Actor* pTarget = pGrid->GetActor(iTargetTile);
+		//Get upper left target
+		kpuVector vDirection = pSkillOwner->GetHeading() % kpuv_OneY;
+		vDirection *= -1;
+		
+		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection + pSkillOwner->GetHeading());
+
+		pTarget = pGrid->GetActor(iTargetTile);
+
+		if( pTarget )	
+			pTarget->TakeDamage(m_fDamage, m_eDamageType);
+	}
+	else if( m_fElaspedSinceCast >= m_fContactTime * 3 )
+	{
+		iTargetTile = pGrid->GetTileAtLocation(pSkillOwner->GetHeading());
+		pTarget = pGrid->GetActor(iTargetTile);
 
 		if( pTarget )	
 			pTarget->TakeDamage(m_fDamage, m_eDamageType);
 
-		//Get the next target to the right of the player
+	}
+	else if( m_fElaspedSinceCast >= m_fContactTime * 4 )
+	{
+		//Get upper right target
+		kpuVector vDirection = pSkillOwner->GetHeading() % kpuv_OneY;
+		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection + pSkillOwner->GetHeading());
+
+		pTarget = pGrid->GetActor(iTargetTile);
+
+		if( pTarget )	
+			pTarget->TakeDamage(m_fDamage, m_eDamageType);
+	}
+	else if( m_fElaspedSinceCast >= m_fContactTime * 5 )
+	{
+		//Get upper right target
 		kpuVector vDirection = pSkillOwner->GetHeading() % kpuv_OneY;
 		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection);
 
-		pTarget = pGrid->GetActor(iTargetTile);
+		pTarget = pGrid->GetActor(iTargetTile);		
 
 		if( pTarget )	
 			pTarget->TakeDamage(m_fDamage, m_eDamageType);
-
-		//Get upper right target
-		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection + pSkillOwner->GetHeading());
-
-		pTarget = pGrid->GetActor(iTargetTile);
-
-		if( pTarget )	
-			pTarget->TakeDamage(m_fDamage, m_eDamageType);
-
-		//Get the target to the left
-		vDirection *= -1;
-		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection);
-
-		pTarget = pGrid->GetActor(iTargetTile);
-
-		if( pTarget )	
-			pTarget->TakeDamage(m_fDamage, m_eDamageType);
-
-		//Get upper left target
-		iTargetTile = pGrid->GetTileAtLocation(vStart + vDirection + pSkillOwner->GetHeading());
-
-		pTarget = pGrid->GetActor(iTargetTile);
-
-		if( pTarget )	
-			pTarget->TakeDamage(m_fDamage, m_eDamageType);
-
+		
+	}
+	else if( m_fElaspedSinceCast >= m_fContactTime * 6 )
+	{
 		m_fElaspedSinceCast = 0.0f;
 		return true;
 	}

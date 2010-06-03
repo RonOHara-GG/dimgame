@@ -190,7 +190,7 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 	//Update casting of current skill
 	if(m_pActiveSkill)
 	{
-		if(m_pActiveSkill->ApplyEffect(this, fGameTime))		
+		if(m_pActiveSkill->Update(this, fGameTime))		
 			m_pActiveSkill = 0;
 	}
 }
@@ -243,7 +243,7 @@ void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTa
 {
 	if(m_aClasses[(int)eClass])
 	{
-		m_aClasses[(int)eClass]->GetSkill(iIndex)->Use(this);
+		m_aClasses[(int)eClass]->GetSkill(iIndex)->Activate(this);
 		CheckTargetStatus(pTarget);
 	}
 }
@@ -343,10 +343,6 @@ bool PlayerCharacter::EquipWeapon(Weapon* weapon)
 		if(m_pEquippedWeapon)
 			return false;
 	}
-
-	
-	
-
 	return true;
 }
 

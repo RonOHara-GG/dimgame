@@ -8,8 +8,8 @@ public:
 	ButterflyKick(void);
 	~ButterflyKick(void);
 
-	bool Use(Actor* pTarget, PlayerCharacter* pSkillOwner);
-	bool ApplyEffect(PlayerCharacter* pSkillOwner, float fDeltaTime);
+	bool Activate(Actor* pTarget, PlayerCharacter* pSkillOwner);
+	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
 	float m_fAgiMultiple;

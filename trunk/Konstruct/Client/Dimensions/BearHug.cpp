@@ -4,40 +4,45 @@
 #include "Grid.h"
 #include "Level.h"
 
+int BearHug::m_siBearhugIndex = 0;
+
 BearHug::BearHug(void)
 {
+	m_pTarget = 0;
 }
 
 BearHug::~BearHug(void)
 {
 }
 
-bool BearHug::ApplyEffect(PlayerCharacter* pSkillOwner, float fDeltaTime)
+bool BearHug::Activate(PlayerCharacter *pSkillOwner)
 {
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if(m_fElaspedSinceCast < m_fSpeed + pSkillOwner->GetStr() / 25.0f)
+	if( Strike::Activate(pSkillOwner) )
 	{
-		//Get the target right in front of the player within the attack range	
+		m_fDuration = m_fSpeed + pSkillOwner->GetStr() / 25.0f;
+
 		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * m_iRange ) );
 
 		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
 
-		if( pTarget )
-		{
-			if( pTarget->Attackable() )
-			{
-				pTarget->TakeDamage(m_fDamage * fDeltaTime, m_eDamageType);
-			}
-		}	
-
+		if( !pTarget || !pTarget->Attackable() )		
+			return false;
 		
-		return false;
+		m_pTarget = pTarget;
+
 	}
 
-	m_fElaspedSinceCast = 0.0f;
-	return true;
+}
 
+bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
+{
+	m_fElaspedSinceCast += fDeltaTime;
 
+	if(m_fElaspedSinceCast > m_fDuration)
+	{
+		m_fElaspedSinceCast = 0.0f;
+		return true;
+	}
 
+	m_pTarget->TakeDamage(m_fDamage, m_eDamageType);
 }

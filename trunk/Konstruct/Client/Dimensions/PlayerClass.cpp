@@ -1,58 +1,78 @@
 #include "StdAfx.h"
 #include "PlayerClass.h"
 
+Skill**			PlayerClass::m_paBrawlerSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_BRAWLER_SKILLS);
+Skill**			PlayerClass::m_paSwordsmanSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_SWORDSMAN_SKILLS);
+Skill**			PlayerClass::m_paArcherSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_ARCHER_SKILLS);	
+Skill**			PlayerClass::m_paMarksmanSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_MARKSMAN_SKILLS);		
+Skill**			PlayerClass::m_paRocketeerSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_ROCKETEER_SKILLS);	
+Skill**			PlayerClass::m_paMedicSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_MEDIC_SKILLS);
+Skill**			PlayerClass::m_paPriestSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_PRIEST_SKILLS);		
+Skill**			PlayerClass::m_paOccultistSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_OCCULTIST_SKILLS);
+
 PlayerClass::PlayerClass(Class eClass, float fExpPercent)
 {
 	switch(eClass)
 	{
 		case eCL_Brawler:
 			{
-				BrawlerInit();
+				m_iNumSkills = NUMBER_OF_BRAWLER_SKILLS;
+				m_paSkills = m_paBrawlerSkills;
 				break;
 			}
 		case eCL_Archer:
 			{
-				ArcherInit();
+				m_iNumSkills = NUMBER_OF_ARCHER_SKILLS;
+				m_paSkills = m_paArcherSkills;
 				break;
 			}
 		case eCL_Medic:
 			{
-				MedicInit();
+				m_iNumSkills = NUMBER_OF_MEDIC_SKILLS;
+				m_paSkills = m_paMedicSkills;
 				break;
 			}
 		case eCL_Marksman:
 			{
-				MarksInit();
+				m_iNumSkills = NUMBER_OF_MARKSMAN_SKILLS;
+				m_paSkills = m_paMarksmanSkills;
 				break;
 			}
 		case eCL_Rocketeer:
 			{
-				RocketeerInit();
+				m_iNumSkills = NUMBER_OF_ROCKETEER_SKILLS;
+				m_paSkills = m_paRocketeerSkills;
 				break;
 			}
 		case eCL_Occultist:
 			{
-				OccuInit();
+				m_iNumSkills = NUMBER_OF_OCCULTIST_SKILLS;
+				m_paSkills = m_paOccultistSkills;
 				break;
 			}
 		case eCL_Priest:
 			{
-				PriestInit();
+				m_iNumSkills = NUMBER_OF_PRIEST_SKILLS;
+				m_paSkills = m_paPriestSkills;
 				break;
 			}
 		case eCL_Swordsman:
 			{
-				SwordsInit();
+				m_iNumSkills = NUMBER_OF_SWORDSMAN_SKILLS;
+				m_paSkills = m_paSwordsmanSkills;
 				break;
 			}
 	}
 
+	m_eClass = eClass;
 	m_fExpSplit = fExpPercent;
 	ClassInit();
 }
 
 PlayerClass::~PlayerClass(void)
 {
+	if( m_paSkills )
+		delete[] m_paSkills;
 }
 
 void PlayerClass::UpdateSkillTimers(float fDeltaTime)
@@ -71,51 +91,6 @@ void PlayerClass::ClassInit()
 	m_fNeededExp = 0.0f;	
 	m_fExpSplit = 100.0f;
 	m_paSkills = (Skill**)malloc(sizeof(Skill*) * m_iNumSkills);
-}
-
-void PlayerClass::BrawlerInit()
-{
-	m_iNumSkills = 19;	
-}
-
-void PlayerClass::ArcherInit()
-{
-	m_iNumSkills = 12;
-	
-}
-
-void PlayerClass::MedicInit()
-{
-	m_iNumSkills = 12;
-	
-}
-
-void PlayerClass::MarksInit()
-{
-	m_iNumSkills = 13;
-	
-}
-
-void PlayerClass::OccuInit()
-{
-	m_iNumSkills = 13;
-}
-
-void PlayerClass::PriestInit()
-{
-	m_iNumSkills = 12;
-}
-	
-
-void PlayerClass::RocketeerInit()
-{
-	m_iNumSkills = 14;
-
-}
-
-void PlayerClass::SwordsInit()
-{
-	m_iNumSkills = 18;
 }
 
 bool PlayerClass::GainExp(int iExp)
@@ -142,3 +117,50 @@ Skill* PlayerClass::GetSkill(int iIndex)
 {
 	return m_paSkills[iIndex];
 }
+
+Skill* PlayerClass::GetSkill(Class eClass, int iIndex)
+{
+	switch(eClass)
+	{
+		case eCL_Brawler:
+			{				
+				return m_paBrawlerSkills[iIndex];
+			}
+		case eCL_Archer:
+			{
+				return m_paArcherSkills[iIndex];				
+			}
+		case eCL_Medic:
+			{
+				return m_paMedicSkills[iIndex];
+			}
+		case eCL_Marksman:
+			{
+				return m_paMarksmanSkills[iIndex];
+			}
+		case eCL_Rocketeer:
+			{
+				return m_paRocketeerSkills[iIndex];
+			}
+		case eCL_Occultist:
+			{
+				return m_paOccultistSkills[iIndex];
+			}
+		case eCL_Priest:
+			{
+				return m_paPriestSkills[iIndex];
+			}
+		case eCL_Swordsman:
+			{
+				return m_paSwordsmanSkills[iIndex];
+			}
+	}
+
+
+}
+
+bool PlayerClass::LoadSkills()
+{
+	return false;
+}
+

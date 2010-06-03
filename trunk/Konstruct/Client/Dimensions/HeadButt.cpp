@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "HeadButt.h"
+#include "BearHug.h"
 #include "PlayerCharacter.h"
 #include "Grid.h"
 #include "Level.h"
@@ -14,21 +15,21 @@ HeadButt::~HeadButt(void)
 {
 }
 
-bool HeadButt::Use(PlayerCharacter *pSkillOwner)
+bool HeadButt::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( !Strike::Use(pSkillOwner) )
+	if( !Strike::Activate(pSkillOwner) )
 		return false;
 
 	//make sure we are in a bear hug
 	Skill* pSkill = pSkillOwner->GetActiveSkill();
 
-	if( strcmp(pSkill->GetName(), "Bear Hug") != 0 )
+	if( pSkill->GetIndex() != BearHug::m_siBearhugIndex )
 	{
 		//use the bear hug skill somehow
-		//pSkill = pSkillOwner->GetSkill("Bear Hug");
+		pSkill = PlayerClass::GetSkill(PlayerClass::eCL_Brawler, BearHug::m_siBearhugIndex);
 	}
 
-	if( !pSkill->Use(pSkillOwner) )
+	if( !pSkill->Activate(pSkillOwner) )
 		return false;
 
 	m_pCurrentBearHug = pSkill;
@@ -36,13 +37,15 @@ bool HeadButt::Use(PlayerCharacter *pSkillOwner)
 	return true;
 }
 
-bool HeadButt::ApplyEffect(PlayerCharacter *pSkillOwner, float fDeltaTime)
+bool HeadButt::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
+	m_fElaspedSinceCast += fDeltaTime;
+
 	//Use bear hug
-	m_pCurrentBearHug->ApplyEffect(pSkillOwner, fDeltaTime);
+	m_pCurrentBearHug->Update(pSkillOwner, fDeltaTime);
 
 	//Try and headbutt
-	if( Strike::ApplyEffect(pSkillOwner, fDeltaTime) )
+	if( Strike::Update(pSkillOwner, fDeltaTime) )
 	{
 		//replace active skill with remaining hug
 		pSkillOwner->SetActiveSkill(m_pCurrentBearHug);

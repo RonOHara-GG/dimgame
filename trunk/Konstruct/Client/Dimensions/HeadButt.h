@@ -10,8 +10,8 @@ public:
 	HeadButt(void);
 	~HeadButt(void);
 
-	bool Use(PlayerCharacter* pSkillOwner);
-	bool ApplyEffect(PlayerCharacter* pSkillOwner, float fDeltaTime);
+	bool Activate(PlayerCharacter* pSkillOwner);
+	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
 	Skill* m_pCurrentBearHug;

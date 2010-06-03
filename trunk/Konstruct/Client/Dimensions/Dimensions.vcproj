@@ -299,6 +299,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ShoulderThrow.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SpineCrank.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Strike.cpp"
 						>
 					</File>
@@ -434,6 +442,14 @@
 					</File>
 					<File
 						RelativePath=".\ReverseRoundHouse.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ShoulderThrow.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SpineCrank.h"
 						>
 					</File>
 					<File
