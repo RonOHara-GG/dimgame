@@ -8,5 +8,5 @@ public:
 	ReverseRoundHouse(void);
 	~ReverseRoundHouse(void);
 
-	bool ApplyEffect(PlayerCharacter* pSkillOwner, float fDeltaTime);
+	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 };

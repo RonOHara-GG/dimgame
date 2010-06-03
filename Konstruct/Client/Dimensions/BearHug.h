@@ -7,6 +7,12 @@ class BearHug :
 public:
 	BearHug(void);
 	~BearHug(void);
+	
+	bool Activate(PlayerCharacter* pSkillOwner);
+	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
+	static int m_siBearhugIndex;
 
-	bool ApplyEffect(PlayerCharacter* pSkillOwner, float fDeltaTime);
+protected:	
+	Actor* m_pTarget;
+	float  m_fDuration;
 };
