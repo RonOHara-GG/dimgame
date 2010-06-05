@@ -30,6 +30,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
 
 	m_fBaseSpeed = 10.0f;
+	m_pActiveSkill = 0;
 
 	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
 
@@ -46,6 +47,15 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 
 	m_bAttackable = true;
 	m_fCurrentHealth = m_fMaxHealth = 100;
+
+	PlayerClass* pClass = new PlayerClass(PlayerClass::eCL_Brawler, 100.0f);
+	m_aClasses[0] = pClass;
+
+	
+	
+
+	m_iStr = 100;
+	m_iAgi = 100;
 
 }
 
@@ -139,6 +149,8 @@ bool PlayerCharacter::Update(float fDeltaTime)
 			m_fElaspedDefaultAtk += fDeltaTime;
 	}
 
+	UpdateSkills(fDeltaTime);
+
 	return true;
 }
 
@@ -190,7 +202,7 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 	//Update casting of current skill
 	if(m_pActiveSkill)
 	{
-		if(m_pActiveSkill->Update(this, fGameTime))		
+		if(!m_pActiveSkill->Update(this, fGameTime))		
 			m_pActiveSkill = 0;
 	}
 }
@@ -239,12 +251,11 @@ float PlayerCharacter::GetRange()
 	 return ( m_pEquippedWeapon ) ? m_pEquippedWeapon->GetRange()	: DEFAULT_MELEE_RANGE;
 }
 
-void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid)
+void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass)
 {
-	if(m_aClasses[(int)eClass])
+	if(m_aClasses[(int)eClass] && !m_pActiveSkill)
 	{
-		m_aClasses[(int)eClass]->GetSkill(iIndex)->Activate(this);
-		CheckTargetStatus(pTarget);
+		m_aClasses[(int)eClass]->GetSkill(iIndex)->Activate(this);		
 	}
 }
 

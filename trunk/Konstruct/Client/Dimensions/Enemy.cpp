@@ -56,7 +56,7 @@ bool Enemy::Update(float fGameTime)
 	{
 		UpdateMovement(fGameTime);	
 
-		m_pAIBehavior->Update(this, fGameTime);
+	//	m_pAIBehavior->Update(this, fGameTime);
 
 		//update timers
 		if( m_fElaspedAttack < m_fAttackSpeed )

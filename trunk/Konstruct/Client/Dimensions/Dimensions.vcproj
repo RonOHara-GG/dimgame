@@ -225,6 +225,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MultiShot.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NPC.cpp"
 				>
 			</File>
@@ -311,6 +315,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Archer"
+					>
+					<File
+						RelativePath=".\BasicShot.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -380,6 +392,10 @@
 			</File>
 			<File
 				RelativePath=".\LoadStructures.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MultiShot.h"
 				>
 			</File>
 			<File
@@ -454,6 +470,14 @@
 					</File>
 					<File
 						RelativePath=".\Strike.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Archer"
+					>
+					<File
+						RelativePath=".\BasicShot.h"
 						>
 					</File>
 				</Filter>

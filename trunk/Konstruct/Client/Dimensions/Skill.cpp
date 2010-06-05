@@ -5,12 +5,13 @@
 
 Skill::Skill(void)
 {
+	m_iSkillRank = 1;
 	m_iRequiredLevel = 0;
 	memset(m_szName, 0, sizeof(m_szName));
 	m_fElaspedSinceCast = 0;
 	m_fRecovery = 0;
 	m_fElaspedRecovery = 0;
-	m_bReady = false;
+	m_bReady = true;
 }
 
 Skill::~Skill(void)

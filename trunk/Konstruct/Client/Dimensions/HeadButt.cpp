@@ -34,6 +34,8 @@ bool HeadButt::Activate(PlayerCharacter *pSkillOwner)
 
 	m_pCurrentBearHug = pSkill;
 
+	pSkillOwner->SetActiveSkill(this);
+
 	return true;
 }
 
@@ -42,15 +44,19 @@ bool HeadButt::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	m_fElaspedSinceCast += fDeltaTime;
 
 	//Use bear hug
-	m_pCurrentBearHug->Update(pSkillOwner, fDeltaTime);
+	if( !m_pCurrentBearHug->Update(pSkillOwner, fDeltaTime) )
+	{
+		m_fElaspedSinceCast = 0.0f;
+		return false;
+	}
 
 	//Try and headbutt
-	if( Strike::Update(pSkillOwner, fDeltaTime) )
+	if( !Strike::Update(pSkillOwner, fDeltaTime) )
 	{
 		//replace active skill with remaining hug
 		pSkillOwner->SetActiveSkill(m_pCurrentBearHug);
 		m_pCurrentBearHug = 0;		
 	}
 
-	return false;
+	return true;
 }

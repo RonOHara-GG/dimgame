@@ -43,7 +43,7 @@ public:
 	float RemoveClass(PlayerClass::Class eClass); //Removes a class from the player and returns the amount of exp that class was getting
 
 	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
-	void UseSkill(int iIndex, PlayerClass::Class eClass, Actor* pTarget, Grid* pGrid);
+	void UseSkill(int iIndex, PlayerClass::Class eClass);
 
 	void SetActiveSkill(Skill* pSkill) { m_pActiveSkill = pSkill; }
 	Skill* GetActiveSkill() { return m_pActiveSkill; }
@@ -68,6 +68,8 @@ public:
 	
 	void	SetConst(int iConst);
 	void	SetInt(int iInt);
+
+	Weapon* GetEquippedWeapon()	{ return m_pEquippedWeapon; }
 
 #pragma endregion
 

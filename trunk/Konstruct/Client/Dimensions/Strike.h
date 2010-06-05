@@ -22,5 +22,6 @@ protected:
 	int			m_iRankMultipleMax;	
 	float		m_fStrMultiple;
 	float		m_fContactTime;
+	bool		m_bExecuted;
 	DamageType  m_eDamageType;
 };

@@ -157,78 +157,65 @@ bool Level::Load(const char* pszLevelFile)
 
 void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
 {
+	Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[0]);
+	pEnemies->Add(pEnemy);					
+	m_pQuadTree->Add(pEnemy);
+	pEnemy->SetLocation(kpuVector(5, 0, 5, 0));
+	int iTile = m_pLevelGrid->GetTileAtLocation(kpuVector(5, 0, 5, 0));
+	pEnemy->SetNextMove(iTile);
+
+	//Commented so I can test skills against 1 enemy
+
 	//Max number to spawn is 4 for now
-	kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
+	//kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
 
-	int iDistBetweenSpawns = 8;
-	int iMaxSpawns = 5;
+	//int iDistBetweenSpawns = 8;
+	//int iMaxSpawns = 5;
 
-	float fX = ( vGridDim.GetX() * -1 ) + 0.5f;
-	float fY = ( vGridDim.GetZ() * -1 ) + 0.5f;
+	//float fX = ( vGridDim.GetX() * -1 ) + 0.5f;
+	//float fY = ( vGridDim.GetZ() * -1 ) + 0.5f;
 
-	while( fX < vGridDim.GetX() && fY < vGridDim.GetZ() )
-	{
-		int iSpawns =  rand() % iMaxSpawns;
-		int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
-
-		for(int i = 0; i < iSpawns; i++)
-		{
-			//tile location of enemy
-			kpuVector vPos(fX + rand() % iDistBetweenSpawns , 0.0f, fY + rand() % iDistBetweenSpawns, 0.0f);
-
-			Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[iEnemyType]);
-			pEnemy->SetLocation(vPos);
-
-			//add enemy to the grid
-			while( m_pQuadTree->CheckCollision(pEnemy) || !m_pLevelGrid->AddActor(pEnemy) )
-			{
-				//move the enemy around till he finds a spot
-				vPos.SetX(fX + rand() % iDistBetweenSpawns);
-				vPos.SetZ(fY + rand() % iDistBetweenSpawns);
-
-				//int iTile = m_pLevelGrid->GetTileAtLocation(vPos);
-				//m_pLevelGrid->GetTileLocation(iTile, vPos);
-
-				pEnemy->SetLocation(vPos);
-			}
-
-			pEnemies->Add(pEnemy);
-			
-			//add enemy to quad tree			
-			m_pQuadTree->Add(pEnemy);
-		}
-
-		//move to next spawn point
-		fX += iDistBetweenSpawns;	
-
-		if(fX  >= vGridDim.GetX() )
-		{
-			fY += iDistBetweenSpawns;
-			fX = ( vGridDim.GetX() * -1 ) + 0.5f;
-		}
-	}
-
-	//for(int i = 0; i < 3; i++)
+	//while( fX < vGridDim.GetX() && fY < vGridDim.GetZ() )
 	//{
-	//	int iType = rand() % iSize;
+	//	int iSpawns =  rand() % iMaxSpawns;
+	//	int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
 
-	//	//Load model
-	//	kpgModel* pModel = new kpgModel();
-	//	pModel->Load((*pArray)[iType].szModel);
+	//	for(int i = 0; i < iSpawns; i++)
+	//	{
+	//		//tile location of enemy
+	//		kpuVector vPos(fX + rand() % iDistBetweenSpawns , 0.0f, fY + rand() % iDistBetweenSpawns, 0.0f);
 
-	//	Enemy* pEnemy = new Enemy((*pArray)[iType], pModel);
+	//		Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[iEnemyType]);
+	//		pEnemy->SetLocation(vPos);
 
-	//	//get random location
-	//	kpuVector vPos((vGridDim.GetX() / 2 * -1) + rand() % (int)vGridDim.GetX(), 0.0,(vGridDim.GetZ() / 2 * -1) + rand() % (int)vGridDim.GetZ(), 0);
+	//		//add enemy to the grid
+	//		while( m_pQuadTree->CheckCollision(pEnemy) || !m_pLevelGrid->AddActor(pEnemy) )
+	//		{
+	//			//move the enemy around till he finds a spot
+	//			vPos.SetX(fX + rand() % iDistBetweenSpawns);
+	//			vPos.SetZ(fY + rand() % iDistBetweenSpawns);
 
-	//	pEnemy->SetMoveTarget(m_pLevelGrid->GetTileAtLocation(vPos));
+	//			//int iTile = m_pLevelGrid->GetTileAtLocation(vPos);
+	//			//m_pLevelGrid->GetTileLocation(iTile, vPos);
 
-	//	//Set grid
-	//	m_pLevelGrid->AddActor(pEnemy);
+	//			pEnemy->SetLocation(vPos);
+	//		}
 
-	//	pEnemies->Add(pEnemy);
+	//		pEnemies->Add(pEnemy);
+	//		
+	//		//add enemy to quad tree			
+	//		m_pQuadTree->Add(pEnemy);
+	//	}
+
+	//	//move to next spawn point
+	//	fX += iDistBetweenSpawns;	
+
+	//	if(fX  >= vGridDim.GetX() )
+	//	{
+	//		fY += iDistBetweenSpawns;
+	//		fX = ( vGridDim.GetX() * -1 ) + 0.5f;
+	//	}
 	//}
-
 }
 
 //void Level::LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray)
