@@ -4,6 +4,8 @@
 #include "Grid.h"
 #include "Level.h"
 
+#define MOVE_DIST 3
+
 ButterflyKick::ButterflyKick(void)
 {
 	m_fAgiMultiple = 0.0f;
@@ -22,6 +24,7 @@ bool ButterflyKick::Activate(Actor *pTarget, PlayerCharacter *pSkillOwner)
 		m_fDamage = ( (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple ) + ( m_fAgiMultiple * pSkillOwner->GetAgi()) );
 
 		pSkillOwner->SetActiveSkill(this);
+		m_iLastTile = -1;
 		
 		m_bReady = false;
 		return true;			
@@ -41,38 +44,43 @@ bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		int iCurrent = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation());
 		pSkillOwner->SetNextMove(iCurrent);
 		m_fElaspedSinceCast = 0.0f;
-		return true;
+		return false;
 	}
 
-	//Get the target in front of the player and to his right then move the player forward	
-	kpuVector vDir = pSkillOwner->GetHeading() % kpuv_OneY;
+	int iCurrentTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation());
 
-	//tile to the right
-	int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() +  vDir);
-
-	//deal damage to right tile
-	Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
-
-	if( pTarget && pTarget->Attackable() )
+	if( iCurrentTile != m_iLastTile )
 	{
-		pTarget->TakeDamage(m_fDamage , m_eDamageType);
+		//Get the target in front of the player and to his right then move the player forward	
+		kpuVector vDir = pSkillOwner->GetHeading() % kpuv_OneY;
+
+		//tile to the right
+		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() +  vDir);
+
+		//deal damage to right tile
+		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
+
+		if( pTarget && pTarget->Attackable() )
+		{
+			pTarget->TakeDamage(m_fDamage , m_eDamageType);
+		}
+
+		//deal half damage to front tile and move it to the left
+		iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation( pSkillOwner->GetLocation() +  pSkillOwner->GetHeading() );
+
+		pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
+
+		if( pTarget && pTarget->Attackable() )
+		{
+			pTarget->TakeDamage(m_fDamage * 0.5f , m_eDamageType);
+
+			MoveTarget(pTarget, vDir * -1, 1.0f);
+		}		
+		
+		m_iLastTile = iCurrentTile;
 	}
 
-	//deal half damage to front tile and move it to the left
-	iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() +  pSkillOwner->GetHeading() );
+	pSkillOwner->Move(pSkillOwner->GetHeading() * ( fDeltaTime / m_fSpeed ) * MOVE_DIST);
 
-	pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
-
-	if( pTarget && pTarget->Attackable() )
-	{
-		pTarget->TakeDamage(m_fDamage * 0.5f , m_eDamageType);
-
-		MoveTarget(pTarget, vDir * -1, 1.0f);
-	}
-
-	//Move player at 1.0m/s
-	pSkillOwner->SetLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * fDeltaTime));
-	
-
-	return false;
+	return true;
 }

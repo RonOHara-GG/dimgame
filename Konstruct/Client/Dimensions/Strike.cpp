@@ -7,14 +7,15 @@
 
 Strike::Strike(void)
 {
-	m_iRankMultipleMin = 0;
-	m_iRankMultipleMax = 0;
-	m_iRange = 0;
-	m_iRadius = 0;	
+	m_iRankMultipleMin = 1;
+	m_iRankMultipleMax = 2;
+	m_iRange = 1;
+	m_iRadius = 1;	
 	m_eDamageType = eDT_Crushing;
-	m_fSpeed = 0.0f;
-	m_fContactTime = 0.0f;
+	m_fSpeed = 0.5f;
+	m_fContactTime = 0.25f;
 	m_fStrMultiple = 0.5f;
+	m_bExecuted = false;
 }
 
 Strike::~Strike(void)
@@ -30,11 +31,12 @@ bool Strike::Activate(PlayerCharacter *pSkillOwner)
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_fDamage = ( (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple ));
+		m_fDamage = (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple );
 
 		pSkillOwner->SetActiveSkill(this);
 		
 		m_bReady = false;
+		m_bExecuted = false;
 		return true;		
 	}
 
@@ -45,7 +47,7 @@ bool Strike::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
 	m_fElaspedSinceCast += fDeltaTime;
 
-	if(m_fElaspedSinceCast >= m_fContactTime)
+	if(m_fElaspedSinceCast >= m_fContactTime && !m_bExecuted )
 	{
 		//Get the target right in front of the player within the attack range	
 		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * m_iRange ) );
@@ -60,14 +62,17 @@ bool Strike::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			}
 		}	
 
-		if( m_fElaspedSinceCast >= m_fSpeed )
-		{
-			m_fElaspedSinceCast = 0.0f;
-			return true;
-		}
+		m_bExecuted = true;		
+
+	}
+	
+	if( m_fElaspedSinceCast >= m_fSpeed )
+	{
+		m_fElaspedSinceCast = 0.0f;
+		return false;
 	}
 
-	return false;
+	return true;;
 }
 
 void Strike::MoveTarget(Actor *pTarget, kpuVector vDirection, float fSpeed)
@@ -90,6 +95,6 @@ void Strike::MoveTarget(Actor *pTarget, kpuVector vDirection, float fSpeed)
 		return;
 	}
 
-	pTarget->SetLocation(pTarget->GetLocation() + ( vDirection * fSpeed ));
+	pTarget->Move(vDirection * fSpeed );
 
 }

@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "PlayerClass.h"
 
+#include "SpineCrank.h"
+
 Skill**			PlayerClass::m_paBrawlerSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_BRAWLER_SKILLS);
 Skill**			PlayerClass::m_paSwordsmanSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_SWORDSMAN_SKILLS);
 Skill**			PlayerClass::m_paArcherSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_ARCHER_SKILLS);	
@@ -12,6 +14,7 @@ Skill**			PlayerClass::m_paOccultistSkills = (Skill**)malloc(sizeof(Skill*) * NU
 
 PlayerClass::PlayerClass(Class eClass, float fExpPercent)
 {
+
 	switch(eClass)
 	{
 		case eCL_Brawler:
@@ -67,6 +70,13 @@ PlayerClass::PlayerClass(Class eClass, float fExpPercent)
 	m_eClass = eClass;
 	m_fExpSplit = fExpPercent;
 	ClassInit();
+
+	//Skill we are testing
+	Skill* pSkill = new SpineCrank();
+	m_paSkills[0] = pSkill;	
+	m_paSkills[1] = 0;
+
+
 }
 
 PlayerClass::~PlayerClass(void)
@@ -81,6 +91,8 @@ void PlayerClass::UpdateSkillTimers(float fDeltaTime)
 	{
 		if(m_paSkills[i])
 			m_paSkills[i]->UpdateTimers(fDeltaTime);
+		else
+			break;
 	}
 }
 
@@ -91,6 +103,7 @@ void PlayerClass::ClassInit()
 	m_fNeededExp = 0.0f;	
 	m_fExpSplit = 100.0f;
 	m_paSkills = (Skill**)malloc(sizeof(Skill*) * m_iNumSkills);
+	memset(m_paSkills, 0, sizeof(sizeof(Skill*) * m_iNumSkills));
 }
 
 bool PlayerClass::GainExp(int iExp)

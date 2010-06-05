@@ -48,6 +48,8 @@ Actor::Actor()
 	m_iDeathRes = 0;
 
 	m_bAttackable = false;
+
+	m_vHeading = kpuv_OneZ;
 }
 
 Actor::~Actor()

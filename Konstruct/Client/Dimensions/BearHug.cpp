@@ -38,11 +38,19 @@ bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
 	m_fElaspedSinceCast += fDeltaTime;
 
-	if(m_fElaspedSinceCast > m_fDuration)
+	if(m_fElaspedSinceCast > m_fDuration )
 	{
 		m_fElaspedSinceCast = 0.0f;
-		return true;
+		return false;
 	}
 
-	m_pTarget->TakeDamage(m_fDamage, m_eDamageType);
+ 	m_pTarget->TakeDamage(m_fDamage * fDeltaTime, m_eDamageType);
+
+	if( !m_pTarget->IsAlive() )
+	{
+		m_fElaspedSinceCast = 0.0f;
+		return false;
+	}
+
+	return true;
 }

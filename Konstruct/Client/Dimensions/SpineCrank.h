@@ -1,8 +1,8 @@
 #pragma once
-#include "strike.h"
+#include "bearhug.h"
 
 class SpineCrank :
-	public Strike
+	public BearHug
 {
 public:
 	SpineCrank(void);
@@ -11,5 +11,6 @@ public:
 	bool Activate(PlayerCharacter* pSkillOwner);
 
 protected:
-	m_fBaseSpeed;
+	float m_fBaseSpeed;
+	Actor* m_pTarget;
 };

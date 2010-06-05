@@ -40,7 +40,7 @@ bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget->TakeDamage(m_fDamage, m_eDamageType);
 		}
 		m_fElaspedSinceCast = 0.0f;
-		return true;
+		return false;
 	}
 
 	if( pTarget && pTarget->Attackable() )
@@ -49,5 +49,5 @@ bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		MoveTarget(pTarget, pSkillOwner->GetHeading() * -1, (fDeltaTime / m_fSpeed) * m_iThrowDist );
 	}
 
-	return false;
+	return true;
 }

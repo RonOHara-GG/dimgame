@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Dimensions.h"
 #include "GameState.h"
+#include "PlayerCharacter.h"
 
 extern bool g_bExitGame;
 extern GameState* g_pGameState;
@@ -77,6 +78,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				g_pGameState->MouseUpdate(LOWORD(lParam), HIWORD(lParam));
 			}
 			break;
+		case WM_KEYDOWN:
+			{
+				if( (wParam & VK_SPACE) && g_pGameState )
+				{
+					g_pGameState->GetPlayer()->UseSkill(0, PlayerClass::Class::eCL_Brawler);
+				}
+				break;
+			}
 		case WM_MOUSEMOVE:
 			if( (wParam & MK_LBUTTON) && g_pGameState )
 			{

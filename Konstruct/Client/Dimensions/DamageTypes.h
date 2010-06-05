@@ -1,6 +1,8 @@
 #ifndef DAMAGETYPES_H
 #define	DAMAGETYPES_H
 
+#define ARROW_SPEED 5.0
+
 typedef enum _DamageType
 {
 	eDT_Crushing,

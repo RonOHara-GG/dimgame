@@ -6,10 +6,10 @@ class BearHug :
 {
 public:
 	BearHug(void);
-	~BearHug(void);
+	virtual ~BearHug(void);
 	
 	bool Activate(PlayerCharacter* pSkillOwner);
-	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
+	virtual bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 	static int m_siBearhugIndex;
 
 protected:	
