@@ -63,7 +63,7 @@ public:
 #pragma region Stat Accessors/Mutators
 
 	int		GetLevel();
-	float	GetSpeed() { return m_fBaseSpeed + 0.1 * (m_iAgi / SPEED_AGILITY_RATIO); }
+	float	GetSpeed() { return m_fBaseSpeed + 0.1f * (m_iAgi / SPEED_AGILITY_RATIO); }
 	float 	GetRange();
 	
 	void	SetConst(int iConst);

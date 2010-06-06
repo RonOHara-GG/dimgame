@@ -225,10 +225,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MultiShot.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\NPC.cpp"
 				>
 			</File>
@@ -238,6 +234,10 @@
 			</File>
 			<File
 				RelativePath=".\PlayerClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RapidShot.cpp"
 				>
 			</File>
 			<File
@@ -322,6 +322,14 @@
 						RelativePath=".\BasicShot.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\BounceShot.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MultiShot.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -395,10 +403,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MultiShot.h"
-				>
-			</File>
-			<File
 				RelativePath=".\NPC.h"
 				>
 			</File>
@@ -408,6 +412,10 @@
 			</File>
 			<File
 				RelativePath=".\PlayerClass.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RapidShot.h"
 				>
 			</File>
 			<File
@@ -478,6 +486,14 @@
 					>
 					<File
 						RelativePath=".\BasicShot.h"
+						>
+					</File>
+					<File
+						RelativePath=".\BounceShot.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MultiShot.h"
 						>
 					</File>
 				</Filter>

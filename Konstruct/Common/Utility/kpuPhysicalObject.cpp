@@ -9,6 +9,7 @@
 kpuPhysicalObject::kpuPhysicalObject(void)
 {
 	m_pModel = 0;
+	m_bStatic = true;
 
 }
 

@@ -90,15 +90,15 @@ void kpuQuadTree::Remove(kpuPhysicalObject* obj)
 	//obj->SetCurrentNode(0);
 }
 
-void kpuQuadTree::GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCollisionData>* collidedObjects)
+void kpuQuadTree::GetPossibleCollisions(kpuBoundingVolume& bVolume, kpuArrayList<kpuCollisionData>* collidedObjects)
 {	
 	//Check from the parent node down for for collison
 	if( m_pNodes )
 	{
 		for(int i = 0; i < NUMBER_OF_KIDS; i++)
 		{
-			if (m_pNodes[i]->m_bBox.Contains2D(bCapsule) )
-				m_pNodes[i]->GetCollisions(bCapsule, collidedObjects);
+			if (m_pNodes[i]->m_bBox.Contains2D(bVolume) )
+				m_pNodes[i]->GetPossibleCollisions(bVolume, collidedObjects);
 		}
 	}
 
@@ -110,7 +110,7 @@ void kpuQuadTree::GetCollisions(kpuBoundingCapsule& bCapsule, kpuArrayList<kpuCo
 
 		kpuCollisionData data;
 
-		bCapsule.Intersects(&sphere, pTest->GetMatrix(), data);
+		bVolume.Intersects(&sphere, pTest->GetMatrix(), data);
 
 		if( data.m_bCollided )
 		{
@@ -333,7 +333,7 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 
 	kpuBoundingCapsule bCapsule(sphere.GetLocation(), sphere.GetLocation() + vVel, pObj->GetSphere().GetRadius() );
 
-	pCurrentNode->GetCollisions(bCapsule, &aCollisions);
+	pCurrentNode->GetPossibleCollisions(bCapsule, &aCollisions);
 
 	//check collisions in the closest order	
 	kpuCollisionData finalData;

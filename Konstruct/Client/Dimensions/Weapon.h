@@ -14,6 +14,7 @@ public:
 
 	float GetRange() { return m_fRange; }
 	float GetDamage() { return m_fDamage; }
+	float GetSpeed()	{ return m_fSpeed; }
 
 	_DamageType GetDamageType() { return m_eDamageType; }
 
@@ -27,6 +28,7 @@ protected:
 	float			m_fDamage;
 	float			m_fRecovery;
 	float			m_fElaspedRecov;
+	float			m_fSpeed;
 	DamageType		m_eDamageType;
 	bool			m_bReady;			//True if weapon is recovered and ready to use
 	

@@ -93,26 +93,6 @@ void kpuBoundingBox::Transform(const kpuMatrix &matrix)
 	m_vOffset = (vMax - vMin ) * 0.5;
 }
 
-//bool kpuBoundingBox::Intersects(kpuBoundingBox &bBox)
-//{
-//	if(m_vMin.GetX() >= bBox.m_vMax.GetX() )
-//		return false;
-//	if(m_vMax.GetX() <= bBox.m_vMin.GetX() )
-//		return false;
-//
-//	if(m_vMin.GetY() >= bBox.m_vMax.GetY() )
-//		return false;
-//	if(m_vMax.GetY() <= bBox.m_vMin.GetY() )
-//		return false;
-//
-//	if(m_vMin.GetZ() >= bBox.m_vMax.GetZ() )
-//		return false;
-//	if(m_vMax.GetZ() <= bBox.m_vMin.GetZ() )
-//		return false;
-//	
-//			
-//	return true;
-//}
 bool kpuBoundingBox::Contains2D(kpuBoundingSphere& sphere)
 {
 	kpuVector vMax = m_vCenter + m_vOffset;
@@ -124,6 +104,27 @@ bool kpuBoundingBox::Contains2D(kpuBoundingSphere& sphere)
 	return false;
 }
 
+bool kpuBoundingBox::Contains2D(kpuBoundingVolume &bVolume)
+{
+	switch(bVolume.GetType() )
+	{
+	case kpuBoundingVolume::eVT_Box:
+		{
+			kpuBoundingBox* pBox = (kpuBoundingBox*)&bVolume;
+			return Contains2D(*pBox);
+		}
+	case kpuBoundingVolume::eVT_Capsule:
+		{
+			kpuBoundingCapsule* pCapsule = (kpuBoundingCapsule*)&bVolume;
+			return Contains2D(*pCapsule);
+		}
+	case kpuBoundingVolume::eVT_Sphere:
+		{
+			kpuBoundingSphere* pSphere = (kpuBoundingSphere*)&bVolume;
+			return Contains2D(*pSphere);
+		}
+	}
+}
 bool kpuBoundingBox::Contains2D(kpuBoundingBox& bBox)
 {
 	//if the this min is less than bbox min and bbox min is less than max and max is greater than bbox max and bbox max is greater than this min then

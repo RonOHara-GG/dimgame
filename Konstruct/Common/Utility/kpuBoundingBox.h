@@ -17,6 +17,7 @@ public:
 	void Transform(const kpuMatrix& matrix);
 	
 
+	bool Contains2D(kpuBoundingVolume& bVolume);
 	bool Contains2D(kpuBoundingBox& bBox);
 	bool Contains2D(kpuBoundingCapsule& bCapsule);
 	bool Contains2D(kpuBoundingSphere& sphere);

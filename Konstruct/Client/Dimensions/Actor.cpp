@@ -48,6 +48,7 @@ Actor::Actor()
 	m_iDeathRes = 0;
 
 	m_bAttackable = false;
+	m_bStatic = false;
 
 	m_vHeading = kpuv_OneZ;
 }
@@ -350,7 +351,7 @@ bool Actor::InSight(Actor *pTarget, int iRange)
 
 		kpuArrayList<kpuCollisionData> aCollisions;
 
-		g_pGameState->GetLevel()->GetQuadTree()->GetCollisions(capsule, &aCollisions);
+		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(capsule, &aCollisions);
 
 		//if there is a collision between here and the target then no line of sight
 		for(int i = 0; i < aCollisions.Count(); i++)
