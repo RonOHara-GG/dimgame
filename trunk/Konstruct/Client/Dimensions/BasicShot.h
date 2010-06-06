@@ -17,9 +17,10 @@ protected:
 	float		m_fRange;
 	float		m_fDamage;
 	float		m_fRangeMultiple;
+	float		m_fDamageMultiple;
 	float		m_fDistTraveled;
-	int			m_iRankMultipleMin;	
-	int			m_iRankMultipleMax;	
+	float		m_fRankMultipleMin;	
+	float		m_fRankMultipleMax;	
 	bool		m_bExecuted;
 
 	kpuVector   m_vLocation;

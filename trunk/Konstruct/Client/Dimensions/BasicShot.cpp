@@ -23,7 +23,7 @@ bool BasicShot::Activate(PlayerCharacter *pSkillOwner)
 
 		m_fElaspedSinceCast = 0.0f;
 
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iRankMultiple = m_fRankMultipleMin + ( rand() % (int)(m_fRankMultipleMax - m_fRankMultipleMin) );
 
 		m_fDamage = m_pEquippedWeapon->GetDamage() + (iRankMultiple * m_iSkillRank);
 		m_fRange = m_pEquippedWeapon->GetRange() + (m_iSkillRank * m_fRangeMultiple);

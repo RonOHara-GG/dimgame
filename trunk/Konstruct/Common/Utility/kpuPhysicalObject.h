@@ -33,10 +33,12 @@ public:
 	void								SetCurrentNode(kpuQuadTree* node)						{ m_pCurrentNode = node; }
 
 	virtual void						Move(kpuVector vVel);	
+	bool								IsStatic()												{ return m_bStatic; }
 
 protected:
 	kpuBoundingBox						CalculateBoundingBox(kpuFixedArray<float> &aFloats);
 
+	bool								m_bStatic;
 	kpgModel*							m_pModel;
 	kpuBoundingSphere					m_bSphere;
 	kpuBoundingBox						m_bBox;

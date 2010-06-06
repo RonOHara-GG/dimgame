@@ -111,4 +111,6 @@ bool MultiShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	}
 
 	m_fDistTraveled += fDist;
+
+	return true;
 }
