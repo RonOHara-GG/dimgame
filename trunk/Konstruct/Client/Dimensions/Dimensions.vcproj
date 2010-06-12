@@ -177,15 +177,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\AIControl.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Armor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AskaranAI.cpp"
 				>
 			</File>
 			<File
@@ -346,6 +338,14 @@
 						RelativePath=".\PatchWounds.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\PlagueCenser.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlagueCenserSkill.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -380,6 +380,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="AI"
+				>
+				<File
+					RelativePath=".\AIControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AskaranAI.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -391,15 +403,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\AIControl.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Armor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\AskaranAI.h"
 				>
 			</File>
 			<File
@@ -560,6 +564,14 @@
 						RelativePath=".\PatchWounds.h"
 						>
 					</File>
+					<File
+						RelativePath=".\PlagueCenser.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlagueCenserSkill.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -591,6 +603,18 @@
 				</File>
 				<File
 					RelativePath=".\Projectile.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="AI"
+				>
+				<File
+					RelativePath=".\AIControl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AskaranAI.h"
 					>
 				</File>
 			</Filter>
