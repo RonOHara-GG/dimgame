@@ -24,7 +24,7 @@ bool SpineCrank::Activate(PlayerCharacter *pSkillOwner)
 
 		m_pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTargetTile);
 
-		if( !m_pTarget && !m_pTarget->Attackable() )
+		if( !m_pTarget && !m_pTarget->HasFlag(ATTACKABLE) )
 		{
 			m_bReady = true;
 			return false;

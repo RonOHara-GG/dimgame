@@ -4,7 +4,7 @@
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
-#include "Common/Graphics/kpgTerrainModel.h"
+#include "TerrainModel.h"
 #include "Common/Utility/kpuQuadTree.h"
 #include "Grid.h"
 #include "Enemy.h"
@@ -92,7 +92,7 @@ bool Level::Load(const char* pszLevelFile)
 							if(	m_pTerrain )
 								delete m_pTerrain;
 
-                            m_pTerrain = new kpgTerrainModel();
+                            m_pTerrain = new TerrainModel();
 
 							if ( !m_pTerrain->LoadTerrain(pElement->FirstChild()->Value(), iWidth, iHeight) )
 							{
@@ -155,67 +155,67 @@ bool Level::Load(const char* pszLevelFile)
 //}
 
 
-void Level::GenerateEnemies(kpuArrayList<Enemy*> *pEnemies)
+void Level::GenerateEnemies(kpuArrayList<Actor*> *pActors)
 {
-	Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[0]);
-	pEnemies->Add(pEnemy);					
+	/*Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[0]);
+	pActors->Add(pEnemy);					
 	m_pQuadTree->Add(pEnemy);
 	pEnemy->SetLocation(kpuVector(5, 0, 5, 0));
 	int iTile = m_pLevelGrid->GetTileAtLocation(kpuVector(5, 0, 5, 0));
-	pEnemy->SetNextMove(iTile);
+	pEnemy->SetNextMove(iTile);*/
 
 	//Commented so I can test skills against 1 enemy
 
 	//Max number to spawn is 4 for now
-	//kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
+	kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
 
-	//int iDistBetweenSpawns = 8;
-	//int iMaxSpawns = 5;
+	int iDistBetweenSpawns = 8;
+	int iMaxSpawns = 5;
 
-	//float fX = ( vGridDim.GetX() * -1 ) + 0.5f;
-	//float fY = ( vGridDim.GetZ() * -1 ) + 0.5f;
+	float fX = ( vGridDim.GetX() * -1 ) + 0.5f;
+	float fY = ( vGridDim.GetZ() * -1 ) + 0.5f;
 
-	//while( fX < vGridDim.GetX() && fY < vGridDim.GetZ() )
-	//{
-	//	int iSpawns =  rand() % iMaxSpawns;
-	//	int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
+	while( fX < vGridDim.GetX() && fY < vGridDim.GetZ() )
+	{
+		int iSpawns =  rand() % iMaxSpawns;
+		int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
 
-	//	for(int i = 0; i < iSpawns; i++)
-	//	{
-	//		//tile location of enemy
-	//		kpuVector vPos(fX + rand() % iDistBetweenSpawns , 0.0f, fY + rand() % iDistBetweenSpawns, 0.0f);
+		for(int i = 0; i < iSpawns; i++)
+		{
+			//tile location of enemy
+			kpuVector vPos(fX + rand() % iDistBetweenSpawns , 0.0f, fY + rand() % iDistBetweenSpawns, 0.0f);
 
-	//		Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[iEnemyType]);
-	//		pEnemy->SetLocation(vPos);
+			Enemy* pEnemy = new Enemy(*(*g_paEnemyTypes)[iEnemyType]);
+			pEnemy->SetLocation(vPos);
 
-	//		//add enemy to the grid
-	//		while( m_pQuadTree->CheckCollision(pEnemy) || !m_pLevelGrid->AddActor(pEnemy) )
-	//		{
-	//			//move the enemy around till he finds a spot
-	//			vPos.SetX(fX + rand() % iDistBetweenSpawns);
-	//			vPos.SetZ(fY + rand() % iDistBetweenSpawns);
+			//add enemy to the grid
+			while( m_pQuadTree->CheckCollision(pEnemy) || !m_pLevelGrid->AddActor(pEnemy) )
+			{
+				//move the enemy around till he finds a spot
+				vPos.SetX(fX + rand() % iDistBetweenSpawns);
+				vPos.SetZ(fY + rand() % iDistBetweenSpawns);
 
-	//			//int iTile = m_pLevelGrid->GetTileAtLocation(vPos);
-	//			//m_pLevelGrid->GetTileLocation(iTile, vPos);
+				//int iTile = m_pLevelGrid->GetTileAtLocation(vPos);
+				//m_pLevelGrid->GetTileLocation(iTile, vPos);
 
-	//			pEnemy->SetLocation(vPos);
-	//		}
+				pEnemy->SetLocation(vPos);
+			}
 
-	//		pEnemies->Add(pEnemy);
-	//		
-	//		//add enemy to quad tree			
-	//		m_pQuadTree->Add(pEnemy);
-	//	}
+			pActors->Add(pEnemy);
+			
+			//add enemy to quad tree			
+			m_pQuadTree->Add(pEnemy);
+		}
 
-	//	//move to next spawn point
-	//	fX += iDistBetweenSpawns;	
+		//move to next spawn point
+		fX += iDistBetweenSpawns;	
 
-	//	if(fX  >= vGridDim.GetX() )
-	//	{
-	//		fY += iDistBetweenSpawns;
-	//		fX = ( vGridDim.GetX() * -1 ) + 0.5f;
-	//	}
-	//}
+		if(fX  >= vGridDim.GetX() )
+		{
+			fY += iDistBetweenSpawns;
+			fX = ( vGridDim.GetX() * -1 ) + 0.5f;
+		}
+	}
 }
 
 //void Level::LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray)

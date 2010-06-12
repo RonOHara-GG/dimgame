@@ -8,8 +8,8 @@
 
 kpuPhysicalObject::kpuPhysicalObject(void)
 {
-	m_pModel = 0;
-	m_bStatic = true;
+	m_pModel = 0;	
+	Init(kpuv_Zero, kpuv_Zero);
 
 }
 

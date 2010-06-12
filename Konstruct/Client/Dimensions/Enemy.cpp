@@ -18,7 +18,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 
 	m_fElaspedWanderWait = 0.0f;
 	m_fElaspedAttack = 0.0f;
-	m_bAttackable = true;
+	SetFlag(ATTACKABLE);
 	
 	m_iLevel = loadStruct.iLevel;
 	m_fMaxHealth = loadStruct.fHealth;
@@ -56,7 +56,7 @@ bool Enemy::Update(float fGameTime)
 	{
 		UpdateMovement(fGameTime);	
 
-	//	m_pAIBehavior->Update(this, fGameTime);
+		m_pAIBehavior->Update(this, fGameTime);
 
 		//update timers
 		if( m_fElaspedAttack < m_fAttackSpeed )
@@ -80,10 +80,8 @@ void Enemy::UpdateMovement(float fDeltaTime)
 		{		
 			//Set target tile has current tile
 			SetNextMove(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(GetLocation()));			
-		}
-		
+		}		
 	}
-
 	Actor::UpdateMovement(fDeltaTime);
 }
 
@@ -120,7 +118,7 @@ void Enemy::Wander(float fDeltaTime)
 
 bool Enemy::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 {
-	if(pTarget->Attackable())
+	if(pTarget->HasFlag(ATTACKABLE))
 	{		
 		if( m_fElaspedAttack >= m_fAttackSpeed )
 		{			

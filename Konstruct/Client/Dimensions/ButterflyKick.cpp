@@ -60,7 +60,7 @@ bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		//deal damage to right tile
 		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
 
-		if( pTarget && pTarget->Attackable() )
+		if( pTarget && pTarget->HasFlag(ATTACKABLE) )
 		{
 			pTarget->TakeDamage(m_fDamage , m_eDamageType);
 		}
@@ -70,7 +70,7 @@ bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 		pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
 
-		if( pTarget && pTarget->Attackable() )
+		if( pTarget && pTarget->HasFlag(ATTACKABLE) )
 		{
 			pTarget->TakeDamage(m_fDamage * 0.5f , m_eDamageType);
 

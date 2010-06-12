@@ -25,6 +25,8 @@ public:
 	bool CheckCollision(kpuBoundingCapsule& bCapsule, kpuPhysicalObject* pObj);
 	bool CheckCollision(kpuBoundingSphere& bSphere, kpuPhysicalObject* pObj);
 	void GetPossibleCollisions(kpuBoundingVolume& bVolume, kpuArrayList<kpuCollisionData>* collidedObjects);
+	kpuCollisionData GetClosestCollision(kpuBoundingCapsule& capsule);
+	kpuCollisionData GetClosestCollision(kpuPhysicalObject* pObj, kpuVector& vVel);
 
 private:
 	kpuArrayList<kpuPhysicalObject*>*		m_paObjects;

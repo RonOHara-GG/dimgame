@@ -6,11 +6,11 @@
 
 
 class kpgModel;
-class kpgTerrainModel;
+class TerrainModel;
 class kpgRenderer;
 class kpuQuadTree;
 class Grid;
-class Enemy;
+class Actor;
 
 class Level
 {
@@ -19,7 +19,7 @@ public:
 	~Level(void);
 
 	bool Load(const char* pszLevelFile);
-	void GenerateEnemies(kpuArrayList<Enemy*> *pEnemies);
+	void GenerateEnemies(kpuArrayList<Actor*> *pActors);
 	//void LoadEnemyList(kpuArrayList<Enemy*>* paEnemies);
 
 	Grid*		GetGrid() const { return m_pLevelGrid; }
@@ -35,7 +35,7 @@ protected:
 	Grid*							m_pLevelGrid; //The tile grid of the current level
 	kpuQuadTree*					m_pQuadTree;
 	char						    m_szName[64];
-	kpgTerrainModel*				m_pTerrain;
+	TerrainModel*				m_pTerrain;
 	kpuFixedArray<kpgModel*>*		m_paEnemyModels;
 
 	//void LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray);

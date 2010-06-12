@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Common/Utility/kpuVector.h"
+#include "Common/Utility/kpuLinkedList.h"
 #include "GameObject.h"
 #include "DamageTypes.h"
 
-class kpgModel;
-class kpgRenderer;
 class Item;
 class Grid;
+class PersistentSkill;
 
 #define MAX_PATH_NODES	20
 
@@ -17,8 +17,8 @@ public:
 	Actor(void);
 	virtual ~Actor(void);
 	
-	virtual bool Update(float fGameTime) {return true;};
-	virtual void Draw(kpgRenderer* pRenderer);
+	virtual bool Update(float fGameTime) { return true; }
+	virtual void Draw(kpgRenderer* pRenderer);	
 
 	virtual void SetMoveTarget(int iTile)	{ m_iDestinationTile = iTile; m_iCurrentPathNode = -1; }
 	void	SetNextMove(int iTile);
@@ -39,15 +39,20 @@ public:
 	virtual Reward GetReward() { return m_RewardGiven; }
 
 	bool IsInRange(Actor* pTarget, int iRange);
-	bool InSight(Actor* pTarget, int iRange); //Checks if the target is in this actor's line of sight
-	bool Attackable() { return m_bAttackable; }
-	void TakeDamage(float fDamage, DamageType eDmgType);
+	bool InLineOfSight(Actor* pTarget, int iRange); //Checks if the target is in this actor's line of sight
+	
+	bool TakeDamage(float fDamage, DamageType eDmgType);
+	void Heal(float fAmount);
+	void RemovePersistentSkill(PersistentSkill* pSkill);
+	void AddPersistentSkill(PersistentSkill* pSkill);
 
 	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	bool IsAlive() { return m_fCurrentHealth > 0; }
 
 	void Move(kpuVector vVel);
 	void Move(float fDeltaTime, kpuVector vDir);
+
+	void AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource);
 
 #pragma region StatAccessor/Mutators
 
@@ -77,31 +82,8 @@ public:
 
 #pragma region ResisitAccessor/Mutators
 
-	int GetCrushRes() { return m_iCrushRes; }
-	int GetSlashRes() { return m_iSlashRes; }
-	int GetPierceRes() { return m_iPierceRes; }
-	int GetMentalRes() { return m_iMentalRes; }
-	int GetHeatRes() { return m_iHeatRes; }
-	int GetColdRes() { return m_iColdRes; }
-	int GetElectRes() { return m_iElectRes; }
-	int GetWaterRes() { return m_iWaterRes; }
-	int GetAcidRes() { return m_iAcidRes; }
-	int GetViralRes() { return m_iViralRes; }
-	int GetHolyRes() { return m_iHolyRes; }
-	int GetDeathRes() { return m_iDeathRes; }	
-
-	void SetCrushRes(int iCrush) { m_iCrushRes = iCrush; }
-	void SetSlashRes(int iSlash) { m_iSlashRes = iSlash; }
-	void SetPierceRes(int iPierce) { m_iPierceRes = iPierce; }
-	void SetMentalRes(int iMental) { m_iMentalRes = iMental; }
-	void SetHeatRes(int iHeat) { m_iHeatRes = iHeat; }
-	void SetColdRes(int iCold) { m_iColdRes = iCold; }
-	void SetElectRes(int iElect) { m_iElectRes = iElect; }
-	void SetWaterRes(int iWater) { m_iWaterRes = iWater; }
-	void SetAcidRes(int iAcid) { m_iAcidRes = iAcid; }
-	void SetViralRes(int iViral) { m_iViralRes = iViral; }
-	void SetHolyRes(int iHoly) { m_iHolyRes = iHoly; }
-	void SetDeathRes(int iDeath) {m_iDeathRes = iDeath; }	
+	int GetResist(DamageType eType);
+	void SetResist(int iAmount, DamageType eType);	
 
 #pragma endregion
 
@@ -113,19 +95,16 @@ protected:
 	int				m_iDestinationTile;
 	int				m_iCurrentPathNode;
 	int				m_aPathNodes[MAX_PATH_NODES];
-
-	bool			m_bAttackable;		//Wether or not this Actor is able to be attacked
-
 	
-	
+	//Things that need updated
+	kpuLinkedList*		m_paPersistentSkills;
+
 
 	//Movement varibles	
 	float			m_fBaseSpeed;			// Movement speed in tiles per second, which is also units per second. 1 tile = 1 unit	
 	float			m_fRotation;
 	kpuVector		m_vVelocity;
-	kpuVector		m_vHeading;
-	
-	
+	kpuVector		m_vHeading;	
 
 	//Stats
 	int				m_iLevel;

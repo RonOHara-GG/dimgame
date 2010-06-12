@@ -19,40 +19,22 @@ bool MultiShot::Activate(PlayerCharacter *pSkillOwner)
 {
 	if(m_bReady)
 	{
-		m_pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
+		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
 
 		m_fElaspedSinceCast = 0.0f;		
 
-		m_iShotsFired = MIN_SHOTS_FIRED + ( m_iSkillRank * m_fNumOfShotsMultiple );
-		m_fDamage = m_pEquippedWeapon->GetDamage() + (m_iShotsFired - (pSkillOwner->GetInt() * m_fIntMultiple));
-		m_fRange = m_pEquippedWeapon->GetRange();
-		
+		m_iShotsToFire = MIN_SHOTS_FIRED + ( m_iSkillRank * m_fNumOfShotsMultiple );
+		m_fDamage = pEquippedWeapon->GetDamage() + (m_iShotsToFire - (pSkillOwner->GetInt() * m_fIntMultiple));
+		m_fRange = pEquippedWeapon->GetRange();
+		m_eDamageType = pEquippedWeapon->GetDamageType();
+		m_fSpeed = pEquippedWeapon->GetSpeed() * SPEED_MULTIPLE;
+
 		m_fFireArc = m_fFireArcMultiple * m_iSkillRank;
 
 		pSkillOwner->SetActiveSkill(this);
 		
 		m_bReady = false;
 		m_bExecuted = false;
-		m_fDistTraveled = 0.0f;
-		
-		m_vLocation = pSkillOwner->GetLocation();
-
-		//find the number of radians between each shot
-		float fRadiansPerShot = m_fFireArc / m_iShotsFired;
-		fRadiansPerShot *= DEG_TO_RAD;
-		kpuVector vDir = pSkillOwner->GetHeading() % kpuv_OneY;
-
-		//fill in the data for all the arrows being fired
-		for(int i = 0; i < m_iShotsFired; i++ )
-		{
-			kpuMatrix rotMatrix;
-			rotMatrix.Identity();
-
-			rotMatrix.SetRotationY( (i + 1) * fRadiansPerShot);
-			m_vaLocations[i] = m_vLocation;
-			m_vaDirections[i] = vDir * rotMatrix;
-			m_paLastActorsHit = 0;
-		}
 
 		return true;		
 	}
@@ -64,53 +46,32 @@ bool MultiShot::Activate(PlayerCharacter *pSkillOwner)
 
 bool MultiShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	float fDist = fDeltaTime * ARROW_SPEED;
+	m_fElaspedSinceCast += fDeltaTime;
 
-	if( m_fDistTraveled >= m_fRange )
-		return false;
-
-	for(int i = 0; i < m_iShotsFired; i++)
+	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
 	{
-		kpuVector vLocation = m_vaLocations[i];
-		Actor* pLastHit = m_paLastActorsHit[i];
-
-		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(vLocation);
-
-		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
-
-		//check if we shot something
-		if( pTarget )
+		//shoot
+		float fRadiansPerShot = m_fFireArc / m_iShotsToFire;
+		fRadiansPerShot *= DEG_TO_RAD;
+		kpuVector vDir = pSkillOwner->GetHeading() % kpuv_OneY;
+		
+		for(int i = 0; i < m_iShotsToFire; i++ )
 		{
-			if( pTarget->Attackable() && pTarget != pSkillOwner && pTarget != pLastHit )
-			{
-				m_paLastActorsHit[i] = pTarget;
+			kpuMatrix rotMatrix;
+			rotMatrix.Identity();
 
-				pTarget->TakeDamage(m_fDamage, m_pEquippedWeapon->GetDamageType());
-			}
+			rotMatrix.SetRotationY( (i + 1) * fRadiansPerShot);
+
+			Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
+			g_pGameState->AddActor(pArrow);
 		}
 
-		//see what the arror hits and move it
-		kpuBoundingSphere sphere(0.5f, m_vLocation);
-
-		if( g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, pSkillOwner) )
-		{
-			//arrow collided with wall shift the arrrow data down
-			
-			for(int j = i; j < m_iShotsFired - 1; j++)
-			{
-				m_vaLocations[j] = m_vaLocations[j+ 1];
-				m_paLastActorsHit[j] = m_paLastActorsHit[j + 1];
-				m_vaDirections[j] = m_vaDirections[j + 1];
-			}
-
-			m_iShotsFired--;
-			
-		}
-		else //move the arrow	
-			m_vLocation += m_vaDirections[i] * fDist;
+		m_bExecuted = true;
+		
 	}
 
-	m_fDistTraveled += fDist;
+	if( m_fElaspedSinceCast >= m_fSpeed )
+		return false;
 
 	return true;
 }

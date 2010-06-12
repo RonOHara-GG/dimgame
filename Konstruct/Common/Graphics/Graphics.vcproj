@@ -184,10 +184,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\kpgTerrainModel.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\kpgTexture.cpp"
 				>
 			</File>
@@ -275,10 +271,6 @@
 			</File>
 			<File
 				RelativePath=".\kpgShader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\kpgTerrainModel.h"
 				>
 			</File>
 			<File

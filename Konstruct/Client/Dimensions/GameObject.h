@@ -3,6 +3,8 @@
 #include "Common/Utility/kpuVector.h"
 #include "Common/Utility/kpuPhysicalObject.h"
 
+class kpgRenderer;
+
 class GameObject:public kpuPhysicalObject
 {
 public:
@@ -12,3 +14,6 @@ public:
 	
 
 };
+
+#define WALL  ( 1 << 0 )
+#define ATTACKABLE ( 1 << 1 )

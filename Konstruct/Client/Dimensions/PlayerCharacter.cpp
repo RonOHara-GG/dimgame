@@ -45,7 +45,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_bBox.Move(GetLocation());
 	m_bSphere.Move(GetLocation());*/
 
-	m_bAttackable = true;
+	SetFlag(ATTACKABLE);
 	m_fCurrentHealth = m_fMaxHealth = 100;
 
 	PlayerClass* pClass = new PlayerClass(PlayerClass::eCL_Brawler, 100.0f);
@@ -209,7 +209,7 @@ void PlayerCharacter::UpdateSkills(float fGameTime)
 
 bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 {
-	if(pTarget->Attackable())
+	if(pTarget->HasFlag(ATTACKABLE))
 	{
 		if(m_pEquippedWeapon)
 		{

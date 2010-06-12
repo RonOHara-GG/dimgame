@@ -2,11 +2,7 @@
 #include "BounceShot.h"
 #include "Weapon.h"
 #include "PlayerCharacter.h"
-#include "Grid.h"
-#include "Level.h"
-#include "Common/Utility/kpuQuadTree.h"
-#include "Common/Utility/kpuArrayList.h"
-#include "Common/Utility/kpuCollisionData.h"
+#include "BounceArrow.h"
 
 #define MIN_BOUNCE_RANGE 2
 
@@ -28,10 +24,8 @@ bool BounceShot::Activate(PlayerCharacter *pSkillOwner)
 
 		m_bReady = false;
 		m_bExecuted = false;
-		m_fDistTraveled = 0.0f;
-		m_fElaspedSinceCast = 0.0f;
-		m_vLocation = pSkillOwner->GetLocation();
-		m_pLastHit = 0;
+		m_fElaspedSinceCast = 0.0f;		
+		
 		return true;
 	}
 
@@ -40,90 +34,18 @@ bool BounceShot::Activate(PlayerCharacter *pSkillOwner)
 
 bool BounceShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	if( m_iBounceRange == 0 )
+	m_fElaspedSinceCast += fDeltaTime;
+
+	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
 	{
-		m_fElaspedSinceCast = 0.0f;
-		return false;
+		//fire arrow
+		BounceArrow* pArrow = new BounceArrow(m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), m_iBounceRange);
+		g_pGameState->AddActor(pArrow);
+		m_bExecuted = true;
 	}
 
-	if( m_fDistTraveled >= m_fRange )
+	if( m_fElaspedSinceCast >= m_fSpeed )
 		return false;
 
-	int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(m_vLocation);
-
-	Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
-
-	if( pTarget )
-	{
-		if( pTarget->Attackable() && pTarget != pSkillOwner && pTarget != m_pLastHit )
-		{
-			m_pLastHit = pTarget;
-
-			pTarget->TakeDamage(m_fDamage, m_pEquippedWeapon->GetDamageType());
-
-			//find new target 
-			kpuBoundingSphere sphere(m_iBounceRange, m_vLocation);
-			kpuArrayList<kpuCollisionData> pCollisions;
-			g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &pCollisions);
-
-			float fClosest = m_iBounceRange * m_iBounceRange;
-			pTarget = 0;
-
-			//find the closest target
-			for(int i = 0; i < pCollisions.Count(); i++)
-			{
-				kpuCollisionData data = pCollisions[i];
-				
-				if( !data.m_pObject->IsStatic() )
-				{
-					float fDist = kpuVector::DistanceSquared(data.m_pObject->GetLocation(), pSkillOwner->GetLocation());
-
-					if( fDist < fClosest )
-					{
-						pTarget = (Actor*)data.m_pObject;
-					}
-
-					if( fDist == 1 )
-					{
-						//one is the closest any enemy can be
-						break;
-					}
-
-				}
-
-			}
-
-			if( pTarget != 0 )
-			{
-				m_vDirection = pTarget->GetLocation() - m_vLocation;
-				m_vDirection.Normalize();				
-			}
-			else
-			{
-				//arrow bounces to nothing
-				return false;
-			}
-
-			//Cut bounce range in half
-			m_iBounceRange /= 2;
-
-		}
-
-	}
-
-	//see what the arror hits and move it
-	kpuBoundingSphere sphere(0.5f, m_vLocation);
-
-	if( g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, pSkillOwner) )
-	{
-		//arrow collides with wall return false
-		m_fElaspedSinceCast = 0.0f;
-		return false;
-	}
-
-	
-
-
-
-
+	return true;	
 }

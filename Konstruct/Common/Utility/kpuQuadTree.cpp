@@ -319,10 +319,58 @@ bool kpuQuadTree::CheckCollision(kpuPhysicalObject *pObj)
 	return false;
 }
 
-float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
+kpuCollisionData kpuQuadTree::GetClosestCollision(kpuBoundingCapsule& bCapsule)
 {
-	kpuArrayList<kpuCollisionData> aCollisions;
+	kpuQuadTree* pCurrentNode = this;
 
+	while ( pCurrentNode->m_pParent )
+		pCurrentNode = pCurrentNode->m_pParent;
+
+	//check collisions in the closest order	
+	kpuCollisionData finalData;
+	finalData.m_vVelocity = bCapsule.GetEnd() - bCapsule.GetStart();
+	finalData.m_fVelLength = finalData.m_vVelocity.Length();	
+
+	kpuArrayList<kpuCollisionData> aCollisions;
+	GetPossibleCollisions(bCapsule, &aCollisions);	
+
+	while( !finalData.m_bCollided && aCollisions.Count() > 0 )
+	{
+		kpuCollisionData* pClosest = &aCollisions[0];
+		int iIndex = 0;
+
+		for(int i = 0; i < aCollisions.Count(); i++ )
+		{
+			kpuCollisionData* pNext = &aCollisions[i];
+
+			if( pClosest->m_fDist > pNext->m_fDist )
+			{
+				pClosest = pNext;
+				iIndex = i;
+			}
+		}			
+
+		//check capsule vs primatives of closest object
+		for(int i = 0; i < pClosest->m_pObject->GetPrimativeCount() && !finalData.m_bCollided; i++)
+		{
+			kpuBoundingVolume* pVolume = pClosest->m_pObject->GetPrimative(i);
+			bCapsule.Intersects(pVolume, pClosest->m_pObject->GetMatrix(), finalData);
+
+			if( finalData.m_bCollided )
+			{				
+				finalData.m_pObject = pClosest->m_pObject;
+				break;				
+			}
+		}
+
+		aCollisions.RemoveAt(iIndex);	
+	}
+	
+	return finalData;
+}
+
+kpuCollisionData kpuQuadTree::GetClosestCollision(kpuPhysicalObject* pObj, kpuVector& vVel)
+{	
 	kpuQuadTree* pCurrentNode = this;
 
 	while ( pCurrentNode->m_pParent )
@@ -331,15 +379,15 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 	kpuBoundingSphere sphere = pObj->GetSphere();
 	sphere.Transform(pObj->GetMatrix());
 
-	kpuBoundingCapsule bCapsule(sphere.GetLocation(), sphere.GetLocation() + vVel, pObj->GetSphere().GetRadius() );
+	kpuBoundingCapsule bCapsule(sphere.GetLocation(), sphere.GetLocation() + vVel, pObj->GetSphere().GetRadius() );	
 
-	pCurrentNode->GetPossibleCollisions(bCapsule, &aCollisions);
+	kpuArrayList<kpuCollisionData> aCollisions;
+	pCurrentNode->GetPossibleCollisions(bCapsule, &aCollisions);	
 
 	//check collisions in the closest order	
 	kpuCollisionData finalData;
 	finalData.m_vVelocity = vVel;
-	finalData.m_fVelLength = vVel.Length();
-	finalData.m_fDist = finalData.m_fVelLength;
+	finalData.m_fVelLength = vVel.Length();	
 
 	while( !finalData.m_bCollided && aCollisions.Count() > 0 )
 	{
@@ -409,40 +457,16 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 				}
 			}
 		}
-
 		aCollisions.RemoveAt(iIndex);	
-
-		//Check the collision primatives of the closest
-		//kpuBoundingBox bBoxMover = pObj->GetBoundingBox();
-		//bBoxMover.Transform( pObj->GetMatrix() );
-
-		//kpuBoundingBox bBoxStation = pClosest->m_pObject->GetBoundingBox();
-		//bBoxStation.Transform( pClosest->m_pObject->GetMatrix() );
-
-		//if( bBoxMover.Intersects( bBoxStation ).m_bCollided )
-		//{
-		//	//check smaller boxes
-		//	for(int i = 0; i < pObj->GetPrimativeCount(); i++)
-		//	{
-		//		kpuBoundingVolume* bVolume1 = pObj->GetPrimative(i);
-		//		bVolume1->Transform(pObj->GetMatrix());
-
-		//		for(int j = 0; j < pClosest->m_pObject->GetPrimativeCount(); j++ )
-		//		{
-		//			kpuBoundingVolume* bVolume2 = pClosest->m_pObject->GetPrimative(j);
-		//			bVolume2->Transform(pClosest->m_pObject->GetMatrix());
-
-		//			if( bVolume1->Intersects(*bVolume2).m_bCollided )
-		//			{
-		//				bCollisionFound = true;
-		//				break;
-		//			}					
-		//		}
-		//	}
-		//}
-		
 	}
 
+	return finalData;
+}
+
+float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
+{
+	kpuCollisionData finalData = GetClosestCollision(pObj, vVel);
+	
 	return  finalData.m_fDist / finalData.m_fVelLength;
 }
 

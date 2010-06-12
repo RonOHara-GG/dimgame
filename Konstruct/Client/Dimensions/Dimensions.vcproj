@@ -193,10 +193,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Enemy.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Equippable.cpp"
 				>
 			</File>
@@ -225,19 +221,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\NPC.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PlayerCharacter.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PlayerClass.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RapidShot.cpp"
 				>
 			</File>
 			<File
@@ -265,6 +249,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\TerrainModel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Tile.cpp"
 				>
 			</File>
@@ -279,6 +267,10 @@
 			<Filter
 				Name="Skills"
 				>
+				<File
+					RelativePath=".\PersistentSkill.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\Skill.cpp"
 					>
@@ -327,10 +319,66 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ExplosiveShot.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\MultiShot.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\RapidShot.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ScatterShot.cpp"
+						>
+					</File>
 				</Filter>
+				<Filter
+					Name="Medic"
+					>
+					<File
+						RelativePath=".\Infection.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PatchWounds.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Characters"
+				>
+				<File
+					RelativePath=".\Enemy.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NPC.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PlayerCharacter.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Projectiles"
+				>
+				<File
+					RelativePath=".\BounceArrow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ExplosiveProjectile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Projectile.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -360,10 +408,6 @@
 			</File>
 			<File
 				RelativePath=".\Dimensions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Enemy.h"
 				>
 			</File>
 			<File
@@ -403,19 +447,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\NPC.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PlayerCharacter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\PlayerClass.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RapidShot.h"
 				>
 			</File>
 			<File
@@ -435,6 +467,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TerrainModel.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Tile.h"
 				>
 			</File>
@@ -445,6 +481,10 @@
 			<Filter
 				Name="Skills"
 				>
+				<File
+					RelativePath=".\PersistentSkill.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Skill.h"
 					>
@@ -493,10 +533,66 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ExplosiveShot.h"
+						>
+					</File>
+					<File
 						RelativePath=".\MultiShot.h"
 						>
 					</File>
+					<File
+						RelativePath=".\RapidShot.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ScatterShot.h"
+						>
+					</File>
 				</Filter>
+				<Filter
+					Name="Medic"
+					>
+					<File
+						RelativePath=".\Infection.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PatchWounds.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Characters"
+				>
+				<File
+					RelativePath=".\Enemy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NPC.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PlayerCharacter.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Projectiles"
+				>
+				<File
+					RelativePath=".\BounceArrow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ExplosiveProjectile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Projectile.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
