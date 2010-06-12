@@ -158,7 +158,7 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 			//for now just check if player is in range
 			pNpc->SetTarget(g_pGameState->GetPlayer());
 
-			if( pNpc->InSight(pNpc->GetTarget(), pNpc->GetAggroRange()) )
+			if( pNpc->InLineOfSight(pNpc->GetTarget(), pNpc->GetAggroRange()) )
 			{	
 				m_iPreviousTile = -1;
 				m_eCurrentState = eST_Aggro;

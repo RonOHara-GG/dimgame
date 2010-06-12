@@ -1,6 +1,7 @@
 #pragma once
 #include "skill.h"
 #include "Common/Utility/kpuVector.h"
+#include "Projectile.h"
 
 class Weapon;
 class BasicShot :
@@ -18,13 +19,9 @@ protected:
 	float		m_fDamage;
 	float		m_fRangeMultiple;
 	float		m_fDamageMultiple;
-	float		m_fDistTraveled;
 	float		m_fRankMultipleMin;	
 	float		m_fRankMultipleMax;	
 	bool		m_bExecuted;
+	DamageType	m_eDamageType;
 
-	kpuVector   m_vLocation;
-	kpuVector   m_vDirection;
-	Weapon*		m_pEquippedWeapon;
-	Actor*		m_pLastHit;
 };

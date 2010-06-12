@@ -13,15 +13,11 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	kpuArrayList<kpuVector>		m_vaLocations;
-	kpuArrayList<kpuVector>		m_vaDirections;
-	kpuArrayList<Actor*>		m_paLastActorsHit;
-	int							m_iShotsFired;
+	int							m_iShotsToFire;
 	float						m_fFireArc;
 	float						m_fIntMultiple;
 	float						m_fNumOfShotsMultiple;
 	float						m_fFireArcMultiple;
-
 };
 
 #define SPEED_MULTIPLE 1.5

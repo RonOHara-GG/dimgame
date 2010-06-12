@@ -3,7 +3,7 @@
 #include "Common/Utility/kpuArrayList.h"
 
 class Level;
-class Enemy;
+class Actor;
 class PlayerCharacter;
 
 class GameState_Default : public GameState
@@ -19,13 +19,13 @@ public:
 
 	virtual Level*					GetLevel()		{ return m_pCurrentLevel; }
 	virtual PlayerCharacter*		GetPlayer()		{ return m_pPlayer; }
-	virtual kpuArrayList<Enemy*>*	GetEnemies()	{ return m_paEnemies; }
+	virtual kpuArrayList<Actor*>*	GetActors()		{ return m_paActors; }
 
-	virtual void AddEnemy(Enemy* pEnemy);
+	virtual void AddActor(Actor* pActor);
 
 protected:
 	Level*					m_pCurrentLevel;
 
 	PlayerCharacter*		m_pPlayer;
-	kpuArrayList<Enemy*>*	m_paEnemies;
+	kpuArrayList<Actor*>*	m_paActors;
 };

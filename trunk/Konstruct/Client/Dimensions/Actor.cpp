@@ -45,18 +45,16 @@ Actor::Actor()
 	m_iAcidRes = 0;
 	m_iViralRes = 0;
 	m_iHolyRes = 0;
-	m_iDeathRes = 0;
-
-	m_bAttackable = false;
-	m_bStatic = false;
+	m_iDeathRes = 0;	
 
 	m_vHeading = kpuv_OneZ;
+
+	m_paPersistentSkills = 0;
 }
 
 Actor::~Actor()
 {
-
-
+	delete m_paPersistentSkills;
 }
 
 void Actor::Draw(kpgRenderer* pRenderer)
@@ -105,8 +103,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 
 		while( fMoveDelta > 0 )
 		{
-			int iTargetTile = m_aPathNodes[m_iCurrentPathNode];
-			
+			int iTargetTile = m_aPathNodes[m_iCurrentPathNode];			
 
 			//Actor* pTileActor = g_pGameState->GetLevel()->GetGrid()->GetActor(iTargetTile);
 			////make sure the next tile is still walkable
@@ -131,8 +128,7 @@ void Actor::UpdateMovement(float fDeltaTime)
 			vToTarget.SetW(0);
 
 			vToTarget.SetY(0);
-			float fDistToTarget = vToTarget.Length();		
-			
+			float fDistToTarget = vToTarget.Length();			
 
 			if( fDistToTarget == 0.0f )
 			{
@@ -223,13 +219,11 @@ bool Actor::BuildPathToDestination()
 	vEndToStart = vStart - vEnd;
 	vEndToStart.Normalize();
 
-	int iBestDestination = m_iDestinationTile; 
-
-	if( pGrid->GetActor(iBestDestination) )
-		iBestDestination = pGrid->BestMove(vEndToStart, m_iDestinationTile);
+	/*if( pGrid->GetActor(iBestDestination) )
+		iBestDestination = pGrid->BestMove(vEndToStart, m_iDestinationTile);*/
 
 	// Build the path
-	if(iBestDestination > 0 && pGrid->BuildPath(iCurrentTile, iBestDestination, m_aPathNodes, MAX_PATH_NODES, this) )
+	if(pGrid->BuildPath(iCurrentTile, m_iDestinationTile, m_aPathNodes, MAX_PATH_NODES, this) )
 	{
 		m_iCurrentPathNode = 0;		
 		return true;
@@ -239,74 +233,77 @@ bool Actor::BuildPathToDestination()
 	return false;
 }
 
-void Actor::TakeDamage(float fDamage, DamageType eDmgType)
+bool Actor::TakeDamage(float fDamage, DamageType eDmgType)
 {
 	switch(eDmgType)
 	{
 	case eDT_Acid:
 		{
-			fDamage -= fDamage * (m_iAcidRes / 100.0f);
+			fDamage -= m_iAcidRes;
 			break;
 		}
 	case eDT_Cold:
 		{
-			fDamage -= fDamage * (m_iColdRes / 100.0f);
-			break;
+			fDamage -= m_iColdRes;
 		}
 	case eDT_Crushing:
 		{
-			fDamage -= fDamage * (m_iCrushRes / 100.0f);
+			fDamage -= m_iCrushRes;
 			break;
 		}
 	case eDT_Death:
 		{
-			fDamage -= fDamage * (m_iDeathRes / 100.0f);
+			fDamage -= m_iDeathRes;
 			break;
 		}
 	case eDT_Electrical:
 		{
-			fDamage -= fDamage * (m_iElectRes / 100.0f);
+			fDamage -= m_iElectRes;
 			break;
 		}
 	case eDT_Heat:
 		{
-			fDamage -= fDamage * (m_iHeatRes / 100.0f);
+			fDamage -= m_iHeatRes;
 			break;
 		}
 	case eDT_Holy:
 		{
-			fDamage -= fDamage * (m_iHolyRes / 100.0f);
+			fDamage -= m_iHolyRes;
 			break;
 		}
 	case eDT_Mental:
 		{
-			fDamage -= fDamage * (m_iMentalRes / 100.0f);
+			fDamage -= m_iMentalRes;
 			break;
 		}
 	case eDT_Piercing:
 		{
-			fDamage -= fDamage * (m_iPierceRes / 100.0f);
+			fDamage -= m_iPierceRes;
 			break;
 		}
 	case eDT_Slashing:
 		{
-			fDamage -= fDamage * (m_iSlashRes / 100.0f);
+			fDamage -= m_iSlashRes;
 			break;
 		}
 	case eDT_Viral:
 		{
-			fDamage -= fDamage * (m_iViralRes / 100.0f);
+			fDamage -= m_iViralRes;
 			break;
 		}
 	case eDT_Water:
 		{
-			fDamage -= fDamage * (m_iWaterRes / 100.0f);
+			fDamage -= m_iWaterRes;
 			break;
 		}
 	}
 
+	if( fDamage <= 0 )
+		return false;
+
 	m_fCurrentHealth -= fDamage;
 
+	return true;
 }
 
 bool Actor::IsInRange(Actor *pTarget, int iRange)
@@ -333,7 +330,7 @@ bool Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 	return false;
 }
 
-bool Actor::InSight(Actor *pTarget, int iRange)
+bool Actor::InLineOfSight(Actor *pTarget, int iRange)
 {
 	//This player will be the start of the capsule and the parameter will be the end
 	//We will get the collisions from the quad tree and check a line segment from the center of this actor to the target and see if there are any collisions
@@ -374,4 +371,181 @@ bool Actor::InSight(Actor *pTarget, int iRange)
 	}
 
 	return false;
+}
+
+int Actor::GetResist(DamageType eType)
+{
+	switch(eType)
+	{
+	case eDT_Acid:
+		{
+			return m_iAcidRes;			
+		}
+	case eDT_Cold:
+		{
+			return m_iColdRes;
+		}
+	case eDT_Crushing:
+		{
+			return m_iCrushRes;
+		}
+	case eDT_Death:
+		{
+			return m_iDeathRes;
+		}
+	case eDT_Electrical:
+		{
+			return m_iElectRes;
+		}
+	case eDT_Heat:
+		{
+			return m_iHeatRes;
+		}
+	case eDT_Holy:
+		{
+			return m_iHolyRes;
+		}
+	case eDT_Mental:
+		{
+			return m_iMentalRes;
+		}
+	case eDT_Piercing:
+		{
+			return m_iPierceRes;
+		}
+	case eDT_Slashing:
+		{
+			return m_iSlashRes;
+		}
+	case eDT_Viral:
+		{
+			return m_iViralRes;
+		}
+	case eDT_Water:
+		{
+			return m_iWaterRes;
+		}
+	}
+
+	return 0;
+}
+
+void Actor::SetResist(int iAmount, DamageType eType)
+{
+	switch(eType)
+	{
+	case eDT_Acid:
+		{
+			m_iAcidRes = iAmount;			
+		}
+	case eDT_Cold:
+		{
+			m_iColdRes = iAmount;	
+		}
+	case eDT_Crushing:
+		{
+			m_iCrushRes = iAmount;	
+		}
+	case eDT_Death:
+		{
+			m_iDeathRes = iAmount;	
+		}
+	case eDT_Electrical:
+		{
+			m_iElectRes = iAmount;	
+		}
+	case eDT_Heat:
+		{
+			m_iHeatRes = iAmount;	
+		}
+	case eDT_Holy:
+		{
+			m_iHolyRes = iAmount;	
+		}
+	case eDT_Mental:
+		{
+			m_iMentalRes = iAmount;	
+		}
+	case eDT_Piercing:
+		{
+			m_iPierceRes = iAmount;	
+		}
+	case eDT_Slashing:
+		{
+			m_iSlashRes = iAmount;	
+		}
+	case eDT_Viral:
+		{
+			m_iViralRes = iAmount;	
+		}
+	case eDT_Water:
+		{
+			m_iWaterRes = iAmount;	
+		}
+	}
+}
+	
+void Actor::Heal(float fAmount)
+{
+	m_fCurrentHealth += fAmount;
+
+	if( m_fCurrentHealth > m_fMaxHealth )
+		m_fCurrentHealth = m_fMaxHealth;
+}
+
+
+
+void Actor::RemovePersistentSkill(PersistentSkill* pSkill)
+{
+	kpuLinkedList* pNext = m_paPersistentSkills->Next();
+
+	while( pNext )
+	{
+		void* pData = pNext->GetPointer();
+		if( pData == pSkill )
+		{
+			delete pData;
+			delete pNext;
+			break;
+		}
+
+		pNext = pNext->Next();
+	}
+}
+
+void Actor::AddPersistentSkill(PersistentSkill* pSkill)
+{
+	m_paPersistentSkills->AddTail(pSkill);
+}
+
+void Actor::AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource)
+{
+	//make sure target has line of sight to effect
+	kpuBoundingSphere sphere(fRadius, vCenter);	
+
+	kpuBoundingSphere sphere2 = GetSphere();
+	sphere2.Transform(GetMatrix());
+	kpuBoundingCapsule capsule(sphere.GetLocation(), sphere2.GetLocation(), 0.0f);
+
+	kpuArrayList<kpuCollisionData> aCollisions;
+
+	g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(capsule, &aCollisions);
+
+	//if there is a collision between here and the target then no line of sight
+	for(int i = 0; i < aCollisions.Count(); i++)
+	{
+		if( aCollisions[i].m_pObject != pSource && aCollisions[i].m_pObject != this )
+		{
+			//check bounding box vs sphere
+			kpuBoundingBox box = aCollisions[i].m_pObject->GetBoundingBox();			
+			kpuCollisionData data;
+			capsule.Intersects(&box, aCollisions[i].m_pObject->GetMatrix(), data);
+
+			if( data.m_bCollided )			
+				return;	
+			
+		}
+	}
+	//apply effect which for now is just damag
+	TakeDamage(*(float*)pEffect, (DamageType)*(int*)((float*)pEffect + 1));
 }

@@ -15,6 +15,7 @@ public:
 	float GetRange() { return m_fRange; }
 	float GetDamage() { return m_fDamage; }
 	float GetSpeed()	{ return m_fSpeed; }
+	float GetRecovery() { return m_fRecovery; }
 
 	_DamageType GetDamageType() { return m_eDamageType; }
 

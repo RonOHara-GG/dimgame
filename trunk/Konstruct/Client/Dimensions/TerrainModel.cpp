@@ -4,9 +4,10 @@
 #include "Common/Utility/kpuFixedArray.h"
 #include "Common/Utility/kpuArrayList.h"
 #include "Common/Utility/kpuLinkedList.h"
-#include "kpgTerrainModel.h"
+#include "TerrainModel.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "External/tinyxml/tinyxml.h"
+#include "GameObject.h"
 
 static const u32 s_uHash_Door =		0x7c844039;
 static const u32 s_uHash_Wall =		0x7c8e6f75;
@@ -19,11 +20,11 @@ static const u32 s_uHash_Bottom =	0xa9edb65a;
 
 
 
-kpgTerrainModel::kpgTerrainModel(void)
+TerrainModel::TerrainModel(void)
 {
 }
 
-kpgTerrainModel::~kpgTerrainModel(void)
+TerrainModel::~TerrainModel(void)
 {
 	if (m_paPhysicalObjects)
 	{
@@ -36,7 +37,7 @@ kpgTerrainModel::~kpgTerrainModel(void)
 	}
 }
 
-bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
+bool TerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 {
 	kpuFixedArray<TerrainData> aTerrainData;
 
@@ -520,6 +521,7 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions, pModel);
 		
 		obj->CalculateBoundingVolumes(aCollisionMeshes[aFinalMap[i].iPiece]);		
+		obj->SetFlag(WALL);
 
 		m_paPhysicalObjects->Add(obj);	
 	}
@@ -534,7 +536,7 @@ bool kpgTerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 	return true;
 }
 
-bool kpgTerrainModel::SpacesMatch(int iDoorS1, int iDoorE1, int iDoorS2, int iDoorE2, int iLength)
+bool TerrainModel::SpacesMatch(int iDoorS1, int iDoorE1, int iDoorS2, int iDoorE2, int iLength)
 {
 	if( ( iDoorS1 >= 0 && iDoorS1 < iLength ) && ( iDoorS1 < iDoorS2 || iDoorS1 > iDoorE2 ) )
 		return false;

@@ -1,13 +1,13 @@
 #pragma once
-#include "kpgmodel.h"
+#include "Common/Graphics/kpgmodel.h"
 
 
-class kpgTerrainModel :
+class TerrainModel :
 	public kpgModel
 {
 public:
-	kpgTerrainModel(void);
-	~kpgTerrainModel(void);
+	TerrainModel(void);
+	~TerrainModel(void);
 
 	bool LoadTerrain(const char* pszFile, int iWidth, int iHeigth);
 	kpuFixedArray<kpuPhysicalObject*>* GetPeices() { return m_paPhysicalObjects; }

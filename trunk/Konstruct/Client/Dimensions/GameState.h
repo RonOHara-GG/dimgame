@@ -1,7 +1,7 @@
 #pragma once
 
 class Level;
-class Enemy;
+class Actor;
 class PlayerCharacter;
 
 class GameState
@@ -17,7 +17,7 @@ public:
 
 	virtual Level* GetLevel() = 0;
 
-	virtual void AddEnemy(Enemy* pEnemy) = 0;
+	virtual void AddActor(Actor* pActor) = 0;
 	virtual PlayerCharacter* GetPlayer() = 0;
 	//virtual kpuArrayList<Enemy*>*	GetEnemies() = 0;
 };

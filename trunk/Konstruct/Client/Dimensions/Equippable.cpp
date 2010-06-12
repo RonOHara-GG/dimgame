@@ -60,21 +60,21 @@ void Equippable::Equip(PlayerCharacter *pPlayer)
 	pPlayer->SetMaxMental(pPlayer->GetMaxMental() + m_iMentalBonus);
 
 	//Resisit Bonues
-	pPlayer->SetCrushRes(pPlayer->GetCrushRes() + m_iCrushResBonus);
-	pPlayer->SetSlashRes(pPlayer->GetSlashRes() + m_iSlashResBonus);
-	pPlayer->SetPierceRes(pPlayer->GetPierceRes() + m_iPierceResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Crushing) + m_iCrushResBonus, eDT_Crushing);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Slashing) + m_iSlashResBonus, eDT_Slashing);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Piercing) + m_iPierceResBonus, eDT_Piercing);
 
-	pPlayer->SetMentalRes(pPlayer->GetMentalRes() + m_iMentalResBonus);
-	pPlayer->SetHeatRes(pPlayer->GetHeatRes() + m_iHeatResBonus);
-	pPlayer->SetColdRes(pPlayer->GetColdRes() + m_iColdResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Mental) + m_iMentalResBonus, eDT_Mental);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Heat) + m_iHeatResBonus, eDT_Heat);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Cold) + m_iColdResBonus, eDT_Cold);
 
-	pPlayer->SetElectRes(pPlayer->GetElectRes() + m_iElectResBonus);
-	pPlayer->SetWaterRes(pPlayer->GetWaterRes() + m_iWaterResBonus);
-	pPlayer->SetAcidRes(pPlayer->GetAcidRes() + m_iAcidResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Electrical) + m_iElectResBonus, eDT_Electrical);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Water) + m_iWaterResBonus, eDT_Water);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Acid) + m_iAcidResBonus, eDT_Acid);
 
-	pPlayer->SetViralRes(pPlayer->GetViralRes() + m_iViralResBonus);
-	pPlayer->SetHolyRes(pPlayer->GetHolyRes() + m_iHolyResBonus);
-	pPlayer->SetDeathRes(pPlayer->GetDeathRes() + m_iDeathResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Viral) + m_iViralResBonus, eDT_Viral);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Holy) + m_iHolyResBonus, eDT_Holy);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Death) + m_iDeathResBonus, eDT_Death);
 
 }
 
@@ -89,21 +89,21 @@ void Equippable::UnEquip(PlayerCharacter *pPlayer)
 	pPlayer->SetMaxMental(pPlayer->GetMaxMental() - m_iMentalBonus);
 
 	//Resisit Bonues
-	pPlayer->SetCrushRes(pPlayer->GetCrushRes() - m_iCrushResBonus);
-	pPlayer->SetSlashRes(pPlayer->GetSlashRes() - m_iSlashResBonus);
-	pPlayer->SetPierceRes(pPlayer->GetPierceRes() - m_iPierceResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Crushing) - m_iCrushResBonus, eDT_Crushing);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Slashing) - m_iSlashResBonus, eDT_Slashing);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Piercing) - m_iPierceResBonus, eDT_Piercing);
 
-	pPlayer->SetMentalRes(pPlayer->GetMentalRes() - m_iMentalResBonus);
-	pPlayer->SetHeatRes(pPlayer->GetHeatRes() - m_iHeatResBonus);
-	pPlayer->SetColdRes(pPlayer->GetColdRes() - m_iColdResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Mental) - m_iMentalResBonus, eDT_Mental);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Heat) - m_iHeatResBonus, eDT_Heat);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Cold) - m_iColdResBonus, eDT_Cold);
 
-	pPlayer->SetElectRes(pPlayer->GetElectRes() - m_iElectResBonus);
-	pPlayer->SetWaterRes(pPlayer->GetWaterRes() - m_iWaterResBonus);
-	pPlayer->SetAcidRes(pPlayer->GetAcidRes() - m_iAcidResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Electrical) - m_iElectResBonus, eDT_Electrical);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Water) - m_iWaterResBonus, eDT_Water);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Acid) - m_iAcidResBonus, eDT_Acid);
 
-	pPlayer->SetViralRes(pPlayer->GetViralRes() - m_iViralResBonus);
-	pPlayer->SetHolyRes(pPlayer->GetHolyRes() - m_iHolyResBonus);
-	pPlayer->SetDeathRes(pPlayer->GetDeathRes() - m_iDeathResBonus);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Viral) - m_iViralResBonus, eDT_Viral);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Holy) - m_iHolyResBonus, eDT_Holy);
+	pPlayer->SetResist(pPlayer->GetResist(eDT_Death) - m_iDeathResBonus, eDT_Death);
 
 
 }

@@ -56,7 +56,7 @@ bool Strike::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		if( pTarget )
 		{
-			if( pTarget->Attackable() )
+			if( pTarget->HasFlag(ATTACKABLE) )
 			{
 				pTarget->TakeDamage(m_fDamage, m_eDamageType);
 			}

@@ -145,15 +145,17 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSi
 					}
 				}
 			}
-			/*else if( iTile == iEndTile )
+			else if( iTile == iEndTile )
 			{
 				//If the next tile is the target tile but it is occupied return the path up to that tile
 				iEndTile = iStartTile;
-				outTiles[0] = iEndTile;
-				if( outTilesSize >= 2 )
-					outTiles[1] = -1;
+				outTiles[outTilesSize] = iEndTile;
+				if( maxOutSize - outTilesSize >= 2 )
+					outTiles[outTilesSize + 1] = -1;
+
 				return true;
-			}	*/		
+			}
+						
 		}
 	}
 

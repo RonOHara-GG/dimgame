@@ -25,7 +25,7 @@ bool BearHug::Activate(PlayerCharacter *pSkillOwner)
 
 		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
 
-		if( !pTarget || !pTarget->Attackable() )		
+		if( !pTarget || !pTarget->HasFlag(ATTACKABLE) )		
 			return false;
 		
 		m_pTarget = pTarget;

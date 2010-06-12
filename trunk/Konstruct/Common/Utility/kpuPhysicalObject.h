@@ -33,18 +33,23 @@ public:
 	void								SetCurrentNode(kpuQuadTree* node)						{ m_pCurrentNode = node; }
 
 	virtual void						Move(kpuVector vVel);	
-	bool								IsStatic()												{ return m_bStatic; }
+	virtual void						AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource) { }
+
+	void								SetFlag(unsigned int flag) { m_bfFlag = flag; }
+	bool								HasFlag(unsigned int flag) { return flag & m_bfFlag; }
+	
 
 protected:
 	kpuBoundingBox						CalculateBoundingBox(kpuFixedArray<float> &aFloats);
 
-	bool								m_bStatic;
 	kpgModel*							m_pModel;
 	kpuBoundingSphere					m_bSphere;
 	kpuBoundingBox						m_bBox;
 	kpuArrayList<kpuBoundingVolume*>	m_aCollisionPrimatives;
 
 	kpuQuadTree*						m_pCurrentNode;
+
+	unsigned							m_bfFlag : 8;
 
 	
 	

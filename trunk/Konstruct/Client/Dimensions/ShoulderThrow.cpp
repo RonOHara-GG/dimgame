@@ -33,7 +33,7 @@ bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 	if( m_fElaspedSinceCast >= m_fSpeed )
 	{
-		if( pTarget && pTarget->Attackable() )
+		if( pTarget && pTarget->HasFlag(ATTACKABLE) )
 		{
 			//move target to center of current tile
 			pTarget->SetNextMove(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pTarget->GetLocation()));
@@ -43,7 +43,7 @@ bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		return false;
 	}
 
-	if( pTarget && pTarget->Attackable() )
+	if( pTarget && pTarget->HasFlag(ATTACKABLE) )
 	{
 		//try and move the target back the tiles needed, be thrown at 1m/s
 		MoveTarget(pTarget, pSkillOwner->GetHeading() * -1, (fDeltaTime / m_fSpeed) * m_iThrowDist );

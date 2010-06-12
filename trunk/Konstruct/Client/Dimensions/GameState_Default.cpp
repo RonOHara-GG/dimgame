@@ -24,10 +24,14 @@ GameState_Default::GameState_Default(void)
 	LevelManager* pLevelManager = LevelManager::GetInstance();
 	//m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_Bastarak);
-	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer = new PlayerCharacter());
-	m_paEnemies = new kpuArrayList<Enemy*>();
+	m_pPlayer = new PlayerCharacter();
+	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer);
+	m_paActors = new kpuArrayList<Actor*>();
 
-	m_pCurrentLevel->GenerateEnemies(m_paEnemies); 
+	m_paActors->Add(m_pPlayer);
+	m_pCurrentLevel->GenerateEnemies(m_paActors); 
+
+	
 
 }
 
@@ -36,8 +40,20 @@ GameState_Default::~GameState_Default(void)
 	delete m_pCurrentLevel;
 	delete m_pPlayer;
 	
-	if(m_paEnemies)
-		delete m_paEnemies;
+	if(m_paActors)
+	{
+		for(int i = 0; i < m_paActors->Count(); i++)
+		{
+			Actor* pActor = (*m_paActors)[i];
+
+			m_paActors->RemoveAt(i);
+			delete pActor;
+		}
+
+		delete m_paActors;
+
+	}
+		
 }
 
 void GameState_Default::MouseUpdate(int X, int Y)
@@ -67,7 +83,7 @@ void GameState_Default::MouseUpdate(int X, int Y)
 		//If target tile contains an enemy try and attack
 		Actor* pTarget = m_pCurrentLevel->GetGrid()->GetActor(iTile);
 
-		if( pTarget && pTarget->Attackable() && m_pPlayer->IsInRange(pTarget, m_pPlayer->GetRange()) )
+		if( pTarget && pTarget->HasFlag(ATTACKABLE) && m_pPlayer->IsInRange(pTarget, m_pPlayer->GetRange()) )
 		{
 			m_pPlayer->SetTarget(pTarget);
 			m_pPlayer->UseDefaultAttack(pTarget, m_pCurrentLevel->GetGrid());
@@ -84,25 +100,23 @@ void GameState_Default::Update(float fGameTime)
 		m_pCurrentLevel->Update();
 
 	if( m_pPlayer )
-	{
-		m_pPlayer->Update(fGameTime);
-
+	{	
 		g_pCamera->SetLookAt(m_pPlayer->GetLocation());
 	}
 
-	if(m_paEnemies)
+	if(m_paActors)
 	{
-		for(int i = 0; i < m_paEnemies->Count(); i++)
+		for(int i = 0; i < m_paActors->Count(); i++)
 		{
-			Enemy* pEnemy = (*m_paEnemies)[i];
+			Actor* pActor = (*m_paActors)[i];
 
-			if(!pEnemy->Update(fGameTime))
+			if(!pActor->Update(fGameTime))
 			{
-				m_paEnemies->Remove(pEnemy);
-				pEnemy->GetCurrentNode()->Remove(pEnemy);
-				m_pCurrentLevel->GetGrid()->RemoveActor(pEnemy);
-				delete pEnemy;
-				pEnemy = 0;
+				m_paActors->Remove(pActor);
+				pActor->GetCurrentNode()->Remove(pActor);
+				m_pCurrentLevel->GetGrid()->RemoveActor(pActor);
+				delete pActor;
+				pActor= 0;
 			}
 		}
 	}
@@ -114,22 +128,22 @@ void GameState_Default::Draw()
 	if( m_pCurrentLevel )
 		m_pCurrentLevel->Draw(pRenderer);
 
-	if( m_pPlayer )
-		m_pPlayer->Draw(pRenderer);
+	/*if( m_pPlayer )
+		m_pPlayer->Draw(pRenderer);*/
 
-	if(m_paEnemies)
+	if(m_paActors)
 	{
-		for(int i = 0; i < m_paEnemies->Count(); i++)
+		for(int i = 0; i < m_paActors->Count(); i++)
 		{
-			Enemy* pEnemy = (*m_paEnemies)[i];
+			Actor* pActor = (*m_paActors)[i];
 
-			pEnemy->Draw(pRenderer);
+			pActor->Draw(pRenderer);
 		}
 	}
 }
 
-void GameState_Default::AddEnemy(Enemy* pEnemy)
+void GameState_Default::AddActor(Actor* pActor)
 {
-	if(m_paEnemies)
-		m_paEnemies->Add(pEnemy); 
+	if(m_paActors)
+		m_paActors->Add(pActor); 
 }
