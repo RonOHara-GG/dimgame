@@ -49,12 +49,14 @@ Actor::Actor()
 
 	m_vHeading = kpuv_OneZ;
 
-	m_paPersistentSkills = 0;
+	m_paPersistentSkills = new kpuLinkedList();
+	m_fDamageBuff = 0.0f;
 }
 
 Actor::~Actor()
 {
-	delete m_paPersistentSkills;
+	if( m_paPersistentSkills )
+		delete m_paPersistentSkills;
 }
 
 void Actor::Draw(kpgRenderer* pRenderer)
@@ -64,7 +66,19 @@ void Actor::Draw(kpgRenderer* pRenderer)
 }
 
 
+void Actor::SetHeading(kpuVector &vHeading)
+{
+	m_fRotation = atan2(vHeading.GetX(),vHeading.GetZ());
+	m_vHeading = vHeading;
+}
 
+void Actor::DamageBuff(float fAmount)
+{
+	m_fDamageBuff += fAmount;
+
+	if( m_fDamageBuff < 0.0f )
+		m_fDamageBuff = 0.0f;
+}
 //int Actor::GetLevel() { return m_iLevel; }
 
 void Actor::SetNextMove(int iTile)
@@ -493,7 +507,13 @@ void Actor::Heal(float fAmount)
 		m_fCurrentHealth = m_fMaxHealth;
 }
 
+void Actor::HealMental(float fAmount)
+{
+	m_fCurrentMental += fAmount;
 
+	if( m_fCurrentMental > m_fMaxMental )
+		m_fCurrentMental = m_fMaxMental;
+}
 
 void Actor::RemovePersistentSkill(PersistentSkill* pSkill)
 {

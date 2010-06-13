@@ -12,8 +12,8 @@ public:
 	bool	Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	float		m_fRankMultipleMin;	
-	float		m_fRankMultipleMax;	
+	float		m_iRankMultipleMin;	
+	float		m_iRankMultipleMax;	
 	float		m_fDamage;
 	DamageType  m_eDamageType;
 	float		m_fRange;

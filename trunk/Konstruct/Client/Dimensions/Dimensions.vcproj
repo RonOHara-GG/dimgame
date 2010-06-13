@@ -331,6 +331,10 @@
 					Name="Medic"
 					>
 					<File
+						RelativePath=".\HealthyLifestyle.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Infection.cpp"
 						>
 					</File>
@@ -344,6 +348,34 @@
 					</File>
 					<File
 						RelativePath=".\PlagueCenserSkill.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SanityAnchor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SpreadableBuff.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TargetAnalysis.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Marksman"
+					>
+					<File
+						RelativePath=".\AreaSpray.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\BurstFire.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\CertainDeath.cpp"
 						>
 					</File>
 				</Filter>
@@ -557,6 +589,10 @@
 					Name="Medic"
 					>
 					<File
+						RelativePath=".\HealthyLifestyle.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Infection.h"
 						>
 					</File>
@@ -570,6 +606,34 @@
 					</File>
 					<File
 						RelativePath=".\PlagueCenserSkill.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SanityAnchor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SpreadableBuff.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TargetAnalysis.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Marksman"
+					>
+					<File
+						RelativePath=".\AreaSpray.h"
+						>
+					</File>
+					<File
+						RelativePath=".\BurstFire.h"
+						>
+					</File>
+					<File
+						RelativePath=".\CertainDeath.h"
 						>
 					</File>
 				</Filter>

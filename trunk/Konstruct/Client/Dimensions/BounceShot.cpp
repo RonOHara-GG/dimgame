@@ -19,12 +19,14 @@ bool BounceShot::Activate(PlayerCharacter *pSkillOwner)
 	if( m_bReady )
 	{
 		m_fRange = pSkillOwner->GetEquippedWeapon()->GetRange();
-		m_fDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_fDamageMultiple * ( m_fDamageMultiple * m_iSkillRank * m_fRankMultipleMin ));
+		m_fDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_fDamageMultiple * ( m_fDamageMultiple * m_iSkillRank * m_iRankMultipleMin ));
 		m_iBounceRange = MIN_BOUNCE_RANGE + ( m_iSkillRank * m_fBounceModifier );
 
 		m_bReady = false;
 		m_bExecuted = false;
 		m_fElaspedSinceCast = 0.0f;		
+
+		pSkillOwner->SetActiveSkill(this);
 		
 		return true;
 	}

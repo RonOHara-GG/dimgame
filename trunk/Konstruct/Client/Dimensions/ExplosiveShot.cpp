@@ -20,7 +20,7 @@ bool ExplosiveShot::Activate(PlayerCharacter* pSkillOwner)
 
 		m_fElaspedSinceCast = 0.0f;
 
-		int iRankMultiple = m_fRankMultipleMin + ( rand() % (int)(m_fRankMultipleMax - m_fRankMultipleMin) );
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
 		m_fDamage = pEquippedWeapon->GetDamage();
 		m_fRange = pEquippedWeapon->GetRange();

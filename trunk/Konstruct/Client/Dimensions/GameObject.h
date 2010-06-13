@@ -17,3 +17,4 @@ public:
 
 #define WALL  ( 1 << 0 )
 #define ATTACKABLE ( 1 << 1 )
+#define PLAYER ( 1 << 2 )

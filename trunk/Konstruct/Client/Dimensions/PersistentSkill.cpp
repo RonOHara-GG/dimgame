@@ -13,4 +13,5 @@ PersistentSkill::PersistentSkill(Actor* pTarget)
 
 PersistentSkill::~PersistentSkill(void)
 {
+	Deactivate();
 }

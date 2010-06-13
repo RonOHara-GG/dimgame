@@ -37,6 +37,7 @@ bool PatchWounds::Activate(PlayerCharacter *pSkillOwner)
 		m_bReady = false;
 		m_bExecuted = false;
 		m_fElaspedSinceCast = 0.0f;
+		pSkillOwner->SetActiveSkill(this);
 
 		m_pTarget->Heal(m_fHealImd);
 

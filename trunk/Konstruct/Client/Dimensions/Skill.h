@@ -27,6 +27,8 @@ public:
 
 protected:
 	char		m_szName[SKILL_NAME_LENGTH];
+	int			m_iRankMultipleMin;	
+	int			m_iRankMultipleMax;	
 	int			m_iRequiredLevel;
 	int			m_iIndex;
 	int			m_iSkillRank;
