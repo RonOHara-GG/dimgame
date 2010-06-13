@@ -9,7 +9,7 @@ public:
 	PersistentSkill(Actor* pTarget);
 	virtual ~PersistentSkill(void);
 
-	void Deactivate() { };
+	virtual void Deactivate() { };
 
 protected:
 	Actor*	m_pTarget;

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "PlagueCenserSkill.h"
 #include "PlagueCenser.h"
+#include "PlayerCharacter.h"
 
 PlagueCenserSkill::PlagueCenserSkill(void)
 {
@@ -18,7 +19,7 @@ bool PlagueCenserSkill::Activate(PlayerCharacter* pSkillOwner)
 		m_bExecuted = false;
 		m_fElaspedSinceCast = 0.0f;
 
-		int iRankMultiple = m_fRankMultipleMin + ( rand() % (int)(m_fRankMultipleMax - m_fRankMultipleMin) );
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
 		m_fDamage = iRankMultiple * m_iSkillRank;
 		m_fRange = MIN_RANGE + (m_iSkillRank * m_fRangeMod);
@@ -26,6 +27,8 @@ bool PlagueCenserSkill::Activate(PlayerCharacter* pSkillOwner)
 		m_iResistStr = MIN_RESIST_STR + (m_iSkillRank * m_fResistMod);
 		m_fRadius = MIN_RADIUS + ( m_iSkillRank * m_fRadiusMod );
 		m_fSpeed = MIN_SPEED - m_iSkillRank;
+
+		pSkillOwner->SetActiveSkill(this);
 
 		return true;
 	}

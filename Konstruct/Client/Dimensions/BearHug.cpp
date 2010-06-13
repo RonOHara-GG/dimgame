@@ -30,6 +30,8 @@ bool BearHug::Activate(PlayerCharacter *pSkillOwner)
 		
 		m_pTarget = pTarget;
 
+		pSkillOwner->SetActiveSkill(this);
+
 	}
 
 }

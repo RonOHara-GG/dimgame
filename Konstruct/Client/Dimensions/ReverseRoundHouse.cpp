@@ -16,6 +16,7 @@ bool ReverseRoundHouse::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( Strike::Activate(pSkillOwner) )
 	{
+		pSkillOwner->SetActiveSkill(this);
 		m_eCurrentTarget = e_drLEFT;
 		return true;
 	}

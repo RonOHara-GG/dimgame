@@ -42,7 +42,9 @@ public:
 	bool InLineOfSight(Actor* pTarget, int iRange); //Checks if the target is in this actor's line of sight
 	
 	bool TakeDamage(float fDamage, DamageType eDmgType);
+	void DamageBuff(float fAmount);
 	void Heal(float fAmount);
+	void HealMental(float fAmount);
 	void RemovePersistentSkill(PersistentSkill* pSkill);
 	void AddPersistentSkill(PersistentSkill* pSkill);
 
@@ -69,6 +71,7 @@ public:
 	int GetConst() { return m_iConst; }
 	int GetDestinationTile() { return m_iDestinationTile; }
 
+	void SetHeading(kpuVector& vHeading);
 	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
 	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }
 	void SetMaxHealth(float fMaxHealth) { m_fMaxHealth = fMaxHealth; }
@@ -107,6 +110,7 @@ protected:
 	kpuVector		m_vHeading;	
 
 	//Stats
+	float			m_fDamageBuff;
 	int				m_iLevel;
 	int				m_iStr;				//Strength determines how much force player can exert
 	int				m_iAgi;				//Agility determines quickly the character can move and react physically

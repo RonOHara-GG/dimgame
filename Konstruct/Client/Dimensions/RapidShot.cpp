@@ -20,7 +20,7 @@ bool RapidShot::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_fDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_fDamageMultiple + (m_fRankMultipleMax * m_iSkillRank));
+		m_fDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_fDamageMultiple + (m_iRankMultipleMax * m_iSkillRank));
 		m_fRange = pSkillOwner->GetEquippedWeapon()->GetRange() * m_fRangeMultiple;
 		m_iShotMax = MIN_SHOT_COUNT + (m_iSkillRank * m_fShotMultiple);
 		m_fSpeed = pSkillOwner->GetEquippedWeapon()->GetSpeed() * m_fSpeedMultiple;
@@ -34,6 +34,8 @@ bool RapidShot::Activate(PlayerCharacter *pSkillOwner)
 		m_fPlayersSpeed = pSkillOwner->GetSpeed();
 
 		pSkillOwner->SetSpeed(0.0f);
+
+		pSkillOwner->SetActiveSkill(this);
 
 		return true;
 	}

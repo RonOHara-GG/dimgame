@@ -18,6 +18,7 @@ bool ShoulderThrow::Activate(PlayerCharacter* pSkillOwner)
 	if( Strike::Activate(pSkillOwner) )
 	{
 		m_iThrowDist = BASE_THROW_DIST + (pSkillOwner->GetStr() / m_iStrFactor);
+		pSkillOwner->SetActiveSkill(this);
 		return true;
 	}
 

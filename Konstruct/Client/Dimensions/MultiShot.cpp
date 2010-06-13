@@ -36,6 +36,8 @@ bool MultiShot::Activate(PlayerCharacter *pSkillOwner)
 		m_bReady = false;
 		m_bExecuted = false;
 
+		pSkillOwner->SetActiveSkill(this);
+
 		return true;		
 	}
 

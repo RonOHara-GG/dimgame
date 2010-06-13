@@ -37,6 +37,8 @@ bool SpineCrank::Activate(PlayerCharacter *pSkillOwner)
 			m_fElaspedSinceCast = m_fSpeed;
 		}
 		
+		pSkillOwner->SetActiveSkill(this);
+
 		return true;
 	}
 

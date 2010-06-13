@@ -19,8 +19,7 @@ protected:
 	float		m_fDamage;
 	float		m_fRangeMultiple;
 	float		m_fDamageMultiple;
-	float		m_fRankMultipleMin;	
-	float		m_fRankMultipleMax;	
+	
 	bool		m_bExecuted;
 	DamageType	m_eDamageType;
 
