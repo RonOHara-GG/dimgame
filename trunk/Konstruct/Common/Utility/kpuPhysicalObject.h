@@ -35,8 +35,8 @@ public:
 	virtual void						Move(kpuVector vVel);	
 	virtual void						AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource) { }
 
-	void								SetFlag(unsigned int flag) { m_bfFlag = flag; }
-	bool								HasFlag(unsigned int flag) { return flag & m_bfFlag; }
+	void								SetFlag(unsigned int flag) { m_nFlags |= flag; }
+	bool								HasFlag(unsigned int flag) { return ((flag & m_nFlags) != 0); }
 	
 
 protected:
@@ -49,7 +49,7 @@ protected:
 
 	kpuQuadTree*						m_pCurrentNode;
 
-	unsigned							m_bfFlag : 8;
+	u32									m_nFlags;
 
 	
 	
