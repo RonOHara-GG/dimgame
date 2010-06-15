@@ -690,8 +690,8 @@ kpgTexture*  kpgModel::LoadImage(TiXmlElement* pLibrary)
 
 			char assetPath[512];
 
-			strcpy(assetPath, "Assets//");
-			strcat(assetPath, pszFilename);
+			strcpy_s(assetPath, sizeof(assetPath), "Assets//");
+			strcat_s(assetPath, sizeof(assetPath), pszFilename);
 
 			kpgTexture* texture = new kpgTexture();
 			texture->Load(assetPath);

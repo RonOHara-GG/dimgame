@@ -51,7 +51,7 @@ kpgFontData* kpgFontData::LoadFont(kpgRenderer* pRenderer, const char* szFaceNam
 				bMatch = false;
 			if( nWeight && desc.Weight != nWeight )
 				bMatch = false;
-			if( desc.Italic != bItalic )
+			if( (desc.Italic != 0) != bItalic )
 				bMatch = false;
 		}
 		iter = iter->Next();
@@ -65,7 +65,7 @@ kpgFontData* kpgFontData::LoadFont(kpgRenderer* pRenderer, const char* szFaceNam
 
 	kpgFontData* pFontData = new kpgFontData();
 	pFontData->m_pFont = pFont;
-	pFontData->m_szFaceName = strdup(szFaceName);
+	pFontData->m_szFaceName = _strdup(szFaceName);
 
 	sm_lFontList.AddTail(pFontData);
 	return pFontData;
