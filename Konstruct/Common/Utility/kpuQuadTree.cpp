@@ -29,16 +29,16 @@ void kpuQuadTree::Divide()
 		kpuVector vDim = m_bBox.GetMax() - m_bBox.GetMin();
 
 		//top left
-		m_pNodes[0] = new kpuQuadTree(m_bBox.GetMin(), vDim.GetX() * 0.5, vDim.GetZ() * 0.5);
+		m_pNodes[0] = new kpuQuadTree(m_bBox.GetMin(), vDim.GetX() * 0.5f, vDim.GetZ() * 0.5f);
 		m_pNodes[0]->m_pParent = this;
 		//top right
-		m_pNodes[1] = new kpuQuadTree(kpuVector(m_bBox.GetMin().GetX() + vDim.GetX() / 2, 0.0f, m_bBox.GetMin().GetZ(), 0.0f), vDim.GetX() * 0.5, vDim.GetZ() * 0.5);
+		m_pNodes[1] = new kpuQuadTree(kpuVector(m_bBox.GetMin().GetX() + vDim.GetX() / 2, 0.0f, m_bBox.GetMin().GetZ(), 0.0f), vDim.GetX() * 0.5f, vDim.GetZ() * 0.5f);
 		m_pNodes[1]->m_pParent = this;
 		//bottom right
-		m_pNodes[2] = new kpuQuadTree( m_bBox.GetMin() + ( vDim * 0.5 ), vDim.GetX() * 0.5, vDim.GetZ() * 0.5);
+		m_pNodes[2] = new kpuQuadTree( m_bBox.GetMin() + ( vDim * 0.5f ), vDim.GetX() * 0.5f, vDim.GetZ() * 0.5f);
 		m_pNodes[2]->m_pParent = this;
 		//bottom left
-		m_pNodes[3] = new kpuQuadTree(kpuVector(m_bBox.GetMin().GetX(), 0.0f, m_bBox.GetMin().GetZ()  + vDim.GetZ() / 2, 0.0f), vDim.GetX() * 0.5, vDim.GetZ() * 0.5);
+		m_pNodes[3] = new kpuQuadTree(kpuVector(m_bBox.GetMin().GetX(), 0.0f, m_bBox.GetMin().GetZ()  + vDim.GetZ() / 2, 0.0f), vDim.GetX() * 0.5f, vDim.GetZ() * 0.5f);
 		m_pNodes[3]->m_pParent = this;
 	}
 
@@ -473,7 +473,7 @@ float kpuQuadTree::Move(kpuVector& vVel, kpuPhysicalObject* pObj)
 bool kpuQuadTree::ReAdd(kpuPhysicalObject* pObj)
 {
 	if( m_pParent )
-		m_pParent->ReAdd(pObj);
+		return m_pParent->ReAdd(pObj);
 	else
 		return Add(pObj);
 }
