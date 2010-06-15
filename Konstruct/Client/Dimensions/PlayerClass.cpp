@@ -101,7 +101,7 @@ void PlayerClass::ClassInit()
 	m_iLevel = 0;
 	m_fCurrentExp = 0.0f;
 	m_fNeededExp = 0.0f;	
-	m_fExpSplit = 100.0f;
+	m_fExpSplit = 100.0f;	
 	m_paSkills = (Skill**)malloc(sizeof(Skill*) * m_iNumSkills);
 	memset(m_paSkills, 0, sizeof(sizeof(Skill*) * m_iNumSkills));
 }
@@ -168,6 +168,8 @@ Skill* PlayerClass::GetSkill(Class eClass, int iIndex)
 				return m_paSwordsmanSkills[iIndex];
 			}
 	}
+
+	
 
 
 }

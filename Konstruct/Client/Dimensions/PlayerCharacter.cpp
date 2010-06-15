@@ -9,6 +9,7 @@
 #include "SkillCombo.h"
 #include "Level.h"
 #include "Grid.h"
+#include "WeaponSkill.h"
 
 
 PlayerCharacter::PlayerCharacter(void):Actor()
@@ -51,7 +52,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	PlayerClass* pClass = new PlayerClass(PlayerClass::eCL_Brawler, 100.0f);
 	m_aClasses[0] = pClass;
 
-	
+	m_pWeaponSkills = new kpuLinkedList();
 	
 
 	m_iStr = 100;
@@ -66,6 +67,9 @@ PlayerCharacter::~PlayerCharacter(void)
 
 	if(m_pSkillCombos)
 		delete m_pSkillCombos;
+
+	if( m_pWeaponSkills )
+		delete m_pWeaponSkills;
 
 	delete m_pLightSource;
 	delete m_pEquippedWeapon;
@@ -357,3 +361,25 @@ bool PlayerCharacter::EquipWeapon(Weapon* weapon)
 	return true;
 }
 
+
+WeaponSkill* PlayerCharacter::GetWeaponSkill(Weapon::WeaponType eType)
+{
+	kpuLinkedList* pNext = m_pWeaponSkills->Next();
+
+	while( pNext )
+	{
+		WeaponSkill* pSkill = (WeaponSkill*)pNext->GetPointer();
+
+		if( pSkill->GetUsage() == eType )
+			return pSkill;
+
+		pNext = pNext->Next();
+	}
+
+	return 0;
+}
+
+void PlayerCharacter::AddWeaponSkill(WeaponSkill* pSkill)
+{	
+	m_pWeaponSkills->AddTail(pSkill);
+}

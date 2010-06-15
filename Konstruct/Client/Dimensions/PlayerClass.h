@@ -21,31 +21,30 @@ public:
 	PlayerClass(Class eCL_Class, float fExpPercent);
 	~PlayerClass(void);
 
-	int GetLevel() { return m_iLevel; }
-	float GetExpSplit() { return m_fExpSplit; }
-	float SetExpSplit(float fExpSplit) { m_fExpSplit = fExpSplit; }
+	int				GetLevel() { return m_iLevel; }
+	float			GetExpSplit() { return m_fExpSplit; }
+	float			SetExpSplit(float fExpSplit) { m_fExpSplit = fExpSplit; }
 
 	
-	Skill* GetSkill(int iIndex); //Get the skill of this class
+	Skill*			GetSkill(int iIndex); //Get the skill of this class
 	
-	bool GainExp(int iExp);			//Returns true if level up from exp gain or false if not
+	bool			GainExp(int iExp);			//Returns true if level up from exp gain or false if not
 
-	void UpdateSkillTimers(float fDeltaTime);
+	void			UpdateSkillTimers(float fDeltaTime);
 
-
-	static Skill* GetSkill(Class eClass, int iIndex);		//Return a skill by given index	and class
-	static bool	  LoadSkills();	//load all the skills for all classes
+	static Skill*	GetSkill(Class eClass, int iIndex);		//Return a skill by given index	and class
+	static bool		LoadSkills();	//load all the skills for all classes
 
 private:
-	int				m_iLevel;
+	int						m_iLevel;
 	
-	float			m_fCurrentExp;
-	float			m_fNeededExp;	
-	float			m_fExpSplit;
-	Class			m_eClass;
+	float					m_fCurrentExp;
+	float					m_fNeededExp;	
+	float					m_fExpSplit;
+	Class					m_eClass;
 
-	int				m_iNumSkills;
-	Skill**			m_paSkills;
+	int						m_iNumSkills;
+	Skill**					m_paSkills;
 	static Skill**			m_paBrawlerSkills;		//List of skills for the class
 	static Skill**			m_paSwordsmanSkills;	
 	static Skill**			m_paArcherSkills;	
@@ -57,7 +56,6 @@ private:
 
 	//Class Initialization
 	void ClassInit();
-
 
 	void LevelUp();
 };

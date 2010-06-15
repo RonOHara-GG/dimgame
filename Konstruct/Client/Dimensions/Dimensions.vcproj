@@ -173,10 +173,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Actor.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Armor.cpp"
 				>
 			</File>
@@ -265,6 +261,10 @@
 				</File>
 				<File
 					RelativePath=".\Skill.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WeaponSkill.cpp"
 					>
 				</File>
 				<Filter
@@ -379,10 +379,42 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Rocketeer"
+					>
+					<File
+						RelativePath=".\Launch.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlaceBattery.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Priest"
+					>
+					<File
+						RelativePath=".\Bless.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\BlessBuff.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RestoreBody.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Characters"
 				>
+				<File
+					RelativePath=".\Actor.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\Enemy.cpp"
 					>
@@ -430,10 +462,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\Actor.h"
-				>
-			</File>
 			<File
 				RelativePath=".\Armor.h"
 				>
@@ -523,6 +551,10 @@
 				</File>
 				<File
 					RelativePath=".\Skill.h"
+					>
+				</File>
+				<File
+					RelativePath=".\WeaponSkill.h"
 					>
 				</File>
 				<Filter
@@ -637,10 +669,42 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Rocketeer"
+					>
+					<File
+						RelativePath=".\Launch.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlaceBattery.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Priest"
+					>
+					<File
+						RelativePath=".\Bless.h"
+						>
+					</File>
+					<File
+						RelativePath=".\BlessBuff.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RestoreBody.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Characters"
 				>
+				<File
+					RelativePath=".\Actor.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Enemy.h"
 					>

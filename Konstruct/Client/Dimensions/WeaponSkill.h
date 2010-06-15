@@ -1,0 +1,32 @@
+#pragma once
+#include "skill.h"
+#include "weapon.h"
+
+class WeaponSkill :
+	public Skill
+{
+public:
+	WeaponSkill(void);
+	~WeaponSkill(void);
+	
+	bool Activate(PlayerCharacter* pSkillOwner);
+
+	float GetDamageBonus() { return m_fDamageBonus; }
+	float GetRangeBonus() { return m_fRangeBonus; }
+	float GetRecoveryBonus() { return m_fRecoveryBonus; }
+	float GetSpeedBonus() { return m_fSpeedBonus; }
+	Weapon::WeaponType GetUsage() { return m_eWeaponType; }
+
+protected:
+	float				m_fDamageBonus;
+	float				m_fRangeBonus;
+	float				m_fRecoveryBonus;
+	float				m_fSpeedBonus;	
+
+	//data that needs to be loaded
+	Weapon::WeaponType	m_eWeaponType;
+	float				m_fRangeMod;
+	float				m_fRecoveryMod;
+	float				m_fSpeedMod;
+
+};

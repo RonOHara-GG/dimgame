@@ -10,7 +10,8 @@ public:
 	{
 		ePT_Arrow,
 		ePT_Bullet,
-		ePT_Spell
+		ePT_Spell,
+		ePT_Missile
 	};
 
 	Projectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir);

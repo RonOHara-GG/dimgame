@@ -6,15 +6,15 @@
 #include "Actor.h"
 #include "Item.h"
 #include "PlayerClass.h"
-//#include "SkillCombo.h"
+#include "Weapon.h"
 
+class Weapon;
 class kpgRenderer;
 class Skill;
-class Weapon;
 class Grid;
 class SkillCombo;
-class Weapon;
 class Armor;
+class WeaponSkill;
 
 #define INVENTORY_SIZE 10
 
@@ -60,6 +60,9 @@ public:
 	bool EquipArmor(Armor* armor);
 	bool UnequipArmor();
 
+	WeaponSkill* GetWeaponSkill(Weapon::WeaponType eType);
+	void AddWeaponSkill(WeaponSkill* pSkill);
+
 #pragma region Stat Accessors/Mutators
 
 	int		GetLevel();
@@ -103,6 +106,7 @@ protected:
 
 	Skill*						m_pActiveSkill; //The skill currently being cast/used
 	kpuArrayList<SkillCombo*>*	m_pSkillCombos; //List of combos created
+	kpuLinkedList*				m_pWeaponSkills;
 
 	kpgLight*					m_pLightSource;
 

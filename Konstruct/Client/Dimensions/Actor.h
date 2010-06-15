@@ -42,7 +42,8 @@ public:
 	bool InLineOfSight(Actor* pTarget, int iRange); //Checks if the target is in this actor's line of sight
 	
 	bool TakeDamage(float fDamage, DamageType eDmgType);
-	void DamageBuff(float fAmount);
+	void DamageBuff(float fAmount) { m_fDamageBuff += fAmount; }
+	void DamageReduction(float fAmount) { m_fDamageReduction += fAmount; }
 	void Heal(float fAmount);
 	void HealMental(float fAmount);
 	void RemovePersistentSkill(PersistentSkill* pSkill);
@@ -110,6 +111,7 @@ protected:
 	kpuVector		m_vHeading;	
 
 	//Stats
+	float			m_fDamageReduction;
 	float			m_fDamageBuff;
 	int				m_iLevel;
 	int				m_iStr;				//Strength determines how much force player can exert

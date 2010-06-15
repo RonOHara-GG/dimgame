@@ -51,6 +51,7 @@ Actor::Actor()
 
 	m_paPersistentSkills = new kpuLinkedList();
 	m_fDamageBuff = 0.0f;
+	m_fDamageReduction = 0.0f;
 }
 
 Actor::~Actor()
@@ -72,13 +73,7 @@ void Actor::SetHeading(kpuVector &vHeading)
 	m_vHeading = vHeading;
 }
 
-void Actor::DamageBuff(float fAmount)
-{
-	m_fDamageBuff += fAmount;
 
-	if( m_fDamageBuff < 0.0f )
-		m_fDamageBuff = 0.0f;
-}
 //int Actor::GetLevel() { return m_iLevel; }
 
 void Actor::SetNextMove(int iTile)

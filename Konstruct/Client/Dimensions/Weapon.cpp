@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Weapon.h"
 #include "Actor.h"
+#include "WeaponSkill.h"
 
 Weapon::Weapon(void)
 {
@@ -22,7 +23,7 @@ void Weapon::Update(float fGameTime)
 	{
 		m_fElaspedRecov += fGameTime;
 
-		if(m_fElaspedRecov >= m_fRecovery)
+		if(m_fElaspedRecov >= GetRecovery())
 		{
 			m_bReady = true;
 			m_fElaspedRecov = 0.0f;
@@ -34,5 +35,37 @@ void Weapon::Update(float fGameTime)
 void Weapon::Use(Actor* pTarget)
 {
 	m_bReady = false;
-	pTarget->TakeDamage(m_fDamage, m_eDamageType);
+	pTarget->TakeDamage(GetDamage(), m_eDamageType);
+}
+
+float Weapon::GetDamage()
+{
+	if( m_pWeaponSkill )
+		return m_fDamage + m_pWeaponSkill->GetDamageBonus();
+
+	return m_fDamage;
+}
+
+float Weapon::GetRange()
+{
+	if( m_pWeaponSkill )	
+		return m_fRange + m_pWeaponSkill->GetRangeBonus();
+
+	return m_fRange;
+}
+
+float Weapon::GetRecovery()
+{
+	if( m_pWeaponSkill )
+		return m_fRecovery - m_pWeaponSkill->GetRecoveryBonus();
+
+	return m_fRecovery;
+}
+
+float Weapon::GetSpeed()
+{
+	if( m_pWeaponSkill )
+		return m_fSpeed - m_pWeaponSkill->GetSpeedBonus();
+
+	return m_fSpeed;
 }
