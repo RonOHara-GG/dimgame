@@ -124,7 +124,9 @@ bool kpuBoundingBox::Contains2D(kpuBoundingVolume &bVolume)
 			return Contains2D(*pSphere);
 		}
 	}
+	return false;
 }
+
 bool kpuBoundingBox::Contains2D(kpuBoundingBox& bBox)
 {
 	//if the this min is less than bbox min and bbox min is less than max and max is greater than bbox max and bbox max is greater than this min then
