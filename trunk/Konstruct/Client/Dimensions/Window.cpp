@@ -23,13 +23,13 @@ HWND CreateRenderWindow(HINSTANCE hInstance)
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
 	wcex.lpszMenuName	= NULL;
-	wcex.lpszClassName	= TEXT("SPACEPROC CLASS");
+	wcex.lpszClassName	= TEXT("DIMENSIONS CLASS");
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, (LPCTSTR)IDI_SMALL);
 	if( !RegisterClassEx(&wcex) )
 		return 0;
 
 	// Create the window
-	HWND hWnd = CreateWindow(TEXT("SPACEPROC CLASS"), TEXT("Space Proc"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+	HWND hWnd = CreateWindow(TEXT("DIMENSIONS CLASS"), TEXT("Dimensions"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
 	if( hWnd )
 	{
 		ShowWindow(hWnd, SW_SHOW);
