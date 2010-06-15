@@ -246,17 +246,17 @@ void LoadEnemyType(const char* pszFile)
 
 		enemyType->pszName = (char*)pElement->Attribute("Name");
 		enemyType->iLevel = atoi(pElement->Attribute("Level"));
-		enemyType->fHealth = atof(pElement->Attribute("Health"));
-		enemyType->fSpeed = atof(pElement->Attribute("Speed"));
+		enemyType->fHealth = (float)atof(pElement->Attribute("Health"));
+		enemyType->fSpeed = (float)atof(pElement->Attribute("Speed"));
 		enemyType->pModel = new kpgModel();
 		enemyType->pModel->Load(pElement->Attribute("Model"));
 		enemyType->pCollision = new kpgModel();
 		enemyType->pCollision->Load(pElement->Attribute("Collision"));
-		enemyType->fDamage = atof(pElement->Attribute("Damage"));
-		enemyType->fAggroRange = atof(pElement->Attribute("Aggro"));
-		enemyType->fAttackRange = atof(pElement->Attribute("AtkRange"));
-		enemyType->fAttackSpeed = atof(pElement->Attribute("AtkSpeed"));
-		enemyType->iDamageType = atof(pElement->Attribute("DamageType"));
+		enemyType->fDamage = (float)atof(pElement->Attribute("Damage"));
+		enemyType->fAggroRange = (float)atof(pElement->Attribute("Aggro"));
+		enemyType->fAttackRange = (float)atof(pElement->Attribute("AtkRange"));
+		enemyType->fAttackSpeed = (float)atof(pElement->Attribute("AtkSpeed"));
+		enemyType->iDamageType = atoi(pElement->Attribute("DamageType"));
 
 		//goto resits
 		TiXmlElement* pResits = pElement->FirstChildElement();
