@@ -15,6 +15,7 @@ public:
 	};
 
 	Projectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir);
+	Projectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, float fResist);
 	virtual ~Projectile(void);	
 
 	bool Update(float fGameTime);	
@@ -26,6 +27,8 @@ protected:
 	float			m_fDamage;
 	DamageType		m_eDamageType;	
 	float			m_fRange;
+	float			m_fRadius;
+	float			m_fResistStr;
 	float			m_fDistTraveled;
 	Actor*			m_pOwner;
 	Actor*			m_pLastHit;

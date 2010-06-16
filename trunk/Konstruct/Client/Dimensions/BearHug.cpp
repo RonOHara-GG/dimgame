@@ -31,9 +31,11 @@ bool BearHug::Activate(PlayerCharacter *pSkillOwner)
 		m_pTarget = pTarget;
 
 		pSkillOwner->SetActiveSkill(this);
+		return true;
 
 	}
 
+	return false;
 }
 
 bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)

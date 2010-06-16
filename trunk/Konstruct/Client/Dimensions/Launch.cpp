@@ -16,7 +16,22 @@ bool Launch::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		Weapon* pEquipped = pSkillOwner->GetEquippedWeapon();
+		Weapon* pEquipped = 0;
+		
+		switch(m_eLauncherType)
+		{
+		case eLT_RPG:
+			{
+				pEquipped = pSkillOwner->GetEquippedWeapon();
+				break;
+			}
+		default:
+			{
+				pEquipped = pSkillOwner->GetSecondaryWeapon();
+				break;
+			}
+		}
+
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
 	    m_iRange = pEquipped->GetRange() + (m_iSkillRank / m_iRangeMod);
@@ -30,6 +45,7 @@ bool Launch::Activate(PlayerCharacter *pSkillOwner)
 		m_pTarget = 0;
 
 		pSkillOwner->SetActiveSkill(this);
+		return true;
 	}
 
 	return false;

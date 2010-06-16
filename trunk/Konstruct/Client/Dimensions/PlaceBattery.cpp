@@ -36,8 +36,8 @@ bool PlaceBattery::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		if( m_fElaspedSinceCast >= m_fSpeed )
 		{
-			//palce battery
-			//Not really sure where to put the battery
+			//place battery			
+			pSkillOwner->EquipSecondary(new MissileBattery(pSkillOwner, 1, m_eBatteryType));		
 
 			return false;
 

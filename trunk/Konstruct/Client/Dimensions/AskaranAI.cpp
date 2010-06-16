@@ -5,35 +5,41 @@
 #include "Grid.h"
 #include "PlayerCharacter.h"
 
-AskaranAI::AskaranAI(void)
+AskaranAI::AskaranAI(NPC* pNpc)
 {
 	m_eCurrentState = eST_Wait;
 	m_iPreviousTile = -1;
+
+	m_pTheMindless = pNpc;
+
 }
 
 AskaranAI::~AskaranAI(void)
 {
 }
 
-void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
+void AskaranAI::Update(float fDeltaTime)
 {
+	//reset last attacked until it has happened this frame
+	m_pTheMindless->SetLastAttacked(0);
+
 	switch( m_eCurrentState )
 	{
 	case eST_Aggro:
 		{
 			Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
 			//Charge toward target until within attack range
-			if( !pNpc->IsInRange(pNpc->GetTarget(), pNpc->GetActionRange()) )
+			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetActionRange()) )
 			{
-				kpuVector vLocation = pNpc->GetLocation();
-				kpuVector vTarget = pNpc->GetTarget()->GetLocation();
+				kpuVector vLocation = m_pTheMindless->GetLocation();
+				kpuVector vTarget = m_pTheMindless->GetTarget()->GetLocation();
 
 				//if greater than aggro range * 5 then mob breaks
-				if( !pNpc->IsInRange(pNpc->GetTarget(), pNpc->GetAggroRange() * 5) )
+				if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetAggroRange() * 5) )
 				{
-					pNpc->SetTarget(0);
+					m_pTheMindless->SetTarget(0);
 					int iTile = pGrid->GetTileAtLocation(vLocation);
-					pNpc->SetMoveTarget(iTile);
+					m_pTheMindless->SetMoveTarget(iTile);
 					m_eCurrentState = eST_Wait;
 					break;
 				}
@@ -41,7 +47,7 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 				int iCurrentTile = pGrid->GetTileAtLocation(vLocation);	
 
 				//Only move if at destination
-				if( pNpc->AtDestination() )
+				if( m_pTheMindless->AtDestination() )
 				{
 					kpuVector vDirection, vCurrentToTarget;
 					vDirection =  vTarget - vLocation;
@@ -59,8 +65,8 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 
 						if( iTile > 0 )
 						{
-							pNpc->SetMoveTarget(iTile);
-							pNpc->BuildPathToDestination();
+							m_pTheMindless->SetMoveTarget(iTile);
+							m_pTheMindless->BuildPathToDestination();
 							break;
 						}													
 
@@ -68,24 +74,24 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 
 					if( iTile > 0 )
 					{						
-						pNpc->SetNextMove(iTile);
+						m_pTheMindless->SetNextMove(iTile);
 						m_iPreviousTile = iCurrentTile;
 					}	
 					else
-						pNpc->SetNextMove(iCurrentTile);
+						m_pTheMindless->SetNextMove(iCurrentTile);
 					
 				}
-				else if( pGrid->GetActor(pNpc->GetDestinationTile()) && pGrid->GetActor(pNpc->GetDestinationTile()) != pNpc)
+				else if( pGrid->GetActor(m_pTheMindless->GetDestinationTile()) && pGrid->GetActor(m_pTheMindless->GetDestinationTile()) != m_pTheMindless)
 				{
 					//if not at destination but it is occupied change destination to current tile
-					pNpc->SetNextMove(iCurrentTile);
+					m_pTheMindless->SetNextMove(iCurrentTile);
 				}
 
 			}
 			else
 			{
-				int iTile = pGrid->GetTileAtLocation(pNpc->GetLocation());
-				pNpc->SetNextMove(iTile);
+				int iTile = pGrid->GetTileAtLocation(m_pTheMindless->GetLocation());
+				m_pTheMindless->SetNextMove(iTile);
 				m_iPreviousTile = -1;
 				m_eCurrentState = eST_Attack;
 			}
@@ -96,14 +102,14 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 		}
 	case eST_Flee:
 		{
-			if( pNpc->AtDestination() )
+			if( m_pTheMindless->AtDestination() )
 			{
-				int iDist = g_pGameState->GetLevel()->GetGrid()->Distance( pNpc->GetTarget(), pNpc );
-				int iCurrentTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pNpc->GetLocation());
+				int iDist = g_pGameState->GetLevel()->GetGrid()->Distance( m_pTheMindless->GetTarget(), m_pTheMindless );
+				int iCurrentTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(m_pTheMindless->GetLocation());
 
-				if(  iDist < pNpc->GetActionRange() + 2 )
+				if(  iDist < m_pTheMindless->GetActionRange() + 2 )
 				{
-					kpuVector vTarget = pNpc->GetLocation() - pNpc->GetTarget()->GetLocation();
+					kpuVector vTarget = m_pTheMindless->GetLocation() - m_pTheMindless->GetTarget()->GetLocation();
 					vTarget.Normalize();			
 
 					//run away
@@ -112,17 +118,17 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 
 					if( iTile > 0 )
 					{						
-						pNpc->SetNextMove(iTile);					
+						m_pTheMindless->SetNextMove(iTile);					
 					}	
 					else
-						pNpc->SetNextMove(iCurrentTile);
+						m_pTheMindless->SetNextMove(iCurrentTile);
 
 					
 				}
 				else
 				{					
-					pNpc->SetSpeed(pNpc->GetSpeed() * 2);
-					pNpc->SetNextMove(iCurrentTile);
+					m_pTheMindless->SetSpeed(m_pTheMindless->GetSpeed() * 2);
+					m_pTheMindless->SetNextMove(iCurrentTile);
 					m_eCurrentState = eST_None;
 				}
 			}
@@ -132,21 +138,22 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 		}
 	case eST_Attack:
 		{
-			if( !pNpc->IsInRange(pNpc->GetTarget(), pNpc->GetActionRange()) )
+			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetActionRange()) )
 			{
 				m_eCurrentState = eST_Aggro;
 				break;
 			}
 
-			float fHealth = pNpc->GetCurrentHealth() / (float)(pNpc->GetMaxHealth()) ;
+			float fHealth = m_pTheMindless->GetCurrentHealth() / (float)(m_pTheMindless->GetMaxHealth()) ;
 			if( fHealth > 0.10f )
 			{
-				pNpc->UseDefaultAttack(pNpc->GetTarget(), g_pGameState->GetLevel()->GetGrid() );
+				m_pTheMindless->UseDefaultAttack(m_pTheMindless->GetTarget(), g_pGameState->GetLevel()->GetGrid() );
+				m_pTheMindless->SetLastAttacked(m_pTheMindless->GetTarget());
 			}
 			else
 			{
 				//cut speed in half
-				pNpc->SetSpeed(pNpc->GetSpeed() / 2);
+				m_pTheMindless->SetSpeed(m_pTheMindless->GetSpeed() / 2);
 
 				m_eCurrentState = eST_Flee;
 			}
@@ -156,9 +163,9 @@ void AskaranAI::Update(NPC *pNpc, float fDeltaTime)
 	case eST_Wait:
 		{
 			//for now just check if player is in range
-			pNpc->SetTarget(g_pGameState->GetPlayer());
+			m_pTheMindless->SetTarget(g_pGameState->GetPlayer());
 
-			if( pNpc->InLineOfSight(pNpc->GetTarget(), pNpc->GetAggroRange()) )
+			if( m_pTheMindless->InLineOfSight(m_pTheMindless->GetTarget(), m_pTheMindless->GetAggroRange()) )
 			{	
 				m_iPreviousTile = -1;
 				m_eCurrentState = eST_Aggro;

@@ -6,10 +6,9 @@ class BounceArrow :
 {
 public:
 	BounceArrow(float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, int iBounceRange);
-	~BounceArrow(void);
-
-	bool Update(float fGameTime);
+	~BounceArrow(void);	
 
 protected:
+	void Impact(kpuVector vImpact);
 	int		m_iBounceRange;
 };

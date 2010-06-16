@@ -9,7 +9,7 @@ public:
 	Equippable(void);
 	virtual ~Equippable(void);
 	virtual void Equip(PlayerCharacter* pPlayer);
-	virtual void UnEquip(PlayerCharacter* pPlayer);
+	virtual void Unequip(PlayerCharacter* pPlayer);
 	virtual bool MeetsRequirements(PlayerCharacter* pPlayer);
 protected:
 	

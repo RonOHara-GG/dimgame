@@ -58,5 +58,5 @@ bool PatchWounds::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	}
 
 	m_pTarget->Heal(m_fHealPS * fDeltaTime);
-
+	return true;
 }

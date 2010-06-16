@@ -1,29 +1,28 @@
 #pragma once
 #include "aicontrol.h"
 
-class AskaranAI :
+class PlayerPet;
+
+class PlayerPetAI :
 	public AIControl
 {
 public:
-	AskaranAI(void) {}
-	AskaranAI(NPC* pNpc);
-	~AskaranAI(void);
+	PlayerPetAI(PlayerPet* pPet);
+	~PlayerPetAI(void);
 
-	void Update(float fDeltaTime);
+	void Update( float fDeltaTime);
 
 private:
+
 	enum eState
 	{
+		eST_Defend,
+		eST_Wait,
 		eST_Aggro,
 		eST_Attack,
-		eST_Flee,
-		eST_Wait,
-		eST_None
 	};
 
-
-	NPC*		m_pTheMindless;
+	PlayerPet*	m_pTheMindless;
 	eState		m_eCurrentState;
 	int			m_iPreviousTile;
-
 };

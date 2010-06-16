@@ -15,6 +15,7 @@ class Grid;
 class SkillCombo;
 class Armor;
 class WeaponSkill;
+class PlayerPet;
 
 #define INVENTORY_SIZE 10
 
@@ -54,14 +55,19 @@ public:
 	void SetLight(kpgLight* light) { m_pLightSource = light; }
 
 	//If equipping or unequipping the item fails these functions return false
+	bool EquipSecondary(Weapon* weapon);
 	bool EquipWeapon(Weapon* weapon);
 	bool UnequipWeapon();
+	bool UnequipSecondary();
 
 	bool EquipArmor(Armor* armor);
 	bool UnequipArmor();
 
 	WeaponSkill* GetWeaponSkill(Weapon::WeaponType eType);
 	void AddWeaponSkill(WeaponSkill* pSkill);
+
+	void AddPet(PlayerPet* pPet);
+	void RemovePet(PlayerPet* pPet);
 
 #pragma region Stat Accessors/Mutators
 
@@ -73,6 +79,7 @@ public:
 	void	SetInt(int iInt);
 
 	Weapon* GetEquippedWeapon()	{ return m_pEquippedWeapon; }
+	Weapon* GetSecondaryWeapon() { return m_pSecondaryWeapon; }
 
 #pragma endregion
 
@@ -100,6 +107,7 @@ protected:
 	//Inventory
 	Armor*						m_pEqupipedArmor;
 	Weapon*						m_pEquippedWeapon;
+	Weapon*						m_pSecondaryWeapon;
 	Item*						m_aInventory[INVENTORY_SIZE];
 
 	PlayerClass*				m_aClasses[8];
@@ -112,6 +120,8 @@ protected:
 
 	//combat
 	float						m_fElaspedDefaultAtk;
+
+	kpuLinkedList*				m_plPlayerPets;
 	
 };
 

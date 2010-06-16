@@ -26,6 +26,16 @@ Projectile::Projectile(ProjectileType eType, float fDamage, float fRange, Damage
 			break;
 		}
 	}
+
+	m_fRadius = 0.0f;
+}
+
+Projectile::Projectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, float fResist)
+{
+	Projectile(eType, fDamage, fRange, eDamageType, pOwner, vLocation, vDir);
+	
+	m_fRadius = fRadius;
+	m_fResistStr = fResist;
 }
 
 Projectile::~Projectile(void)
@@ -46,7 +56,7 @@ bool Projectile::Update(float fGameTime)
 	m_fDistTraveled += fDist;
 
 	//see what the arror hits and move it
-	kpuBoundingCapsule capsule(vOldLocation, vOldLocation + vVelocity, 0.0f);
+	kpuBoundingCapsule capsule(vOldLocation, vOldLocation + vVelocity, m_fRadius);
 
 	kpuCollisionData data = g_pGameState->GetLevel()->GetQuadTree()->GetClosestCollision(capsule);
 

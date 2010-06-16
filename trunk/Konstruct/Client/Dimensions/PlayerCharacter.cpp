@@ -53,6 +53,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_aClasses[0] = pClass;
 
 	m_pWeaponSkills = new kpuLinkedList();
+	m_plPlayerPets = new kpuLinkedList();
 	
 
 	m_iStr = 100;
@@ -102,6 +103,30 @@ bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)
 
 }
 
+void PlayerCharacter::AddPet(PlayerPet* pPet)
+{
+	m_plPlayerPets->AddTail(pPet);
+}
+
+void PlayerCharacter::RemovePet(PlayerPet* pPet)
+{
+	kpuLinkedList* pNext = m_plPlayerPets->Next();
+
+	while( pNext )
+	{
+		PlayerPet* pNextPet = (PlayerPet*)pNext->GetPointer();
+
+		if( pNextPet == pPet )
+		{
+			delete pNext;
+			return;
+		}
+
+		pNext = pNext->Next();
+	}
+
+}
+	
 float PlayerCharacter::RemoveClass(PlayerClass::Class eClass)
 {
 	float fExpSplit = m_aClasses[eClass]->GetExpSplit();
@@ -267,7 +292,7 @@ void PlayerCharacter::CheckTargetStatus(Actor* pTarget)
 {
 	if(!pTarget->IsAlive())
 	{
-		int iExp = pow(pTarget->GetLevel(), EXP_EXPONENT);
+		int iExp = (int)pow(pTarget->GetLevel(), EXP_EXPONENT);
 		GainExp(iExp);
 	}
 
@@ -343,6 +368,16 @@ bool PlayerCharacter::EquipWeapon(Weapon* weapon)
 	if(!weapon->MeetsRequirements(this))
 		return false;
 
+	if( !UnequipWeapon() )
+		return false;
+
+	weapon->Equip(this);
+	m_pEquippedWeapon = weapon;
+	return true;
+}
+
+bool PlayerCharacter::UnequipWeapon()
+{
 	if(m_pEquippedWeapon)
 	{
 		//See if we can remove the currently equipped weapon
@@ -351,13 +386,53 @@ bool PlayerCharacter::EquipWeapon(Weapon* weapon)
 			if(!m_aInventory[i])
 			{
 				m_aInventory[i] = m_pEquippedWeapon;
+				m_pEquippedWeapon->Unequip(this);
 				m_pEquippedWeapon = 0;
+				return true;
 			}
 		}
 
 		if(m_pEquippedWeapon)
 			return false;
 	}
+
+	return true;
+}
+
+bool PlayerCharacter::UnequipSecondary()
+{
+	if(m_pSecondaryWeapon)
+	{
+		//See if we can remove the currently equipped weapon
+		for(int i = 0; i < INVENTORY_SIZE; i++)
+		{
+			if(!m_aInventory[i])
+			{
+				m_aInventory[i] = m_pSecondaryWeapon;
+				m_pSecondaryWeapon->Unequip(this);
+				m_pSecondaryWeapon = 0;
+				return true;
+			}
+		}
+
+		if(m_pSecondaryWeapon)
+			return false;
+	}
+
+	return true;
+}
+
+
+bool PlayerCharacter::EquipSecondary(Weapon* weapon)
+{
+	if(!weapon->MeetsRequirements(this))
+		return false;
+
+	if( !UnequipSecondary() )
+		return false;
+
+	m_pSecondaryWeapon = weapon;
+	weapon->Equip(this);
 	return true;
 }
 

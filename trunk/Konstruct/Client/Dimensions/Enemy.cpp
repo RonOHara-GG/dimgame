@@ -14,7 +14,7 @@ Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
 	
 	CalculateBoundingVolumes(loadStruct.pCollision);
 
-	m_pAIBehavior = new AskaranAI();
+	m_pAIBehavior = new AskaranAI(this);
 
 	m_fElaspedWanderWait = 0.0f;
 	m_fElaspedAttack = 0.0f;
@@ -56,7 +56,7 @@ bool Enemy::Update(float fGameTime)
 	{
 		UpdateMovement(fGameTime);	
 
-		m_pAIBehavior->Update(this, fGameTime);
+		m_pAIBehavior->Update(fGameTime);
 
 		//update timers
 		if( m_fElaspedAttack < m_fAttackSpeed )
