@@ -63,5 +63,7 @@ bool RapidShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			return false;
 		}
 	}
+
+	return true;
 	
 }

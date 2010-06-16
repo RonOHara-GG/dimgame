@@ -120,9 +120,9 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSi
 				bool bValid = true;
 
 				//check if the tile is already in the list
-				for(int i = 0; i < outTilesSize; i++)
+				for(int j = 0; j < outTilesSize; j++)
 				{
-					if(outTiles[i] == iTile)
+					if(outTiles[j] == iTile)
 					{
 						bValid = false;
 						break;

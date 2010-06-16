@@ -5,8 +5,9 @@ class NPC;
 class AIControl
 {
 public:
-	AIControl(void);
+	AIControl(void) {}
+	AIControl(NPC* pNpc);
 	virtual ~AIControl(void);
-	virtual void Update(NPC* pNpc, float fDeltaTime) {}
+	virtual void Update( float fDeltaTime) {}
 
 };

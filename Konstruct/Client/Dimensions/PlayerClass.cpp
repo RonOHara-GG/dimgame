@@ -170,7 +170,7 @@ Skill* PlayerClass::GetSkill(Class eClass, int iIndex)
 	}
 
 	
-
+	return 0;
 
 }
 

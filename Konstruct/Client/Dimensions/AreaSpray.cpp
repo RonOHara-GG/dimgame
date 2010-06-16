@@ -4,7 +4,7 @@
 #include "PlayerCharacter.h"
 #include "Common/Utility/kpuMatrix.h"
 
-#define ARC_ANGLE 1.5707963267948966192313216916398
+#define ARC_ANGLE 1.5707963267948966192313216916398f
 #define MIN_SHOTS 3
 
 AreaSpray::AreaSpray(void)

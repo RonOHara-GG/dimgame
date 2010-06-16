@@ -8,6 +8,7 @@
 #include "Common/Utility/kpuCollisionDetection.h"
 #include "Common/Utility/kpuCollisionData.h"
 #include "Common/Utility/kpuQuadTree.h"
+#include "PersistentSkill.h"
 
 Actor::Actor()
 {
@@ -529,7 +530,7 @@ void Actor::RemovePersistentSkill(PersistentSkill* pSkill)
 }
 
 void Actor::AddPersistentSkill(PersistentSkill* pSkill)
-{
+{	
 	m_paPersistentSkills->AddTail(pSkill);
 }
 

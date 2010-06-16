@@ -12,6 +12,7 @@ public:
 	bool Update(float fGameTime);
 	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	void UpdateMovement(float fDeltaTime);
+	
 
 protected:
 	void Wander(float fDeltaTime); //Wander around at varying distances

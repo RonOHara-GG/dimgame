@@ -78,7 +78,7 @@ void Equippable::Equip(PlayerCharacter *pPlayer)
 
 }
 
-void Equippable::UnEquip(PlayerCharacter *pPlayer)
+void Equippable::Unequip(PlayerCharacter *pPlayer)
 {
 	//Stat bonuses
 	pPlayer->SetStr(pPlayer->GetStr() - m_iStrBonus);

@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FireBall.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GameObject.cpp"
 				>
 			</File>
@@ -197,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IceSpray.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Item.cpp"
 				>
 			</File>
@@ -206,6 +214,18 @@
 			</File>
 			<File
 				RelativePath=".\LevelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LightningBolt.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LightningProjectile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MissileBattery.cpp"
 				>
 			</File>
 			<File
@@ -261,6 +281,10 @@
 				</File>
 				<File
 					RelativePath=".\Skill.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SpreadableBuff.cpp"
 					>
 				</File>
 				<File
@@ -355,10 +379,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\SpreadableBuff.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\TargetAnalysis.cpp"
 						>
 					</File>
@@ -403,9 +423,29 @@
 						>
 					</File>
 					<File
+						RelativePath=".\DivineRetribution.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HolyShield.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\RestoreBody.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\Resurrect.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SummonPet.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Occultist"
+					>
 				</Filter>
 			</Filter>
 			<Filter
@@ -425,6 +465,10 @@
 				</File>
 				<File
 					RelativePath=".\PlayerCharacter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PlayerPet.cpp"
 					>
 				</File>
 			</Filter>
@@ -455,6 +499,10 @@
 					RelativePath=".\AskaranAI.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\PlayerPetAI.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -479,6 +527,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FireBall.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GameObject.h"
 				>
 			</File>
@@ -495,6 +547,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IceSpray.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Item.h"
 				>
 			</File>
@@ -507,7 +563,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LightningBolt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LightningProjectile.h"
+				>
+			</File>
+			<File
 				RelativePath=".\LoadStructures.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MissileBattery.h"
 				>
 			</File>
 			<File
@@ -551,6 +619,10 @@
 				</File>
 				<File
 					RelativePath=".\Skill.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SpreadableBuff.h"
 					>
 				</File>
 				<File
@@ -645,10 +717,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\SpreadableBuff.h"
-						>
-					</File>
-					<File
 						RelativePath=".\TargetAnalysis.h"
 						>
 					</File>
@@ -693,9 +761,29 @@
 						>
 					</File>
 					<File
+						RelativePath=".\DivineRetribution.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HolyShield.h"
+						>
+					</File>
+					<File
 						RelativePath=".\RestoreBody.h"
 						>
 					</File>
+					<File
+						RelativePath=".\Resurrect.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SummonPet.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Occultist"
+					>
 				</Filter>
 			</Filter>
 			<Filter
@@ -715,6 +803,10 @@
 				</File>
 				<File
 					RelativePath=".\PlayerCharacter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PlayerPet.h"
 					>
 				</File>
 			</Filter>
@@ -743,6 +835,10 @@
 				</File>
 				<File
 					RelativePath=".\AskaranAI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PlayerPetAI.h"
 					>
 				</File>
 			</Filter>

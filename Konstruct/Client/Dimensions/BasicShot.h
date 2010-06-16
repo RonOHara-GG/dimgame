@@ -17,10 +17,10 @@ public:
 protected:
 	float		m_fRange;
 	float		m_fDamage;
+	DamageType	m_eDamageType;
 	float		m_fRangeMultiple;
 	float		m_fDamageMultiple;
 	
-	bool		m_bExecuted;
-	DamageType	m_eDamageType;
+	
 
 };

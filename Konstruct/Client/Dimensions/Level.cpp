@@ -28,7 +28,7 @@ Level::Level(void)
 	m_pQuadTree = 0;
 
 	//Seed random
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 }
 
 Level::~Level(void)
@@ -81,7 +81,7 @@ bool Level::Load(const char* pszLevelFile)
 				if ( m_pQuadTree )
 					delete m_pQuadTree;
 
-				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5, 0.0f, ( iHeight + 1) * -0.5, 0.0f), iWidth + 1, iHeight + 1);
+				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5f, 0.0f, ( iHeight + 1) * -0.5f, 0.0f), iWidth + 1, iHeight + 1);
 
 				// Read Elements
                 for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )

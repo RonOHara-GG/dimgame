@@ -82,7 +82,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				if( (wParam & VK_SPACE) && g_pGameState )
 				{
-					g_pGameState->GetPlayer()->UseSkill(0, PlayerClass::Class::eCL_Brawler);
+					g_pGameState->GetPlayer()->UseSkill(0, PlayerClass::eCL_Brawler);
 				}
 				break;
 			}

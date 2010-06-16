@@ -69,7 +69,7 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 					if( strlen(aTerrainData[iPiece].szCollisionMeshFile) < 1 )
 						aTerrainData[iPiece].szCollisionMeshFile = 0;
 
-					aTerrainData[iPiece].vDimensions = kpuVector(atof(pEChild->Attribute("Width")), atof(pEChild->Attribute("Height")), atof(pEChild->Attribute("Lenght")), 0.0f);
+					aTerrainData[iPiece].vDimensions = kpuVector((float)atof(pEChild->Attribute("Width")), (float)atof(pEChild->Attribute("Height")), (float)atof(pEChild->Attribute("Lenght")), 0.0f);
 
 					for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
 					{				
@@ -506,7 +506,7 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		//make new instance
 		kpgGeometryInstance* pInst = new kpgGeometryInstance(m_aGeometries[aFinalMap[i].iPiece]);
 
-		pInst->SetPermYRotation( aFinalMap[i].iRotations * -1.570796 );
+		pInst->SetPermYRotation( aFinalMap[i].iRotations * -1.570796f );
 		kpuVector vPos(aFinalMap[i].iX - iWidth / 2 + aFinalMap[i].vDimensions.GetX() / 2, 0.0f , aFinalMap[i].iY  - iHeigth / 2+ aFinalMap[i].vDimensions.GetZ() / 2, 1.0f);
 		pInst->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
 		

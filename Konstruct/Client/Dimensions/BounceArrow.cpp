@@ -21,95 +21,58 @@ BounceArrow::~BounceArrow(void)
 {
 }
 
-bool BounceArrow::Update(float fGameTime)
+void BounceArrow::Impact(kpuVector vImpact)
 {
-	if( m_fDistTraveled >= m_fRange )
-				return false;
+	//move arrow to this spot
+	SetLocation(vImpact);
 
-	kpuVector vLocation = GetLocation();
-	kpuVector vOldLocation = vLocation;
+	//find new target within the range of the bounce
+	kpuBoundingSphere sphere(m_iBounceRange, vImpact);
+	kpuArrayList<kpuCollisionData> pCollisions;
+	g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &pCollisions);
 
-	//move the arrow	
-	float fDist = fGameTime * ARROW_SPEED;
-	kpuVector vVelocity = GetHeading() * fDist;
-	m_fDistTraveled += fDist;
+	float fClosest = m_iBounceRange * m_iBounceRange;
+	Actor* pTarget = 0;
 
-	//see what the arror hits and move it
-	kpuBoundingCapsule capsule(vOldLocation, vOldLocation + vVelocity, 0.0f);
-
-	kpuCollisionData data = g_pGameState->GetLevel()->GetQuadTree()->GetClosestCollision(capsule);
-
-	if( data.m_pObject && data.m_pObject != m_pOwner && data.m_pObject != m_pLastHit )
+	//find the closest target
+	for(int i = 0; i < pCollisions.Count(); i++)
 	{
-		if(  data.m_pObject->HasFlag(ATTACKABLE) )
+		kpuCollisionData data = pCollisions[i];
+		
+		if( data.m_pObject->HasFlag(ATTACKABLE) && InLineOfSight((Actor*)data.m_pObject, m_iBounceRange) )
 		{
-			Actor* pTarget = (Actor*)data.m_pObject;
+			float fDist = kpuVector::DistanceSquared(data.m_pObject->GetLocation(), vImpact);
 
-			m_pLastHit = pTarget;
-			pTarget->TakeDamage(m_fDamage, m_eDamageType);
-			Impact(pTarget->GetLocation());
-
-			//move arrow to this spot
-			vLocation = vOldLocation + (GetHeading() * data.m_fDist);
-
-			//find new target within the range of the bounce
-			kpuBoundingSphere sphere(m_iBounceRange, pTarget->GetLocation());
-			kpuArrayList<kpuCollisionData> pCollisions;
-			g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &pCollisions);
-
-			float fClosest = m_iBounceRange * m_iBounceRange;
-			pTarget = 0;
-
-			//find the closest target
-			for(int i = 0; i < pCollisions.Count(); i++)
+			if( fDist < fClosest )
 			{
-				kpuCollisionData data = pCollisions[i];
-				
-				if( data.m_pObject->HasFlag(ATTACKABLE) && InLineOfSight((Actor*)data.m_pObject, m_iBounceRange) )
-				{
-					float fDist = kpuVector::DistanceSquared(data.m_pObject->GetLocation(), vLocation);
-
-					if( fDist < fClosest )
-					{
-						pTarget = (Actor*)data.m_pObject;
-					}
-
-					if( fDist == 1 )
-					{
-						//one is the closest any enemy can be
-						pTarget = (Actor*)data.m_pObject;
-						break;
-					}
-
-				}
+				pTarget = (Actor*)data.m_pObject;
 			}
 
-			
-			if( pTarget != 0 )
+			if( fDist == 1 )
 			{
-				m_vHeading = pTarget->GetLocation() - vLocation;
-				m_vHeading.Normalize();				
-			}
-			else
-			{
-				//arrow bounces to nothing
-				return false;
+				//one is the closest any enemy can be
+				pTarget = (Actor*)data.m_pObject;
+				break;
 			}
 
-			//Cut bounce range in half
-			m_iBounceRange *= BOUNCE_REDUCTION;
-			m_fDamage *= DAMAGE_REDUCTION;
-		}
-		else if( data.m_pObject->HasFlag(WALL) )
-		{
-			if( data.m_fDist <= 0 )			
-				return false;
-
-			SetLocation(vOldLocation + (vVelocity * (data.m_fDist / data.m_fVelLength)));
-			return true;
 		}
 	}
 
-	SetLocation(vLocation);
-	return true;
+	
+	if( pTarget != 0 )
+	{
+		m_vHeading = pTarget->GetLocation() - vImpact;
+		m_vHeading.Normalize();		
+
+		//Cut bounce range in half
+		m_iBounceRange *= BOUNCE_REDUCTION;
+		m_fDamage *= DAMAGE_REDUCTION;
+	}
+	else
+	{
+		//arrow bounces to nothing
+		 m_fDistTraveled = m_fRange * m_fRange;
+	}
+
+
 }

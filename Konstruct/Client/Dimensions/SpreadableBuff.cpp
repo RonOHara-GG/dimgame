@@ -46,7 +46,8 @@ bool SpreadableBuff::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 				
 				if( pTarget->InLineOfSight(pSkillOwner, m_fRadius * 2) )
 				{
-					pTarget->AddPersistentSkill(CopyBuff());									
+					this->Activate(pTarget);
+					pTarget->AddPersistentSkill(this);									
 				}				
 			}
 		}
