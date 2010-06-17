@@ -29,6 +29,7 @@ extern void UpdateRenderWindow(HWND hWnd);
 extern void CloseRenderWindow(HWND hWnd);
 
 kpuCameraController*	g_pCamera = 0;
+kpgUIManager*			g_pUIManager = 0;
 bool					g_bExitGame = false;
 
 //Timing varibles
@@ -74,7 +75,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	pRenderer->Create(hWnd);
 
 	// Create the UI manager
-	kpgUIManager* pUIManager = new kpgUIManager();
+	g_pUIManager = new kpgUIManager();
 
 	kpuVector vLocation(12.0f, 18.0f, 12.0f, 0.0f);
 	kpuVector vLookAt(0.0f, 0.0f, 0.0f, 0.0f);
@@ -123,7 +124,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		g_pCamera->Update();
 
 		// Update the UI
-		pUIManager->Update();
+		g_pUIManager->Update();
 
 		// Begin the frame
 		pRenderer->BeginFrame();
@@ -138,7 +139,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		DrawGame();
 
 		// Draw UI
-		pUIManager->Draw(pRenderer);
+		g_pUIManager->Draw(pRenderer);
 
 		// End the frame
 		pRenderer->EndFrame();
@@ -166,7 +167,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	}
 
 	// Destroy the UI manager
-	delete pUIManager;
+	delete g_pUIManager;
 
 	// Destroy the renderer
 	delete pRenderer;
@@ -277,4 +278,15 @@ void LoadEnemyType(const char* pszFile)
 		g_paEnemyTypes->Add(enemyType);
 	}
 
+}
+
+void InputEvent(eInputEventType type, u32 button)
+{
+	// Give the inpu to the UI first
+	if( !g_pUIManager || !g_pUIManager->HandleInputEvent(type, button) )
+	{
+		// UI didnt handle the input, give it to the game
+		if( g_pGameState )
+			g_pGameState->HandleInputEvent(type, button);
+	}
 }

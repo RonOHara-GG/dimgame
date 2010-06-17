@@ -16,6 +16,7 @@
 #include "Grid.h"
 #include "Enemy.h"
 #include "Common/Utility/kpuQuadTree.h"
+#include "Common\Input\kpiInputManager.h"
 
 extern kpuCameraController*	g_pCamera;
 
@@ -146,4 +147,9 @@ void GameState_Default::AddActor(Actor* pActor)
 {
 	if(m_paActors)
 		m_paActors->Add(pActor); 
+}
+
+bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
+{
+	return false;
 }

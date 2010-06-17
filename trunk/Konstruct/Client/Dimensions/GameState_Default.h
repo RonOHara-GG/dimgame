@@ -5,6 +5,7 @@
 class Level;
 class Actor;
 class PlayerCharacter;
+enum eInputEventType;
 
 class GameState_Default : public GameState
 {
@@ -22,6 +23,8 @@ public:
 	virtual kpuArrayList<Actor*>*	GetActors()		{ return m_paActors; }
 
 	virtual void AddActor(Actor* pActor);
+
+	virtual bool HandleInputEvent(eInputEventType type, u32 button);
 
 protected:
 	Level*					m_pCurrentLevel;
