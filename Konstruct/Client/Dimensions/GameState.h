@@ -3,6 +3,7 @@
 class Level;
 class Actor;
 class PlayerCharacter;
+enum eInputEventType;
 
 class GameState
 {
@@ -20,6 +21,8 @@ public:
 	virtual void AddActor(Actor* pActor) = 0;
 	virtual PlayerCharacter* GetPlayer() = 0;
 	//virtual kpuArrayList<Enemy*>*	GetEnemies() = 0;
+
+	virtual bool HandleInputEvent(eInputEventType type, u32 button) = 0;
 };
 
 extern GameState* g_pGameState;

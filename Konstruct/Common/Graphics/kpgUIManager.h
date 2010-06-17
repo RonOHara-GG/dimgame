@@ -1,6 +1,7 @@
 #pragma once
 
 class kpgRenderer;
+enum eInputEventType;
 
 class kpgUIManager
 {
@@ -10,4 +11,6 @@ public:
 
 	void Update();
 	void Draw(kpgRenderer* pRenderer);
+
+	bool HandleInputEvent(eInputEventType type, u32 button);
 };
