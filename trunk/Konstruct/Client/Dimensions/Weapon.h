@@ -15,7 +15,7 @@ public:
 	void Update(float fGameTime);
 
 	float GetRange();
-	float GetDamage();
+	int	  GetDamage();
 	float GetSpeed();
 	float GetRecovery();
 
@@ -48,7 +48,7 @@ public:
 protected:
 
 	float			m_fRange;
-	float			m_fDamage;
+	int				m_iDamage;
 	float			m_fRecovery;
 	float			m_fElaspedRecov;
 	float			m_fSpeed;

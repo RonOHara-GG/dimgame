@@ -11,14 +11,14 @@ public:
 	
 	bool Activate(PlayerCharacter* pSkillOwner);
 
-	float GetDamageBonus() { return m_fDamageBonus; }
+	int GetDamageBonus() { return m_iDamageBonus; }
 	float GetRangeBonus() { return m_fRangeBonus; }
 	float GetRecoveryBonus() { return m_fRecoveryBonus; }
 	float GetSpeedBonus() { return m_fSpeedBonus; }
 	Weapon::WeaponType GetUsage() { return m_eWeaponType; }
 
 protected:
-	float				m_fDamageBonus;
+	int					m_iDamageBonus;
 	float				m_fRangeBonus;
 	float				m_fRecoveryBonus;
 	float				m_fSpeedBonus;	

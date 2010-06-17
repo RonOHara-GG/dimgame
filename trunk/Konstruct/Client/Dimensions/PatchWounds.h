@@ -12,8 +12,8 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	float		m_fHealImd;
-	float		m_fHealPS;
+	int			m_iHealImd;
+	int			m_iHealPS;
 	float		m_fDuration;
 	float		m_fDurationModifier;
 	float		m_fSpeedModifier;

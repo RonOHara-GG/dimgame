@@ -7,11 +7,11 @@
 #include "Common/utility/kpuBoundingSphere.h"
 
 
-ExplosiveProjectile::ExplosiveProjectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir,
-										 int iRadius, float fExplosionDmg, DamageType eExplosionType) :	Projectile(ePT_Arrow, fDamage, fRange, eDamageType, pOwner, vLocation, vDir)
+ExplosiveProjectile::ExplosiveProjectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir,
+										 float fRadius, int iExplosionDmg, DamageType eExplosionType) :	Projectile(ePT_Arrow, iDamage, fRange, eDamageType, pOwner, vLocation, vDir)
 {
-	m_iRadius = iRadius;
-	m_fExplosionDmg = fExplosionDmg;
+	m_fRadius = fRadius;
+	m_iExplosionDmg = iExplosionDmg;
 	m_eExplosionType = eExplosionType;
 }
 
@@ -22,7 +22,7 @@ ExplosiveProjectile::~ExplosiveProjectile(void)
 void ExplosiveProjectile::Impact(kpuVector vImpact)
 {	
 	//hit all targets in range
-	kpuBoundingSphere sphere(m_iRadius, vImpact);
+	kpuBoundingSphere sphere(m_fRadius, vImpact);
 	kpuArrayList<kpuCollisionData> collidedObjects;
 
 	g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);
@@ -31,7 +31,15 @@ void ExplosiveProjectile::Impact(kpuVector vImpact)
 	{
 		kpuCollisionData* pNext = &collidedObjects[i];
 
-		pNext->m_pObject->AreaEffect(vImpact, m_iRadius, &m_fExplosionDmg, this);
+		if( pNext->m_pObject->HasFlag(ENEMY) )
+		{
+			Actor* pTarget = (Actor*)pNext->m_pObject;
+
+			if( pTarget->InLineOfSight(this, m_fRadius) )
+			{
+				pTarget->TakeDamage(m_iExplosionDmg, m_eExplosionType);
+			}
+		}
 	}
 
 	m_fDistTraveled = m_fRange * m_fRange;

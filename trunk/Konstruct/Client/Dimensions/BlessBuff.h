@@ -5,12 +5,12 @@ class BlessBuff :
 	public PersistentSkill
 {
 public:
-	BlessBuff(Actor* pTarget, float fDamage, float fReduction, float fDuration);
+	BlessBuff(Actor* pTarget, int iDamage, int iReduction, float fDuration);
 	~BlessBuff(void);
 
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	float	m_fDamageBonus;
-	float	m_fDamageReduction;
+	int		m_iDamageBonus;
+	int		m_iDamageReduction;
 };

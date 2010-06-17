@@ -15,5 +15,5 @@ protected:
 	float		m_fElasped;
 	float		m_fDuration;
 	float		m_fRadius;
-	float		m_fResistStr;
+	float		m_iResistStr;
 };

@@ -5,15 +5,15 @@ class ExplosiveProjectile :
 	public Projectile
 {
 public:
-	ExplosiveProjectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir,
-		int iRadius, float fExplosionDmg, DamageType eExplosionType);
+	ExplosiveProjectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir,
+		float fRadius, int iExplosionDmg, DamageType eExplosionType);
 
 	~ExplosiveProjectile(void);
 
 protected:
 	void Impact(kpuVector vImpact);
 
-	int			m_iRadius;
-	float		m_fExplosionDmg;
+	float		m_fRadius;
+	int			m_iExplosionDmg;
 	DamageType	m_eExplosionType;
 };

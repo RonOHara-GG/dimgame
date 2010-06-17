@@ -31,7 +31,7 @@ bool Strike::Activate(PlayerCharacter *pSkillOwner)
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_fDamage = (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple );
+		m_iDamage = (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple );
 
 		pSkillOwner->SetActiveSkill(this);
 		
@@ -58,7 +58,7 @@ bool Strike::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 		{
 			if( pTarget->HasFlag(ATTACKABLE) )
 			{
-				pTarget->TakeDamage(m_fDamage, m_eDamageType);
+				pTarget->TakeDamage(m_iDamage, m_eDamageType);
 			}
 		}	
 

@@ -38,7 +38,7 @@ bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		{
 			//move target to center of current tile
 			pTarget->SetNextMove(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pTarget->GetLocation()));
-			pTarget->TakeDamage(m_fDamage, m_eDamageType);
+			pTarget->TakeDamage(m_iDamage, m_eDamageType);
 		}
 		m_fElaspedSinceCast = 0.0f;
 		return false;

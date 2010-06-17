@@ -22,7 +22,7 @@ bool BasicShot::Activate(PlayerCharacter *pSkillOwner)
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_fDamage = pEquippedWeapon->GetDamage() + (iRankMultiple * m_iSkillRank);
+		m_iDamage = pEquippedWeapon->GetDamage() + (iRankMultiple * m_iSkillRank);
 		m_fRange = pEquippedWeapon->GetRange() + (m_iSkillRank * m_fRangeMultiple);
 		m_fSpeed = pEquippedWeapon->GetSpeed();
 		m_eDamageType = pEquippedWeapon->GetDamageType();
@@ -45,7 +45,7 @@ bool BasicShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
 	{
 		//fire arrow
-		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
+		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
 		g_pGameState->AddActor(pArrow);
 		m_bExecuted = true;
 	}

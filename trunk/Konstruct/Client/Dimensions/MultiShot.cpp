@@ -24,7 +24,7 @@ bool MultiShot::Activate(PlayerCharacter *pSkillOwner)
 		m_fElaspedSinceCast = 0.0f;		
 
 		m_iShotsToFire = MIN_SHOTS_FIRED + ( m_iSkillRank / m_iNumOfShotsMultiple );
-		m_fDamage = pEquippedWeapon->GetDamage() + (m_iShotsToFire - (pSkillOwner->GetInt() * m_fIntMultiple));
+		m_iDamage = pEquippedWeapon->GetDamage() + (m_iShotsToFire - (pSkillOwner->GetInt() * m_fIntMultiple));
 		m_fRange = pEquippedWeapon->GetRange();
 		m_eDamageType = pEquippedWeapon->GetDamageType();
 		m_fSpeed = pEquippedWeapon->GetSpeed() * SPEED_MULTIPLE;
@@ -64,7 +64,7 @@ bool MultiShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 			rotMatrix.SetRotationY( (i + 1) * fRadiansPerShot);
 
-			Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
+			Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
 			g_pGameState->AddActor(pArrow);
 		}
 

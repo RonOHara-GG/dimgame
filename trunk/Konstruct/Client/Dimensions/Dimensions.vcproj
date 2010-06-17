@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HealOverTime.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Level.cpp"
 				>
 			</File>
@@ -568,6 +572,10 @@
 			</File>
 			<File
 				RelativePath=".\Grid.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HealOverTime.h"
 				>
 			</File>
 			<File

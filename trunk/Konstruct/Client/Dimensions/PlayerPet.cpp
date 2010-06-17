@@ -19,10 +19,10 @@ PlayerPet::PlayerPet(Enemy* pConvert, PlayerCharacter* pOwner)
 	m_iInt = pConvert->GetInt();		
 	m_iConst = pConvert->GetConst();
 
-	m_fMaxHealth = pConvert->GetMaxHealth();		
-	m_fCurrentHealth = pConvert->GetCurrentHealth();	
-	m_fMaxMental = pConvert->GetMaxMental();	
-	m_fCurrentMental = pConvert->GetCurrentMental();
+	m_iMaxHealth = pConvert->GetMaxHealth();		
+	m_iCurrentHealth = pConvert->GetCurrentHealth();	
+	m_iMaxMental = pConvert->GetMaxMental();	
+	m_iCurrentMental = pConvert->GetCurrentMental();
 	
 	m_iCrushRes =  pConvert->GetResist(eDT_Crushing);
 	m_iSlashRes =  pConvert->GetResist(eDT_Slashing);

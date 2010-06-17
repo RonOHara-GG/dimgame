@@ -19,10 +19,10 @@ bool RestoreBody::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_iRadius = m_iMinRadius + m_iSkillRank / m_iRadiusMod;
+		m_fRadius = m_fMinRadius + m_iSkillRank * m_fRadiusMod;
 		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_fHeal = iRankMultiple * m_iSkillRank;
+		m_iHeal = iRankMultiple * m_iSkillRank;
 		
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;
@@ -44,7 +44,7 @@ bool RestoreBody::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 		m_bExecuted = true;
 
 		//get all actors in range
-		kpuBoundingSphere sphere(m_iRadius, pSkillOwner->GetLocation());
+		kpuBoundingSphere sphere(m_fRadius, pSkillOwner->GetLocation());
 		kpuArrayList<kpuCollisionData> collidedObjects;
 
 		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);

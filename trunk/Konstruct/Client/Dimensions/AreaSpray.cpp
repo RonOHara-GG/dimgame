@@ -28,7 +28,7 @@ bool AreaSpray::Activate(PlayerCharacter *pSkillOwner)
 		Weapon* pEquipped = pSkillOwner->GetEquippedWeapon();
 		m_fRange = pEquipped->GetRange() * m_fRangeMod;
 		m_iShotsToFire = MIN_SHOTS + m_iSkillRank / m_iShotsMod;
-		m_fDamage = (pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
+		m_iDamage = (pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
 		m_eDamageType = pEquipped->GetDamageType();
 		m_fSpeed = pEquipped->GetSpeed() * m_fSpeedMod;
 		m_fRecovery = pEquipped->GetRecovery() * m_fRecoveryMod;
@@ -57,7 +57,7 @@ bool AreaSpray::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		rotMatrix.SetRotationY( (m_iShotsFired + 1) * m_fAngleFreq);
 
-		Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
+		Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
 		g_pGameState->AddActor(pBullet);
 
 		m_iShotsFired++;

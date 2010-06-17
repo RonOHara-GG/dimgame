@@ -6,14 +6,14 @@ class Infection :
 {
 public:
 	Infection(void);
-	Infection(Actor* pTarget, float fDamage, float fResist, float fInfectRadius, DamageType eDamageType);
+	Infection(Actor* pTarget, int iDamage, int iResist, float fInfectRadius, DamageType eDamageType);
 	~Infection(void);
 
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);	
 
 protected:
-	float		m_fDamage;	
-	float		m_fResistStr;
+	int			m_iDamage;	
+	int			m_iResistStr;
 	float		m_fInfectRadius;
 	DamageType  m_eDamageType;
 

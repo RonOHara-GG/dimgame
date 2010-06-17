@@ -18,12 +18,12 @@ bool Bless::Activate(PlayerCharacter *pSkillOwner)
 	if( m_bReady )
 	{
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_fDamageBonus = iRankMultiple * m_iSkillRank;
+		m_iDamageBonus = iRankMultiple * m_iSkillRank;
 		
 		m_fDuration = MIN_DURATION + (m_fDurationMod * m_iSkillRank);
 
 		iRankMultiple = m_iDamageReductionMin + ( rand() % (int)(m_iDamageReductionMax - m_iDamageReductionMin) );
-		m_fDamageReduction = iRankMultiple * m_iSkillRank;
+		m_iDamageReduction = iRankMultiple * m_iSkillRank;
 
 		m_iRange = m_iMinRange + (m_iSkillRank / m_iRangeMod);
 
@@ -50,7 +50,7 @@ bool Bless::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 		if( m_fElaspedSinceCast >= m_fSpeed )
 		{			
-			m_pTarget->AddPersistentSkill(new BlessBuff(m_pTarget, m_fDamageBonus, m_fDamageReduction, m_fDuration));
+			m_pTarget->AddPersistentSkill(new BlessBuff(m_pTarget, m_iDamageBonus, m_iDamageReduction, m_fDuration));
 			m_bExecuted = true;
 
 			return true;

@@ -47,7 +47,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_bSphere.Move(GetLocation());*/
 
 	SetFlag(ATTACKABLE);
-	m_fCurrentHealth = m_fMaxHealth = 100;
+	m_iCurrentHealth = m_iMaxHealth = 100;
 
 	PlayerClass* pClass = new PlayerClass(PlayerClass::eCL_Brawler, 100.0f);
 	m_aClasses[0] = pClass;
@@ -261,7 +261,7 @@ bool PlayerCharacter::UseDefaultAttack(Actor* pTarget, Grid* pGrid)
 				if(IsInRange(pTarget, DEFAULT_ATTACK_RANGE))
 				{
 					m_fElaspedDefaultAtk = 0.0f;
-					pTarget->TakeDamage(m_iStr * 0.5f + DEFAULT_MELEE_DMG, eDT_Crushing);
+					pTarget->TakeDamage(m_iStr / 2 + DEFAULT_MELEE_DMG, eDT_Crushing);
 
 					//Check target status
 					CheckTargetStatus(pTarget);
@@ -344,8 +344,8 @@ void PlayerCharacter::ReconfigHealthMental()
 {
 	int iLevel = GetLevel();
 
-	m_fMaxHealth = m_iConst * iLevel * MENTAL_PER_LEVEL;
-	m_fMaxMental = m_iInt * iLevel * MENTAL_PER_LEVEL;
+	m_iMaxHealth = m_iConst * iLevel * MENTAL_PER_LEVEL;
+	m_iMaxMental = m_iInt * iLevel * MENTAL_PER_LEVEL;
 
 }
 

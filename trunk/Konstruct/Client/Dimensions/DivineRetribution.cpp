@@ -28,7 +28,7 @@ bool DivineRetribution::Activate(PlayerCharacter *pSkillOwner)
 bool DivineRetribution::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
 	int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-	float fDamage = iRankMultiple * m_iSkillRank;
+	int iDamage = iRankMultiple * m_iSkillRank;
 
 	//make sure still in range of source
 	float fDist = kpuVector::DistanceSquared(pSkillOwner->GetLocation(), m_pSource->GetLocation());
@@ -63,7 +63,7 @@ bool DivineRetribution::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			Enemy* pEnemy = (Enemy*)pNext->m_pObject;
 
 			if( pEnemy->GetLastAttacked() == m_pSpreadTo )
-				pEnemy->TakeDamage(fDamage, m_eDamageType);
+				pEnemy->TakeDamage(iDamage, m_eDamageType);
 		}
 	}	
 

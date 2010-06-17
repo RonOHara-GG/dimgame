@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "PatchWounds.h"
 #include "PlayerCharacter.h"
+#include "HealOverTime.h"
 
 #define MIN_DURATION 2
 #define MAX_SPEED 3
@@ -18,10 +19,10 @@ bool PatchWounds::Activate(PlayerCharacter *pSkillOwner)
 	if( m_bReady )
 	{
 		int iHeal = m_iHealImdMin + ( rand() % (m_iHealImdMax - m_iHealImdMin + 1) );
-		m_fHealImd = iHeal * m_iSkillRank;
+		m_iHealImd = iHeal * m_iSkillRank;
 
 		iHeal = m_iHealPSMin + ( rand() % (m_iHealPSMax - m_iHealPSMin + 1) );
-		m_fHealPS = iHeal * m_iSkillRank;
+		m_iHealPS = iHeal * m_iSkillRank;
 
 		m_fDuration = MIN_DURATION + ( m_iSkillRank * m_fDurationModifier );
 
@@ -39,7 +40,7 @@ bool PatchWounds::Activate(PlayerCharacter *pSkillOwner)
 		m_fElaspedSinceCast = 0.0f;
 		pSkillOwner->SetActiveSkill(this);
 
-		m_pTarget->Heal(m_fHealImd);
+		
 
 		return true;
 	}
@@ -52,11 +53,12 @@ bool PatchWounds::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
 	m_fElaspedSinceCast += fDeltaTime;
 
-	if( m_fElaspedSinceCast >= m_fDuration )
+	if( m_fElaspedSinceCast >= m_fSpeed )
 	{
+		m_pTarget->Heal(m_iHealImd);
+		m_pTarget->AddPersistentSkill(new HealOverTime(m_iHealPS, m_fDuration));
 		return false;
-	}
-
-	m_pTarget->Heal(m_fHealPS * fDeltaTime);
+	}	
+	
 	return true;
 }

@@ -17,7 +17,7 @@ bool Resurrect::Activate(PlayerCharacter *pSkillOwner)
 	if( m_bReady )
 	{
 		m_iRange = m_iMinRange + (m_iSkillRank / m_iRangeMod);
-		m_fHeal = MIN_HEAL + (m_iSkillRank * m_fHealMod);
+		m_iHeal = MIN_HEAL + (m_iSkillRank * m_iHealMod);
 		
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;
@@ -47,8 +47,8 @@ bool Resurrect::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		if( m_fElaspedSinceCast >= m_fSpeed )
 		{
-			m_pTarget->Heal(m_pTarget->GetMaxHealth() * m_fHeal);
-			m_pTarget->HealMental(m_pTarget->GetMaxMental() * m_fHeal);
+			m_pTarget->Heal(m_pTarget->GetMaxHealth() * m_iHeal);
+			m_pTarget->HealMental(m_pTarget->GetMaxMental() * m_iHeal);
 
 			m_bExecuted = true;
 			return true;

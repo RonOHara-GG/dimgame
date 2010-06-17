@@ -32,10 +32,10 @@ bool Launch::Activate(PlayerCharacter *pSkillOwner)
 			}
 		}
 
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
 
 	    m_fRange = pEquipped->GetRange() + (m_iSkillRank / m_iRangeMod);
-		m_fDamage = pEquipped->GetDamage() + (iRankMultiple * m_iSkillRank);
+		m_iDamage = pEquipped->GetDamage() + (iRankMultiple * m_iSkillRank);
 		m_fSpeed = pEquipped->GetSpeed();
 		m_fRecovery = pEquipped->GetRecovery();
 
@@ -67,7 +67,7 @@ bool Launch::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			kpuVector vDir = m_pTarget->GetLocation() - m_vSource;
 			vDir.Normalize();
 
-			Projectile* pMissile = new Projectile(Projectile::ePT_Missile, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, m_vSource, vDir);
+			Projectile* pMissile = new Projectile(Projectile::ePT_Missile, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, m_vSource, vDir);
 			g_pGameState->AddActor(pMissile);
 			return false;
 		}

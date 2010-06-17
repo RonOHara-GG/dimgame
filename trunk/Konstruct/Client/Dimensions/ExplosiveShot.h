@@ -12,9 +12,9 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int m_iRadius;
-	int m_iRadiusMod;
-	float m_fRadiusDamage;
+	float m_fRadius;
+	float m_fRadiusMod;
+	int	m_iRadiusDamage;
 	float m_fSpeedMod;
 	float m_fRecoveryMod;
 	DamageType m_eRadiusType;
