@@ -3,7 +3,6 @@
 #include "BlessBuff.h"
 #include "PlayerCharacter.h"
 
-#define MIN_RANGE 4
 #define MIN_DURATION 60
 
 Bless::Bless(void)
@@ -26,7 +25,7 @@ bool Bless::Activate(PlayerCharacter *pSkillOwner)
 		iRankMultiple = m_iDamageReductionMin + ( rand() % (int)(m_iDamageReductionMax - m_iDamageReductionMin) );
 		m_fDamageReduction = iRankMultiple * m_iSkillRank;
 
-		m_iRange = MIN_RANGE + (m_iSkillRank / m_iRangeMod);
+		m_iRange = m_iMinRange + (m_iSkillRank / m_iRangeMod);
 
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;

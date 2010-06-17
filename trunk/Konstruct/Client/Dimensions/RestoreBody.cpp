@@ -7,8 +7,6 @@
 #include "Common/utility/kpuCollisionData.h"
 #include "Common/utility/kpuBoundingSphere.h"
 
-#define MIN_RADIUS 2
-
 RestoreBody::RestoreBody(void)
 {
 }
@@ -21,7 +19,7 @@ bool RestoreBody::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_iRadius = MIN_RADIUS + m_iSkillRank / m_iRadiusMod;
+		m_iRadius = m_iMinRadius + m_iSkillRank / m_iRadiusMod;
 		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 		m_fHeal = iRankMultiple * m_iSkillRank;

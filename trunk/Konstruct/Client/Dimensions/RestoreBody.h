@@ -20,6 +20,7 @@ public:
 protected:
 	int			m_iRadius;
 	int			m_iRadiusMod;
+	int			m_iMinRadius;
 	float		m_fHeal;
 	HealType	m_eHealType;
 

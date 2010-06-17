@@ -3,9 +3,6 @@
 #include "PlayerCharacter.h"
 #include "Rift.h"
 
-#define MIN_RANGE 7
-#define MIN_RADIUS 2
-#define MIN_RESIST 6
 #define MIN_DURATION 2
 
 CreateRift::CreateRift(void)
@@ -24,9 +21,9 @@ bool CreateRift::Activate(PlayerCharacter* pSkillOwner)
 		m_fElaspedSinceCast = 0.0f;
 		
 		m_fDuration = MIN_DURATION + m_iSkillRank;
-		m_fRange = MIN_RANGE + m_iSkillRank /  m_iRangeMod;
-		m_fRadius = MIN_RADIUS + (m_iSkillRank / m_iRadiusMod);
-		m_fResistStr = MIN_RESIST + (m_iSkillRank * m_fResistMod);		
+		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;
+		m_fRadius = m_fMinRadius + (m_iSkillRank / m_iRadiusMod);
+		m_fResistStr = m_fMinResist + (m_iSkillRank * m_fResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		

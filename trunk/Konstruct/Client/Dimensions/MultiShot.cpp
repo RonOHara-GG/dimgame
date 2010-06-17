@@ -23,7 +23,7 @@ bool MultiShot::Activate(PlayerCharacter *pSkillOwner)
 
 		m_fElaspedSinceCast = 0.0f;		
 
-		m_iShotsToFire = MIN_SHOTS_FIRED + ( m_iSkillRank * m_fNumOfShotsMultiple );
+		m_iShotsToFire = MIN_SHOTS_FIRED + ( m_iSkillRank / m_iNumOfShotsMultiple );
 		m_fDamage = pEquippedWeapon->GetDamage() + (m_iShotsToFire - (pSkillOwner->GetInt() * m_fIntMultiple));
 		m_fRange = pEquippedWeapon->GetRange();
 		m_eDamageType = pEquippedWeapon->GetDamageType();

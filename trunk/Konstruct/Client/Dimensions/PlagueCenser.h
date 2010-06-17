@@ -5,7 +5,7 @@ class PlagueCenser :
 	public Actor
 {
 public:
-	PlagueCenser(kpuVector vLocation, float fDamage, DamageType eDamageType, int iResistStr, float fRadius);
+	PlagueCenser(kpuVector vLocation, float fDamage, DamageType eDamageType, float fResistStr, float fRadius);
 	~PlagueCenser(void);
 
 	bool Update(float fGameTime);
@@ -13,7 +13,7 @@ public:
 protected:
 	float		m_fDamage;
 	DamageType	m_eDamageType;
-	int			m_iResistStr;
+	float		m_fResistStr;
 	float		m_fRadius;
 	float		m_fElaspedTick;
 	float		m_fTickTime;

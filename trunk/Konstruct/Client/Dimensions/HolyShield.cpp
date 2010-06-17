@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "HolyShield.h"
 
-#define MIN_RADIUS 3
 
 HolyShield::HolyShield(PlayerCharacter* pSource):
 	SpreadableBuff(pSource)
@@ -14,7 +13,7 @@ HolyShield::~HolyShield(void)
 
 bool HolyShield::Activate(PlayerCharacter *pSkillOwner)
 {
-	m_fRadius = MIN_RADIUS + (m_iSkillRank / m_fRadiusMod);
+	m_fRadius = m_fMinRadius + (m_iSkillRank / m_fRadiusMod);
 
 	//********************************************************
 	//This doesn't make sense having a random damage reduction

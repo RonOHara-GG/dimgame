@@ -7,9 +7,6 @@
 #include "Common/utility/kpuCollisionData.h"
 #include "Common/utility/kpuBoundingSphere.h"
 
-#define MIN_RANGE 7
-#define MIN_RADIUS 5
-#define MIN_RESIST 16
 #define MIN_SPEED 5
 AcidRain::AcidRain(void)
 {
@@ -29,10 +26,10 @@ bool AcidRain::Activate(PlayerCharacter* pSkillOwner)
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
 		m_fDamage = iRankMultiple * m_iSkillRank;
-		m_fRange = MIN_RANGE + m_iSkillRank /  m_iRangeMod;
+		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;
 		m_fSpeed =  MIN_SPEED + m_iSkillRank * m_fSpeedMod;		
-		m_fRadius = MIN_RADIUS + (m_iSkillRank / m_iRadiusMod);
-		m_fResistStr = MIN_RESIST + (m_iSkillRank * m_fResistMod);		
+		m_fRadius = m_fMinRadius + (m_iSkillRank / m_iRadiusMod);
+		m_fResistStr = m_fMinResist + (m_iSkillRank * m_fResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		

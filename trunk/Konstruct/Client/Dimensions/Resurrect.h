@@ -13,6 +13,7 @@ public:
 protected:
 	int				m_iRange;
 	int				m_iRangeMod;
+	int				m_iMinRange;
 	float			m_fHeal;
 	float			m_fHealMod;
 

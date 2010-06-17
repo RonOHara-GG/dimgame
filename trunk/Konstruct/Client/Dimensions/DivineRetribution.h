@@ -14,6 +14,7 @@ public:
 protected:
 	DamageType				m_eDamageType;
 	float					m_fRadiusMod;
+	float					m_fMinRadius;
 	PlayerCharacter*		m_pSpreadTo;
 	
 };

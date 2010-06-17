@@ -22,10 +22,10 @@ bool PlagueCenserSkill::Activate(PlayerCharacter* pSkillOwner)
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
 		m_fDamage = iRankMultiple * m_iSkillRank;
-		m_fRange = MIN_RANGE + (m_iSkillRank * m_fRangeMod);
+		m_fRange = m_fMinRange + (m_iSkillRank * m_fRangeMod);
 		m_eDamageType = eDT_Viral;
-		m_iResistStr = MIN_RESIST_STR + (m_iSkillRank * m_fResistMod);
-		m_fRadius = MIN_RADIUS + ( m_iSkillRank * m_fRadiusMod );
+		m_fResistStr = m_fMinResist + (m_iSkillRank * m_fResistMod);
+		m_fRadius = m_fMinRadius + ( m_iSkillRank * m_fRadiusMod );
 		m_fSpeed = MIN_SPEED - m_iSkillRank;
 
 		pSkillOwner->SetActiveSkill(this);
@@ -48,7 +48,7 @@ bool PlagueCenserSkill::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	if( m_fElaspedSinceCast >= m_fSpeed )
 	{
 		//place censer
-		g_pGameState->AddActor(new PlagueCenser(vTarget, m_fDamage, m_eDamageType, m_iResistStr, m_fRadius));
+		g_pGameState->AddActor(new PlagueCenser(vTarget, m_fDamage, m_eDamageType, m_fResistStr, m_fRadius));
 		m_bExecuted = true;
 		return false;
 	}

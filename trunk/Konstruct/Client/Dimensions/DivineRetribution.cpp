@@ -8,7 +8,6 @@
 #include "Common/utility/kpuCollisionData.h"
 #include "Common/utility/kpuBoundingSphere.h"
 
-#define MIN_RADIUS 3
 
 DivineRetribution::DivineRetribution(PlayerCharacter* pSource, PlayerCharacter* pSpreadTo):
 	SpreadableBuff(pSource)
@@ -22,7 +21,7 @@ DivineRetribution::~DivineRetribution(void)
 
 bool DivineRetribution::Activate(PlayerCharacter *pSkillOwner)
 {
-	m_fRadius = 3 + (m_iSkillRank / m_fRadiusMod);
+	m_fRadius = m_fMinRadius + (m_iSkillRank / m_fRadiusMod);
 	return true;
 }
 

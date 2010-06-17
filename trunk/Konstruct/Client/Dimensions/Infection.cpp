@@ -11,22 +11,22 @@ Infection::Infection(void)
 {
 }
 
-Infection::Infection(Actor* pTarget, float fDamage, int iResist, int iInfectRadius, DamageType eDamageType)
+Infection::Infection(Actor* pTarget, float fDamage, float fResist, float fInfectRadius, DamageType eDamageType)
 	:PersistentSkill(pTarget)
 {
 	m_fDamage = fDamage;	
-	m_iResistStr = iResist;
-	m_iInfectRadius = iInfectRadius;
+	m_fResistStr = fResist;
+	m_fInfectRadius = fInfectRadius;
 	m_eDamageType = eDamageType;
 
 	m_fTickTime = 1.0f;
 	m_fTickElasped = 1.0f;
-	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) - m_iResistStr, m_eDamageType);
+	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) - m_fResistStr, m_eDamageType);
 }
 
 Infection::~Infection(void)
 {
-	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) + m_iResistStr, m_eDamageType);
+	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) + m_fResistStr, m_eDamageType);
 }
 
 bool Infection::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
@@ -47,7 +47,7 @@ bool Infection::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	}
 
 	//try and infect near by enemies
-	kpuBoundingSphere sphere(m_iInfectRadius, m_pTarget->GetLocation());
+	kpuBoundingSphere sphere(m_fInfectRadius, m_pTarget->GetLocation());
 		
 	kpuArrayList<kpuCollisionData> aCollisions;
 
@@ -61,9 +61,9 @@ bool Infection::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 		{
 			Actor* pTarget = (Actor*)pNext->m_pObject;
 
-			if( pTarget->InLineOfSight(m_pTarget, m_iInfectRadius * 2) )
+			if( pTarget->InLineOfSight(m_pTarget, m_fInfectRadius * 2) )
 			{
-				pTarget->AddPersistentSkill(new Infection(pTarget, m_fDamage, m_iResistStr, m_iInfectRadius, m_eDamageType));
+				pTarget->AddPersistentSkill(new Infection(pTarget, m_fDamage, m_fResistStr, m_fInfectRadius, m_eDamageType));
 			}
 		}
 	}

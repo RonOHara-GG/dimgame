@@ -8,11 +8,11 @@
 #include "Common/utility/kpuBoundingSphere.h"
 
 
-PlagueCenser::PlagueCenser(kpuVector vLocation, float fDamage, DamageType eDamageType, int iResistStr, float fRadius)
+PlagueCenser::PlagueCenser(kpuVector vLocation, float fDamage, DamageType eDamageType, float fResistStr, float fRadius)
 {
 	m_fDamage = fDamage;
 	m_eDamageType = eDamageType;
-	m_iResistStr = iResistStr;
+	m_fResistStr = fResistStr;
 	m_fRadius = fRadius;
 	m_fTickTime = 1.0f;
 	m_fElaspedTick = 1.0f;
@@ -49,7 +49,7 @@ bool PlagueCenser::Update(float fGameTime)
 
 				if( pTarget->InLineOfSight(this, m_fRadius * 2) )
 				{
-					pTarget->AddPersistentSkill(new Infection(pTarget, m_fDamage, m_iResistStr, 0, m_eDamageType));
+					pTarget->AddPersistentSkill(new Infection(pTarget, m_fDamage, m_fResistStr, 0, m_eDamageType));
 				}
 			}
 		}

@@ -22,7 +22,7 @@ bool RapidShot::Activate(PlayerCharacter *pSkillOwner)
 	{
 		m_fDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_fDamageMultiple + (m_iRankMultipleMax * m_iSkillRank));
 		m_fRange = pSkillOwner->GetEquippedWeapon()->GetRange() * m_fRangeMultiple;
-		m_iShotMax = MIN_SHOT_COUNT + (m_iSkillRank * m_fShotMultiple);
+		m_iShotMax = MIN_SHOT_COUNT + (m_iSkillRank / m_iShotMultiple);
 		m_fSpeed = pSkillOwner->GetEquippedWeapon()->GetSpeed() * m_fSpeedMultiple;
 
 		m_bReady = false;

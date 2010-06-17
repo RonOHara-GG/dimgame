@@ -173,31 +173,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AcidRain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Armor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ChangeAllegiance.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CreateRift.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Dimensions.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Equippable.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FireBall.cpp"
 				>
 			</File>
 			<File
@@ -213,14 +193,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IceSpray.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Item.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Level.cpp"
 				>
 			</File>
@@ -229,27 +201,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LightningBolt.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LightningProjectile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MissileBattery.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Paralyze.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PlayerClass.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Rift.cpp"
 				>
 			</File>
 			<File
@@ -277,23 +229,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\TakeLife.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Teleport.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\TerrainModel.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Tile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Weapon.cpp"
 				>
 			</File>
 			<File
@@ -474,6 +414,46 @@
 				<Filter
 					Name="Occultist"
 					>
+					<File
+						RelativePath=".\AcidRain.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChangeAllegiance.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\CreateRift.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\FireBall.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\IceSpray.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LightningBolt.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Paralyze.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Rift.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TakeLife.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Teleport.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -485,6 +465,10 @@
 				</File>
 				<File
 					RelativePath=".\Enemy.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MissileBattery.cpp"
 					>
 				</File>
 				<File
@@ -512,6 +496,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LightningProjectile.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Projectile.cpp"
 					>
 				</File>
@@ -532,28 +520,28 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Items"
+				>
+				<File
+					RelativePath=".\Armor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Item.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Weapon.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\AcidRain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Armor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChangeAllegiance.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CreateRift.h"
-				>
-			</File>
 			<File
 				RelativePath=".\DamageTypes.h"
 				>
@@ -564,10 +552,6 @@
 			</File>
 			<File
 				RelativePath=".\Equippable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FireBall.h"
 				>
 			</File>
 			<File
@@ -587,14 +571,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IceSpray.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Item.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Level.h"
 				>
 			</File>
@@ -603,23 +579,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LightningBolt.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LightningProjectile.h"
-				>
-			</File>
-			<File
 				RelativePath=".\LoadStructures.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MissileBattery.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Paralyze.h"
 				>
 			</File>
 			<File
@@ -631,10 +591,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Rift.h"
-				>
-			</File>
-			<File
 				RelativePath=".\SkillCombo.h"
 				>
 			</File>
@@ -643,15 +599,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TakeLife.h"
-				>
-			</File>
-			<File
 				RelativePath=".\targetver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Teleport.h"
 				>
 			</File>
 			<File
@@ -660,10 +608,6 @@
 			</File>
 			<File
 				RelativePath=".\Tile.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Weapon.h"
 				>
 			</File>
 			<Filter
@@ -840,6 +784,42 @@
 				<Filter
 					Name="Occultist"
 					>
+					<File
+						RelativePath=".\AcidRain.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChangeAllegiance.h"
+						>
+					</File>
+					<File
+						RelativePath=".\CreateRift.h"
+						>
+					</File>
+					<File
+						RelativePath=".\FireBall.h"
+						>
+					</File>
+					<File
+						RelativePath=".\IceSpray.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LightningBolt.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Paralyze.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TakeLife.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Teleport.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -854,6 +834,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MissileBattery.h"
+					>
+				</File>
+				<File
 					RelativePath=".\NPC.h"
 					>
 				</File>
@@ -863,6 +847,10 @@
 				</File>
 				<File
 					RelativePath=".\PlayerPet.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Rift.h"
 					>
 				</File>
 			</Filter>
@@ -875,6 +863,10 @@
 				</File>
 				<File
 					RelativePath=".\ExplosiveProjectile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LightningProjectile.h"
 					>
 				</File>
 				<File
@@ -895,6 +887,22 @@
 				</File>
 				<File
 					RelativePath=".\PlayerPetAI.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Items"
+				>
+				<File
+					RelativePath=".\Armor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Item.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Weapon.h"
 					>
 				</File>
 			</Filter>

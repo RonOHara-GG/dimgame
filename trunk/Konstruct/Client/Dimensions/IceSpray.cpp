@@ -8,8 +8,6 @@
 #include "Common/utility/kpuBoundingSphere.h"
 
 #define MIN_ARC 0.0872664626f
-#define MIN_RANGE 2
-#define MIN_RESIST 7
 
 IceSpray::IceSpray(void)
 {
@@ -23,14 +21,14 @@ bool IceSpray::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_fRange = MIN_RANGE + m_iSkillRank /m_fRangeMod;
+		m_fRange = m_fMinRange + m_iSkillRank /m_fRangeMod;
 		m_fMaxCosSqrd = cos(MIN_ARC + (m_iSkillRank * m_fArcMod));
 
 		m_fMaxCosSqrd *= m_fMaxCosSqrd;
 		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 		m_fDamage = iRankMultiple * m_iSkillRank;
-		m_fResistStr = MIN_RESIST + m_iSkillRank * m_fResistMod;
+		m_fResistStr = m_fMinResist + m_iSkillRank * m_fResistMod;
 
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;
