@@ -13,6 +13,13 @@ NPC::~NPC(void)
 		delete m_pAIBehavior;
 }
 
+void NPC::SetAI(AIControl* pAI)
+{
+	if( m_pAIBehavior )
+		delete m_pAIBehavior;
+
+	m_pAIBehavior = pAI;
+}
 
 
 

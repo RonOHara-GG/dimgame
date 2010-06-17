@@ -1,25 +1,26 @@
 #pragma once
-#include "BasicShot.h"
+#include "basicshot.h"
 
-class ScatterShot :
+class AcidRain :
 	public BasicShot
 {
 public:
-	ScatterShot(void);
-	~ScatterShot(void);
+	AcidRain(void);
+	~AcidRain(void);
 
 	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	kpuVector	m_vTarget;	
+	kpuVector	m_vTarget;
 	bool		m_bTargetSelected;
 	float		m_fRadius;
 	float		m_fBaseDamage;
-	float		m_fRadiusMod;
-	float		m_fRecoveryMod;
+	int			m_iRadiusMod;
+	int			m_iRangeMod;
 	float		m_fSpeedMod;
+	float		m_fResistStr;
+	float		m_fResistMod;
+	float		m_fElaspedSinceTick;
 
 };
-
-#define MIN_RADIUS 1

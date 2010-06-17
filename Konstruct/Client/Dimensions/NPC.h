@@ -12,9 +12,12 @@ public:
 
 	virtual bool Update(float fGameTime) {return true;};
 	float	GetActionRange()	{ return m_fActionRange; }
+	void	SetActionRange(float fActionRange) { m_fActionRange = fActionRange; }
 	float	GetAggroRange()		{ return m_fAggroRange; }
 	Actor*	GetLastAttacked() { return m_pLastAttacked; }
-	void SetLastAttacked(Actor* pActor) { m_pLastAttacked = pActor; }
+	void	SetLastAttacked(Actor* pActor) { m_pLastAttacked = pActor; }
+
+	void	SetAI(AIControl* pAI);
 
 	
 	

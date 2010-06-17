@@ -173,7 +173,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\AcidRain.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Armor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ChangeAllegiance.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CreateRift.cpp"
 				>
 			</File>
 			<File
@@ -229,7 +241,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Paralyze.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PlayerClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Rift.cpp"
 				>
 			</File>
 			<File
@@ -255,6 +275,14 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\TakeLife.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Teleport.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\TerrainModel.cpp"
@@ -511,7 +539,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AcidRain.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Armor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ChangeAllegiance.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CreateRift.h"
 				>
 			</File>
 			<File
@@ -579,11 +619,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Paralyze.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PlayerClass.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Rift.h"
 				>
 			</File>
 			<File
@@ -595,7 +643,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TakeLife.h"
+				>
+			</File>
+			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Teleport.h"
 				>
 			</File>
 			<File
