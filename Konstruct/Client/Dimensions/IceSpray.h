@@ -15,6 +15,8 @@ protected:
 	float		m_fMaxCosSqrd;
 	float		m_fArcMod;
 	float		m_fRangeMod;
+	float		m_fMinRange;
 	float		m_fResistStr;
+	float		m_fMinResist;
 	float		m_fResistMod;
 };

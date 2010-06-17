@@ -9,10 +9,6 @@
 #include "Common/utility/kpuCollisionData.h"
 #include "Common/utility/kpuBoundingSphere.h"
 
-#define MIN_RANGE 4
-#define MIN_RADIUS 3
-#define MIN_RESIST 20
-
 ChangeAllegiance::ChangeAllegiance(void)
 {
 }
@@ -27,9 +23,9 @@ bool ChangeAllegiance::Activate(PlayerCharacter* pSkillOwner)
 	{
 		m_fElaspedSinceCast = 0.0f;		
 		
-		m_fRange = MIN_RANGE + m_iSkillRank /  m_iRangeMod;
-		m_fRadius = MIN_RADIUS + (m_iSkillRank / m_iRadiusMod);
-		m_fResistStr = MIN_RESIST + (m_iSkillRank * m_fResistMod);		
+		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;
+		m_fRadius = m_fMinRadius + (m_iSkillRank / m_iRadiusMod);
+		m_fResistStr = m_fMinResist + (m_iSkillRank * m_fResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		

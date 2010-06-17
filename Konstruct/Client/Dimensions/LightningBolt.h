@@ -11,5 +11,5 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	float		m_fArcChance;	
+	float		m_fMinArcChance;
 };

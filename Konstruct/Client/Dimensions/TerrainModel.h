@@ -17,8 +17,8 @@ private:
 
 	struct TerrainData
 	{
-		int								iX;
-		int								iY;
+		float							fX;
+		float							fY;
 		int								iRotations;
 		char*							szModelFile;
 		char*							szCollisionMeshFile;
@@ -30,14 +30,14 @@ private:
 
 	struct Space
 	{
-		int iX;
-		int iY;
-		int iWidth;
-		int iHeight;
+		float fX;
+		float fY;
+		float fWidth;
+		float fHeight;
 
-		Space(int x = 0, int y= 0, int w= 0, int h= 0) { iX = x; iY = y; iWidth = w; iHeight = h; }
+		Space(float x = 0.0f, float y = 0.0f, float w = 0.0f, float h= 0.0f) { fX = x; fY = y; fWidth = w; fHeight = h; }
 	};
 
-	bool SpacesMatch(int iDoorS1, int iDoorE1, int iDoorS2, int iDoorE2, int iLength);
+	bool SpacesMatch(float fDoorS1, float fDoorE1, float fDoorS2, float fDoorE2, float fLength);
 
 };

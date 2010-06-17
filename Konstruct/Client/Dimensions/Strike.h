@@ -17,7 +17,7 @@ protected:
 
 	int			m_iRange; //In tiles
 	int			m_iRadius;  //In tiles
-	int			m_fDamage;
+	float		m_fDamage;
 	float		m_fStrMultiple;
 	float		m_fContactTime;	
 	DamageType  m_eDamageType;

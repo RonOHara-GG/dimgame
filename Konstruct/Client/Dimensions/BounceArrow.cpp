@@ -11,10 +11,10 @@
 #define DAMAGE_REDUCTION 0.75f
 #define BOUNCE_REDUCTION 0.5f
 
-BounceArrow::BounceArrow( float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, int iBounceRange) :
+BounceArrow::BounceArrow( float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fBounceRange) :
 	Projectile(ePT_Arrow, fDamage, fRange, eDamageType, pOwner, vLocation, vDir)
 {
-	m_iBounceRange = iBounceRange;
+	m_fBounceRange = fBounceRange;
 }
 
 BounceArrow::~BounceArrow(void)
@@ -27,11 +27,11 @@ void BounceArrow::Impact(kpuVector vImpact)
 	SetLocation(vImpact);
 
 	//find new target within the range of the bounce
-	kpuBoundingSphere sphere(m_iBounceRange, vImpact);
+	kpuBoundingSphere sphere(m_fBounceRange, vImpact);
 	kpuArrayList<kpuCollisionData> pCollisions;
 	g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &pCollisions);
 
-	float fClosest = m_iBounceRange * m_iBounceRange;
+	float fClosest = m_fBounceRange * m_fBounceRange;
 	Actor* pTarget = 0;
 
 	//find the closest target
@@ -39,7 +39,7 @@ void BounceArrow::Impact(kpuVector vImpact)
 	{
 		kpuCollisionData data = pCollisions[i];
 		
-		if( data.m_pObject->HasFlag(ATTACKABLE) && InLineOfSight((Actor*)data.m_pObject, m_iBounceRange) )
+		if( data.m_pObject->HasFlag(ATTACKABLE) && InLineOfSight((Actor*)data.m_pObject, m_fBounceRange) )
 		{
 			float fDist = kpuVector::DistanceSquared(data.m_pObject->GetLocation(), vImpact);
 
@@ -65,7 +65,7 @@ void BounceArrow::Impact(kpuVector vImpact)
 		m_vHeading.Normalize();		
 
 		//Cut bounce range in half
-		m_iBounceRange *= BOUNCE_REDUCTION;
+		m_fBounceRange *= BOUNCE_REDUCTION;
 		m_fDamage *= DAMAGE_REDUCTION;
 	}
 	else

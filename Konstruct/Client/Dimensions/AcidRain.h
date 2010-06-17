@@ -23,4 +23,8 @@ protected:
 	float		m_fResistMod;
 	float		m_fElaspedSinceTick;
 
+	float		m_fMinRange;
+	float		m_fMinRadius;
+	float		m_fMinResist;
+
 };

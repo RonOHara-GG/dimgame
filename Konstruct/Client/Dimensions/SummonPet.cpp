@@ -3,8 +3,6 @@
 #include "PlayerCharacter.h"
 #include "PlayerPet.h"
 
-#define MIN_RANGE 1
-
 SummonPet::SummonPet(void)
 {
 }
@@ -21,7 +19,7 @@ bool SummonPet::Activate(PlayerCharacter *pSkillOwner)
 		m_bReady = false;
 		m_bExecuted = false;
 
-		m_iRange = MIN_RANGE + (m_iSkillRank / m_iRangeMod);
+		m_iRange = m_iMinRange + (m_iSkillRank / m_iRangeMod);
 		pSkillOwner->SetActiveSkill(this);
 
 		return true;

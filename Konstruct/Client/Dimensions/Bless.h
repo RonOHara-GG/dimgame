@@ -16,6 +16,7 @@ protected:
 
 	int					m_iRange;
 	int					m_iRangeMod;
+	int					m_iMinRange;
 	float				m_fDamageBonus;
 	float				m_fDamageReduction;
 	int					m_iDamageReductionMin;

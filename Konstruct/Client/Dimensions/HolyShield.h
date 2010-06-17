@@ -15,4 +15,5 @@ public:
 protected:
 	float	m_fDamageReduction;
 	float	m_fRadiusMod;
+	float	m_fMinRadius;
 };

@@ -12,7 +12,7 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int		m_iBounceRange;
+	float	m_fBounceRange;
 	float	m_fBounceModifier;
 
 };

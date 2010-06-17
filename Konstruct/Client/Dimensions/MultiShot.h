@@ -16,7 +16,7 @@ protected:
 	int							m_iShotsToFire;
 	float						m_fFireArc;
 	float						m_fIntMultiple;
-	float						m_fNumOfShotsMultiple;
+	int							m_iNumOfShotsMultiple;
 	float						m_fFireArcMultiple;
 };
 

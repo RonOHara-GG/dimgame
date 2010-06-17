@@ -5,10 +5,10 @@ class BounceArrow :
 	public Projectile
 {
 public:
-	BounceArrow(float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, int iBounceRange);
+	BounceArrow(float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fBounceRange);
 	~BounceArrow(void);	
 
 protected:
 	void Impact(kpuVector vImpact);
-	int		m_iBounceRange;
+	float		m_fBounceRange;
 };

@@ -3,7 +3,6 @@
 #include "PlayerCharacter.h"
 
 #define MIN_HEAL 10
-#define MIN_RANGE 4
 
 Resurrect::Resurrect(void)
 {
@@ -17,7 +16,7 @@ bool Resurrect::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_iRange = MIN_RANGE + (m_iSkillRank / m_iRangeMod);
+		m_iRange = m_iMinRange + (m_iSkillRank / m_iRangeMod);
 		m_fHeal = MIN_HEAL + (m_iSkillRank * m_fHealMod);
 		
 		m_fElaspedSinceCast = 0.0f;

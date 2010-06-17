@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level Name="Bastarak" Width="50" Height="50">
+<Level Name="Bastarak" Width="150" Height="150">
   <Modules>Assets/Modules/TerrainPieces.xml</Modules>
 </Level>

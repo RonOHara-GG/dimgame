@@ -14,4 +14,5 @@ public:
 protected:
 	int		m_iRange;
 	int		m_iRangeMod;
+	int		m_iMinRange;
 };

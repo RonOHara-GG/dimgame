@@ -25,7 +25,7 @@ protected:
 	Actor*			m_pTarget;
 	float			m_fDamage;
 	DamageType		m_eDamageType;
-	int				m_iRange;
+	float			m_fRange;
 
 	//--Loaded Data--
 	float				m_fDamageMod;
