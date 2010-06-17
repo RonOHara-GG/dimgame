@@ -20,7 +20,7 @@ bool RapidShot::Activate(PlayerCharacter *pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_fDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_fDamageMultiple + (m_iRankMultipleMax * m_iSkillRank));
+		m_iDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_iDamageMultiple + (m_iRankMultipleMax * m_iSkillRank));
 		m_fRange = pSkillOwner->GetEquippedWeapon()->GetRange() * m_fRangeMultiple;
 		m_iShotMax = MIN_SHOT_COUNT + (m_iSkillRank / m_iShotMultiple);
 		m_fSpeed = pSkillOwner->GetEquippedWeapon()->GetSpeed() * m_fSpeedMultiple;
@@ -54,7 +54,7 @@ bool RapidShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		//fire new arrow
 		m_iShotCount++;
-		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
+		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
 		g_pGameState->AddActor(pArrow);
 
 		if( m_iShotCount == m_iShotMax )

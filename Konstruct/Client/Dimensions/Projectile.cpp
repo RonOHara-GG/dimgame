@@ -7,10 +7,10 @@
 
 
 
-Projectile::Projectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir)
+Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir)
 {
 	m_eProjectileType = eType;
-	m_fDamage = fDamage;
+	m_iDamage = iDamage;
 	m_fRange = fRange;
 	m_eDamageType = eDamageType;
 	m_pOwner = pOwner;
@@ -30,12 +30,12 @@ Projectile::Projectile(ProjectileType eType, float fDamage, float fRange, Damage
 	m_fRadius = 0.0f;
 }
 
-Projectile::Projectile(ProjectileType eType, float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, float fResist)
+Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, float fResist)
 {
-	Projectile(eType, fDamage, fRange, eDamageType, pOwner, vLocation, vDir);
+	Projectile(eType, iDamage, fRange, eDamageType, pOwner, vLocation, vDir);
 	
 	m_fRadius = fRadius;
-	m_fResistStr = fResist;
+	m_iResistStr = fResist;
 }
 
 Projectile::~Projectile(void)
@@ -67,7 +67,7 @@ bool Projectile::Update(float fGameTime)
 			Actor* pTarget = (Actor*)data.m_pObject;
 
 			m_pLastHit = pTarget;
-			pTarget->TakeDamage(m_fDamage, m_eDamageType);
+			pTarget->TakeDamage(m_iDamage, m_eDamageType);
 			Impact(pTarget->GetLocation());
 		}
 		else if( data.m_pObject->HasFlag(WALL) )

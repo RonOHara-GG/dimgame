@@ -11,22 +11,22 @@ Infection::Infection(void)
 {
 }
 
-Infection::Infection(Actor* pTarget, float fDamage, float fResist, float fInfectRadius, DamageType eDamageType)
+Infection::Infection(Actor* pTarget, int iDamage, int iResist, float fInfectRadius, DamageType eDamageType)
 	:PersistentSkill(pTarget)
 {
-	m_fDamage = fDamage;	
-	m_fResistStr = fResist;
+	m_iDamage = iDamage;	
+	m_iResistStr = iResist;
 	m_fInfectRadius = fInfectRadius;
 	m_eDamageType = eDamageType;
 
 	m_fTickTime = 1.0f;
 	m_fTickElasped = 1.0f;
-	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) - m_fResistStr, m_eDamageType);
+	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) - m_iResistStr, m_eDamageType);
 }
 
 Infection::~Infection(void)
 {
-	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) + m_fResistStr, m_eDamageType);
+	m_pTarget->SetResist(m_pTarget->GetResist(m_eDamageType) + m_iResistStr, m_eDamageType);
 }
 
 bool Infection::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
@@ -38,7 +38,7 @@ bool Infection::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 		m_fTickElasped = 0.0f;
 
 		//deal damage
-		if( !m_pTarget->TakeDamage(m_fDamage, m_eDamageType) )
+		if( !m_pTarget->TakeDamage(m_iDamage, m_eDamageType) )
 		{
 			//resisted so terminate the skill
 			m_pTarget->RemovePersistentSkill(this);
@@ -63,7 +63,7 @@ bool Infection::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 			if( pTarget->InLineOfSight(m_pTarget, m_fInfectRadius * 2) )
 			{
-				pTarget->AddPersistentSkill(new Infection(pTarget, m_fDamage, m_fResistStr, m_fInfectRadius, m_eDamageType));
+				pTarget->AddPersistentSkill(new Infection(pTarget, m_iDamage, m_iResistStr, m_fInfectRadius, m_eDamageType));
 			}
 		}
 	}

@@ -7,11 +7,11 @@
 #include "Common/Utility/kpuCollisionData.h"
 #include "Common/Utility/kpuBoundingCapsule.h"
 
-LightningProjectile::LightningProjectile(float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fArcChance, float fResistStr) :
-	Projectile(ePT_Spell, fDamage, fRange, eDamageType, pOwner, vLocation, vDir)
+LightningProjectile::LightningProjectile(int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fArcChance, int iResistStr) :
+	Projectile(ePT_Spell, iDamage, fRange, eDamageType, pOwner, vLocation, vDir)
 {
 	m_fArcChance = fArcChance;
-	m_fResistStr = fResistStr;
+	m_iResistStr = iResistStr;
 }
 
 LightningProjectile::~LightningProjectile(void)

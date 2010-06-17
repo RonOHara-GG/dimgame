@@ -23,7 +23,7 @@ protected:
 
 	kpuVector		m_vSource;
 	Actor*			m_pTarget;
-	float			m_fDamage;
+	int				m_iDamage;
 	DamageType		m_eDamageType;
 	float			m_fRange;
 

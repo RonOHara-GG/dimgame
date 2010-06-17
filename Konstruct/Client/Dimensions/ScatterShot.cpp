@@ -26,7 +26,7 @@ bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_fBaseDamage = pEquippedWeapon->GetDamage() * m_fDamageMultiple + (iRankMultiple * m_iSkillRank);
+		m_iBaseDamage = pEquippedWeapon->GetDamage() * m_iDamageMultiple + (iRankMultiple * m_iSkillRank);
 		m_fRange = pEquippedWeapon->GetRange() * m_fRangeMultiple;
 		m_fSpeed = pEquippedWeapon->GetSpeed() * m_fSpeedMod;
 		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;
@@ -77,9 +77,9 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 				//get distance to the object
 				float fDist = (pNext->m_pObject->GetLocation() - m_vTarget).Length();
 
-				m_fDamage = m_fBaseDamage - ( (fDist / m_fRadius) * m_fBaseDamage );
+				m_iDamage = m_iBaseDamage - ( (fDist / m_fRadius) * m_iBaseDamage );
 				
-				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_fDamage, this);
+				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_iDamage, this);
 			}
 
 		}

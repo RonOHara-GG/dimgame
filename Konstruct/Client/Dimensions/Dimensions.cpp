@@ -246,13 +246,13 @@ void LoadEnemyType(const char* pszFile)
 
 		enemyType->pszName = (char*)pElement->Attribute("Name");
 		enemyType->iLevel = atoi(pElement->Attribute("Level"));
-		enemyType->fHealth = (float)atof(pElement->Attribute("Health"));
+		enemyType->iHealth = atoi(pElement->Attribute("Health"));
 		enemyType->fSpeed = (float)atof(pElement->Attribute("Speed"));
 		enemyType->pModel = new kpgModel();
 		enemyType->pModel->Load(pElement->Attribute("Model"));
 		enemyType->pCollision = new kpgModel();
 		enemyType->pCollision->Load(pElement->Attribute("Collision"));
-		enemyType->fDamage = (float)atof(pElement->Attribute("Damage"));
+		enemyType->iDamage = (int)atoi(pElement->Attribute("Damage"));
 		enemyType->fAggroRange = (float)atof(pElement->Attribute("Aggro"));
 		enemyType->fAttackRange = (float)atof(pElement->Attribute("AtkRange"));
 		enemyType->fAttackSpeed = (float)atof(pElement->Attribute("AtkSpeed"));

@@ -42,16 +42,16 @@ public:
 	bool InLineOfSight(Actor* pTarget, float fRange); //Checks if the target is in this actor's line of sight
 	bool InLineOfSight(kpuVector vPos, float fRange, Actor* pTarget = 0);
 	
-	bool TakeDamage(float fDamage, DamageType eDmgType, float fResistStr = 0.0f);
-	void DamageBuff(float fAmount) { m_fDamageBuff += fAmount; }
-	void DamageReduction(float fAmount) { m_fDamageReduction += fAmount; }
-	void Heal(float fAmount);
-	void HealMental(float fAmount);
+	bool TakeDamage(int iDamage, DamageType eDmgType, int iResistStr = 0);
+	void DamageBuff(int iAmount) { m_iDamageBuff += iAmount; }
+	void DamageReduction(int iAmount) { m_iDamageReduction += iAmount; }
+	void Heal(int iAmount);
+	void HealMental(int iAmount);
 	void RemovePersistentSkill(PersistentSkill* pSkill);
 	void AddPersistentSkill(PersistentSkill* pSkill);
 
 	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
-	bool IsAlive() { return m_fCurrentHealth > 0; }
+	bool IsAlive() { return m_iCurrentHealth > 0; }
 
 	void Move(kpuVector vVel);
 	void Move(float fDeltaTime, kpuVector vDir);
@@ -64,10 +64,10 @@ public:
 	virtual float GetSpeed() { return m_fBaseSpeed; }
 	kpuVector GetHeading()	{ return m_vHeading; }
 	Actor* GetTarget() { return m_pTarget; }
-	float GetCurrentHealth() { return m_fCurrentHealth; }
-	float GetCurrentMental() { return m_fCurrentMental; }
-	float GetMaxHealth() { return m_fMaxHealth; }
-	float GetMaxMental() { return m_fMaxMental; }
+	int GetCurrentHealth() { return m_iCurrentHealth; }
+	int GetCurrentMental() { return m_iCurrentMental; }
+	int GetMaxHealth() { return m_iMaxHealth; }
+	int GetMaxMental() { return m_iMaxMental; }
 	int GetStr() { return m_iStr; }
 	int GetAgi() { return m_iAgi; }
 	int GetInt() { return m_iInt; }
@@ -77,9 +77,9 @@ public:
 	void SetHeading(kpuVector& vHeading);
 	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
 	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }
-	void SetCurrentHealth(float fAmount) { m_fCurrentHealth = fAmount; }
-	void SetMaxHealth(float fMaxHealth) { m_fMaxHealth = fMaxHealth; }
-	void SetMaxMental(float fMaxMental) { m_fMaxMental = fMaxMental; }
+	void SetCurrentHealth(int iAmount) { m_iCurrentHealth = iAmount; }
+	void SetMaxHealth(int iMaxHealth) { m_iMaxHealth = iMaxHealth; }
+	void SetMaxMental(int iMaxMental) { m_iMaxMental = iMaxMental; }
 	void SetStr(int iStr) { m_iStr = iStr; }
 	void SetAgi(int iAgi) { m_iAgi = iAgi; }
 	virtual void SetInt(int iInt) { m_iInt = iInt; }
@@ -114,18 +114,18 @@ protected:
 	kpuVector		m_vHeading;	
 
 	//Stats
-	float			m_fDamageReduction;
-	float			m_fDamageBuff;
+	int				m_iDamageReduction;
+	int				m_iDamageBuff;
 	int				m_iLevel;
 	int				m_iStr;				//Strength determines how much force player can exert
 	int				m_iAgi;				//Agility determines quickly the character can move and react physically
 	int				m_iInt;				//Intellegence determines mental pool
 	int				m_iConst;			//Constitution determines health pool and resist
 
-	float			m_fMaxHealth;		//The maximum health the player can have atm
-	float			m_fCurrentHealth;	//The players current health
-	float			m_fMaxMental;		
-	float			m_fCurrentMental;
+	int				m_iMaxHealth;		//The maximum health the player can have atm
+	int				m_iCurrentHealth;	//The players current health
+	int				m_iMaxMental;		
+	int				m_iCurrentMental;
 
 	//Resitances
 	int				m_iCrushRes;

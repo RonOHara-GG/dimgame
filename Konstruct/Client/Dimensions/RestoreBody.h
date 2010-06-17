@@ -18,10 +18,10 @@ public:
 	};
 
 protected:
-	int			m_iRadius;
-	int			m_iRadiusMod;
-	int			m_iMinRadius;
-	float		m_fHeal;
+	float		m_fRadius;
+	float		m_fRadiusMod;
+	float		m_fMinRadius;
+	int			m_iHeal;
 	HealType	m_eHealType;
 
 };

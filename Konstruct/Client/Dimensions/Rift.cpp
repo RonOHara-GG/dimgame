@@ -13,7 +13,7 @@ Rift::Rift(PlayerCharacter* pOwner, int iLevel, float fRadius, kpuVector vLocati
 {
 	m_fDuration = fDuration;
 	m_fRadius = fRadius;
-	m_fResistStr = fResist;
+	m_iResistStr = fResist;
 	SetLocation(vLocation);
 	m_fElasped = 0.0f;
 }
@@ -46,7 +46,7 @@ bool Rift::Update(float fGameTime)
 		{
 			Enemy* pTarget = (Enemy*)pNext->m_pObject;
 
-			if( pTarget->InLineOfSight(this, m_fRadius) && pTarget->GetResist(m_eDamageType) < m_fResistStr )
+			if( pTarget->InLineOfSight(this, m_fRadius) && pTarget->GetResist(m_eDamageType) < m_iResistStr )
 				pTarget->SetCurrentHealth(-1);
 		}		
 		

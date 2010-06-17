@@ -13,7 +13,7 @@ public:
 	//SpreadableBuff* CopyBuff();
 
 protected:
-	float	m_fDamageReduction;
+	float	m_iDamageReduction;
 	float	m_fRadiusMod;
 	float	m_fMinRadius;
 };

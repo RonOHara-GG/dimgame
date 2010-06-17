@@ -14,17 +14,17 @@ public:
 protected:
 	int			m_iRankMultipleMin;	
 	int			m_iRankMultipleMax;	
-	float		m_fDamage;
+	int			m_iDamage;
 	DamageType  m_eDamageType;
 	float		m_fRange;
 	float		m_fRangeMod;		 
-	float		m_fResistStr;
-	float		m_fResistMod;
+	int			m_iResistStr;
+	int			m_iResistMod;
 	float		m_fRadius;
 	float		m_fRadiusMod;
 
 	float		m_fMinRange;
 	float		m_fMinRadius;
-	float		m_fMinResist;
+	int			m_iMinResist;
 };
 #define MIN_SPEED 20.0f

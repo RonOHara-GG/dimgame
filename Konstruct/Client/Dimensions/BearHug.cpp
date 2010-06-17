@@ -48,7 +48,7 @@ bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		return false;
 	}
 
- 	m_pTarget->TakeDamage(m_fDamage * fDeltaTime, m_eDamageType);
+ 	m_pTarget->TakeDamage(m_iDamage * fDeltaTime, m_eDamageType);
 
 	if( !m_pTarget->IsAlive() )
 	{

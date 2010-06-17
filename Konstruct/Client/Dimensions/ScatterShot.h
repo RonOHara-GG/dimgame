@@ -15,7 +15,7 @@ protected:
 	kpuVector	m_vTarget;	
 	bool		m_bTargetSelected;
 	float		m_fRadius;
-	float		m_fBaseDamage;
+	int			m_iBaseDamage;
 	float		m_fRadiusMod;
 	float		m_fRecoveryMod;
 	float		m_fSpeedMod;

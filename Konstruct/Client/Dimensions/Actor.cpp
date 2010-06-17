@@ -29,10 +29,10 @@ Actor::Actor()
 	m_iInt = 0;			
 	m_iConst = 0;			
 
-	m_fMaxHealth = 0;		
-	m_fCurrentHealth = 0;	
-	m_fMaxMental = 0;		
-	m_fCurrentMental = 0;
+	m_iMaxHealth = 0;		
+	m_iCurrentHealth = 0;	
+	m_iMaxMental = 0;		
+	m_iCurrentMental = 0;
 
 	//Initalize Resisits to 0
 	m_iCrushRes = 0;
@@ -51,8 +51,8 @@ Actor::Actor()
 	m_vHeading = kpuv_OneZ;
 
 	m_paPersistentSkills = new kpuLinkedList();
-	m_fDamageBuff = 0.0f;
-	m_fDamageReduction = 0.0f;
+	m_iDamageBuff = 0;
+	m_iDamageReduction = 0;
 }
 
 Actor::~Actor()
@@ -243,75 +243,75 @@ bool Actor::BuildPathToDestination()
 	return false;
 }
 
-bool Actor::TakeDamage(float fDamage, DamageType eDmgType, float fResistStr)
+bool Actor::TakeDamage(int iDamage, DamageType eDmgType, int iResistStr)
 {
 	switch(eDmgType)
 	{
 	case eDT_Acid:
 		{
-			fDamage -= m_iAcidRes + fResistStr;
+			iDamage -= m_iAcidRes + iResistStr;
 			break;
 		}
 	case eDT_Cold:
 		{
-			fDamage -= m_iColdRes + fResistStr;
+			iDamage -= m_iColdRes + iResistStr;
 		}
 	case eDT_Crushing:
 		{
-			fDamage -= m_iCrushRes + fResistStr;
+			iDamage -= m_iCrushRes + iResistStr;
 			break;
 		}
 	case eDT_Death:
 		{
-			fDamage -= m_iDeathRes+ fResistStr;
+			iDamage -= m_iDeathRes+ iResistStr;
 			break;
 		}
 	case eDT_Electrical:
 		{
-			fDamage -= m_iElectRes+ fResistStr;
+			iDamage -= m_iElectRes+ iResistStr;
 			break;
 		}
 	case eDT_Heat:
 		{
-			fDamage -= m_iHeatRes+ fResistStr;
+			iDamage -= m_iHeatRes+ iResistStr;
 			break;
 		}
 	case eDT_Holy:
 		{
-			fDamage -= m_iHolyRes+ fResistStr;
+			iDamage -= m_iHolyRes+ iResistStr;
 			break;
 		}
 	case eDT_Mental:
 		{
-			fDamage -= m_iMentalRes+ fResistStr;
+			iDamage -= m_iMentalRes+ iResistStr;
 			break;
 		}
 	case eDT_Piercing:
 		{
-			fDamage -= m_iPierceRes+ fResistStr;
+			iDamage -= m_iPierceRes+ iResistStr;
 			break;
 		}
 	case eDT_Slashing:
 		{
-			fDamage -= m_iSlashRes+ fResistStr;
+			iDamage -= m_iSlashRes+ iResistStr;
 			break;
 		}
 	case eDT_Viral:
 		{
-			fDamage -= m_iViralRes+ fResistStr;
+			iDamage -= m_iViralRes+ iResistStr;
 			break;
 		}
 	case eDT_Water:
 		{
-			fDamage -= m_iWaterRes+ fResistStr;
+			iDamage -= m_iWaterRes+ iResistStr;
 			break;
 		}
 	}
 
-	if( fDamage <= 0 )
+	if( iDamage <= 0 )
 		return false;
 
-	m_fCurrentHealth -= fDamage;
+	m_iCurrentHealth -= iDamage;
 
 	return true;
 }
@@ -493,20 +493,20 @@ void Actor::SetResist(int iAmount, DamageType eType)
 	}
 }
 	
-void Actor::Heal(float fAmount)
+void Actor::Heal(int iAmount)
 {
-	m_fCurrentHealth += fAmount;
+	m_iCurrentHealth += iAmount;
 
-	if( m_fCurrentHealth > m_fMaxHealth )
-		m_fCurrentHealth = m_fMaxHealth;
+	if( m_iCurrentHealth > m_iMaxHealth )
+		m_iCurrentHealth = m_iMaxHealth;
 }
 
-void Actor::HealMental(float fAmount)
+void Actor::HealMental(int iAmount)
 {
-	m_fCurrentMental += fAmount;
+	m_iCurrentMental += iAmount;
 
-	if( m_fCurrentMental > m_fMaxMental )
-		m_fCurrentMental = m_fMaxMental;
+	if( m_iCurrentMental > m_iMaxMental )
+		m_iCurrentMental = m_iMaxMental;
 }
 
 void Actor::RemovePersistentSkill(PersistentSkill* pSkill)
@@ -561,5 +561,5 @@ void Actor::AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pS
 		}
 	}
 	//apply effect which for now is just damag
-	TakeDamage(*(float*)pEffect, (DamageType)*(int*)((float*)pEffect + 1));
+	TakeDamage(*(int*)pEffect, (DamageType)*(int*)((int*)pEffect + 1));
 }

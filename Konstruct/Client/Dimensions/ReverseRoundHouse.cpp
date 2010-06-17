@@ -58,7 +58,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_fDamage, m_eDamageType);
+				pTarget->TakeDamage(m_iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drUPPER_LEFT;		
 		}
@@ -77,7 +77,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_fDamage, m_eDamageType);
+				pTarget->TakeDamage(m_iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drFRONT;		
 		}
@@ -91,7 +91,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_fDamage, m_eDamageType);
+				pTarget->TakeDamage(m_iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drUPPER_RIGHT;		
 		}
@@ -108,7 +108,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_fDamage, m_eDamageType);
+				pTarget->TakeDamage(m_iDamage, m_eDamageType);
 			m_eCurrentTarget = e_drRIGHT;		
 		}
 		break;
@@ -124,7 +124,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);		
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_fDamage, m_eDamageType);
+				pTarget->TakeDamage(m_iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drNONE;		
 		}

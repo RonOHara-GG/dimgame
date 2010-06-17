@@ -17,8 +17,8 @@ protected:
 	float		m_fRadius;
 	int			m_iRangeMod;
 	int			m_iRadiusMod;
-	float		m_fResistStr;
-	float		m_fResistMod;
+	float		m_iResistStr;
+	float		m_iResistMod;
 
 	float		m_fMinRange;
 	float		m_fMinRadius;

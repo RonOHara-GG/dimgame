@@ -16,7 +16,7 @@ protected:
 	float		m_fArcMod;
 	float		m_fRangeMod;
 	float		m_fMinRange;
-	float		m_fResistStr;
+	float		m_iResistStr;
 	float		m_fMinResist;
-	float		m_fResistMod;
+	float		m_iResistMod;
 };

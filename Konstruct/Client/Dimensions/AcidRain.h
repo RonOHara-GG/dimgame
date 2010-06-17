@@ -15,12 +15,12 @@ protected:
 	kpuVector	m_vTarget;
 	bool		m_bTargetSelected;
 	float		m_fRadius;
-	float		m_fBaseDamage;
+	int			m_iBaseDamage;
 	int			m_iRadiusMod;
 	int			m_iRangeMod;
 	float		m_fSpeedMod;
-	float		m_fResistStr;
-	float		m_fResistMod;
+	float		m_iResistStr;
+	float		m_iResistMod;
 	float		m_fElaspedSinceTick;
 
 	float		m_fMinRange;

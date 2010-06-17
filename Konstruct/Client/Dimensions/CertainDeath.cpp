@@ -26,7 +26,7 @@ bool CertainDeath::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	Weapon* pEquipped = pSkillOwner->GetEquippedWeapon();
 	int iRankMultiple = Skill::m_iRankMultipleMin + ( rand() % (int)(Skill::m_iRankMultipleMax - Skill::m_iRankMultipleMin) );
 	m_fRange = pEquipped->GetRange();
-	m_fDamage = pEquipped->GetDamage() + iRankMultiple * Skill::m_iSkillRank;
+	m_iDamage = pEquipped->GetDamage() + iRankMultiple * Skill::m_iSkillRank;
 	m_eDamageType = pEquipped->GetDamageType();
 	Skill::m_fSpeed = pEquipped->GetSpeed();
 	Skill::m_fRecovery = pEquipped->GetRecovery();
@@ -69,7 +69,7 @@ bool CertainDeath::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			kpuVector vHeading = pClosest->GetLocation() - pSkillOwner->GetLocation();
 			vHeading.Normalize();
 			pSkillOwner->SetHeading(vHeading);
-			Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vHeading);
+			Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vHeading);
 			g_pGameState->AddActor(pBullet);
 		}
 	}

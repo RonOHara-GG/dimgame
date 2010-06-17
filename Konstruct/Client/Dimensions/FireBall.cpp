@@ -18,8 +18,8 @@ bool FireBall::Activate(PlayerCharacter *pSkillOwner)
 		m_fRadius = m_fMinRadius + (m_iSkillRank / m_fRadiusMod);
 		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_fDamage = iRankMultiple * m_iSkillRank;
-		m_fResistStr = m_fMinResist + m_iSkillRank * m_fResistMod;
+		m_iDamage = iRankMultiple * m_iSkillRank;
+		m_iResistStr = m_fMinResist + m_iSkillRank * m_iResistMod;
 
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;
@@ -39,7 +39,7 @@ bool FireBall::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	if( m_fElaspedSinceCast >= m_fSpeed )
 	{
 		//shoot fireball
-		Projectile* pArrow = new Projectile(Projectile::ePT_Spell, m_fDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), m_fRadius, m_fResistStr);
+		Projectile* pArrow = new Projectile(Projectile::ePT_Spell, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), m_fRadius, m_iResistStr);
 		g_pGameState->AddActor(pArrow);
 
 		m_bExecuted = true;

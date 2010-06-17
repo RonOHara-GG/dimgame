@@ -25,11 +25,11 @@ bool AcidRain::Activate(PlayerCharacter* pSkillOwner)
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_fDamage = iRankMultiple * m_iSkillRank;
+		m_iDamage = iRankMultiple * m_iSkillRank;
 		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;
 		m_fSpeed =  MIN_SPEED + m_iSkillRank * m_fSpeedMod;		
 		m_fRadius = m_fMinRadius + (m_iSkillRank / m_iRadiusMod);
-		m_fResistStr = m_fMinResist + (m_iSkillRank * m_fResistMod);		
+		m_iResistStr = m_fMinResist + (m_iSkillRank * m_iResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		
@@ -74,7 +74,7 @@ bool AcidRain::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			{
 				kpuCollisionData* pNext = &collidedObjects[i];				
 				
-				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_fDamage, this);
+				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_iDamage, this);
 			}
 
 		}

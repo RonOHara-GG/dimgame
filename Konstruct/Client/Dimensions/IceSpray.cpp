@@ -27,8 +27,8 @@ bool IceSpray::Activate(PlayerCharacter *pSkillOwner)
 		m_fMaxCosSqrd *= m_fMaxCosSqrd;
 		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_fDamage = iRankMultiple * m_iSkillRank;
-		m_fResistStr = m_fMinResist + m_iSkillRank * m_fResistMod;
+		m_iDamage = iRankMultiple * m_iSkillRank;
+		m_iResistStr = m_fMinResist + m_iSkillRank * m_iResistMod;
 
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;
@@ -68,7 +68,7 @@ bool IceSpray::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 			if( fCos <= m_fMaxCosSqrd )
 			{		
-				pNext->m_pObject->AreaEffect(pSkillOwner->GetLocation(), m_fRange, &m_fDamage, this);
+				pNext->m_pObject->AreaEffect(pSkillOwner->GetLocation(), m_fRange, &m_iDamage, this);
 			}
 		}
 		

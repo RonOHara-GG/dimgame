@@ -11,8 +11,8 @@
 #define DAMAGE_REDUCTION 0.75f
 #define BOUNCE_REDUCTION 0.5f
 
-BounceArrow::BounceArrow( float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fBounceRange) :
-	Projectile(ePT_Arrow, fDamage, fRange, eDamageType, pOwner, vLocation, vDir)
+BounceArrow::BounceArrow( int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fBounceRange) :
+	Projectile(ePT_Arrow, iDamage, fRange, eDamageType, pOwner, vLocation, vDir)
 {
 	m_fBounceRange = fBounceRange;
 }
@@ -66,7 +66,7 @@ void BounceArrow::Impact(kpuVector vImpact)
 
 		//Cut bounce range in half
 		m_fBounceRange *= BOUNCE_REDUCTION;
-		m_fDamage *= DAMAGE_REDUCTION;
+		m_iDamage *= DAMAGE_REDUCTION;
 	}
 	else
 	{

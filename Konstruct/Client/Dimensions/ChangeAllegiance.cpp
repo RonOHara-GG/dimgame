@@ -25,7 +25,7 @@ bool ChangeAllegiance::Activate(PlayerCharacter* pSkillOwner)
 		
 		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;
 		m_fRadius = m_fMinRadius + (m_iSkillRank / m_iRadiusMod);
-		m_fResistStr = m_fMinResist + (m_iSkillRank * m_fResistMod);		
+		m_iResistStr = m_fMinResist + (m_iSkillRank * m_iResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		
@@ -69,7 +69,7 @@ bool ChangeAllegiance::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 				{
 					Enemy* pTarget = (Enemy*)pNext->m_pObject;
 
-					if( pTarget->InLineOfSight(m_vTarget, m_fRadius, pSkillOwner) && pTarget->GetResist(m_eDamageType) < m_fResistStr )
+					if( pTarget->InLineOfSight(m_vTarget, m_fRadius, pSkillOwner) && pTarget->GetResist(m_eDamageType) < m_iResistStr )
 					{						
 						pSkillOwner->AddPet(new PlayerPet(pTarget, pSkillOwner));	
 						pTarget->SetCurrentHealth(-1);

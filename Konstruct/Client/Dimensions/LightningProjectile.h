@@ -5,12 +5,12 @@ class LightningProjectile :
 	public Projectile
 {
 public:
-	LightningProjectile(float fDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fArcChance, float fResistStr);
+	LightningProjectile(int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fArcChance, int iResistStr);
 	~LightningProjectile(void);
 
 protected:
 	void Impact(kpuVector vImpact);
 
-	float	m_fResistStr;
+	int		m_iResistStr;
 	float	m_fArcChance;
 };

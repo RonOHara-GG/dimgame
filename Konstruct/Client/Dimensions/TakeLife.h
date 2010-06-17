@@ -13,9 +13,9 @@ public:
 
 protected:
 	int		m_iRangeMod;
-	float	m_fResistStr;
+	int		m_iResistStr;
 	float	m_fResistMod;	
 	float	m_fMinRange;
-	float	m_fMinResist;
+	int		m_iMinResist;
 	Actor*  m_pTarget;
 };
