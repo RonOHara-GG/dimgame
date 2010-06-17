@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "LightningProjectile.h"
-
 #include "Grid.h"
 #include "Level.h"
 #include "Common/Utility/kpuQuadTree.h"

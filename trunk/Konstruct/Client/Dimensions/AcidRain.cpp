@@ -1,6 +1,5 @@
 #include "StdAfx.h"
-#include "ScatterShot.h"
-#include "Weapon.h"
+#include "AcidRain.h"
 #include "PlayerCharacter.h"
 #include "Level.h"
 #include "Common/utility/kpuArrayList.h"
@@ -8,30 +7,32 @@
 #include "Common/utility/kpuCollisionData.h"
 #include "Common/utility/kpuBoundingSphere.h"
 
-ScatterShot::ScatterShot(void)
+#define MIN_RANGE 7
+#define MIN_RADIUS 5
+#define MIN_RESIST 16
+#define MIN_SPEED 5
+AcidRain::AcidRain(void)
 {
 }
 
-ScatterShot::~ScatterShot(void)
+AcidRain::~AcidRain(void)
 {
 }
 
-bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
+bool AcidRain::Activate(PlayerCharacter* pSkillOwner)
 {
 	if(m_bReady)
 	{
-		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
-
 		m_fElaspedSinceCast = 0.0f;
+		m_fElaspedSinceTick = 0.0f;
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_fBaseDamage = pEquippedWeapon->GetDamage() * m_fDamageMultiple + (iRankMultiple * m_iSkillRank);
-		m_fRange = pEquippedWeapon->GetRange() * m_fRangeMultiple;
-		m_fSpeed = pEquippedWeapon->GetSpeed() * m_fSpeedMod;
-		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;
-		m_fRadius = MIN_RADIUS + (m_iSkillRank * m_fRadiusMod);
-		m_eDamageType = pEquippedWeapon->GetDamageType();
+		m_fDamage = iRankMultiple * m_iSkillRank;
+		m_fRange = MIN_RANGE + m_iSkillRank /  m_iRangeMod;
+		m_fSpeed =  MIN_SPEED + m_iSkillRank * m_fSpeedMod;		
+		m_fRadius = MIN_RADIUS + (m_iSkillRank / m_iRadiusMod);
+		m_fResistStr = MIN_RESIST + (m_iSkillRank * m_fResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		
@@ -45,7 +46,7 @@ bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
 	return false;
 }
 
-bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
+bool AcidRain::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
 	//check input and see if mouse was clicked
 
@@ -58,11 +59,13 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 	if( m_bTargetSelected )
 	{
 		m_fElaspedSinceCast += fDeltaTime;
+		m_fElaspedSinceTick += fDeltaTime;
 
 		//Good time to execute?
-		if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.75f )
+		if( m_fElaspedSinceTick >= 1.0f  )
 		{
 			m_bExecuted = true;
+			m_fElaspedSinceTick = 0.0f;
 
 			//get all actors in range
 			kpuBoundingSphere sphere(m_fRadius, m_vTarget);
@@ -72,12 +75,7 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 			for(int i = 0; i < collidedObjects.Count(); i++)
 			{
-				kpuCollisionData* pNext = &collidedObjects[i];
-
-				//get distance to the object
-				float fDist = (pNext->m_pObject->GetLocation() - m_vTarget).Length();
-
-				m_fDamage = m_fBaseDamage - ( (fDist / m_fRadius) * m_fBaseDamage );
+				kpuCollisionData* pNext = &collidedObjects[i];				
 				
 				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_fDamage, this);
 			}

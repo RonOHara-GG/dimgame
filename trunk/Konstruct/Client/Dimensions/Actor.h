@@ -38,10 +38,11 @@ public:
 
 	virtual Reward GetReward() { return m_RewardGiven; }
 
-	bool IsInRange(Actor* pTarget, int iRange);
-	bool InLineOfSight(Actor* pTarget, int iRange); //Checks if the target is in this actor's line of sight
+	bool IsInRange(Actor* pTarget, float fRange);
+	bool InLineOfSight(Actor* pTarget, float fRange); //Checks if the target is in this actor's line of sight
+	bool InLineOfSight(kpuVector vPos, float fRange, Actor* pTarget = 0);
 	
-	bool TakeDamage(float fDamage, DamageType eDmgType);
+	bool TakeDamage(float fDamage, DamageType eDmgType, float fResistStr = 0.0f);
 	void DamageBuff(float fAmount) { m_fDamageBuff += fAmount; }
 	void DamageReduction(float fAmount) { m_fDamageReduction += fAmount; }
 	void Heal(float fAmount);
@@ -64,6 +65,7 @@ public:
 	kpuVector GetHeading()	{ return m_vHeading; }
 	Actor* GetTarget() { return m_pTarget; }
 	float GetCurrentHealth() { return m_fCurrentHealth; }
+	float GetCurrentMental() { return m_fCurrentMental; }
 	float GetMaxHealth() { return m_fMaxHealth; }
 	float GetMaxMental() { return m_fMaxMental; }
 	int GetStr() { return m_iStr; }
@@ -75,6 +77,7 @@ public:
 	void SetHeading(kpuVector& vHeading);
 	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
 	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }
+	void SetCurrentHealth(float fAmount) { m_fCurrentHealth = fAmount; }
 	void SetMaxHealth(float fMaxHealth) { m_fMaxHealth = fMaxHealth; }
 	void SetMaxMental(float fMaxMental) { m_fMaxMental = fMaxMental; }
 	void SetStr(int iStr) { m_iStr = iStr; }

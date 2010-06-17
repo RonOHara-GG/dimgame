@@ -243,67 +243,67 @@ bool Actor::BuildPathToDestination()
 	return false;
 }
 
-bool Actor::TakeDamage(float fDamage, DamageType eDmgType)
+bool Actor::TakeDamage(float fDamage, DamageType eDmgType, float fResistStr)
 {
 	switch(eDmgType)
 	{
 	case eDT_Acid:
 		{
-			fDamage -= m_iAcidRes;
+			fDamage -= m_iAcidRes + fResistStr;
 			break;
 		}
 	case eDT_Cold:
 		{
-			fDamage -= m_iColdRes;
+			fDamage -= m_iColdRes + fResistStr;
 		}
 	case eDT_Crushing:
 		{
-			fDamage -= m_iCrushRes;
+			fDamage -= m_iCrushRes + fResistStr;
 			break;
 		}
 	case eDT_Death:
 		{
-			fDamage -= m_iDeathRes;
+			fDamage -= m_iDeathRes+ fResistStr;
 			break;
 		}
 	case eDT_Electrical:
 		{
-			fDamage -= m_iElectRes;
+			fDamage -= m_iElectRes+ fResistStr;
 			break;
 		}
 	case eDT_Heat:
 		{
-			fDamage -= m_iHeatRes;
+			fDamage -= m_iHeatRes+ fResistStr;
 			break;
 		}
 	case eDT_Holy:
 		{
-			fDamage -= m_iHolyRes;
+			fDamage -= m_iHolyRes+ fResistStr;
 			break;
 		}
 	case eDT_Mental:
 		{
-			fDamage -= m_iMentalRes;
+			fDamage -= m_iMentalRes+ fResistStr;
 			break;
 		}
 	case eDT_Piercing:
 		{
-			fDamage -= m_iPierceRes;
+			fDamage -= m_iPierceRes+ fResistStr;
 			break;
 		}
 	case eDT_Slashing:
 		{
-			fDamage -= m_iSlashRes;
+			fDamage -= m_iSlashRes+ fResistStr;
 			break;
 		}
 	case eDT_Viral:
 		{
-			fDamage -= m_iViralRes;
+			fDamage -= m_iViralRes+ fResistStr;
 			break;
 		}
 	case eDT_Water:
 		{
-			fDamage -= m_iWaterRes;
+			fDamage -= m_iWaterRes+ fResistStr;
 			break;
 		}
 	}
@@ -316,7 +316,7 @@ bool Actor::TakeDamage(float fDamage, DamageType eDmgType)
 	return true;
 }
 
-bool Actor::IsInRange(Actor *pTarget, int iRange)
+bool Actor::IsInRange(Actor *pTarget, float fRange)
 {
 	////Check if target is in range
 	//kpuVector vPlayer,  vTarget;
@@ -332,29 +332,20 @@ bool Actor::IsInRange(Actor *pTarget, int iRange)
 
 	//if(fDist <= iRange)
 	//	return true;
-	return g_pGameState->GetLevel()->GetGrid()->Distance(this, pTarget) <= iRange;
+	return g_pGameState->GetLevel()->GetGrid()->Distance(this, pTarget) <= fRange;
 }
 
 bool Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 {
 	return false;
 }
-
-bool Actor::InLineOfSight(Actor *pTarget, int iRange)
+bool Actor::InLineOfSight(kpuVector vPos, float fRange, Actor* pTarget)
 {
-	//This player will be the start of the capsule and the parameter will be the end
-	//We will get the collisions from the quad tree and check a line segment from the center of this actor to the target and see if there are any collisions
+	float fDist = kpuVector::DistanceSquared(GetLocation(), vPos);
 
-	float fDist = kpuVector::DistanceSquared(GetLocation(), pTarget->GetLocation());
-
-	if(fDist <= iRange * iRange)
-	{
-		kpuBoundingSphere sphere1 = m_bSphere;
-		sphere1.Transform(GetMatrix());
-
-		kpuBoundingSphere sphere2 = pTarget->GetSphere();
-		sphere2.Transform(pTarget->GetMatrix());
-		kpuBoundingCapsule capsule(sphere1.GetLocation(), sphere2.GetLocation(), 0.0f);
+	if(fDist <= fRange * fRange)
+	{		
+		kpuBoundingCapsule capsule(GetLocation(), vPos, 0.0f);
 
 		kpuArrayList<kpuCollisionData> aCollisions;
 
@@ -381,6 +372,13 @@ bool Actor::InLineOfSight(Actor *pTarget, int iRange)
 	}
 
 	return false;
+}
+
+bool Actor::InLineOfSight(Actor *pTarget, float fRange)
+{
+	//This player will be the start of the capsule and the parameter will be the end
+	//We will get the collisions from the quad tree and check a line segment from the center of this actor to the target and see if there are any collisions
+	return InLineOfSight(pTarget->GetLocation(), fRange, pTarget);
 }
 
 int Actor::GetResist(DamageType eType)

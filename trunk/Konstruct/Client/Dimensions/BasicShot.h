@@ -16,6 +16,7 @@ public:
 
 protected:
 	float		m_fRange;
+	float		m_fMinRange;
 	float		m_fDamage;
 	DamageType	m_eDamageType;
 	float		m_fRangeMultiple;

@@ -20,6 +20,7 @@ public:
 	virtual kpuVector					GetLocation();
 	virtual void						SetLocation(const kpuVector& vNewLoc);
 	const kpuMatrix&					GetMatrix();
+	kpgModel*							GetModel()	{ return m_pModel; }
 	void								Init(kpuVector vMin, kpuVector vMax);
 	
 	kpuBoundingBox						GetBoundingBox()										{ return m_bBox; }
@@ -36,6 +37,7 @@ public:
 	virtual void						AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource) { }
 
 	void								SetFlag(unsigned int flag) { m_nFlags |= flag; }
+	void								UnsetFlag(unsigned int flag) { m_nFlags &= ~flag; }
 	bool								HasFlag(unsigned int flag) { return ((flag & m_nFlags) != 0); }
 	
 

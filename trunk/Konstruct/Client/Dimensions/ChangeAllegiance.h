@@ -1,12 +1,12 @@
 #pragma once
-#include "BasicShot.h"
+#include "basicshot.h"
 
-class ScatterShot :
+class ChangeAllegiance :
 	public BasicShot
 {
 public:
-	ScatterShot(void);
-	~ScatterShot(void);
+	ChangeAllegiance(void);
+	~ChangeAllegiance(void);
 
 	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
@@ -15,11 +15,9 @@ protected:
 	kpuVector	m_vTarget;	
 	bool		m_bTargetSelected;
 	float		m_fRadius;
-	float		m_fBaseDamage;
-	float		m_fRadiusMod;
-	float		m_fRecoveryMod;
-	float		m_fSpeedMod;
+	int			m_iRangeMod;
+	int			m_iRadiusMod;
+	float		m_fResistStr;
+	float		m_fResistMod;	
 
 };
-
-#define MIN_RADIUS 1
