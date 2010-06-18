@@ -40,6 +40,11 @@ public:
 		eHL_Background,
 	};
 
+	enum eClickEvent
+	{
+		eCE_NewWindow,
+	};
+
 	kpgUIWindow(void);
 	~kpgUIWindow(void);
 
@@ -73,6 +78,8 @@ public:
 	void SetPosition(float fX, float fY);
 	void Move(float fDeltaX, float fDeltaY);
 
+	u32	 GetHashCode()	{ return m_uHash; }
+
 protected:
 	void Destroy();
 	void DrawFrame(kpgRenderer* pRenderer, const kpRect& rRect);
@@ -95,4 +102,8 @@ protected:
 
 	kpuLinkedList		m_lChildren;
 	kpgUIWindow*		m_pParent;
+
+	eClickEvent			m_eClickEvent;
+	u32					m_uTargetHash;
+	u32					m_uHash;
 };

@@ -139,8 +139,12 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 	{
 		const char* pName = pElement->Attribute("Name");
 		if( pName )
+		{
 			m_szName = 
 			_strdup(pName);
+
+			m_uHash = StringHash(m_szName);
+		}
 
 		const char* pBackground = pElement->Attribute("Background");
 		if( pBackground )
@@ -217,6 +221,14 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 				}
 			}
 		}
+
+		const char* pClickEvent = pNode->Attribute("Click Event");
+		if( pClickEvent )
+			m_eClickEvent = (ClickEvent)atoi(pClickEvent);
+
+		const char* pTargetWindow = pNode->Attribute("Target Window");
+		if( pTargetWindow )
+			m_uHash = StringHash(pTargetWindow);
 	}
 }
 

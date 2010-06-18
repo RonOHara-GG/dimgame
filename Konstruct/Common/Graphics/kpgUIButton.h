@@ -8,6 +8,7 @@ public:
 	virtual ~kpgUIButton(void);
 
 	void LoadDefaults();
+	void Load(TiXmlElement *pNode);
 	
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
@@ -16,5 +17,6 @@ protected:
 	virtual void CalculateRectangle(const kpRect& rParent);
 
 protected:
+	
 
 };
