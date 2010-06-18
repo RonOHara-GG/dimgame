@@ -222,11 +222,11 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			}
 		}
 
-		const char* pClickEvent = pNode->Attribute("Click Event");
+		const char* pClickEvent = pElement->Attribute("Click Event");
 		if( pClickEvent )
-			m_eClickEvent = (ClickEvent)atoi(pClickEvent);
+			m_eClickEvent = (eClickEvent)atoi(pClickEvent);
 
-		const char* pTargetWindow = pNode->Attribute("Target Window");
+		const char* pTargetWindow = pElement->Attribute("Target Window");
 		if( pTargetWindow )
 			m_uHash = StringHash(pTargetWindow);
 	}
