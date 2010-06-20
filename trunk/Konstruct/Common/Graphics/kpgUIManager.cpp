@@ -6,10 +6,15 @@
 #include "kpgUIWindow.h"
 #include "Common/Utility/kpuLinkedList.h"
 
+static const u32 s_uHash_StartUp_Window =	0x7992f870;
+
 kpgUIManager::kpgUIManager(void)
 {
 	m_plWindowList = new kpuLinkedList();
 	m_pCurrentWindow = 0;
+	/*const char* test = "StartUp Window";
+
+	u32 uHash = StringHash(test);*/
 }
 
 kpgUIManager::~kpgUIManager(void)
@@ -51,6 +56,8 @@ bool kpgUIManager::LoadWindows(const char *szFile)
 			pWindow->Load(pElement);
 			m_plWindowList->AddTail(pWindow);
 		}
+
+		m_pCurrentWindow = GetUIWindow(s_uHash_StartUp_Window);
 	}
 
 	return false;
@@ -74,7 +81,27 @@ kpgUIWindow* kpgUIManager::GetUIWindow(u32 uHash)
 }
 
 bool kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
-{
+{	
 	// TODO: Handle this event
+	switch(type)
+	{
+	case eIET_ButtonDown:
+		{
+			/*switch(button)
+			{
+			case s_uHash_Left_Mouse:
+				{
+					break;
+				}
+			}*/
+			
+
+			
+			break;
+		}
+	}
+
+	
+	
 	return false;
 }
