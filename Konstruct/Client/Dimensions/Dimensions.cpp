@@ -36,6 +36,7 @@ bool					g_bExitGame = false;
 __int64					g_iStart, g_iEnd, g_iFrequency;
 float					g_fElasped;
 
+
 //Global game data
 extern kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 
@@ -68,7 +69,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	kpuFileManager::SetRootPath(szCurrentDir);
 
 	// Create the input manager
-	kpiInputManager* pInputManager = new kpiInputManager();
+	kpiInputManager* pInputManager = new kpiInputManager(hWnd);
 
 	// Create the renderer
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
@@ -118,7 +119,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		// Update the window
 		UpdateRenderWindow(hWnd);
 		if( g_bExitGame )
-			break;
+			break;		
 
 		UpdateGame();
 		g_pCamera->Update();
@@ -282,7 +283,7 @@ void LoadEnemyType(const char* pszFile)
 
 void InputEvent(eInputEventType type, u32 button)
 {
-	// Give the inpu to the UI first
+	// Give the input to the UI first
 	if( !g_pUIManager || !g_pUIManager->HandleInputEvent(type, button) )
 	{
 		// UI didnt handle the input, give it to the game

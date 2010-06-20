@@ -378,7 +378,7 @@ bool Actor::InLineOfSight(Actor *pTarget, float fRange)
 {
 	//This player will be the start of the capsule and the parameter will be the end
 	//We will get the collisions from the quad tree and check a line segment from the center of this actor to the target and see if there are any collisions
-	return InLineOfSight(pTarget->GetLocation(), fRange, pTarget);
+	return InLineOfSight(pTarget->GetLocation() + pTarget->GetSphere().GetLocation(), fRange, pTarget);
 }
 
 int Actor::GetResist(DamageType eType)

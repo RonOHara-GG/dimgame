@@ -20,6 +20,6 @@ public:
 	kpgUIWindow* GetUIWindow(u32 uHash);
 
 protected:
-	kpgUIWindow*	m_pCurrentWindow;
-	kpuLinkedList*  m_plWindowList;	
+	kpgUIWindow*		m_pCurrentWindow;
+	kpuLinkedList*		m_plWindowList;	
 };

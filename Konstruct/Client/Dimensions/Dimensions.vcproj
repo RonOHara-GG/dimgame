@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3d9.lib d3dx9.lib winmm.lib"
+				AdditionalDependencies="d3d9.lib d3dx9.lib winmm.lib dinput8.lib dxguid.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -190,10 +190,6 @@
 			</File>
 			<File
 				RelativePath=".\Grid.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\HealOverTime.cpp"
 				>
 			</File>
 			<File
@@ -326,6 +322,10 @@
 				<Filter
 					Name="Medic"
 					>
+					<File
+						RelativePath=".\HealOverTime.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\HealthyLifestyle.cpp"
 						>
@@ -575,10 +575,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HealOverTime.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Level.h"
 				>
 			</File>
@@ -700,6 +696,10 @@
 				<Filter
 					Name="Medic"
 					>
+					<File
+						RelativePath=".\HealOverTime.h"
+						>
+					</File>
 					<File
 						RelativePath=".\HealthyLifestyle.h"
 						>
