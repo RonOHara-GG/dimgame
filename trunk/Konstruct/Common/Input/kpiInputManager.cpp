@@ -12,16 +12,12 @@ kpiInputManager::kpiInputManager( HWND window )
 	m_pDirectInput->CreateDevice(GUID_SysKeyboard, &m_pKeyboard, NULL);
 	m_pKeyboard->SetDataFormat(&c_dfDIKeyboard);
 	m_pKeyboard->SetCooperativeLevel(window, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);	
-	m_ahEvents[0] = CreateEvent(NULL, false, false, NULL);
-	m_pKeyboard->SetEventNotification(m_ahEvents[0]);	
 	m_pKeyboard->Acquire();
 	
 	//get mouse
 	m_pDirectInput->CreateDevice(GUID_SysMouse, &m_pMouse, NULL);
 	m_pMouse->SetDataFormat(&c_dfDIMouse);
 	m_pMouse->SetCooperativeLevel(window, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);	
-	m_ahEvents[1] = CreateEvent(NULL, false, false, NULL);
-	m_pMouse->SetEventNotification(m_ahEvents[1]);
 	m_pMouse->Acquire();
 	
 
@@ -37,41 +33,30 @@ kpiInputManager::~kpiInputManager(void)
 
 bool kpiInputManager::Update()
 {
-	DWORD dwResult = WaitForMultipleObjects(2,m_ahEvents, false, 0);
-
-	switch( dwResult )
+	//Update keyboard states
+	BYTE	newKeyState[256];
+	if( SUCCEEDED(m_pKeyboard->GetDeviceState(sizeof(newKeyState), &newKeyboardState)) )
 	{
-	case WAIT_OBJECT_0:
+		//check new input against old
+		for(int i = 0; i < 256; i++ )
 		{
-			// key board update
-			if( SUCCEEDED( m_pKeyboard->GetDeviceState(sizeof(m_acKeyState), (LPVOID)m_acKeyState)) )
+			if( m_aKeyState[i] != newKeyBoardState[i] )
 			{
-				//check keys
+				if( m_aKeyState[i] != 0 )
+					InputEvent(eIET_ButtonUp, m_aKeyState[i]);
 
-
+				if( newKeyState[i] != 0 )
+					InputEvent(eIET_ButtonDown, newKeyState[i]);
 			}
-			break;
 		}
-	case WAIT_OBJECT_0 + 1:
-		{
-			//mouse update
-			if( SUCCEEDED( m_pMouse->GetDeviceState(sizeof(DIMOUSESTATE), &m_MouseState)) )
-			{
-				POINT mousePos;
-				GetCursorPos(&mousePos);
-				ScreenToClient(m_hWnd, &mousePos);
-				m_vMousePos.SetX(mousePos.x);
-				m_vMousePos.SetY(mousePos.y);
 
-				//check buttons
-				
+		if( FAILED(m_pKeyboard->Acquire() )
+			return false;
 
-				
+	}
 
-			}
-			break;
-		}
-	}	
+
+	//Update mouse states
 
 	// Update joypad states
 
