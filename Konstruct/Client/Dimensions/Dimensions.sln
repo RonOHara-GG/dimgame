@@ -55,8 +55,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		AMDCaPersistentConfig = Debug|Win32
-		AMDCaPersistentStartup = Dimensions
 		AMDCaProjectFile = C:\Projects\Dimensions\Konstruct\Client\Dimensions\CodeAnalyst\Dimensions.caw
+		AMDCaPersistentStartup = Dimensions
+		AMDCaPersistentConfig = Debug|Win32
 	EndGlobalSection
 EndGlobal

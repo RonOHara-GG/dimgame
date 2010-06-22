@@ -30,6 +30,7 @@ extern void CloseRenderWindow(HWND hWnd);
 
 kpuCameraController*	g_pCamera = 0;
 kpgUIManager*			g_pUIManager = 0;
+kpiInputManager*		g_pInputManager = 0;
 bool					g_bExitGame = false;
 
 //Timing varibles
@@ -69,7 +70,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	kpuFileManager::SetRootPath(szCurrentDir);
 
 	// Create the input manager
-	kpiInputManager* pInputManager = new kpiInputManager(hWnd);
+	g_pInputManager = new kpiInputManager(hWnd);
 
 	// Create the renderer
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
@@ -110,7 +111,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	LoadEnemyList();
 
 	// Process until exit
-	while( pInputManager->Update() )
+	while( g_pInputManager->Update() )
 	{
 		QueryPerformanceCounter((LARGE_INTEGER*)&g_iEnd);
 
@@ -151,6 +152,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		g_iStart = g_iEnd;
 	}
 
+	// Destroy the input manager
+	delete g_pInputManager;
+
 	LevelManager::Shutdown();
 
 	//delete enemy types loaded
@@ -171,10 +175,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	delete g_pUIManager;
 
 	// Destroy the renderer
-	delete pRenderer;
-
-	// Destroy the input manager
-	delete pInputManager;
+	delete pRenderer;	
 
 	// Kill the window
 	CloseRenderWindow(hWnd);

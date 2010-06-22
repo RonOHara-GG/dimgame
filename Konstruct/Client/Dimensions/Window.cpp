@@ -72,7 +72,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			PostQuitMessage(0);
 			g_bExitGame = true;
 			break;
-		case WM_LBUTTONUP:
+		/*case WM_LBUTTONUP:
 			if( g_pGameState )
 			{
 				g_pGameState->MouseUpdate(LOWORD(lParam), HIWORD(lParam));
@@ -85,13 +85,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					g_pGameState->GetPlayer()->UseSkill(0, PlayerClass::eCL_Brawler);
 				}
 				break;
-			}
-		case WM_MOUSEMOVE:
+			}*/
+		/*case WM_MOUSEMOVE:
 			if( (wParam & MK_LBUTTON) && g_pGameState )
 			{
 				g_pGameState->MouseUpdate(LOWORD(lParam), HIWORD(lParam));
 			}
-			break;
+			break;*/
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}

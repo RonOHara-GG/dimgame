@@ -151,5 +151,57 @@ void GameState_Default::AddActor(Actor* pActor)
 
 bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
 {
+	switch(type)
+	{
+	case eIET_MouseDrag:
+		{	
+			kpuVector vMousePos = g_pInputManager->GetMouseLoc();
+			MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+			break;
+		}
+	case eIET_ButtonDown:
+		{		
+			break;
+		}
+	case eIET_ButtonUp:
+		{
+			switch(button)
+			{
+			case KPIM_BUTTON_0:
+				{
+					kpuVector vMousePos = g_pInputManager->GetMouseLoc();
+					MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+					break;
+				}
+			}
+			break;
+		}
+	case eIET_ButtonClick:
+		{
+			switch(button)
+			{
+			case KPIM_BUTTON_0:
+				{
+					kpuVector vMousePos = g_pInputManager->GetMouseLoc();
+					MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+					break;
+				}
+			}
+			break;
+		}
+	case eIET_ButtonDoubleClick:
+		{
+			switch(button)
+			{
+			case KPIM_BUTTON_0:
+				{
+					kpuVector vMousePos = g_pInputManager->GetMouseLoc();
+					MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+					break;
+				}
+			}
+			break;
+		}
+	}
 	return false;
 }
