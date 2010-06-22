@@ -26,3 +26,4 @@ public:
 };
 
 extern GameState* g_pGameState;
+

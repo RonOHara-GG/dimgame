@@ -86,17 +86,19 @@ bool kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 	switch(type)
 	{
 	case eIET_ButtonDown:
+		{		
+			break;
+		}
+	case eIET_ButtonUp:
 		{
-			/*switch(button)
-			{
-			case s_uHash_Left_Mouse:
-				{
-					break;
-				}
-			}*/
-			
-
-			
+			break;
+		}
+	case eIET_ButtonClick:
+		{
+			break;
+		}
+	case eIET_ButtonDoubleClick:
+		{
 			break;
 		}
 	}
