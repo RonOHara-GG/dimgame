@@ -66,7 +66,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	// Set the file path
 	char szCurrentDir[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, (LPSTR)szCurrentDir);
+	GetCurrentDirectory(MAX_PATH, szCurrentDir);
 	kpuFileManager::SetRootPath(szCurrentDir);
 
 	// Create the input manager

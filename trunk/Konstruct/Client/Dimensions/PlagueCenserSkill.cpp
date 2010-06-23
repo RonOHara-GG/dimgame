@@ -41,7 +41,7 @@ bool PlagueCenserSkill::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	//need to check for placement of the censer
 	//input check required
 
-	kpuVector vTarget;
+	kpuVector vTarget = kpuv_Zero;
 
 	m_fElaspedSinceCast += fDeltaTime;
 
