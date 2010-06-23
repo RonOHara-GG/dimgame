@@ -15,7 +15,7 @@ bool TakeLife::Activate(PlayerCharacter* pSkillOwner)
 	if(m_bReady)
 	{
 		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;		
-		m_iResistStr = m_iMinResist + (m_iSkillRank * m_fResistMod);		
+		m_iResistStr = m_iMinResist + int(m_iSkillRank * m_fResistMod);		
 
 		pSkillOwner->SetActiveSkill(this);
 		
@@ -46,6 +46,7 @@ bool TakeLife::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		{
 			if( m_pTarget->GetResist(m_eDamageType) < m_iResistStr )
 				m_pTarget->TakeDamage(m_pTarget->GetCurrentHealth(), m_eDamageType, m_iResistStr);
+
 			m_bExecuted = true;
 			return false;
 		}

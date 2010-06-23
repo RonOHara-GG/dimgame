@@ -31,7 +31,7 @@ bool Strike::Activate(PlayerCharacter *pSkillOwner)
 
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_iDamage = (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple );
+		m_iDamage = (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple );
 
 		pSkillOwner->SetActiveSkill(this);
 		
@@ -50,7 +50,7 @@ bool Strike::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	if(m_fElaspedSinceCast >= m_fContactTime && !m_bExecuted )
 	{
 		//Get the target right in front of the player within the attack range	
-		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * m_iRange ) );
+		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * (float)m_iRange ) );
 
 		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
 

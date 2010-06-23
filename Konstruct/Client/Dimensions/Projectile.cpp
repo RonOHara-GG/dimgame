@@ -30,12 +30,12 @@ Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageTy
 	m_fRadius = 0.0f;
 }
 
-Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, float fResist)
+Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, int iResist)
 {
 	Projectile(eType, iDamage, fRange, eDamageType, pOwner, vLocation, vDir);
 	
 	m_fRadius = fRadius;
-	m_iResistStr = fResist;
+	m_iResistStr = iResist;
 }
 
 Projectile::~Projectile(void)

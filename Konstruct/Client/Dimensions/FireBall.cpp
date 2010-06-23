@@ -19,7 +19,7 @@ bool FireBall::Activate(PlayerCharacter *pSkillOwner)
 		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 		m_iDamage = iRankMultiple * m_iSkillRank;
-		m_iResistStr = m_fMinResist + m_iSkillRank * m_iResistMod;
+		m_iResistStr = m_iMinResist + int(m_iSkillRank * m_fResistMod);
 
 		m_fElaspedSinceCast = 0.0f;
 		m_bReady = false;

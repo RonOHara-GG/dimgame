@@ -14,10 +14,10 @@ public:
 protected:
 	float		m_fRadius;
 	float		m_fRadiusMod;
-	float		m_iResistStr;
-	float		m_iResistMod;
+	int			m_iResistStr;
+	float		m_fResistMod;
 
 	float		m_fMinRange;
 	float		m_fMinRadius;
-	float		m_fMinResist;
+	int			m_iMinResist;
 };

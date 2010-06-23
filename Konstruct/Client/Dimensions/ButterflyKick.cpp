@@ -21,7 +21,7 @@ bool ButterflyKick::Activate(Actor *pTarget, PlayerCharacter *pSkillOwner)
 	{
 		//Check if target is attack able		
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_iDamage = ( (iRankMultiple * m_iSkillRank) + ( pSkillOwner->GetStr() * m_fStrMultiple ) + ( m_fAgiMultiple * pSkillOwner->GetAgi()) );
+		m_iDamage = ( (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple ) + int( m_fAgiMultiple * pSkillOwner->GetAgi()) );
 
 		pSkillOwner->SetActiveSkill(this);
 		m_iLastTile = -1;

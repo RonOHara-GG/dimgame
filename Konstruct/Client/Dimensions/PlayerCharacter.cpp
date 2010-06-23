@@ -64,7 +64,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 PlayerCharacter::~PlayerCharacter(void)
 {
 	if(m_aClasses)
-		delete[] m_aClasses;
+		delete[] &m_aClasses;
 
 	if(m_pSkillCombos)
 		delete m_pSkillCombos;
@@ -75,7 +75,7 @@ PlayerCharacter::~PlayerCharacter(void)
 	delete m_pLightSource;
 	delete m_pEquippedWeapon;
 
-	delete[] m_aInventory;
+	delete[] &m_aInventory;
 }
 
 bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)

@@ -66,7 +66,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	// Set the file path
 	char szCurrentDir[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, szCurrentDir);
+	GetCurrentDirectory(MAX_PATH, (LPSTR)szCurrentDir);
 	kpuFileManager::SetRootPath(szCurrentDir);
 
 	// Create the input manager
@@ -111,7 +111,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	LoadEnemyList();
 
 	// Process until exit
-	while( g_pInputManager->Update() )
+	while( g_pInputManager->Update(g_fElasped) )
 	{
 		QueryPerformanceCounter((LARGE_INTEGER*)&g_iEnd);
 

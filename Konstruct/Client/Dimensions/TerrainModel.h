@@ -17,12 +17,14 @@ private:
 
 	struct TerrainData
 	{
-		float							fX;
-		float							fY;
+		int								iX;
+		int								iY;
 		int								iRotations;
 		char*							szModelFile;
 		char*							szCollisionMeshFile;
-		kpuVector					    vDimensions;
+		int								iWidth;
+		int								iLength;
+		int								iHeight;
 		int								aWallRanges[8];
 		int								aDoorLocations[8];
 		int								iPiece;
@@ -30,14 +32,14 @@ private:
 
 	struct Space
 	{
-		float fX;
-		float fY;
-		float fWidth;
-		float fHeight;
+		int	 iX;
+		int	 iY;
+		int	iWidth;
+		int iHeight;
 
-		Space(float x = 0.0f, float y = 0.0f, float w = 0.0f, float h= 0.0f) { fX = x; fY = y; fWidth = w; fHeight = h; }
+		Space(int x = 0,int y = 0, int w = 0.0f, int h= 0.0f) { iX = x; iY = y; iWidth = w; iHeight = h; }
 	};
 
-	bool SpacesMatch(float fDoorS1, float fDoorE1, float fDoorS2, float fDoorE2, float fLength);
+	bool SpacesMatch(int fDoorS1, int fDoorE1, int fDoorS2, int fDoorE2, int fLength);
 
 };

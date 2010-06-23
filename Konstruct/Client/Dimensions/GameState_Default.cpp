@@ -155,8 +155,8 @@ bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
 	{
 	case eIET_MouseDrag:
 		{	
-			kpuVector vMousePos = g_pInputManager->GetMouseLoc();
-			MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+			POINT ptMousePos = g_pInputManager->GetMouseLoc();
+			MouseUpdate(ptMousePos.x, ptMousePos.y );
 			break;
 		}
 	case eIET_ButtonDown:
@@ -169,8 +169,8 @@ bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
 			{
 			case KPIM_BUTTON_0:
 				{
-					kpuVector vMousePos = g_pInputManager->GetMouseLoc();
-					MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+					POINT ptMousePos = g_pInputManager->GetMouseLoc();
+					MouseUpdate(ptMousePos.x, ptMousePos.y );
 					break;
 				}
 			}
@@ -182,8 +182,8 @@ bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
 			{
 			case KPIM_BUTTON_0:
 				{
-					kpuVector vMousePos = g_pInputManager->GetMouseLoc();
-					MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+					POINT ptMousePos = g_pInputManager->GetMouseLoc();
+					MouseUpdate(ptMousePos.x, ptMousePos.y );
 					break;
 				}
 			}
@@ -195,8 +195,8 @@ bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
 			{
 			case KPIM_BUTTON_0:
 				{
-					kpuVector vMousePos = g_pInputManager->GetMouseLoc();
-					MouseUpdate(vMousePos.GetX(), vMousePos.GetY() );
+					POINT ptMousePos = g_pInputManager->GetMouseLoc();
+					MouseUpdate(ptMousePos.x, ptMousePos.y );
 					break;
 				}
 			}

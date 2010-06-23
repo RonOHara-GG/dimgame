@@ -66,7 +66,7 @@ void BounceArrow::Impact(kpuVector vImpact)
 
 		//Cut bounce range in half
 		m_fBounceRange *= BOUNCE_REDUCTION;
-		m_iDamage *= DAMAGE_REDUCTION;
+		m_iDamage = (int)(m_iDamage * DAMAGE_REDUCTION);
 	}
 	else
 	{

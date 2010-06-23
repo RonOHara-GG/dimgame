@@ -26,10 +26,10 @@ public:
 	kpiInputManager( HWND window );
 	~kpiInputManager(void);
 
-	bool Update();
+	bool Update(float fDeltaTime);
 
-	kpuVector	GetMouseLoc() { return m_vMousePos; }
-	kpuVector	GetMouseDelta() { return m_vMouseDelta; }
+	POINT		GetMouseLoc() { return m_ptMousePos; }
+	POINT		GetMouseDelta() { return m_ptMouseDelta; }
 
 protected:
 	HWND					m_hWnd;
@@ -44,10 +44,10 @@ protected:
 	//Mouse input
 	IDirectInputDevice8*	m_pMouse;	
 	DIMOUSESTATE			m_MouseState;
-	int						m_iaButtonPressStamp[MICE_BUTTONS_SUPPORTED];
-	int						m_iaButtonClickStamp[MICE_BUTTONS_SUPPORTED];
-	kpuVector				m_vMousePos;
-	kpuVector				m_vMouseDelta;
+	float					m_faButtonPressStamp[MICE_BUTTONS_SUPPORTED];
+	bool					m_bClicked;
+	POINT					m_ptMousePos;
+	POINT					m_ptMouseDelta;
 
 	//Joypads
 	IDirectInputDevice8*	m_pJoyPads[JOYPADS_SUPPORTED];
@@ -59,7 +59,7 @@ extern void	InputEvent(eInputEventType type, u32 button);
 extern kpiInputManager* g_pInputManager;
 
 // Timing for clicks in frames
-#define CLICK_DELTA 100
+#define CLICK_DELTA 1.0f
 
 #define KPIK_ESCAPE          0x001
 #define KPIK_1               0x002
