@@ -77,7 +77,7 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 				//get distance to the object
 				float fDist = (pNext->m_pObject->GetLocation() - m_vTarget).Length();
 
-				m_iDamage = m_iBaseDamage - ( (fDist / m_fRadius) * m_iBaseDamage );
+				m_iDamage = m_iBaseDamage - int( (fDist / m_fRadius) * m_iBaseDamage );
 				
 				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_iDamage, this);
 			}

@@ -22,10 +22,7 @@ kpiInputManager::kpiInputManager( HWND window )
 	m_pMouse->Acquire();
 	m_pMouse->GetDeviceState(sizeof(DIMOUSESTATE), &m_MouseState);
 
-	m_iaButtonClickStamp[0] = -1;
-	m_iaButtonClickStamp[1] = -1;
-	m_iaButtonClickStamp[2] = -1;
-	m_iaButtonClickStamp[3] = -1;
+	m_bClicked = false;
 
 	//try and acquire joypads
 	for(int i = 0; i < JOYPADS_SUPPORTED; i++)
@@ -39,10 +36,8 @@ kpiInputManager::kpiInputManager( HWND window )
 		}
 		else
 			m_pJoyPads[i] = 0;
-	}
-	
+	}	
 
-	m_ulPressStamp = 0;	
 }
 
 kpiInputManager::~kpiInputManager(void)
@@ -52,7 +47,7 @@ kpiInputManager::~kpiInputManager(void)
 	m_pDirectInput->Release();
 }
 
-bool kpiInputManager::Update()
+bool kpiInputManager::Update(float fDeltaTime)
 {
 	//Update keyboard states
 	BYTE	newKeyState[256];
@@ -79,36 +74,28 @@ bool kpiInputManager::Update()
 	//Update mouse timers
 	for(int i = 0; i < MICE_BUTTONS_SUPPORTED; i++)
 	{
-		if( m_iaButtonPressStamp[i] > -1)	
+		if( m_MouseState.rgbButtons[i] != 0 || m_bClicked)	
 		{
-			m_iaButtonPressStamp[i]++;		
+			m_faButtonPressStamp[i] += fDeltaTime;	
 
-			if( m_iaButtonPressStamp[i] > CLICK_DELTA )
-				m_iaButtonPressStamp[i] = -1;
-		}
+			if( m_faButtonPressStamp[i] > CLICK_DELTA )
+				m_bClicked = false;
+		}	
 		
-
-		if( m_iaButtonClickStamp[i] > -1 )
-		{
-			m_iaButtonClickStamp[i]++;
-
-			if( m_iaButtonClickStamp[i] > CLICK_DELTA )
-				m_iaButtonClickStamp[i] = -1;
-		}
 	}
 
 	//Check for new state
-	DIMOUSESTATE newMouseState;
+	DIMOUSESTATE newMouseState;	
 	if( SUCCEEDED(m_pMouse->GetDeviceState(sizeof(DIMOUSESTATE), &newMouseState)) )
 	{
 		POINT mousePos;	
 		GetCursorPos(&mousePos);		
 		ScreenToClient(m_hWnd, &mousePos);	
 
-		if( mousePos.x != m_vMousePos.GetX() || mousePos.y != m_vMousePos.GetY())
+		if( mousePos.x != m_ptMousePos.x || mousePos.y != m_ptMousePos.y)
 		{
-			m_vMouseDelta.SetX(mousePos.x - m_vMousePos.GetX());
-			m_vMouseDelta.SetY(mousePos.y - m_vMousePos.GetY());
+			m_ptMouseDelta.x = mousePos.x - m_ptMousePos.x;
+			m_ptMouseDelta.y = mousePos.y - m_ptMousePos.y;
 
 			if( newMouseState.rgbButtons[0] != 0 )
 				InputEvent(eIET_MouseDrag, 0);
@@ -116,10 +103,13 @@ bool kpiInputManager::Update()
 				InputEvent(eIET_MouseMove, 0);
 		}
 		else
-			m_vMouseDelta = kpuv_Zero;
+		{
+			m_ptMouseDelta.x = 0;
+			m_ptMouseDelta.y = 0;
+		}
 
-		m_vMousePos.SetX(mousePos.x);		
-		m_vMousePos.SetY(mousePos.y);
+		m_ptMousePos.x = mousePos.x;		
+		m_ptMousePos.y = mousePos.y;
 
 		for(u32 i = 0; i < MICE_BUTTONS_SUPPORTED; i++ )
 		{
@@ -131,20 +121,20 @@ bool kpiInputManager::Update()
 					//mouse was released
 
 					//See if double click was made
-					if( m_iaButtonClickStamp[i] <= CLICK_DELTA && m_iaButtonClickStamp[i] > -1)
+					if( m_faButtonPressStamp[i] <= CLICK_DELTA && m_bClicked)
 					{
 						InputEvent(eIET_ButtonDoubleClick, KPIM_BUTTON_0 + 1);
-						m_iaButtonClickStamp[i] = -1;
-						m_iaButtonPressStamp[i] = -1;
+						m_faButtonPressStamp[i] = 0.0f;
+						m_bClicked = false;
 						continue;
 					}
 					
 					//See if click was made
-					if( m_iaButtonPressStamp[i] <= CLICK_DELTA && m_iaButtonPressStamp[i] > -1)
+					if( m_faButtonPressStamp[i] <= CLICK_DELTA )
 					{
 						InputEvent(eIET_ButtonClick, KPIM_BUTTON_0 + i);
-						m_iaButtonClickStamp[i] = 0;
-						m_iaButtonPressStamp[i] = -1;
+						m_bClicked = true;
+						m_faButtonPressStamp[i] = 0.0f;
 						continue;
 					}
 
@@ -154,7 +144,7 @@ bool kpiInputManager::Update()
 				if( newMouseState.rgbButtons[i] != 0 )
 				{
 					InputEvent(eIET_ButtonDown, KPIM_BUTTON_0 + i);
-					m_iaButtonPressStamp[i] = 0;
+					m_faButtonPressStamp[i] = 0.0f;
 				}
 			}
 		}	

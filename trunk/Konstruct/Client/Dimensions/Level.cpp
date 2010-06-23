@@ -81,7 +81,7 @@ bool Level::Load(const char* pszLevelFile)
 				if ( m_pQuadTree )
 					delete m_pQuadTree;
 
-				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5f, 0.0f, ( iHeight + 1) * -0.5f, 0.0f), iWidth + 1, iHeight + 1);
+				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5f, 0.0f, ( iHeight + 1) * -0.5f, 0.0f), iWidth + 1.0f, iHeight + 1.0f);
 
 				// Read Elements
                 for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
@@ -167,15 +167,16 @@ void Level::GenerateEnemies(kpuArrayList<Actor*> *pActors)
 	//Commented so I can test skills against 1 enemy
 
 	//Max number to spawn is 4 for now
-	kpuVector vGridDim = m_pLevelGrid->GetDimensions() * 0.5;
+	int iGridWidth = m_pLevelGrid->GetWidth() / 2;
+	int	iGridHeight = m_pLevelGrid->GetHeight() / 2;
 
 	int iDistBetweenSpawns = 8;
 	int iMaxSpawns = 5;
 
-	float fX = ( vGridDim.GetX() * -1 ) + 0.5f;
-	float fY = ( vGridDim.GetZ() * -1 ) + 0.5f;
+	float fX = ( iGridWidth * -1 ) + 0.5f;
+	float fY = ( iGridHeight * -1 ) + 0.5f;
 
-	while( fX < vGridDim.GetX() && fY < vGridDim.GetZ() )
+	while( fX < iGridWidth && fY < iGridHeight )
 	{
 		int iSpawns =  rand() % iMaxSpawns;
 		int iEnemyType = rand() % g_paEnemyTypes->GetNumElements();
@@ -210,10 +211,10 @@ void Level::GenerateEnemies(kpuArrayList<Actor*> *pActors)
 		//move to next spawn point
 		fX += iDistBetweenSpawns;	
 
-		if(fX  >= vGridDim.GetX() )
+		if(fX  >= iGridWidth )
 		{
 			fY += iDistBetweenSpawns;
-			fX = ( vGridDim.GetX() * -1 ) + 0.5f;
+			fX = ( iGridWidth * -1 ) + 0.5f;
 		}
 	}
 }

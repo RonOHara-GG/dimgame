@@ -26,7 +26,7 @@ bool BurstFire::Activate(PlayerCharacter *pSkillOwner)
 		Weapon* pEquipped = pSkillOwner->GetEquippedWeapon();
 		m_fRange = pEquipped->GetRange();
 		m_iShotsToFire = MIN_SHOTS + m_iSkillRank;
-		m_iDamage = (pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
+		m_iDamage = int(pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
 		m_eDamageType = pEquipped->GetDamageType();
 		m_fSpeed = pEquipped->GetSpeed() * m_fSpeedMod;
 		m_fRecovery = pEquipped->GetRecovery() * m_fRecoveryMod;

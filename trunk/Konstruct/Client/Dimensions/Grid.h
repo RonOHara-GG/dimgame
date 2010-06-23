@@ -54,7 +54,8 @@ public:
 	int			NearestTile(kpuVector vNorm, int iTile, Actor* pActor);
 	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile
 	Actor*		GetActor(int iTile) { return m_pTiles[iTile].m_Actor; } //Get the actor at the target tile
-	kpuVector	GetDimensions() { return kpuVector(m_iWidth, 0, m_iHeight, 0); }
+	int			GetWidth()	{ return m_iWidth; }
+	int			GetHeight()	{ return m_iHeight; }
 	
 
 private:

@@ -21,7 +21,7 @@ bool BearHug::Activate(PlayerCharacter *pSkillOwner)
 	{
 		m_fDuration = m_fSpeed + pSkillOwner->GetStr() / 25.0f;
 
-		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * m_iRange ) );
+		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * (float)m_iRange ) );
 
 		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
 
@@ -48,7 +48,7 @@ bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		return false;
 	}
 
- 	m_pTarget->TakeDamage(m_iDamage * fDeltaTime, m_eDamageType);
+ 	m_pTarget->TakeDamage(m_iDamage, m_eDamageType);
 
 	if( !m_pTarget->IsAlive() )
 	{

@@ -37,7 +37,7 @@ TerrainModel::~TerrainModel(void)
 	}
 }
 
-bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
+bool TerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 {
 	kpuFixedArray<TerrainData> aTerrainData;
 
@@ -51,8 +51,7 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 	{
 		for(TiXmlElement* pEStart = doc.FirstChildElement(); pEStart != 0; pEStart = pEStart->NextSiblingElement() )
 		{
-			int iCount = atoi(pEStart->Attribute("Count"));  
-
+			int iCount = atoi(pEStart->Attribute("Count"));
 			
 			aTerrainData.SetSize(iCount);
 
@@ -69,7 +68,9 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 					if( strlen(aTerrainData[iPiece].szCollisionMeshFile) < 1 )
 						aTerrainData[iPiece].szCollisionMeshFile = 0;
 
-					aTerrainData[iPiece].vDimensions = kpuVector((float)atof(pEChild->Attribute("Width")), (float)atof(pEChild->Attribute("Height")), (float)atof(pEChild->Attribute("Lenght")), 0.0f);
+					aTerrainData[iPiece].iWidth = atoi(pEChild->Attribute("Width"));
+					aTerrainData[iPiece].iHeight = atoi(pEChild->Attribute("Height"));
+					aTerrainData[iPiece].iLength = atoi(pEChild->Attribute("Lenght"));
 
 					for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
 					{				
@@ -151,7 +152,7 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 	kpuArrayList<TerrainData> aFinalMap;
 	kpuLinkedList spacesAvailable;
 	
-	Space* space = new Space(0, 0,fWidth, iHeigth);
+	Space* space = new Space(0, 0,iWidth, iHeigth);
 
 	spacesAvailable.Insert(space);
 	
@@ -167,9 +168,9 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 		if( iRotation & 1 )
 		{
 			//flip dimensions
-			float xtemp = module.vDimensions.GetX();
-			module.vDimensions.SetX(module.vDimensions.GetZ());
-			module.vDimensions.SetZ(xtemp);
+			int xtemp = module.iWidth;
+			module.iWidth = module.iLength;
+			module.iLength = xtemp;
 		}
 
 		kpuLinkedList* pIter = spacesAvailable.Next();
@@ -179,26 +180,26 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 			//see if object fits in space
 			Space* space = (Space*)pIter->GetPointer();
 
-			if( space->fHeight >= module.vDimensions.GetZ() && space->fWidth >= module.vDimensions.GetX() )
+			if( space->iHeight >= module.iLength && space->iWidth >= module.iWidth )
 			{
 				//add peice to the space and divide the space
 				module.iPiece = iPiece;
 				module.iRotations = iRotation;
-				module.fX = space->fX;
-				module.fY = space->fY;
+				module.iX = space->iX;
+				module.iY = space->iY;
 
 				bool bValid = true;
 
 				//Make sure doors doesn't lead to no where
-				int fDoor = -1;
+				int iDoor = -1;
 				int iSide = -1;
 
-				if( module.fX == 0 )
+				if( module.iX == 0 )
 				{
 					//check 3
 					iSide = ( 4 - iRotation + 3 ) % 4;
 				}
-				else if( module.fX + module.vDimensions.GetX() == fWidth )
+				else if( module.iX + module.iWidth == iWidth )
 				{
 					//check 1
 					iSide = ( 4 - iRotation + 1 ) % 4;
@@ -210,12 +211,12 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 					break;
 				}
 
-				if( module.fY == 0 )
+				if( module.iY == 0 )
 				{
 					//check 0
 					iSide = ( 4 - iRotation + 0 ) % 4;
 				}
-				else if( module.fY + module.vDimensions.GetZ() == iHeigth )
+				else if( module.iY + module.iLength == iHeigth )
 				{
 					//check 2
 					iSide = ( 4 - iRotation + 2 ) % 4;
@@ -234,104 +235,104 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 				{
 					TerrainData* pTest = &aFinalMap[i];
 
-					float fDX = pTest->fX - module.fX;
-					float fDY = pTest->fY - module.fY;	
+					int iDX = pTest->iX - module.iX;
+					int iDY = pTest->iY - module.iY;	
 
 					if ( module.iPiece == 0 || module.iPiece == 2 )
 						getchar();
 
 
 					//make sure the doors to this piece don't lead to a wall
-					if( fDX > 0 && fDY * fDY <= pTest->vDimensions.GetZ() * pTest->vDimensions.GetZ() && fDX * fDX <= pTest->vDimensions.GetX() * pTest->vDimensions.GetX() )
+					if( iDX > 0 && iDY * iDY <= pTest->iLength * pTest->iLength && iDX * iDX <= pTest->iWidth * pTest->iWidth )
 					{
 						//check 1 against 3
 						//positive veritcal check
-						float fDoorS1 = -1;
-						float fDoorE1 = -1;
-						float fDoorS2 = -1;
-						float fDoorE2 = -1;
-						float fDoorLen = -1;
+						int iDoorS1 = -1;
+						int iDoorE1 = -1;
+						int iDoorS2 = -1;
+						int iDoorE2 = -1;
+						int iDoorLen = -1;
 						
 						//Get the location of the start of the doors and end of the doors for both pieces
 						iSide =  (( 4 - iRotation + 1 ) % 4 ) * 2;
-						fDoorS1 = module.aDoorLocations[iSide];
-						fDoorE1 = module.aDoorLocations[iSide + 1] - 1 + fDoorS1;
+						iDoorS1 = module.aDoorLocations[iSide];
+						iDoorE1 = module.aDoorLocations[iSide + 1] - 1 + iDoorS1;
 
 						iSide = (( 4 - pTest->iRotations + 3 ) % 4 ) * 2;
-						fDoorS2 = pTest->aDoorLocations[iSide];
-						fDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + fDoorS2;
-						fDoorLen = pTest->vDimensions.GetZ();					
+						iDoorS2 = pTest->aDoorLocations[iSide];
+						iDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + iDoorS2;
+						iDoorLen = pTest->iLength;					
 
-						if( fDoorS1 > 0 && fDoorS2 > -1 )
+						if( iDoorS1 > 0 && iDoorS2 > -1 )
 						{
 							//+ delta Y since it is positive and vertical
-							/*fDoorS1 = ( fDoorLen - 1 ) - fDoorS1 + fDY;
-							fDoorE1 = ( fDoorLen - 1 ) - fDoorE1 + fDY;*/
+							/*iDoorS1 = ( iDoorLen - 1 ) - iDoorS1 + iDY;
+							iDoorE1 = ( iDoorLen - 1 ) - iDoorE1 + iDY;*/
 
 							//Conver the peice being added door point into the test peice's wall space
-							fDoorE1 = ( fDoorLen - 1  - fDoorE1 ) + fDY;
-							fDoorS1 = ( fDoorLen - 1  - fDoorE1 ) + fDY;
+							iDoorE1 = ( iDoorLen - 1  - iDoorE1 ) + iDY;
+							iDoorS1 = ( iDoorLen - 1  - iDoorE1 ) + iDY;
 
 							//make sure the doors are within the test peices doors
-							if ( !SpacesMatch(fDoorS1, fDoorE1, fDoorS2, fDoorE2, fDoorLen))
+							if ( !SpacesMatch(iDoorS1, iDoorE1, iDoorS2, iDoorE2, iDoorLen))
 							{
 								bValid = false;
 								break;
 							}
 						}
 
-						if( fDoorS2 > 0 && fDoorS1 > -1 )
+						if( iDoorS2 > 0 && iDoorS1 > -1 )
 						{
 							//make sure the test peices doors are within the peice being added doors
-							if ( !SpacesMatch(fDoorS2, fDoorE2, fDoorS1, fDoorE1, fDoorLen))
+							if ( !SpacesMatch(iDoorS2, iDoorE2, iDoorS1, iDoorE1, iDoorLen))
 							{
 								bValid = false;
 								break;
 							}
 						}
 					}
-					else if( fDX < 0 && fDY * fDY <= pTest->vDimensions.GetZ() * pTest->vDimensions.GetZ() && fDX * fDX <= pTest->vDimensions.GetX() * pTest->vDimensions.GetX())
+					else if( iDX < 0 && iDY * iDY <= pTest->iLength * pTest->iLength && iDX * iDX <= pTest->iWidth * pTest->iWidth)
 					{
 						//check 3 against 1
 						//negative veritcal check
-						float fDoorS1 = -1;
-						float fDoorE1 = -1;
-						float fDoorS2 = -1;
-						float fDoorE2 = -1;
-						float fDoorLen = -1;						
+						int iDoorS1 = -1;
+						int iDoorE1 = -1;
+						int iDoorS2 = -1;
+						int iDoorE2 = -1;
+						int iDoorLen = -1;						
 
 						//Get the location of the start of the doors and end of the doors for both pieces
 						iSide =  (( 4 - iRotation + 3 ) % 4 ) * 2;
-						fDoorS1 = module.aDoorLocations[iSide];
-						fDoorE1 = module.aDoorLocations[iSide + 1] - 1 + fDoorS1;
+						iDoorS1 = module.aDoorLocations[iSide];
+						iDoorE1 = module.aDoorLocations[iSide + 1] - 1 + iDoorS1;
 
 						iSide = (( 4 - pTest->iRotations + 1 ) % 4 ) * 2;
-						fDoorS2 = pTest->aDoorLocations[iSide];
-						fDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + fDoorS2;
-						fDoorLen = pTest->vDimensions.GetZ();						
+						iDoorS2 = pTest->aDoorLocations[iSide];
+						iDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + iDoorS2;
+						iDoorLen = pTest->iLength;			
 
-						if( fDoorS1 > 0 && fDoorS2 > -1 )
+						if( iDoorS1 > 0 && iDoorS2 > -1 )
 						{
 							//- delta Y since it is negative and vertical
-							/*fDoorS1 = ( fDoorLen - 1 ) - fDoorS1 - fDY;
-							fDoorE1 = ( fDoorLen - 1 ) - fDoorE1 - fDY;*/
+							/*iDoorS1 = ( iDoorLen - 1 ) - iDoorS1 - iDY;
+							iDoorE1 = ( iDoorLen - 1 ) - iDoorE1 - iDY;*/
 
 							//Conver the peice being added door point into the test peice's wall space
-							fDoorE1 = ( module.vDimensions.GetZ() - 1 - fDoorE1 ) - fDY;
-							fDoorS1 = ( module.vDimensions.GetZ() - 1 - fDoorS1 ) - fDY;
+							iDoorE1 = ( module.iLength - 1 - iDoorE1 ) - iDY;
+							iDoorS1 = ( module.iLength - 1 - iDoorS1 ) - iDY;
 
 							//make sure the doors are within the test peices doors
-							if ( !SpacesMatch(fDoorS1, fDoorE1, fDoorS2, fDoorE2, fDoorLen))
+							if ( !SpacesMatch(iDoorS1, iDoorE1, iDoorS2, iDoorE2, iDoorLen))
 							{
 								bValid = false;
 								break;
 							}
 						}
 
-						if( fDoorS2 > 0 && fDoorS1 > -1 )
+						if( iDoorS2 > 0 && iDoorS1 > -1 )
 						{
 							//make sure the test peices doors are within the peice being added doors
-							if ( !SpacesMatch(fDoorS2, fDoorE2, fDoorS1, fDoorE1, fDoorLen))
+							if ( !SpacesMatch(iDoorS2, iDoorE2, iDoorS1, iDoorE1, iDoorLen))
 							{
 								bValid = false;
 								break;
@@ -339,48 +340,48 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 						}
 
 					}
-					else if( fDY > 0 && fDY * fDY <= pTest->vDimensions.GetZ() * pTest->vDimensions.GetZ() && fDX * fDX <= pTest->vDimensions.GetX() * pTest->vDimensions.GetX() )
+					else if( iDY > 0 && iDY * iDY <= pTest->iLength * pTest->iLength && iDX * iDX <= pTest->iWidth * pTest->iWidth )
 					{
 						//check 2 against 0
 						//negative horizontal check
-						float fDoorS1 = -1;
-						float fDoorE1 = -1;
-						float fDoorS2 = -1;
-						float fDoorE2 = -1;
-						float fDoorLen = -1;
+						int iDoorS1 = -1;
+						int iDoorE1 = -1;
+						int iDoorS2 = -1;
+						int iDoorE2 = -1;
+						int iDoorLen = -1;
 						
 						//Get the location of the start of the doors and end of the doors for both pieces
 						iSide =  (( 4 - iRotation + 2 ) % 4 ) * 2;
-						fDoorS1 = module.aDoorLocations[iSide];						
-						fDoorE1 = module.aDoorLocations[iSide + 1] - 1 + fDoorS1;
+						iDoorS1 = module.aDoorLocations[iSide];						
+						iDoorE1 = module.aDoorLocations[iSide + 1] - 1 + iDoorS1;
 
 						iSide = (( 4 - pTest->iRotations + 0 ) % 4 ) * 2;
-						fDoorS2 = pTest->aDoorLocations[iSide];
-						fDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + fDoorS2;
-						fDoorLen = pTest->vDimensions.GetX();					
+						iDoorS2 = pTest->aDoorLocations[iSide];
+						iDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + iDoorS2;
+						iDoorLen = pTest->iWidth;					
 
-						if( fDoorS1 > 0 && fDoorS2 > -1 )
+						if( iDoorS1 > 0 && iDoorS2 > -1 )
 						{
 							//- delta X since it is negative and horizontal
-							/*fDoorS1 = ( fDoorLen - 1 ) - fDoorS1 - fDX;
-							fDoorE1 = ( fDoorLen - 1 ) - fDoorE1 - fDX;*/
+							/*iDoorS1 = ( iDoorLen - 1 ) - iDoorS1 - iDX;
+							iDoorE1 = ( iDoorLen - 1 ) - iDoorE1 - iDX;*/
 
 							//Conver the peice being added door point into the test peice's wall space
-							fDoorE1 = ( module.vDimensions.GetX() - 1 - fDoorE1 ) - fDX;
-							fDoorS1 = ( module.vDimensions.GetX() - 1 - fDoorS1 ) - fDX;
+							iDoorE1 = ( module.iWidth - 1 - iDoorE1 ) - iDX;
+							iDoorS1 = ( module.iWidth - 1 - iDoorS1 ) - iDX;
 
 							//make sure the doors are within the test peices doors
-							if ( !SpacesMatch(fDoorS1, fDoorE1, fDoorS2, fDoorE2, fDoorLen))
+							if ( !SpacesMatch(iDoorS1, iDoorE1, iDoorS2, iDoorE2, iDoorLen))
 							{
 								bValid = false;
 								break;
 							}
 						}
 
-						if( fDoorS2 > 0 && fDoorS1 > -1 )
+						if( iDoorS2 > 0 && iDoorS1 > -1 )
 						{
 							//make sure the test peices doors are within the peice being added doors
-							if ( !SpacesMatch(fDoorS2, fDoorE2, fDoorS1, fDoorE1, fDoorLen))
+							if ( !SpacesMatch(iDoorS2, iDoorE2, iDoorS1, iDoorE1, iDoorLen))
 							{
 								bValid = false;
 								break;
@@ -388,48 +389,48 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 						}
 
 					}
-					else if( fDY < 0 && fDY * fDY <= pTest->vDimensions.GetZ() * pTest->vDimensions.GetZ() && fDX * fDX <= pTest->vDimensions.GetX() * pTest->vDimensions.GetX() )
+					else if( iDY < 0 && iDY * iDY <= pTest->iLength * pTest->iLength && iDX * iDX <= pTest->iWidth * pTest->iWidth )
 					{
 						//check 0 against 2
 						//positive veritcal check
-						float fDoorS1 = -1;
-						float fDoorE1 = -1;
-						float fDoorS2 = -1;
-						float fDoorE2 = -1;
-						float fDoorLen = -1;
+						int iDoorS1 = -1;
+						int iDoorE1 = -1;
+						int iDoorS2 = -1;
+						int iDoorE2 = -1;
+						int iDoorLen = -1;
 						
 						//Get the location of the start of the doors and end of the doors for both pieces
 						iSide =  (( 4 - iRotation + 0 ) % 4 ) * 2;
-						fDoorS1 = module.aDoorLocations[iSide];						
-						fDoorE1 = module.aDoorLocations[iSide + 1] - 1 + fDoorS1;
+						iDoorS1 = module.aDoorLocations[iSide];						
+						iDoorE1 = module.aDoorLocations[iSide + 1] - 1 + iDoorS1;
 
 						iSide = (( 4 - pTest->iRotations + 2 ) % 4 ) * 2;
-						fDoorS2 = pTest->aDoorLocations[iSide];
-						fDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + fDoorS2;
-						fDoorLen = pTest->vDimensions.GetX();
+						iDoorS2 = pTest->aDoorLocations[iSide];
+						iDoorE2 = pTest->aDoorLocations[iSide + 1] - 1 + iDoorS2;
+						iDoorLen = pTest->iWidth;
 						
-						if( fDoorS1 > 0 && fDoorS2 > -1 )
+						if( iDoorS1 > 0 && iDoorS2 > -1 )
 						{
 							//+ delta X since it is positive and Horzontal
-							/*fDoorS1 = ( fDoorLen - 1 ) - fDoorS1 + fDX;
-							fDoorE1 = ( fDoorLen - 1 ) - fDoorE1 + fDX;*/
+							/*iDoorS1 = ( iDoorLen - 1 ) - iDoorS1 + iDX;
+							iDoorE1 = ( iDoorLen - 1 ) - iDoorE1 + iDX;*/
 
 							//Conver the peice being added door point into the test peice's wall space
-							fDoorE1 = ( pTest->vDimensions.GetX() - 1 - fDoorE1 ) + fDX;
-							fDoorS1 = ( pTest->vDimensions.GetX() - 1 - fDoorS1 ) + fDX;
+							iDoorE1 = ( pTest->iWidth - 1 - iDoorE1 ) + iDX;
+							iDoorS1 = ( pTest->iWidth - 1 - iDoorS1 ) + iDX;
 
 							//make sure the doors are within the test peices doors
-							if ( !SpacesMatch(fDoorS1, fDoorE1, fDoorS2, fDoorE2, fDoorLen))
+							if ( !SpacesMatch(iDoorS1, iDoorE1, iDoorS2, iDoorE2, iDoorLen))
 							{
 								bValid = false;
 								break;
 							}
 						}
 
-						if( fDoorS2 > 0 && fDoorS1 > -1 )
+						if( iDoorS2 > 0 && iDoorS1 > -1 )
 						{
 							//make sure the test peices doors are within the peice being added doors
-							if ( !SpacesMatch(fDoorS2, fDoorE2, fDoorS1, fDoorE1, fDoorLen))
+							if ( !SpacesMatch(iDoorS2, iDoorE2, iDoorS1, iDoorE1, iDoorLen))
 							{
 								bValid = false;
 								break;
@@ -443,20 +444,20 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 				{
 					aFinalMap.Add(module);				
 
-					Space* space1 = new Space( space->fX, space->fY + module.vDimensions.GetZ(), module.vDimensions.GetX(), iHeigth - module.fY - module.vDimensions.GetZ() );
+					Space* space1 = new Space( space->iX, space->iY + module.iLength, module.iWidth, iHeigth - module.iY - module.iLength );
 					
-					space->fWidth = space->fWidth - module.vDimensions.GetX();
-					space->fX = module.fX + module.vDimensions.GetX();
+					space->iWidth = space->iWidth - module.iWidth;
+					space->iX = module.iX + module.iWidth;
 
 					pIter->InsertBefore(space1);
 
-					if( space1->fHeight < 1 )
+					if( space1->iHeight < 1 )
 					{
 						delete space1;
 						delete pIter->Prev();
 					}
 
-					if(space->fWidth < 1 )
+					if(space->iWidth < 1 )
 					{
 						delete space;
 						delete pIter;
@@ -507,18 +508,19 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 		kpgGeometryInstance* pInst = new kpgGeometryInstance(m_aGeometries[aFinalMap[i].iPiece]);
 
 		pInst->SetPermYRotation( aFinalMap[i].iRotations * -1.570796f );
-		kpuVector vPos(aFinalMap[i].fX - fWidth / 2 + aFinalMap[i].vDimensions.GetX() / 2, 0.0f , aFinalMap[i].fY  - iHeigth / 2+ aFinalMap[i].vDimensions.GetZ() / 2, 1.0f);
+		kpuVector vPos(aFinalMap[i].iX - (iWidth * 0.5f) + ( aFinalMap[i].iWidth * 0.5f), 0.0f , aFinalMap[i].iY  - ( iHeigth * 0.5f) + (aFinalMap[i].iLength * 0.5f), 1.0f);
 		pInst->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
 		
 		m_aInstances.Add(pInst);
 
-		vPos += ( aFinalMap[i].vDimensions * -0.5 );
+		vPos.SetX(aFinalMap[i].iWidth * -0.5f );
+		vPos.SetZ(aFinalMap[i].iLength * -0.5f);
 		vPos.SetY(0);
 	
 		kpgModel* pModel = new kpgModel();
 		pModel->SetGeometryInstance(pInst, pInst->GetMatrix());
 		//make a new physical object and set its collision mesh
-		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, vPos + aFinalMap[i].vDimensions, pModel);
+		kpuPhysicalObject* obj = new kpuPhysicalObject(vPos, kpuVector(vPos.GetX() + aFinalMap[i].iWidth, vPos.GetY() + aFinalMap[i].iHeight, vPos.GetZ() + aFinalMap[i].iLength, 0.0f), pModel);
 		
 		obj->CalculateBoundingVolumes(aCollisionMeshes[aFinalMap[i].iPiece]);		
 		obj->SetFlag(WALL);
@@ -536,12 +538,12 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int fWidth, int iHeigth)
 	return true;
 }
 
-bool TerrainModel::SpacesMatch(float fDoorS1, float fDoorE1, float fDoorS2, float fDoorE2, float fLength)
+bool TerrainModel::SpacesMatch(int iDoorS1, int iDoorE1, int iDoorS2, int iDoorE2, int fLength)
 {
-	if( ( fDoorS1 >= 0 && fDoorS1 < fLength ) && ( fDoorS1 < fDoorS2 || fDoorS1 > fDoorE2 ) )
+	if( ( iDoorS1 >= 0 && iDoorS1 < fLength ) && ( iDoorS1 < iDoorS2 || iDoorS1 > iDoorE2 ) )
 		return false;
 
-	if( ( fDoorE1 >= 0 && fDoorE1 < fLength ) && ( fDoorE1 < fDoorS2 || fDoorE1 > fDoorE2 ) )
+	if( ( iDoorE1 >= 0 && iDoorE1 < fLength ) && ( iDoorE1 < iDoorS2 || iDoorE1 > iDoorE2 ) )
 		return false;
 
 	return true;
