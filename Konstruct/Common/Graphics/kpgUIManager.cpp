@@ -5,16 +5,15 @@
 #include "External/tinyxml/tinyxml.h"
 #include "kpgUIWindow.h"
 #include "Common/Utility/kpuLinkedList.h"
+#include "Common/Utility/kpuFileManager.h"
 
-static const u32 s_uHash_StartUp_Window =	0x7992f870;
+static const u32 s_uHash_StartUp_Window =	0xe10340e1;
 
 kpgUIManager::kpgUIManager(void)
 {
 	m_plWindowList = new kpuLinkedList();
 	m_pCurrentWindow = 0;
-	/*const char* test = "StartUp Window";
 
-	u32 uHash = StringHash(test);*/
 }
 
 kpgUIManager::~kpgUIManager(void)
@@ -47,10 +46,12 @@ void kpgUIManager::Draw(kpgRenderer* pRenderer)
 bool kpgUIManager::LoadWindows(const char *szFile)
 {
 	TiXmlDocument doc;
+	char szFileName[2048];
+	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
 
-	if( doc.LoadFile(szFile) )
+	if( doc.LoadFile(szFileName) )
 	{
-		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement->NextSiblingElement() )
+		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
 		{
 			kpgUIWindow* pWindow = new kpgUIWindow();
 			pWindow->Load(pElement);
@@ -59,6 +60,8 @@ bool kpgUIManager::LoadWindows(const char *szFile)
 
 		m_pCurrentWindow = GetUIWindow(s_uHash_StartUp_Window);
 	}
+
+	
 
 	return false;
 }

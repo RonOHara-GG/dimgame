@@ -6,8 +6,13 @@
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
 
+
 const float kMinimumWindowWidth = 0.05f;
 const float kMinimumWindowHeight = 0.05f;
+
+static const u32 s_uHash_NewWindow =		0x40ed18e7;
+static const u32 s_uHash_Exit =				0x7c84f21f;
+
 
 kpgUIWindow::kpgUIWindow(void)
 {
@@ -19,6 +24,10 @@ kpgUIWindow::kpgUIWindow(void)
 	m_szName = 0;
 
 	m_eType = eWT_GenericWindow;
+
+	const char* test = "StartWin";
+
+	u32 uHash = StringHash(test);
 }
 
 kpgUIWindow::~kpgUIWindow(void)
@@ -159,6 +168,8 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			m_pBorder = new kpgTexture();
 			m_pBorder->Load(pBorder);
 		}
+		else
+			m_pBorder = 0;
 
 		const char* pCorner = pElement->Attribute("Corner");
 		if( pCorner )
@@ -166,6 +177,8 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			m_pCorner = new kpgTexture();
 			m_pCorner->Load(pCorner);
 		}
+		else
+			m_pCorner = 0;
 
 		const char* pOrientation = pElement->Attribute("Orientation");
 		if( pOrientation )
@@ -201,6 +214,14 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			m_bHasFrame = (nHasFrame != 0);
 		}
 
+		const char* pClickEvent = pElement->Attribute("Click Event");
+		if( pClickEvent )
+			m_eClickEvent = (eClickEvent)atoi(pClickEvent);
+
+		const char* pTargetWindow = pElement->Attribute("Target Window");
+		if( pTargetWindow )
+			m_uHash = StringHash(pTargetWindow);
+
 		// Get the rectangle
 		for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())
 		{
@@ -212,23 +233,19 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 				m_rRect.m_fBottom = (float)atof(pChild->Attribute("Bottom"));
 			}
 			else
-			{
-				// Child Window
+			{	// Child Window
 				kpgUIWindow* pWindow = kpgUIWindow::Load((TiXmlNode*)pChild);
 				if( pWindow )
 				{
-					m_lChildren.AddTail(pWindow);
+					float fX;
+					float fY;
+					pWindow->GetPosition(fX, fY);
+					AddChildWindow(pWindow, fX, fY, kpgRenderer::GetInstance());
 				}
 			}
 		}
 
-		const char* pClickEvent = pElement->Attribute("Click Event");
-		if( pClickEvent )
-			m_eClickEvent = (eClickEvent)atoi(pClickEvent);
-
-		const char* pTargetWindow = pElement->Attribute("Target Window");
-		if( pTargetWindow )
-			m_uHash = StringHash(pTargetWindow);
+		
 	}
 }
 
@@ -310,62 +327,68 @@ void kpgUIWindow::DrawFrame(kpgRenderer* pRenderer, const kpRect& rRect)
 	rTemp.Shrink(2);
 	pRenderer->DrawQuad2D(rTemp, m_pBackground);
 
-	// Draw the left border
 	kpgQuadUVs sUVs;
-	rTemp.m_fLeft = rRect.m_fLeft;
-	rTemp.m_fTop = rRect.m_fTop + m_pCorner->GetHeight();
-	rTemp.m_fBottom = rRect.m_fBottom - m_pCorner->GetHeight();
-	rTemp.m_fRight = rRect.m_fLeft + m_pBorder->GetHeight();
-	sUVs = kpgQuadUVs(1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-	pRenderer->DrawQuad2D(rTemp, m_pBorder, &sUVs);
+	if( m_pBorder )
+	{
+		// Draw the left border		
+		rTemp.m_fLeft = rRect.m_fLeft;
+		rTemp.m_fTop = rRect.m_fTop + m_pCorner->GetHeight();
+		rTemp.m_fBottom = rRect.m_fBottom - m_pCorner->GetHeight();
+		rTemp.m_fRight = rRect.m_fLeft + m_pBorder->GetHeight();
+		sUVs = kpgQuadUVs(1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		pRenderer->DrawQuad2D(rTemp, m_pBorder, &sUVs);
 
-	// Draw the right border
-	rTemp.m_fRight = rRect.m_fRight;
-	rTemp.m_fLeft = rRect.m_fRight - m_pBorder->GetHeight();
-	sUVs = kpgQuadUVs(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f);
-	pRenderer->DrawQuad2D(rTemp, m_pBorder, &sUVs);
+		// Draw the right border
+		rTemp.m_fRight = rRect.m_fRight;
+		rTemp.m_fLeft = rRect.m_fRight - m_pBorder->GetHeight();
+		sUVs = kpgQuadUVs(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f);
+		pRenderer->DrawQuad2D(rTemp, m_pBorder, &sUVs);
 
-	// Draw the top border
-	rTemp.m_fLeft = (rRect.m_fLeft + m_pCorner->GetWidth());
-	rTemp.m_fRight = (rRect.m_fRight - m_pCorner->GetWidth());
-	rTemp.m_fTop = rRect.m_fTop;
-	rTemp.m_fBottom = rRect.m_fTop + m_pBorder->GetHeight();
-	pRenderer->DrawQuad2D(rTemp, m_pBorder);
+		// Draw the top border
+		rTemp.m_fLeft = (rRect.m_fLeft + m_pCorner->GetWidth());
+		rTemp.m_fRight = (rRect.m_fRight - m_pCorner->GetWidth());
+		rTemp.m_fTop = rRect.m_fTop;
+		rTemp.m_fBottom = rRect.m_fTop + m_pBorder->GetHeight();
+		pRenderer->DrawQuad2D(rTemp, m_pBorder);
 
-	// Draw the bottom border
-	rTemp.m_fBottom = rRect.m_fBottom;
-	rTemp.m_fTop = rRect.m_fBottom - m_pBorder->GetHeight();
-	sUVs = kpgQuadUVs(1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-	pRenderer->DrawQuad2D(rTemp, m_pBorder, &sUVs);
+		// Draw the bottom border
+		rTemp.m_fBottom = rRect.m_fBottom;
+		rTemp.m_fTop = rRect.m_fBottom - m_pBorder->GetHeight();
+		sUVs = kpgQuadUVs(1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+		pRenderer->DrawQuad2D(rTemp, m_pBorder, &sUVs);
+	}
 
-	// Draw the top left corner
-	rTemp.m_fTop = (rRect.m_fTop);
-	rTemp.m_fLeft = (rRect.m_fLeft);
-	rTemp.m_fRight = (rRect.m_fLeft + m_pCorner->GetWidth());
-	rTemp.m_fBottom = (rRect.m_fTop + m_pCorner->GetHeight());
-	pRenderer->DrawQuad2D(rTemp, m_pCorner);
+	if( m_pCorner )
+	{
+		// Draw the top left corner
+		rTemp.m_fTop = (rRect.m_fTop);
+		rTemp.m_fLeft = (rRect.m_fLeft);
+		rTemp.m_fRight = (rRect.m_fLeft + m_pCorner->GetWidth());
+		rTemp.m_fBottom = (rRect.m_fTop + m_pCorner->GetHeight());
+		pRenderer->DrawQuad2D(rTemp, m_pCorner);
 
-	// Draw the top right corner
-	rTemp.m_fRight = (rRect.m_fRight);
-	rTemp.m_fLeft = (rRect.m_fRight - m_pCorner->GetHeight());
-	rTemp.m_fBottom = rRect.m_fTop + m_pCorner->GetWidth();
-	sUVs = kpgQuadUVs(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f);
-	pRenderer->DrawQuad2D(rTemp, m_pCorner, &sUVs);
+		// Draw the top right corner
+		rTemp.m_fRight = (rRect.m_fRight);
+		rTemp.m_fLeft = (rRect.m_fRight - m_pCorner->GetHeight());
+		rTemp.m_fBottom = rRect.m_fTop + m_pCorner->GetWidth();
+		sUVs = kpgQuadUVs(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f);
+		pRenderer->DrawQuad2D(rTemp, m_pCorner, &sUVs);
 
-	// Draw the bottom left corner
-	rTemp.m_fLeft = (rRect.m_fLeft);
-	rTemp.m_fRight = (rRect.m_fLeft + m_pCorner->GetHeight());
-	rTemp.m_fBottom = (rRect.m_fBottom);
-	rTemp.m_fTop = (rTemp.m_fBottom - m_pCorner->GetWidth());
-	sUVs = kpgQuadUVs(1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-	pRenderer->DrawQuad2D(rTemp, m_pCorner, &sUVs);
+		// Draw the bottom left corner
+		rTemp.m_fLeft = (rRect.m_fLeft);
+		rTemp.m_fRight = (rRect.m_fLeft + m_pCorner->GetHeight());
+		rTemp.m_fBottom = (rRect.m_fBottom);
+		rTemp.m_fTop = (rTemp.m_fBottom - m_pCorner->GetWidth());
+		sUVs = kpgQuadUVs(1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		pRenderer->DrawQuad2D(rTemp, m_pCorner, &sUVs);
 
-	// Draw the bottom right corner
-	rTemp.m_fRight = rRect.m_fRight;
-	rTemp.m_fLeft = rRect.m_fRight - m_pCorner->GetWidth();
-	rTemp.m_fTop = rRect.m_fBottom - m_pCorner->GetHeight();
-	sUVs = kpgQuadUVs(1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-	pRenderer->DrawQuad2D(rTemp, m_pCorner, &sUVs);
+		// Draw the bottom right corner
+		rTemp.m_fRight = rRect.m_fRight;
+		rTemp.m_fLeft = rRect.m_fRight - m_pCorner->GetWidth();
+		rTemp.m_fTop = rRect.m_fBottom - m_pCorner->GetHeight();
+		sUVs = kpgQuadUVs(1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+		pRenderer->DrawQuad2D(rTemp, m_pCorner, &sUVs);
+	}
 }
 
 void kpgUIWindow::CalculateRectangle(const kpRect& rParent)

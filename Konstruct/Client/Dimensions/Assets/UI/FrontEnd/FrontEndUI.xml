@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window Type="0" Name="StartWin" Background="Assets/UI/FrontEnd/StartWin.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="0" Width="352" Height="275"
+			Visible="1" HasFrame="1" ClickEvent="" TargetWindow="">
+			
+			<Rect Left="80" Right="432" Top="112" Bottom="387" />
+			
+			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="0" Width="256" Height="64"
+			Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Title="Single Player" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+			
+			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="48" Width="256" Height="64"
+			Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Title="MultiPlayer" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+			
+			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="96" Width="256" Height="64"
+			Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Title="Options" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+			
+			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="144" Width="256" Height="64"
+			Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Title="Exit" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+</Window>
+<Window Type="0" Name="SinglePlayerWin" Background="Assets/UI/FrontEnd/StartWindow.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="0" Width="352" Height="275"
+			Visible="1" HasFrame="0" ClickEvent="" TargetWindow="">
+			
+			<Rect Left="80" Right="432" Top="112" Bottom="387" />
+			
+			<Button Type="3" Name="ContinueBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="0" Width="256" Height="64"
+			Visible="1" HasFrame="0" ClickEvent="LoadMostRecent" TargetWindow="" Title="Continue" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+			
+			<Button Type="3" Name="NewGameBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="48" Width="256" Height="64"
+			Visible="1" HasFrame="0" ClickEvent="NewGame" TargetWindow="" Title="New Game" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+			
+			<Button Type="3" Name="LoadBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="96" Width="256" Height="64"
+			Visible="1" HasFrame="0" ClickEvent="NewWindow" TargetWindow="" Title="Load" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+			
+			<Button Type="3" Name="SinglePlayerBackBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			Corner="" Orientation="1" PositionX="0" PositionY="144" Width="256" Height="64"
+			Visible="0" HasFrame="0" ClickEvent="NewWindow" TargetWindow="StartWin" Title="Back" >			
+				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+			</Button>
+</Window>
