@@ -3,6 +3,8 @@
 class Level;
 class Actor;
 class PlayerCharacter;
+class kpgUIManager;
+class kpuCameraController;
 enum eInputEventType;
 
 class GameState
@@ -13,16 +15,21 @@ public:
 
 	virtual void MouseUpdate(int X, int Y) = 0;
 
-	virtual void Update(float fGameTime) = 0;
+	virtual void Update(float fDeltaTime) = 0;
 	virtual void Draw() = 0;
 
-	virtual Level* GetLevel() = 0;
+	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
 
 	virtual void AddActor(Actor* pActor) = 0;
 	virtual PlayerCharacter* GetPlayer() = 0;
 	//virtual kpuArrayList<Enemy*>*	GetEnemies() = 0;
 
 	virtual bool HandleInputEvent(eInputEventType type, u32 button) = 0;
+
+protected:	
+	Level*					m_pCurrentLevel;
+	kpgUIManager*			m_pUIManager;
+	kpuCameraController*	m_pCamera;
 };
 
 extern GameState* g_pGameState;

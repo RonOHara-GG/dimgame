@@ -194,7 +194,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GameState_Default.cpp"
+				RelativePath=".\GameState_FrontEnd.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameState_GamePlay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameState_Main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameState_SpaceStation.cpp"
 				>
 			</File>
 			<File
@@ -576,7 +588,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GameState_Default.h"
+				RelativePath=".\GameState_FrontEnd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameState_GamePlay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameState_Main.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameState_SpaceStation.h"
 				>
 			</File>
 			<File
