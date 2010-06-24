@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "GameState_Default.h"
+#include "GameState_GamePlay.h"
 #include "LevelManager.h"
 #include "Level.h"
 #include "PlayerCharacter.h"
@@ -11,33 +11,49 @@
 #include "Common\Graphics\kpgRenderer.h"
 #include "Common\Graphics\kpgLight.h"
 #include "Common\Graphics\kpgShader.h"
+#include "Common\Graphics\kpgUIManager.h"
 #include "Common\Utility\kpuCameraController.h"
+#include "Common\Utility\kpuThreeQuarterTopDownCamera.h"
 #include "Common\Utility\kpuVector.h"
 #include "Grid.h"
 #include "Enemy.h"
 #include "Common/Utility/kpuQuadTree.h"
 #include "Common\Input\kpiInputManager.h"
 
-extern kpuCameraController*	g_pCamera;
-
-GameState_Default::GameState_Default(void)
+GameState_GamePlay::GameState_GamePlay(void)
 {
-	LevelManager* pLevelManager = LevelManager::GetInstance();
-	//m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
-	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_Bastarak);
-	m_pPlayer = new PlayerCharacter();
-	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer);
-	m_paActors = new kpuArrayList<Actor*>();
+	// Create the UI manager & load the UI for this game state
+	m_pUIManager = new kpgUIManager();
 
-	m_paActors->Add(m_pPlayer);
-	m_pCurrentLevel->GenerateEnemies(m_paActors); 
+	// Setup basic camera info
+	kpuVector vLocation(12.0f, 18.0f, 12.0f, 0.0f);
+	kpuVector vLookAt(0.0f, 0.0f, 0.0f, 0.0f);
+	m_pCamera = new kpuThreeQuarterTopDownCamera(vLocation, vLookAt, kpuv_OneY);
+
+	// Setup render matrices
+	kpuMatrix mProjection, mView, mWorld;
+	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+	mProjection.Perspective(45.0f, pRenderer->GetScreenWidth() / pRenderer->GetScreenHeight(), 0.001f, 10000.0f);
+	mWorld.Identity();
+
+	pRenderer->SetProjectionMatrix(mProjection);
+	pRenderer->SetViewMatrix(m_pCamera->GetViewMatrix());
+	pRenderer->SetWorldMatrix(mWorld);
+
+	// setup render state
+	pRenderer->GetDevice()->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+    pRenderer->GetDevice()->SetRenderState( D3DRS_LIGHTING, FALSE );
 	
-
-	
-
+	// for now, setup a temp light
+	kpgLight* pDummyLight = new kpgLight(kpgLight::eLT_Directional);
+	kpuVector vLightDir(-1, -1, 0, 0);
+	vLightDir.Normalize();
+	pDummyLight->SetDirection(vLightDir);
+	pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
+	pRenderer->SetLight(0, pDummyLight);
 }
 
-GameState_Default::~GameState_Default(void)
+GameState_GamePlay::~GameState_GamePlay(void)
 {
 	delete m_pCurrentLevel;
 	delete m_pPlayer;
@@ -58,7 +74,7 @@ GameState_Default::~GameState_Default(void)
 		
 }
 
-void GameState_Default::MouseUpdate(int X, int Y)
+void GameState_GamePlay::MouseUpdate(int X, int Y)
 {
 	// Find projected ground point for the screen coordinates
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
@@ -96,15 +112,20 @@ void GameState_Default::MouseUpdate(int X, int Y)
 	
 }
 
-void GameState_Default::Update(float fGameTime)
+void GameState_GamePlay::Update(float fDeltaTime)
 {
-	if( m_pCurrentLevel )
-		m_pCurrentLevel->Update();
+	m_pCamera->Update();
+
+	// Update the UI
+	m_pUIManager->Update();
 
 	if( m_pPlayer )
-	{	
-		g_pCamera->SetLookAt(m_pPlayer->GetLocation());
+	{
+		m_pCamera->SetLookAt(m_pPlayer->GetLocation());
 	}
+
+	if( m_pCurrentLevel )
+		m_pCurrentLevel->Update();
 
 	if(m_paActors)
 	{
@@ -112,7 +133,7 @@ void GameState_Default::Update(float fGameTime)
 		{
 			Actor* pActor = (*m_paActors)[i];
 
-			if(!pActor->Update(fGameTime))
+			if(!pActor->Update(fDeltaTime))
 			{
 				m_paActors->Remove(pActor);
 				pActor->GetCurrentNode()->Remove(pActor);
@@ -124,14 +145,15 @@ void GameState_Default::Update(float fGameTime)
 	}
 }
 
-void GameState_Default::Draw()
+void GameState_GamePlay::Draw()
 {
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+
+	pRenderer->SetViewMatrix(m_pCamera->GetViewMatrix());
+	pRenderer->SetAmbientLightColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));	
+
 	if( m_pCurrentLevel )
 		m_pCurrentLevel->Draw(pRenderer);
-
-	/*if( m_pPlayer )
-		m_pPlayer->Draw(pRenderer);*/
 
 	if(m_paActors)
 	{
@@ -142,67 +164,35 @@ void GameState_Default::Draw()
 			pActor->Draw(pRenderer);
 		}
 	}
+
+	// Draw UI
+	m_pUIManager->Draw(pRenderer);
 }
 
-void GameState_Default::AddActor(Actor* pActor)
+void GameState_GamePlay::AddActor(Actor* pActor)
 {
 	if(m_paActors)
 		m_paActors->Add(pActor); 
 }
 
-bool GameState_Default::HandleInputEvent(eInputEventType type, u32 button)
+bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 {
+	if( m_pUIManager && m_pUIManager->HandleInputEvent(type, button) )
+		return true;
+
+	bool bHandled = false;
+	POINT ptMousePos = g_pInputManager->GetMouseLoc();
 	switch(type)
-	{
-	case eIET_MouseDrag:
-		{	
-			POINT ptMousePos = g_pInputManager->GetMouseLoc();
-			MouseUpdate(ptMousePos.x, ptMousePos.y );
-			break;
-		}
-	case eIET_ButtonDown:
-		{		
-			break;
-		}
-	case eIET_ButtonUp:
-		{
+	{		
+		case eIET_ButtonUp:
 			switch(button)
 			{
-			case KPIM_BUTTON_0:
-				{
-					POINT ptMousePos = g_pInputManager->GetMouseLoc();
+				case KPIM_BUTTON_0:
 					MouseUpdate(ptMousePos.x, ptMousePos.y );
+					bHandled = true;
 					break;
-				}
 			}
 			break;
-		}
-	case eIET_ButtonClick:
-		{
-			switch(button)
-			{
-			case KPIM_BUTTON_0:
-				{
-					POINT ptMousePos = g_pInputManager->GetMouseLoc();
-					MouseUpdate(ptMousePos.x, ptMousePos.y );
-					break;
-				}
-			}
-			break;
-		}
-	case eIET_ButtonDoubleClick:
-		{
-			switch(button)
-			{
-			case KPIM_BUTTON_0:
-				{
-					POINT ptMousePos = g_pInputManager->GetMouseLoc();
-					MouseUpdate(ptMousePos.x, ptMousePos.y );
-					break;
-				}
-			}
-			break;
-		}
 	}
-	return false;
+	return bHandled;
 }

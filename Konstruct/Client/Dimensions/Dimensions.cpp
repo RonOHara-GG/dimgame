@@ -5,7 +5,7 @@
 #include "Dimensions.h"
 #include "LevelManager.h"
 #include "GameState.h"
-#include "GameState_Default.h"
+#include "GameState_FrontEnd.h"
 #include "LoadStructures.h"
 #include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFixedArray.h"
@@ -28,21 +28,14 @@ extern HWND CreateRenderWindow(HINSTANCE hInstance);
 extern void UpdateRenderWindow(HWND hWnd);
 extern void CloseRenderWindow(HWND hWnd);
 
-kpuCameraController*	g_pCamera = 0;
-kpgUIManager*			g_pUIManager = 0;
+GameState* g_pGameState = 0;
+
 kpiInputManager*		g_pInputManager = 0;
 bool					g_bExitGame = false;
-
-//Timing varibles
-__int64					g_iStart, g_iEnd, g_iFrequency;
-float					g_fElasped;
-
 
 //Global game data
 extern kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 
-void UpdateGame();
-void DrawGame();
 void LoadEnemyList();
 void LoadEnemyType(const char* pszFile);
 
@@ -59,11 +52,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		return -1;
 	}
 
-	//Initalize the timeing varibles
-	QueryPerformanceFrequency((LARGE_INTEGER*)&g_iFrequency);
-	QueryPerformanceCounter((LARGE_INTEGER*)&g_iStart);
-	g_fElasped = 0.0f;
-
 	// Set the file path
 	char szCurrentDir[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, szCurrentDir);
@@ -76,76 +64,33 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 	pRenderer->Create(hWnd);
 
-	// Create the UI managers
-	kpgUIManager* pFrontEndUIManager = new kpgUIManager();
-	pFrontEndUIManager->LoadWindows("/Assets/UI/FrontEnd/FrontEndUI.xml");	
-
-	g_pUIManager = new kpgUIManager();
-	
-
-	kpuVector vLocation(12.0f, 18.0f, 12.0f, 0.0f);
-	kpuVector vLookAt(0.0f, 0.0f, 0.0f, 0.0f);
-	g_pCamera = new kpuThreeQuarterTopDownCamera(vLocation, vLookAt, kpuv_OneY);
-
-	kpuMatrix mProjection, mView, mWorld;
-	mProjection.Perspective(45.0f, pRenderer->GetScreenWidth() / pRenderer->GetScreenHeight(), 0.001f, 10000.0f);
-	mWorld.Identity();
-
-	pRenderer->SetProjectionMatrix(mProjection);
-	pRenderer->SetViewMatrix(g_pCamera->GetViewMatrix());
-	pRenderer->SetWorldMatrix(mWorld);
-
-	pRenderer->GetDevice()->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
-    pRenderer->GetDevice()->SetRenderState( D3DRS_LIGHTING, FALSE );
-
-
-	kppPlane* m_pMyPlane = new kppPlane(10.0f, 20.0f, kpuv_OneY);
-	m_pMyPlane->Build();
-
-	kpgGeometryInstance* m_pGroundPlane = new kpgGeometryInstance(m_pMyPlane);
-	m_pGroundPlane->SetPosition(0.0f, 0.0f, 0.0f);
-	
-	kpgLight* m_pDummyLight = new kpgLight(kpgLight::eLT_Directional);
-	kpuVector vLightDir(-1, -1, 0, 0);
-	vLightDir.Normalize();
-	m_pDummyLight->SetDirection(vLightDir);
-	m_pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
-
 	//Load enemies
 	LoadEnemyList();
 
-	// Process until exit
-	while( g_pInputManager->Update(g_fElasped) )
+	// Start in the front end game state
+	g_pGameState = new GameState_FrontEnd();
+
+	// Setup timing
+	LARGE_INTEGER liFrameStart;
+	QueryPerformanceFrequency(&liFrameStart);
+	double dfCyclesPerMilliSecond = 1.0 / (double)liFrameStart.QuadPart * 1000;
+	QueryPerformanceCounter(&liFrameStart);
+	float fDeltaTime = 0;
+
+	// Process until exit	
+	while( g_pInputManager->Update(fDeltaTime) )
 	{
-		QueryPerformanceCounter((LARGE_INTEGER*)&g_iEnd);
-
-		g_fElasped = (g_iEnd - g_iStart) / (float)g_iFrequency;
-
 		// Update the window
 		UpdateRenderWindow(hWnd);
 		if( g_bExitGame )
 			break;		
 
-		UpdateGame();
-		g_pCamera->Update();
-
-		// Update the UI
-		g_pUIManager->Update();
+		g_pGameState->Update(fDeltaTime);
 
 		// Begin the frame
 		pRenderer->BeginFrame();
-		pRenderer->SetViewMatrix(g_pCamera->GetViewMatrix());
-
-		pRenderer->SetAmbientLightColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));
-		pRenderer->SetLight(0, m_pDummyLight);
-		//pRenderer->SetLight(0, m_pPointLight);
-
-		//pRenderer->DrawInstancedGeometry(m_pGroundPlane);
-
-		DrawGame();
-
-		// Draw UI
-		g_pUIManager->Draw(pRenderer);
+		
+		g_pGameState->Draw();
 
 		// End the frame
 		pRenderer->EndFrame();
@@ -153,8 +98,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		// Let some other threads have some time
 		Sleep(1);
 
-		g_iStart = g_iEnd;
+		LARGE_INTEGER liFrameEnd;
+		QueryPerformanceCounter(&liFrameEnd);
+		double dfDeltaCycles = (double)(liFrameEnd.QuadPart - liFrameStart.QuadPart);
+		fDeltaTime = (float)(dfDeltaCycles * dfCyclesPerMilliSecond);
 	}
+
+	delete g_pGameState;
 
 	// Destroy the input manager
 	delete g_pInputManager;
@@ -175,9 +125,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		delete g_paEnemyTypes;
 	}
 
-	// Destroy the UI manager
-	delete g_pUIManager;
-
 	// Destroy the renderer
 	delete pRenderer;	
 
@@ -187,29 +134,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	return 0;
 }
 
-GameState* g_pGameState = 0;
-
 //Global game data
 kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 
-void UpdateGame()
-{
-	if( !g_pGameState )
-	{
-		// GameState hasnt been created yet, make the default
-		g_pGameState = new GameState_Default();
-	}
-
-	g_pGameState->Update(g_fElasped);
-}
-
-void DrawGame()
-{
-	if( g_pGameState )
-	{
-		g_pGameState->Draw();
-	}
-}
 void LoadEnemyList()
 {
 	char szFileName[2048];
@@ -288,11 +215,6 @@ void LoadEnemyType(const char* pszFile)
 
 void InputEvent(eInputEventType type, u32 button)
 {
-	// Give the input to the UI first
-	if( !g_pUIManager || !g_pUIManager->HandleInputEvent(type, button) )
-	{
-		// UI didnt handle the input, give it to the game
-		if( g_pGameState )
-			g_pGameState->HandleInputEvent(type, button);
-	}
+	if( g_pGameState )
+		g_pGameState->HandleInputEvent(type, button);
 }
