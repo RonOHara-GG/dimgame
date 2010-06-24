@@ -31,6 +31,7 @@ GameState_Default::GameState_Default(void)
 
 	m_paActors->Add(m_pPlayer);
 	m_pCurrentLevel->GenerateEnemies(m_paActors); 
+	
 
 	
 

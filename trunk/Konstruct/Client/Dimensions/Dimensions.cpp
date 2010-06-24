@@ -76,8 +76,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 	pRenderer->Create(hWnd);
 
-	// Create the UI manager
+	// Create the UI managers
+	kpgUIManager* pFrontEndUIManager = new kpgUIManager();
+	pFrontEndUIManager->LoadWindows("/Assets/UI/FrontEnd/FrontEndUI.xml");	
+
 	g_pUIManager = new kpgUIManager();
+	
 
 	kpuVector vLocation(12.0f, 18.0f, 12.0f, 0.0f);
 	kpuVector vLookAt(0.0f, 0.0f, 0.0f, 0.0f);
