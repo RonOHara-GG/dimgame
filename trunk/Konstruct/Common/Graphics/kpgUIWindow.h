@@ -54,7 +54,7 @@ public:
 
 	void LoadDefaults();
 
-	void AddChildWindow(kpgUIWindow* pChild, float fX, float fY, const kpgRenderer* pRenderer);
+	void AddChildWindow(kpgUIWindow* pChild, const kpgRenderer* pRenderer);
 
 	virtual void Update();
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);

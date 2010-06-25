@@ -25,9 +25,9 @@ kpgUIWindow::kpgUIWindow(void)
 
 	m_eType = eWT_GenericWindow;
 
-	const char* test = "StartWin";
+	//const char* test = "StartWin";
 
-	u32 uHash = StringHash(test);
+	//u32 uHash = StringHash(test);
 }
 
 kpgUIWindow::~kpgUIWindow(void)
@@ -237,10 +237,7 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 				kpgUIWindow* pWindow = kpgUIWindow::Load((TiXmlNode*)pChild);
 				if( pWindow )
 				{
-					float fX;
-					float fY;
-					pWindow->GetPosition(fX, fY);
-					AddChildWindow(pWindow, fX, fY, kpgRenderer::GetInstance());
+					AddChildWindow(pWindow, kpgRenderer::GetInstance());
 				}
 			}
 		}
@@ -271,7 +268,7 @@ void kpgUIWindow::LoadDefaults()
 	m_bHasFrame = true;
 }
 
-void kpgUIWindow::AddChildWindow(kpgUIWindow* pChild, float fX, float fY, const kpgRenderer* pRenderer)
+void kpgUIWindow::AddChildWindow(kpgUIWindow* pChild, const kpgRenderer* pRenderer)
 {
 	// Add the child to the children list
 	m_lChildren.AddTail(pChild);
@@ -279,11 +276,6 @@ void kpgUIWindow::AddChildWindow(kpgUIWindow* pChild, float fX, float fY, const 
 	// Set the parent pointer in the child to this window
 	pChild->m_pParent = this;
 
-	// Translate the point into this window's space
-	TransformPoint(fX, fY, pRenderer);
-
-	// Set the child at the  new position
-	pChild->SetPosition(fX, fY);
 }
 
 void kpgUIWindow::Update()

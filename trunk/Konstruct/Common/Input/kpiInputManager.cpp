@@ -119,6 +119,7 @@ bool kpiInputManager::Update(float fDeltaTime)
 				if( m_MouseState.rgbButtons[i] != 0 )
 				{
 					//mouse was released
+					InputEvent(eIET_ButtonUp, KPIM_BUTTON_0 + i );
 
 					//See if double click was made
 					if( m_faButtonPressStamp[i] <= CLICK_DELTA && m_bClicked)
@@ -136,9 +137,7 @@ bool kpiInputManager::Update(float fDeltaTime)
 						m_bClicked = true;
 						m_faButtonPressStamp[i] = 0.0f;
 						continue;
-					}
-
-					InputEvent(eIET_ButtonUp, KPIM_BUTTON_0 + i );
+					}					
 				}
 				
 				if( newMouseState.rgbButtons[i] != 0 )
