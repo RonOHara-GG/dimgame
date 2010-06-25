@@ -7,12 +7,15 @@
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuFileManager.h"
 
+
 static const u32 s_uHash_StartUp_Window =	0xe10340e1;
 
 kpgUIManager::kpgUIManager(void)
 {
 	m_plWindowList = new kpuLinkedList();
 	m_pCurrentWindow = 0;
+	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
+
 
 }
 
@@ -39,6 +42,13 @@ void kpgUIManager::Update()
 
 void kpgUIManager::Draw(kpgRenderer* pRenderer)
 {
+	kpuMatrix mIdentity;
+	mIdentity.Identity();
+
+	pRenderer->SetProjectionMatrix(m_mUIRenderMatrix);
+	pRenderer->SetWorldMatrix(mIdentity);
+	pRenderer->SetViewMatrix(mIdentity);
+
 	if( m_pCurrentWindow )
 		m_pCurrentWindow->Draw(pRenderer, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()));
 }
@@ -88,25 +98,15 @@ bool kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 	// TODO: Handle this event
 	switch(type)
 	{
-	case eIET_ButtonDown:
-		{		
-			break;
-		}
-	case eIET_ButtonUp:
-		{
-			break;
-		}
 	case eIET_ButtonClick:
-		{
+		{		
+			POINT ptMouse = g_pInputManager->GetMouseLoc();
+			kpgUIWindow::eHitLocation eHit;
+			//Get window
+			kpgWindow* pWindow = m_pCurrentWindow->HitTest(ptMouse.x, ptMouse.y, pRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
 			break;
-		}
-	case eIET_ButtonDoubleClick:
-		{
-			break;
-		}
+		}	
 	}
-
-	
 	
 	return false;
 }

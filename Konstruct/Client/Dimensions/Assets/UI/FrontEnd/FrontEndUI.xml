@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window Type="0" Name="StartWin" Background="Assets/UI/FrontEnd/StartWin.dds" Border=""
-			Corner="" Orientation="1" PositionX="0" PositionY="0" Width="352" Height="275"
+			Corner="" Orientation="1" PositionX="0.5" PositionY="0.5" Width="0.50" Height="0.750"
 			Visible="1" HasFrame="1" ClickEvent="" TargetWindow="">
 			
-			<Rect Left="80" Right="432" Top="112" Bottom="387" />
+			<Rect Left="0" Right="512" Top="0" Bottom="512" />
 			
 			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
-			Corner="" Orientation="1" PositionX="0" PositionY="0" Width="256" Height="64"
+			Corner="" Orientation="1" PositionX="0.5" PositionY="0.5" Width="0.18" Height="0.09"
 			Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Title="Single Player" >			
-				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
+				<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 			</Button>
 			
-			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			<Button Type="3" Name="MultiPlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
 			Corner="" Orientation="1" PositionX="0" PositionY="48" Width="256" Height="64"
 			Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Title="MultiPlayer" >			
 				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
 			</Button>
 			
-			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			<Button Type="3" Name="OptionsBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
 			Corner="" Orientation="1" PositionX="0" PositionY="96" Width="256" Height="64"
 			Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Title="Options" >			
 				<Rect Left="7" Right="248" Top="7" Bottom="55" />				
 			</Button>
 			
-			<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
+			<Button Type="3" Name="ExitBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Border=""
 			Corner="" Orientation="1" PositionX="0" PositionY="144" Width="256" Height="64"
 			Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Title="Exit" >			
 				<Rect Left="7" Right="248" Top="7" Bottom="55" />				

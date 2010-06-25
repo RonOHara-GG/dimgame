@@ -6,6 +6,7 @@
 #include "LevelManager.h"
 #include "GameState.h"
 #include "GameState_FrontEnd.h"
+#include "GameState_GamePlay.h"
 #include "LoadStructures.h"
 #include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFixedArray.h"

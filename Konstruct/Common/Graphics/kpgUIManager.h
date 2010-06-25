@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/Utility/kpuMatrix.h"
 
 class kpgRenderer;
 class kpgUIWindow;
@@ -19,7 +20,8 @@ public:
 	bool LoadWindows(const char* szFile);
 	kpgUIWindow* GetUIWindow(u32 uHash);
 
-protected:
+protected:	
+	kpuMatrix			m_mUIRenderMatrix;
 	kpgUIWindow*		m_pCurrentWindow;
 	kpuLinkedList*		m_plWindowList;	
 };
