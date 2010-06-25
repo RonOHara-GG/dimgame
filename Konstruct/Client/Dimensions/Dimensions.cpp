@@ -29,6 +29,7 @@ extern void UpdateRenderWindow(HWND hWnd);
 extern void CloseRenderWindow(HWND hWnd);
 
 GameState* g_pGameState = 0;
+GameState* g_pPendingGameState = 0;
 
 kpiInputManager*		g_pInputManager = 0;
 bool					g_bExitGame = false;
@@ -83,7 +84,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		// Update the window
 		UpdateRenderWindow(hWnd);
 		if( g_bExitGame )
-			break;		
+			break;
 
 		g_pGameState->Update(fDeltaTime);
 
@@ -97,6 +98,14 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 		// Let some other threads have some time
 		Sleep(1);
+
+		// Switch to next game state
+		if( g_pPendingGameState )
+		{
+			delete g_pGameState;
+			g_pGameState = g_pPendingGameState;
+			g_pPendingGameState = 0;
+		}
 
 		LARGE_INTEGER liFrameEnd;
 		QueryPerformanceCounter(&liFrameEnd);
@@ -217,4 +226,11 @@ void InputEvent(eInputEventType type, u32 button)
 {
 	if( g_pGameState )
 		g_pGameState->HandleInputEvent(type, button);
+}
+
+void ChangeGameState(GameState* newGameState)
+{
+	if( g_pPendingGameState )
+		delete g_pPendingGameState;
+	g_pPendingGameState = newGameState;
 }
