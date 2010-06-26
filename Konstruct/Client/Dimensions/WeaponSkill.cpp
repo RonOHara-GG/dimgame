@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "WeaponSkill.h"
 
+
 WeaponSkill::WeaponSkill(void)
 {
 }

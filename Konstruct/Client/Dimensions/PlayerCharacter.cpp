@@ -49,7 +49,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	SetFlag(ATTACKABLE);
 	m_iCurrentHealth = m_iMaxHealth = 100;
 
-	PlayerClass* pClass = new PlayerClass(PlayerClass::eCL_Brawler, 100.0f);
+	PlayerClass* pClass = new PlayerClass(eCL_Brawler, 100.0f);
 	m_aClasses[0] = pClass;
 
 	m_pWeaponSkills = new kpuLinkedList();
@@ -59,6 +59,58 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_iStr = 100;
 	m_iAgi = 100;
 
+}
+
+PlayerCharacter::PlayerCharacter(PlayerLoadStructure &playerData)
+{
+	//TODO: Load player from saved data
+
+
+
+}
+
+PlayerCharacter::PlayerCharacter(kpgModel* pModel, char szName[], ePlayerClass eClass)
+{
+	m_pModel = pModel;
+	strcpy_s(m_szName, sizeof(szName), szName);
+
+	kpgModel* pCollision = new kpgModel();
+
+	if( pCollision->Load("Assets\\Player\\PlayerCollision.dae") )
+		CalculateBoundingVolumes(pCollision);
+
+	delete pCollision;
+
+	ZeroMemory(m_aClasses, sizeof(m_aClasses));
+
+	m_fBaseSpeed = 10.0f;
+	m_pActiveSkill = 0;
+
+	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
+
+	//Create the player light source
+	m_pLightSource = new kpgLight(kpgLight::eLT_Point);
+	m_pLightSource->SetColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));
+
+	m_pEquippedWeapon = 0;
+	m_fElaspedDefaultAtk = 0.0f;
+
+	/*Init(m_pModel->GetBoundingBox().GetMin(), m_pModel->GetBoundingBox().GetMax());
+	m_bBox.Move(GetLocation());
+	m_bSphere.Move(GetLocation());*/
+
+	SetFlag(ATTACKABLE);
+	m_iCurrentHealth = m_iMaxHealth = 100;
+
+	PlayerClass* pClass = new PlayerClass(eClass, 100.0f);
+	m_aClasses[0] = pClass;
+
+	m_pWeaponSkills = new kpuLinkedList();
+	m_plPlayerPets = new kpuLinkedList();
+	
+
+	m_iStr = 100;
+	m_iAgi = 100;
 }
 
 PlayerCharacter::~PlayerCharacter(void)
@@ -78,9 +130,9 @@ PlayerCharacter::~PlayerCharacter(void)
 	delete[] &m_aInventory;
 }
 
-bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)
+bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass, float fExpPercent)
 {	
-	if(m_aClasses[eClass])
+	if(m_aClasses[ePlayerClass])
 		return false;
 
 	//check exp split
@@ -97,7 +149,7 @@ bool PlayerCharacter::AddNewClass(PlayerClass::Class eClass, float fExpPercent)
 	if(fTotal != 1.0f)
 		return false;
 	
-	m_aClasses[eClass] = new PlayerClass(eClass, fExpPercent);	
+	m_aClasses[ePlayerClass] = new PlayerClass(ePlayerClass, fExpPercent);	
 
 	return true;
 
@@ -127,11 +179,11 @@ void PlayerCharacter::RemovePet(PlayerPet* pPet)
 
 }
 	
-float PlayerCharacter::RemoveClass(PlayerClass::Class eClass)
+float PlayerCharacter::RemoveClass(ePlayerClass ePlayerClass)
 {
-	float fExpSplit = m_aClasses[eClass]->GetExpSplit();
+	float fExpSplit = m_aClasses[ePlayerClass]->GetExpSplit();
 
-	delete m_aClasses[eClass];
+	delete m_aClasses[ePlayerClass];
 
 	return fExpSplit;
 }
@@ -280,11 +332,11 @@ float PlayerCharacter::GetRange()
 	 return ( m_pEquippedWeapon ) ? m_pEquippedWeapon->GetRange()	: DEFAULT_MELEE_RANGE;
 }
 
-void PlayerCharacter::UseSkill(int iIndex, PlayerClass::Class eClass)
+void PlayerCharacter::UseSkill(int iIndex, ePlayerClass ePlayerClass)
 {
-	if(m_aClasses[(int)eClass] && !m_pActiveSkill)
+	if(m_aClasses[(int)ePlayerClass] && !m_pActiveSkill)
 	{
-		m_aClasses[(int)eClass]->GetSkill(iIndex)->Activate(this);		
+		m_aClasses[(int)ePlayerClass]->GetSkill(iIndex)->Activate(this);		
 	}
 }
 
@@ -437,7 +489,7 @@ bool PlayerCharacter::EquipSecondary(Weapon* weapon)
 }
 
 
-WeaponSkill* PlayerCharacter::GetWeaponSkill(Weapon::WeaponType eType)
+WeaponSkill* PlayerCharacter::GetWeaponSkill(Weapon::eWeaponType eType)
 {
 	kpuLinkedList* pNext = m_pWeaponSkills->Next();
 

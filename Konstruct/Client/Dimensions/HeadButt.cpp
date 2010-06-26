@@ -26,7 +26,7 @@ bool HeadButt::Activate(PlayerCharacter *pSkillOwner)
 	if( pSkill->GetIndex() != BearHug::m_siBearhugIndex )
 	{
 		//use the bear hug skill somehow
-		pSkill = PlayerClass::GetSkill(PlayerClass::eCL_Brawler, BearHug::m_siBearhugIndex);
+		pSkill = PlayerClass::GetSkill(eCL_Brawler, BearHug::m_siBearhugIndex);
 	}
 
 	if( !pSkill->Activate(pSkillOwner) )

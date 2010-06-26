@@ -26,3 +26,5 @@
 #include "Common/Utility/Types.h"
 #include "GameState.h"
 
+#define MAX_NAME 32 //Max lenght of a players name
+

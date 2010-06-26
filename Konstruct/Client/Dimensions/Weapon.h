@@ -27,7 +27,7 @@ public:
 	void Equipped(WeaponSkill* pSkill) { m_pWeaponSkill = pSkill; }
 	void Unequipped() { m_pWeaponSkill = 0; }
 
-	enum WeaponType
+	enum eWeaponType
 	{
 		eWT_Pistol,
 		eWT_Rifle,

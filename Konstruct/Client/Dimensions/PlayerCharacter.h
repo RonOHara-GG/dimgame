@@ -6,7 +6,9 @@
 #include "Actor.h"
 #include "Item.h"
 #include "PlayerClass.h"
+#include "LoadStructures.h"
 #include "Weapon.h"
+
 
 class Weapon;
 class kpgRenderer;
@@ -16,6 +18,7 @@ class SkillCombo;
 class Armor;
 class WeaponSkill;
 class PlayerPet;
+
 
 #define INVENTORY_SIZE 10
 
@@ -33,6 +36,8 @@ class PlayerCharacter:public Actor
 {
 public:
 	PlayerCharacter(void);
+	PlayerCharacter(kpgModel* pModel, char szName[], ePlayerClass eClass);
+	PlayerCharacter(PlayerLoadStructure& playerData);
 	~PlayerCharacter(void);
 
 	bool Update(float fDeltaTime);
@@ -40,11 +45,11 @@ public:
 
 	void GainExp(int iExp); //Distributes exp over player's classes
 
-	bool AddNewClass(PlayerClass::Class eClass, float fExpPercent); //Adds a new class to the player, returns false if the class could not be added
-	float RemoveClass(PlayerClass::Class eClass); //Removes a class from the player and returns the amount of exp that class was getting
+	bool AddNewClass(ePlayerClass ePlayerClass, float fExpPercent); //Adds a new class to the player, returns false if the class could not be added
+	float RemoveClass(ePlayerClass ePlayerClass); //Removes a class from the player and returns the amount of exp that class was getting
 
 	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
-	void UseSkill(int iIndex, PlayerClass::Class eClass);
+	void UseSkill(int iIndex, ePlayerClass ePlayerClass);
 
 	void SetActiveSkill(Skill* pSkill) { m_pActiveSkill = pSkill; }
 	Skill* GetActiveSkill() { return m_pActiveSkill; }
@@ -63,7 +68,7 @@ public:
 	bool EquipArmor(Armor* armor);
 	bool UnequipArmor();
 
-	WeaponSkill* GetWeaponSkill(Weapon::WeaponType eType);
+	WeaponSkill* GetWeaponSkill(Weapon::eWeaponType eType);
 	void AddWeaponSkill(WeaponSkill* pSkill);
 
 	void AddPet(PlayerPet* pPet);
@@ -100,6 +105,7 @@ protected:
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 	void UpdateSkills(float fGameTime);
 
+	char						m_szName[MAX_NAME];
 	//Leveling up stuff
 	int							m_iAttribPoints;	
 	int							m_iSkillPoints;

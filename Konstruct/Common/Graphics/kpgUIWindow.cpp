@@ -10,10 +10,6 @@
 const float kMinimumWindowWidth = 0.05f;
 const float kMinimumWindowHeight = 0.05f;
 
-static const u32 s_uHash_NewWindow =		0x40ed18e7;
-static const u32 s_uHash_Exit =				0x7c84f21f;
-
-
 kpgUIWindow::kpgUIWindow(void)
 {
 	m_bHasFrame = false;
@@ -25,9 +21,9 @@ kpgUIWindow::kpgUIWindow(void)
 
 	m_eType = eWT_GenericWindow;
 
-	//const char* test = "StartWin";
+	/*const char* test = "LoadMostRecent";
 
-	//u32 uHash = StringHash(test);
+	u32 uHash = StringHash(test);*/
 }
 
 kpgUIWindow::~kpgUIWindow(void)
@@ -216,7 +212,7 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 
 		const char* pClickEvent = pElement->Attribute("Click Event");
 		if( pClickEvent )
-			m_eClickEvent = (eClickEvent)atoi(pClickEvent);
+			m_uClickEvent = StringHash(pClickEvent);
 
 		const char* pTargetWindow = pElement->Attribute("Target Window");
 		if( pTargetWindow )
