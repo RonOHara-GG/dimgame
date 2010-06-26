@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/Utility/kpuLinkedList.h"
 
 class Level;
 class Actor;
@@ -32,5 +33,7 @@ protected:
 	kpuCameraController*	m_pCamera;
 };
 
-extern GameState* g_pGameState;
-
+extern GameState*		g_pGameState;
+extern kpuLinkedList	g_lPlayerModels;
+extern void ChangeGameState(GameState* newGameState);
+extern void Terminate();

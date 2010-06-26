@@ -6,6 +6,7 @@ class Level;
 class Actor;
 class PlayerCharacter;
 enum eInputEventType;
+enum ePlayerClass;
 
 class GameState_FrontEnd : public GameState
 {
@@ -27,8 +28,23 @@ public:
 	virtual bool HandleInputEvent(eInputEventType type, u32 button);
 
 protected:
+	bool					LoadMostRecentSave();
+	bool					LoadGame(const char* szFile);
+
 	Level*					m_pCurrentLevel;
 
 	PlayerCharacter*		m_pPlayer;
 	kpuArrayList<Actor*>*	m_paActors;
+
+	/*Character Creation*/	
+	kpuLinkedList*			m_plCurrentModel;
+
+	char					m_szName[MAX_NAME];
+	ePlayerClass			m_eStartClass;
 };
+
+//Front End specific click events
+#define CE_EXIT					0x7c84f21f	//Exit the program
+#define CE_NEW_GAME				0x6c2925a9	//Start new game
+#define CE_LOAD_SAVED_GAME		0xa6e8472	//Load the selected saved game
+#define CE_LOAD_MOST_RECENT		0x34d4e6c9	//Load most recent save

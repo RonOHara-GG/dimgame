@@ -2,6 +2,7 @@
 #include "skill.h"
 #include "weapon.h"
 
+
 class WeaponSkill :
 	public Skill
 {
@@ -15,7 +16,7 @@ public:
 	float GetRangeBonus() { return m_fRangeBonus; }
 	float GetRecoveryBonus() { return m_fRecoveryBonus; }
 	float GetSpeedBonus() { return m_fSpeedBonus; }
-	Weapon::WeaponType GetUsage() { return m_eWeaponType; }
+	Weapon::eWeaponType GetUsage() { return m_eWeaponType; }
 
 protected:
 	int					m_iDamageBonus;
@@ -24,7 +25,7 @@ protected:
 	float				m_fSpeedBonus;	
 
 	//data that needs to be loaded
-	Weapon::WeaponType	m_eWeaponType;
+	Weapon::eWeaponType	m_eWeaponType;
 	float				m_fRangeMod;
 	float				m_fRecoveryMod;
 	float				m_fSpeedMod;

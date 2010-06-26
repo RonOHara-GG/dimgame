@@ -5,11 +5,11 @@
 #include "PlayerCharacter.h"
 #include "Common\Utility\kpuQuadTree.h"
 
-GameState_SpaceStation::GameState_SpaceStation(void)
+GameState_SpaceStation::GameState_SpaceStation(PlayerCharacter* pPlayer)
 {
 	LevelManager* pLevelManager = LevelManager::GetInstance();
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID_SpaceStation);
-	m_pPlayer = new PlayerCharacter();
+	m_pPlayer = pPlayer;
 	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer);
 	m_paActors = new kpuArrayList<Actor*>();
 

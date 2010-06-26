@@ -12,7 +12,7 @@ Skill**			PlayerClass::m_paMedicSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER
 Skill**			PlayerClass::m_paPriestSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_PRIEST_SKILLS);		
 Skill**			PlayerClass::m_paOccultistSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_OCCULTIST_SKILLS);
 
-PlayerClass::PlayerClass(Class eClass, float fExpPercent)
+PlayerClass::PlayerClass(ePlayerClass eClass, float fExpPercent)
 {
 
 	switch(eClass)
@@ -131,9 +131,9 @@ Skill* PlayerClass::GetSkill(int iIndex)
 	return m_paSkills[iIndex];
 }
 
-Skill* PlayerClass::GetSkill(Class eClass, int iIndex)
+Skill* PlayerClass::GetSkill(ePlayerClass ePlayerClass, int iIndex)
 {
-	switch(eClass)
+	switch(ePlayerClass)
 	{
 		case eCL_Brawler:
 			{				

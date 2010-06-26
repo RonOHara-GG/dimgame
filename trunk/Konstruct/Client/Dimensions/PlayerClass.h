@@ -2,23 +2,25 @@
 
 #include "Skill.h"
 
+enum ePlayerClass
+{
+	eCL_Brawler,
+	eCL_Swordsman,
+	eCL_Archer,
+	eCL_Marksman,
+	eCL_Rocketeer,
+	eCL_Medic,
+	eCL_Priest,
+	eCL_Occultist,
+};
+
 class PlayerClass
 {
 public:
 
-	enum Class
-	{
-		eCL_Brawler,
-		eCL_Swordsman,
-		eCL_Archer,
-		eCL_Marksman,
-		eCL_Rocketeer,
-		eCL_Medic,
-		eCL_Priest,
-		eCL_Occultist,
-	};
+	
 
-	PlayerClass(Class eCL_Class, float fExpPercent);
+	PlayerClass(ePlayerClass ePlayerClass, float fExpPercent);
 	~PlayerClass(void);
 
 	int				GetLevel() { return m_iLevel; }
@@ -32,7 +34,7 @@ public:
 
 	void			UpdateSkillTimers(float fDeltaTime);
 
-	static Skill*	GetSkill(Class eClass, int iIndex);		//Return a skill by given index	and class
+	static Skill*	GetSkill(ePlayerClass ePlayerClass, int iIndex);		//Return a skill by given index	and class
 	static bool		LoadSkills();	//load all the skills for all classes
 
 private:
@@ -41,7 +43,7 @@ private:
 	float					m_fCurrentExp;
 	float					m_fNeededExp;	
 	float					m_fExpSplit;
-	Class					m_eClass;
+	ePlayerClass					m_eClass;
 
 	int						m_iNumSkills;
 	Skill**					m_paSkills;
@@ -54,7 +56,7 @@ private:
 	static Skill**			m_paPriestSkills;		
 	static Skill**			m_paOccultistSkills;	
 
-	//Class Initialization
+	//ePlayerClass Initialization
 	void ClassInit();
 
 	void LevelUp();

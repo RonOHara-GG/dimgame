@@ -38,8 +38,12 @@ bool					g_bExitGame = false;
 //Global game data
 extern kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 
+
 void LoadEnemyList();
 void LoadEnemyType(const char* pszFile);
+
+void LoadPlayerModels();
+
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -68,6 +72,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	//Load enemies
 	LoadEnemyList();
+	
+	//Load the player models;
+	LoadPlayerModels();	
 
 	// Start in the front end game state
 	g_pGameState = new GameState_FrontEnd();
@@ -234,4 +241,14 @@ void ChangeGameState(GameState* newGameState)
 	if( g_pPendingGameState )
 		delete g_pPendingGameState;
 	g_pPendingGameState = newGameState;
+}
+void Terminate()
+{
+	g_bExitGame = true; 
+}
+
+void LoadPlayerModels()
+{
+
+
 }

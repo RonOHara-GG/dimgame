@@ -93,20 +93,37 @@ kpgUIWindow* kpgUIManager::GetUIWindow(u32 uHash)
 	return 0;
 }
 
-bool kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
+u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
 	// TODO: Handle this event
 	switch(type)
 	{
 	case eIET_ButtonClick:
 		{		
-			POINT ptMouse = g_pInputManager->GetMouseLoc();
-			kpgUIWindow::eHitLocation eHit;
-			//Get window
-			kpgWindow* pWindow = m_pCurrentWindow->HitTest(ptMouse.x, ptMouse.y, pRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
+			if( button == KPIM_BUTTON_0 )
+			{
+				POINT ptMouse = g_pInputManager->GetMouseLoc();
+				kpgUIWindow::eHitLocation eHit;
+				//Get window
+				kpgUIWindow* pWindow = m_pCurrentWindow->HitTest(ptMouse.x, ptMouse.y, kpRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
+
+				//Get the click event
+				switch( pWindow->GetClickEvent() )
+				{
+				case CE_NEW_WINDOW:
+					{
+						//Change to a new window
+						m_pCurrentWindow = GetUIWindow(pWindow->ClickEffectedWindow());
+						return 0;
+					}	
+				default:
+					return pWindow->GetClickEvent();
+				}		
+				
+			}
 			break;
 		}	
 	}
 	
-	return false;
+	return IE_NOT_HANDLED;
 }

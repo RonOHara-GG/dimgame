@@ -1,8 +1,14 @@
-#include "Common/Graphics/kpgModel.h"
-
 #ifndef LOADSTRUCTURES_H
 #define LOADSTRUCTURES_H
 
+class kpgModel;
+
+typedef struct _PlayerLoadStructure
+{
+
+
+
+}PlayerLoadStructure;
 
 typedef struct _EnemyLoadStructure
 {

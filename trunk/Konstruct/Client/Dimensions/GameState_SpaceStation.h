@@ -4,7 +4,7 @@
 class GameState_SpaceStation : public GameState_GamePlay
 {
 public:
-	GameState_SpaceStation(void);
+	GameState_SpaceStation(PlayerCharacter* pPlayer);
 	virtual ~GameState_SpaceStation(void);
 
 protected:
