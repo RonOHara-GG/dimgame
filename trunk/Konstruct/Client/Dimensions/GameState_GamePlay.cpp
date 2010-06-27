@@ -76,22 +76,9 @@ GameState_GamePlay::~GameState_GamePlay(void)
 
 void GameState_GamePlay::MouseUpdate(int X, int Y)
 {
-	// Find projected ground point for the screen coordinates
-	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
-	kpuMatrix mIProj = pRenderer->GetProjectionMatrix();
-	kpuMatrix mIView = pRenderer->GetViewMatrix();	
-	kpuVector vRayDir;
-	vRayDir.SetX(-(((2.0f * (float)X) / pRenderer->GetScreenWidth()) - 1) / mIProj.GetA().GetX());
-	vRayDir.SetY((((2.0f * (float)Y) / pRenderer->GetScreenHeight()) - 1) / mIProj.GetB().GetY());
-	vRayDir.SetZ(1.0f);
-	vRayDir.SetW(0.0f);
-	mIView.Invert();
-	vRayDir *= mIView;
+	kpuVector vGroundPoint((float)X, (float)Y, 0.0f, 0.0f);
 
-	// Project the ray onto the ground plane to find the ground point
-	kpuVector vRayOrigin = mIView.GetD();
-	float fT = -vRayOrigin.GetY() / vRayDir.GetY();
-	kpuVector vGroundPoint = vRayOrigin + (vRayDir * fT);
+	ScreenCordsToGameCords(vGroundPoint);	
 	
 	// Update the players move target to the new ground point
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
@@ -110,6 +97,26 @@ void GameState_GamePlay::MouseUpdate(int X, int Y)
 			m_pPlayer->SetMoveTarget(iTile);	
 	}
 	
+}
+
+void GameState_GamePlay::ScreenCordsToGameCords(kpuVector& vCords)
+{
+	// Find projected ground point for the screen coordinates
+	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+	kpuMatrix mIProj = pRenderer->GetProjectionMatrix();
+	kpuMatrix mIView = pRenderer->GetViewMatrix();	
+	kpuVector vRayDir;
+	vRayDir.SetX(-(((2.0f * vCords.GetX()) / pRenderer->GetScreenWidth()) - 1) / mIProj.GetA().GetX());
+	vRayDir.SetY((((2.0f * vCords.GetY()) / pRenderer->GetScreenHeight()) - 1) / mIProj.GetB().GetY());
+	vRayDir.SetZ(1.0f);
+	vRayDir.SetW(0.0f);
+	mIView.Invert();
+	vRayDir *= mIView;
+
+	// Project the ray onto the ground plane to find the ground point
+	kpuVector vRayOrigin = mIView.GetD();
+	float fT = -vRayOrigin.GetY() / vRayDir.GetY();
+	kpuVector vGroundPoint = vRayOrigin + (vRayDir * fT);
 }
 
 void GameState_GamePlay::Update(float fDeltaTime)

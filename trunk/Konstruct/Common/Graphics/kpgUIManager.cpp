@@ -15,8 +15,6 @@ kpgUIManager::kpgUIManager(void)
 	m_plWindowList = new kpuLinkedList();
 	m_pCurrentWindow = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
-
-
 }
 
 kpgUIManager::~kpgUIManager(void)
@@ -61,14 +59,14 @@ bool kpgUIManager::LoadWindows(const char *szFile)
 
 	if( doc.LoadFile(szFileName) )
 	{
-		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
+		for(TiXmlElement* pElement = doc.FirstChildElement()->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
 		{
 			kpgUIWindow* pWindow = new kpgUIWindow();
 			pWindow->Load(pElement);
 			m_plWindowList->AddTail(pWindow);
 		}
 
-		m_pCurrentWindow = GetUIWindow(s_uHash_StartUp_Window);
+		m_pCurrentWindow = (kpgUIWindow*)m_plWindowList->Next()->GetPointer();
 	}
 
 	

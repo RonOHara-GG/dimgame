@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "PlayerCharacter.h"
 #include "Level.h"
+#include "Common/input/kpiInputManager.h"
 #include "Common/utility/kpuArrayList.h"
 #include "Common/utility/kpuQuadTree.h"
 #include "Common/utility/kpuCollisionData.h"
@@ -18,26 +19,12 @@ ScatterShot::~ScatterShot(void)
 
 bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
 {
-	if(m_bReady)
+	if(Skill::Activate(pSkillOwner))
 	{
-		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
-
-		m_fElaspedSinceCast = 0.0f;
-
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-
-		m_iBaseDamage = pEquippedWeapon->GetDamage() * m_iDamageMultiple + (iRankMultiple * m_iSkillRank);
-		m_fRange = pEquippedWeapon->GetRange() * m_fRangeMultiple;
-		m_fSpeed = pEquippedWeapon->GetSpeed() * m_fSpeedMod;
-		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;
-		m_fRadius = MIN_RADIUS + (m_iSkillRank * m_fRadiusMod);
-		m_eDamageType = pEquippedWeapon->GetDamageType();
-
-		pSkillOwner->SetActiveSkill(this);
-		
-		m_bReady = false;
-		m_bExecuted = false;	
-		m_bTargetSelected = false;
+		//Get mouse location
+		POINT ptMouse = g_pInputManager->GetMouseLoc();
+		m_vTarget = kpuVector(ptMouse.x, ptMouse.y, 0.0f, 0.0f);
+		g_pGameState->ScreenCordsToGameCords(m_vTarget);		
 		
 		return true;		
 	}
@@ -47,46 +34,47 @@ bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
 
 bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
-	//check input and see if mouse was clicked
-
-	//if left mouse clicked then target selected and get the target	
-
-	//if right mouse clicked then cancel skill
-	//return false;
-
-
-	if( m_bTargetSelected )
+	//shoot when animation is ready
+	if( true )
 	{
-		m_fElaspedSinceCast += fDeltaTime;
+		m_bExecuted = true;
 
-		//Good time to execute?
-		if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.75f )
+		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
+
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+
+		int iBaseDamage = pEquippedWeapon->GetDamage() * m_iDamageMultiple + (iRankMultiple * m_iSkillRank);
+		m_fRange = pEquippedWeapon->GetRange() * m_fRangeMultiple;
+		m_fSpeed = pEquippedWeapon->GetSpeed() * m_fSpeedMod;
+		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;
+		float fRadius = MIN_RADIUS + (m_iSkillRank * m_fRadiusMod);
+
+		//get all actors in range
+		kpuBoundingSphere sphere(fRadius, m_vTarget);
+		kpuArrayList<kpuCollisionData> collidedObjects;
+
+		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);
+
+		for(int i = 0; i < collidedObjects.Count(); i++)
 		{
-			m_bExecuted = true;
+			kpuCollisionData* pNext = &collidedObjects[i];
 
-			//get all actors in range
-			kpuBoundingSphere sphere(m_fRadius, m_vTarget);
-			kpuArrayList<kpuCollisionData> collidedObjects;
+			//get distance to the object
+			float fDist = (pNext->m_pObject->GetLocation() - m_vTarget).Length();
 
-			g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);
-
-			for(int i = 0; i < collidedObjects.Count(); i++)
+			int iDamage = iBaseDamage - int( (fDist / fRadius) * iBaseDamage );
+			
+			if( pNext->m_pObject->HasFlag(ENEMY) )
 			{
-				kpuCollisionData* pNext = &collidedObjects[i];
-
-				//get distance to the object
-				float fDist = (pNext->m_pObject->GetLocation() - m_vTarget).Length();
-
-				m_iDamage = m_iBaseDamage - int( (fDist / m_fRadius) * m_iBaseDamage );
+				Actor* pTarget = (Actor*)pNext->m_pObject;
 				
-				pNext->m_pObject->AreaEffect(m_vTarget, m_fRadius, &m_iDamage, this);
+				if( pTarget->InLineOfSight(m_vTarget, m_fRange) )
+					pTarget->TakeDamage(iDamage, pEquippedWeapon->GetDamageType());
 			}
-
 		}
 
-		if( m_fElaspedSinceCast >= m_fSpeed )
-			return false;
 	}
+
 
 	return true;
 }

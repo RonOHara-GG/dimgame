@@ -12,53 +12,30 @@ ExplosiveShot::~ExplosiveShot(void)
 {
 }
 
-bool ExplosiveShot::Activate(PlayerCharacter* pSkillOwner)
+bool ExplosiveShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	if(m_bReady)
+	//fire when animation is ready
+	if( true )
 	{
 		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
 
-		m_fElaspedSinceCast = 0.0f;
-
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_iDamage = pEquippedWeapon->GetDamage();
-		m_fRange = pEquippedWeapon->GetRange();
-		m_fSpeed = pEquippedWeapon->GetSpeed() * m_fSpeedMod;
-		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;
-		m_eDamageType = pEquippedWeapon->GetDamageType();
-		m_eRadiusType = eDT_Heat;
-		m_iRadiusDamage = iRankMultiple * m_iSkillRank;
-		m_fRadius = m_iSkillRank * m_fRadiusMod;
-		
+		int iDamage = pEquippedWeapon->GetDamage();
+		float fRange = pEquippedWeapon->GetRange();
+		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;		
+		int iRadiusDamage = iRankMultiple * m_iSkillRank;
+		float fRadius = m_iSkillRank * m_fRadiusMod;
 
-		pSkillOwner->SetActiveSkill(this);
-		
-		m_bReady = false;
-		m_bExecuted = false;		
-		
-		return true;		
-	}
-
-	return false;
-}
-
-bool ExplosiveShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
-{
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
-	{
 		//explosive arrow
-		Projectile* pArrow = new ExplosiveProjectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(),
-			m_fRadius, m_iRadiusDamage, m_eRadiusType);
+		Projectile* pArrow = new ExplosiveProjectile(Projectile::ePT_Arrow, iDamage, fRange, pEquippedWeapon->GetDamageType(), pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(),
+			fRadius, iRadiusDamage, eDT_Heat);
 
 		g_pGameState->AddActor(pArrow);
 		m_bExecuted = true;
+		return false;
 	}
 
-	if( m_fElaspedSinceCast >= m_fSpeed )
-		return false;
 
 	return true;
 

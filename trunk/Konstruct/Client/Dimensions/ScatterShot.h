@@ -13,9 +13,6 @@ public:
 
 protected:
 	kpuVector	m_vTarget;	
-	bool		m_bTargetSelected;
-	float		m_fRadius;
-	int			m_iBaseDamage;
 	float		m_fRadiusMod;
 	float		m_fRecoveryMod;
 	float		m_fSpeedMod;

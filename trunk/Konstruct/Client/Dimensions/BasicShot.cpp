@@ -12,46 +12,25 @@ BasicShot::~BasicShot(void)
 {
 }
 
-bool BasicShot::Activate(PlayerCharacter *pSkillOwner)
+bool BasicShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {	
-	if(m_bReady)
+	//Fire according to animation
+	if( true )
 	{
 		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
 
-		m_fElaspedSinceCast = 0.0f;
-
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
-		m_iDamage = pEquippedWeapon->GetDamage() + (iRankMultiple * m_iSkillRank);
-		m_fRange = pEquippedWeapon->GetRange() + (m_iSkillRank * m_fRangeMultiple);
-		m_fSpeed = pEquippedWeapon->GetSpeed();
-		m_eDamageType = pEquippedWeapon->GetDamageType();
+		int iDamage = pEquippedWeapon->GetDamage() + (iRankMultiple * m_iSkillRank);
+		float fRange = pEquippedWeapon->GetRange() + (m_iSkillRank * m_fRangeMultiple);
 
-		pSkillOwner->SetActiveSkill(this);
-		
-		m_bReady = false;
-		m_bExecuted = false;		
-		
-		return true;		
-	}
-
-	return false;
-}
-
-bool BasicShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
-{
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
-	{
 		//fire arrow
-		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
+		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, iDamage, fRange, pEquippedWeapon->GetDamageType(), pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
 		g_pGameState->AddActor(pArrow);
 		m_bExecuted = true;
-	}
 
-	if( m_fElaspedSinceCast >= m_fSpeed )
 		return false;
+	}
 
 	return true;	
 }

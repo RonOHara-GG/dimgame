@@ -15,56 +15,31 @@ MultiShot::~MultiShot(void)
 {
 }
 
-bool MultiShot::Activate(PlayerCharacter *pSkillOwner)
-{
-	if(m_bReady)
-	{
-		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();
-
-		m_fElaspedSinceCast = 0.0f;		
-
-		m_iShotsToFire = MIN_SHOTS_FIRED + ( m_iSkillRank / m_iNumOfShotsMultiple );
-		m_iDamage = pEquippedWeapon->GetDamage() + (m_iShotsToFire - int(pSkillOwner->GetInt() * m_fIntMultiple));
-		m_fRange = pEquippedWeapon->GetRange();
-		m_eDamageType = pEquippedWeapon->GetDamageType();
-		m_fSpeed = pEquippedWeapon->GetSpeed() * SPEED_MULTIPLE;
-
-		m_fFireArc = m_fFireArcMultiple * m_iSkillRank;
-
-		pSkillOwner->SetActiveSkill(this);
-		
-		m_bReady = false;
-		m_bExecuted = false;
-
-		pSkillOwner->SetActiveSkill(this);
-
-		return true;		
-	}
-
-	return false;
-
-
-}
-
 bool MultiShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
+	//fire when animation is ready
+	if( true )
 	{
+		Weapon* pEquippedWeapon = pSkillOwner->GetEquippedWeapon();	
+
+		int iShotsToFire = MIN_SHOTS_FIRED + ( m_iSkillRank / m_iNumOfShotsMultiple );
+		int iDamage = pEquippedWeapon->GetDamage() + (iShotsToFire - int(pSkillOwner->GetInt() * m_fIntMultiple));
+		float fRange = pEquippedWeapon->GetRange();
+		float fFireArc = m_fFireArcMultiple * m_iSkillRank;
+
 		//shoot
-		float fRadiansPerShot = m_fFireArc / m_iShotsToFire;
+		float fRadiansPerShot = fFireArc / iShotsToFire;
 		fRadiansPerShot *= DEG_TO_RAD;
 		kpuVector vDir = pSkillOwner->GetHeading() % kpuv_OneY;
 		
-		for(int i = 0; i < m_iShotsToFire; i++ )
+		for(int i = 0; i < iShotsToFire; i++ )
 		{
 			kpuMatrix rotMatrix;
 			rotMatrix.Identity();
 
 			rotMatrix.SetRotationY( (i + 1) * fRadiansPerShot);
 
-			Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
+			Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, iDamage, fRange, pEquippedWeapon->GetDamageType(), pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
 			g_pGameState->AddActor(pArrow);
 		}
 

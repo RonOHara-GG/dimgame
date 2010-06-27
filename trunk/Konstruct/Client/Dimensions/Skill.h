@@ -34,6 +34,7 @@ protected:
 	int			m_iSkillRank;
 	float		m_fElaspedSinceCast;
 	float		m_fRecovery;	
+	float		m_fRecoveryMod;
 	float		m_fElaspedRecovery;
 	float		m_fSpeed;
 	bool		m_bReady;

@@ -14,40 +14,22 @@ BounceShot::~BounceShot(void)
 {
 }
 
-bool BounceShot::Activate(PlayerCharacter *pSkillOwner)
-{
-	if( m_bReady )
-	{
-		m_fRange = pSkillOwner->GetEquippedWeapon()->GetRange();
-		m_iDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_iDamageMultiple * ( m_iDamageMultiple * m_iSkillRank * m_iRankMultipleMin ));
-		m_fBounceRange = MIN_BOUNCE_RANGE + ( m_iSkillRank * m_fBounceModifier );
-
-		m_bReady = false;
-		m_bExecuted = false;
-		m_fElaspedSinceCast = 0.0f;		
-
-		pSkillOwner->SetActiveSkill(this);
-		
-		return true;
-	}
-
-	return false;
-}
-
 bool BounceShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if( !m_bExecuted && m_fElaspedSinceCast >= m_fSpeed * 0.5f )
+	//Fire when animation is ready
+	if( true )
 	{
+		float fRange = pSkillOwner->GetEquippedWeapon()->GetRange();
+		int iDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_iDamageMultiple * ( m_iDamageMultiple * m_iSkillRank * m_iRankMultipleMin ));
+		float fBounceRange = MIN_BOUNCE_RANGE + ( m_iSkillRank * m_fBounceModifier );
+
 		//fire arrow
-		BounceArrow* pArrow = new BounceArrow(m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), m_fBounceRange);
+		BounceArrow* pArrow = new BounceArrow(iDamage, fRange, pSkillOwner->GetEquippedWeapon()->GetDamageType(), pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), fBounceRange);
 		g_pGameState->AddActor(pArrow);
 		m_bExecuted = true;
-	}
 
-	if( m_fElaspedSinceCast >= m_fSpeed )
 		return false;
+	}
 
 	return true;	
 }

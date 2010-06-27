@@ -6,6 +6,7 @@ class Actor;
 class PlayerCharacter;
 class kpgUIManager;
 class kpuCameraController;
+class kpuVector;
 enum eInputEventType;
 
 class GameState
@@ -15,6 +16,7 @@ public:
 	virtual ~GameState(void)		{};
 
 	virtual void MouseUpdate(int X, int Y) = 0;
+	virtual void ScreenCordsToGameCords(kpuVector& vCords) = 0;
 
 	virtual void Update(float fDeltaTime) = 0;
 	virtual void Draw() = 0;
