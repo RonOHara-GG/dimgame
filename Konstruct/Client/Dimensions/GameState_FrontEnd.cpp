@@ -44,40 +44,16 @@ bool GameState_FrontEnd::LoadMostRecentSave()
 
 	if( hResult != INVALID_HANDLE_VALUE )
 	{
-		WIN32_FIND_DATA nextData;
-		FILETIME currentFileTime;	
-		SYSTEMTIME sysTime;
-		GetSystemTime(&sysTime);
-		SystemTimeToFileTime(&sysTime, &currentFileTime);
-
-		//Store times in a sturcture that math can be used on
-		ULARGE_INTEGER currentTime;
-		ULARGE_INTEGER bestTime;
-		ULARGE_INTEGER nextTime;
-		currentTime.HighPart = currentFileTime.dwHighDateTime;
-		currentTime.LowPart = currentFileTime.dwLowDateTime;
-		bestTime.HighPart = data.ftLastWriteTime.dwHighDateTime;
-		bestTime.LowPart = data.ftLastWriteTime.dwLowDateTime;
-
+		WIN32_FIND_DATA nextData;		
 
 		while( FindNextFile(hResult, &nextData) )
 		{
-			
-			nextTime.HighPart = nextData.ftLastWriteTime.dwHighDateTime;
-			nextTime.LowPart = nextData.ftLastWriteTime.dwLowDateTime;
-
 			//TODO: add file extension check for dimension's saved game file type
-			if( currentTime.QuadPart - nextTime.QuadPart < currentTime.QuadPart - bestTime.QuadPart )
-			{
+			if( CompareFileTime(&data.ftLastWriteTime, &nextData.ftLastWriteTime) == -1 )
 				data = nextData;
-				bestTime.HighPart = data.ftLastWriteTime.dwHighDateTime;
-				bestTime.LowPart = data.ftLastWriteTime.dwLowDateTime;
-			}
-
-
 		}
 
-		return LoadGame(data.cAlternateFileName);
+		return LoadGame(data.cFileName);
 	}
 
 	return false;

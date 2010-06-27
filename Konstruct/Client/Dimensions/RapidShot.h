@@ -9,7 +9,7 @@ public:
 	RapidShot(void);
 	~RapidShot(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
+	bool Activate(PlayerCharacter *pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:

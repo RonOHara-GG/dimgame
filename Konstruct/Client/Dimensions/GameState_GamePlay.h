@@ -14,6 +14,7 @@ public:
 	virtual ~GameState_GamePlay(void);
 
 	virtual void MouseUpdate(int X, int Y);
+	virtual void ScreenCordsToGameCords(kpuVector& vCords);
 
 	virtual void Update(float fDeltaTime);
 	virtual void Draw();

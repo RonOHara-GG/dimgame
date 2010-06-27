@@ -15,6 +15,7 @@ public:
 	virtual ~GameState_FrontEnd(void);
 
 	virtual void MouseUpdate(int X, int Y);
+	virtual void ScreenCordsToGameCords(kpuVector& vCords) { }
 
 	virtual void Update(float fGameTime);
 	virtual void Draw();
@@ -44,7 +45,15 @@ protected:
 };
 
 //Front End specific click events
-#define CE_EXIT					0x7c84f21f	//Exit the program
-#define CE_NEW_GAME				0x6c2925a9	//Start new game
-#define CE_LOAD_SAVED_GAME		0xa6e8472	//Load the selected saved game
-#define CE_LOAD_MOST_RECENT		0x34d4e6c9	//Load most recent save
+#define CE_EXIT						0x7c84f21f	//Exit the program
+#define CE_NEW_GAME					0x6c2925a9	//Start new game
+#define CE_LOAD_SAVED_GAME			0xa6e8472	//Load the selected saved game
+#define CE_LOAD_MOST_RECENT			0x34d4e6c9	//Load most recent save
+#define CE_SELECT_CLASS_BRAWLER		0x0
+#define CE_SELECT_CLASS_ARCHER		0x0
+#define CE_SELECT_CLASS_MEDIC		0x0
+#define CE_SELECT_CLASS_PRIEST		0x0
+#define CE_SELECT_CLASS_ROCKETEER	0x0
+#define CE_SELECT_CLASS_SWORDSMAN	0x0
+#define CE_SELECT_CLASS_OCCULIST	0x0
+#define CE_SELECT_CLASS_MARKSMAN	0x0

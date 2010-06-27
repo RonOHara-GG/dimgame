@@ -11,10 +11,10 @@ public:
 	BasicShot(void);
 	virtual ~BasicShot(void);
 
-	virtual bool Activate(PlayerCharacter* pSkillOwner);
 	virtual bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
+	//TODO: Remove these!!!!!!!!!!!!!!
 	float		m_fRange;
 	float		m_fMinRange;
 	int			m_iDamage;

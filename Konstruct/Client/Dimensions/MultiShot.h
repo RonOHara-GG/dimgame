@@ -9,12 +9,9 @@ public:
 	MultiShot(void);
 	~MultiShot(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int							m_iShotsToFire;
-	float						m_fFireArc;
 	float						m_fIntMultiple;
 	int							m_iNumOfShotsMultiple;
 	float						m_fFireArcMultiple;
