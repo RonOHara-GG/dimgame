@@ -92,10 +92,10 @@ bool kpiInputManager::Update(float fDeltaTime)
 		GetCursorPos(&mousePos);		
 		ScreenToClient(m_hWnd, &mousePos);	
 
-		if( mousePos.x != m_ptMousePos.x || mousePos.y != m_ptMousePos.y)
+		if( mousePos.x != m_ptMousePos.m_iX || mousePos.y != m_ptMousePos.m_iY)
 		{
-			m_ptMouseDelta.x = mousePos.x - m_ptMousePos.x;
-			m_ptMouseDelta.y = mousePos.y - m_ptMousePos.y;
+			m_ptMouseDelta.m_iX = mousePos.x - m_ptMousePos.m_iX;
+			m_ptMouseDelta.m_iY = mousePos.y - m_ptMousePos.m_iY;
 
 			if( newMouseState.rgbButtons[0] != 0 )
 				InputEvent(eIET_MouseDrag, 0);
@@ -104,12 +104,12 @@ bool kpiInputManager::Update(float fDeltaTime)
 		}
 		else
 		{
-			m_ptMouseDelta.x = 0;
-			m_ptMouseDelta.y = 0;
+			m_ptMouseDelta.m_iX = 0;
+			m_ptMouseDelta.m_iY = 0;
 		}
 
-		m_ptMousePos.x = mousePos.x;		
-		m_ptMousePos.y = mousePos.y;
+		m_ptMousePos.m_iX = mousePos.x;		
+		m_ptMousePos.m_iY = mousePos.y;
 
 		for(u32 i = 0; i < MICE_BUTTONS_SUPPORTED; i++ )
 		{

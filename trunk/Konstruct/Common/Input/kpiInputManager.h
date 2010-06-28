@@ -30,8 +30,8 @@ public:
 
 	bool Update(float fDeltaTime);
 
-	POINT		GetMouseLoc() { return m_ptMousePos; }
-	POINT		GetMouseDelta() { return m_ptMouseDelta; }
+	kpPoint		GetMouseLoc() { return m_ptMousePos; }
+	kpPoint		GetMouseDelta() { return m_ptMouseDelta; }
 
 protected:
 	HWND					m_hWnd;
@@ -48,8 +48,8 @@ protected:
 	DIMOUSESTATE			m_MouseState;
 	float					m_faButtonPressStamp[MICE_BUTTONS_SUPPORTED];
 	bool					m_bClicked;
-	POINT					m_ptMousePos;
-	POINT					m_ptMouseDelta;
+	kpPoint					m_ptMousePos;
+	kpPoint					m_ptMouseDelta;
 
 	//Joypads
 	IDirectInputDevice8*	m_pJoyPads[JOYPADS_SUPPORTED];

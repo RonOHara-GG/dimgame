@@ -188,14 +188,14 @@ bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 		return true;
 
 	bool bHandled = false;
-	POINT ptMousePos = g_pInputManager->GetMouseLoc();
+	kpPoint ptMousePos = g_pInputManager->GetMouseLoc();
 	switch(type)
 	{		
 		case eIET_ButtonUp:
 			switch(button)
 			{
 				case KPIM_BUTTON_0:
-					MouseUpdate(ptMousePos.x, ptMousePos.y );
+					MouseUpdate(ptMousePos.m_iX, ptMousePos.m_iY );
 					bHandled = true;
 					break;
 			}

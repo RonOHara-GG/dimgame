@@ -22,8 +22,8 @@ bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
 	if(Skill::Activate(pSkillOwner))
 	{
 		//Get mouse location
-		POINT ptMouse = g_pInputManager->GetMouseLoc();
-		m_vTarget = kpuVector(ptMouse.x, ptMouse.y, 0.0f, 0.0f);
+		kpPoint ptMouse = g_pInputManager->GetMouseLoc();
+		m_vTarget = kpuVector(ptMouse.m_iX, ptMouse.m_iY, 0.0f, 0.0f);
 		g_pGameState->ScreenCordsToGameCords(m_vTarget);		
 		
 		return true;		
