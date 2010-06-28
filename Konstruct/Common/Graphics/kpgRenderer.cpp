@@ -20,6 +20,8 @@ kpgRenderer::kpgRenderer()
 	m_pImmediateBuffer = 0;
 	m_pMissingTexture = 0;
 
+	m_vAmbientLightColor = kpuv_Zero;
+
 	memset(m_pLights, 0, sizeof(m_pLights));
 
 	m_eDirtyFlags |= eDF_None;
@@ -288,6 +290,7 @@ kpgShader* kpgRenderer::SetShader(kpgShader* pShader)
 			// Upload ambient color
 			m_pCurrentShader->SetAmbientColor(m_vAmbientLightColor);
 		}
+		
 
 		m_eDirtyFlags = 0;
 	}

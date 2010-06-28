@@ -52,7 +52,7 @@ void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, 
 
 		// Get Global Variables
 		m_hWorldViewProj =	m_pEffect->GetParameterBySemantic(NULL, "WORLDVIEWPROJ");
-		m_hWorld =			m_pEffect->GetParameterBySemantic(NULL, "WORLD");
+		m_hWorld =			m_pEffect->GetParameterBySemantic(NULL, "WORLD");		
 		
 		// Get Lighting Variables
 		m_hLightCount =		m_pEffect->GetParameterBySemantic(NULL, "LIGHTCOUNT");

@@ -49,6 +49,7 @@ protected:
 #define CE_NEW_GAME					0x6c2925a9	//Start new game
 #define CE_LOAD_SAVED_GAME			0xa6e8472	//Load the selected saved game
 #define CE_LOAD_MOST_RECENT			0x34d4e6c9	//Load most recent save
+#define CE_NEXT_PLAYER_MODEL		0x0
 #define CE_SELECT_CLASS_BRAWLER		0x0
 #define CE_SELECT_CLASS_ARCHER		0x0
 #define CE_SELECT_CLASS_MEDIC		0x0
