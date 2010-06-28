@@ -44,6 +44,7 @@ void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, 
 {
 	if( D3DXCreateEffect(pRenderer->GetDevice(), pShaderData, nShaderDataSize, 0, 0, 0, 0, &m_pEffect, 0) != D3D_OK )
 	{
+		assert(0);
 	}
 	else
 	{
