@@ -64,7 +64,8 @@ bool kpgRenderer::Create(HWND hWnd)
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 	
-	HRESULT hRes = m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &m_pDevice );    
+	HRESULT hRes = m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &m_pDevice );
+	assert(SUCCEEDED(hRes));
 
 	// Load the MissingTexture texture
 	m_pMissingTexture = new kpgTexture();
@@ -134,7 +135,8 @@ void kpgRenderer::SetWorldMatrix(const kpuMatrix& mWorld)
 
 void kpgRenderer::BeginFrame()
 {
-	m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0xFF004080, 1.0f, 0);
+	HRESULT res = m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0xFF004080, 1.0f, 0);
+	assert(SUCCEEDED(res));
 	m_pDevice->BeginScene();
 
 	if( m_pCurrentShader )
@@ -227,7 +229,8 @@ void kpgRenderer::EndImmediate()
 	for( u32 i = 0; i < m_pCurrentShader->GetPassCount(); i++ )
 	{
 		m_pCurrentShader->BeginPass(i);
-		m_pDevice->DrawPrimitive((D3DPRIMITIVETYPE)m_pImmediateBuffer->GetPrimType(), 0, m_pImmediateBuffer->GetPrimCount(m_nImmediateVertexCount));
+		HRESULT hres = m_pDevice->DrawPrimitive((D3DPRIMITIVETYPE)m_pImmediateBuffer->GetPrimType(), 0, m_pImmediateBuffer->GetPrimCount(m_nImmediateVertexCount));
+		assert(SUCCEEDED(hres));
 		m_pCurrentShader->EndPass();
 	}
 	m_pImmediateBuffer->Unbind(this);
