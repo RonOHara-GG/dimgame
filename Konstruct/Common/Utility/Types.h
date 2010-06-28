@@ -30,6 +30,12 @@ typedef struct _kpRect
 	float Height() const							{ return m_fBottom - m_fTop; }
 } kpRect;
 
+typedef struct _kpPoint
+{
+	int		m_iX;
+	int		m_iY;
+} kpPoint;
+
 #define kpuSWAP(a, b, c)	\
 {							\
 	c = a;					\

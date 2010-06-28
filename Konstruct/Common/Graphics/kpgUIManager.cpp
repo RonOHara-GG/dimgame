@@ -100,10 +100,10 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 		{		
 			if( button == KPIM_BUTTON_0 )
 			{
-				POINT ptMouse = g_pInputManager->GetMouseLoc();
+				kpPoint ptMouse = g_pInputManager->GetMouseLoc();
 				kpgUIWindow::eHitLocation eHit;
 				//Get window
-				kpgUIWindow* pWindow = m_pCurrentWindow->HitTest(ptMouse.x, ptMouse.y, kpRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
+				kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
 
 				//Get the click event
 				switch( pWindow->GetClickEvent() )
