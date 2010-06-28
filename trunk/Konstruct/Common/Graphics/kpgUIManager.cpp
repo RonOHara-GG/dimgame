@@ -43,9 +43,9 @@ void kpgUIManager::Draw(kpgRenderer* pRenderer)
 	kpuMatrix mIdentity;
 	mIdentity.Identity();
 
-	pRenderer->SetProjectionMatrix(m_mUIRenderMatrix);
-	pRenderer->SetWorldMatrix(mIdentity);
+	pRenderer->SetProjectionMatrix(m_mUIRenderMatrix);	
 	pRenderer->SetViewMatrix(mIdentity);
+	pRenderer->SetWorldMatrix(mIdentity);
 
 	if( m_pCurrentWindow )
 		m_pCurrentWindow->Draw(pRenderer, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()));
