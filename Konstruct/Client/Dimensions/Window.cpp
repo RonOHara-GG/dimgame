@@ -29,7 +29,7 @@ HWND CreateRenderWindow(HINSTANCE hInstance)
 		return 0;
 
 	// Create the window
-	HWND hWnd = CreateWindow(TEXT("DIMENSIONS CLASS"), TEXT("Dimensions"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+	HWND hWnd = CreateWindow(TEXT("DIMENSIONS CLASS"), TEXT("Dimensions"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, 1288, 754, NULL, NULL, hInstance, NULL);
 	if( hWnd )
 	{
 		ShowWindow(hWnd, SW_SHOW);
