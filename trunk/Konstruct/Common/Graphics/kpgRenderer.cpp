@@ -73,7 +73,7 @@ bool kpgRenderer::Create(HWND hWnd)
 	if( !s_pDefaultShader )
 	{
 		s_pDefaultShader = new kpgShader();
-		s_pDefaultShader->LoadFromMemory(this, g_DefaultShaderShaderData, g_DefaultShaderShaderDataSize);
+		s_pDefaultShader->LoadFromMemory(this, (BYTE*)g_DefaultShaderShaderData, g_DefaultShaderShaderDataSize);
 		s_pDefaultShader->SetDefaultTexture(m_pMissingTexture);
 	}
 	m_pDefaultShader = s_pDefaultShader;
@@ -82,7 +82,7 @@ bool kpgRenderer::Create(HWND hWnd)
 	if( !s_pImmediateModeShader )
 	{
 		s_pImmediateModeShader = new kpgShader();
-		s_pImmediateModeShader->LoadFromMemory(this, g_ImmediateModeShaderData, g_ImmediateModeShaderDataSize);	
+		s_pImmediateModeShader->LoadFromMemory(this, (BYTE*)g_ImmediateModeShaderData, g_ImmediateModeShaderDataSize);	
 		s_pImmediateModeShader->SetDefaultTexture(m_pMissingTexture);
 	}
 	m_pImmediateShader = s_pImmediateModeShader;
