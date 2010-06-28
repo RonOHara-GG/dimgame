@@ -54,8 +54,8 @@ protected:
 };
 
 // Shader Data Declarations
-extern const DWORD g_DefaultShaderShaderData[];
-extern const DWORD g_ImmediateModeShaderData[];
+extern const BYTE g_DefaultShaderShaderData[];
+extern const BYTE g_ImmediateModeShaderData[];
 
 extern const u32 g_DefaultShaderShaderDataSize;
 extern const u32 g_ImmediateModeShaderDataSize;
