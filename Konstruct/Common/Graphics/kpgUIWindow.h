@@ -58,6 +58,8 @@ public:
 
 	// Translate a point from pixel space to homogeneous space
 	void TransformPoint(float& fX, float& fY, const kpgRenderer* pRenderer);
+
+	void SetVisible(bool bVal) { m_bVisible = bVal; }
 	
 	// Sizing functions
 	const kpRect& GetRect(const kpRect& rParent);
@@ -72,12 +74,13 @@ public:
 	void GetPosition(float& fX, float& fY);
 	void SetPosition(float fX, float fY);
 	void Move(float fDeltaX, float fDeltaY);
+	
 
 	u32	 GetHashCode()	{ return m_uHash; }
 
 	//Click event
 	u32  GetClickEvent()		{ return m_uClickEvent; }
-	u32  ClickEffectedWindow()	{ return m_uTargetHash; }
+	u32  ClickEffectedWindow()	{ return m_uTargetHash; }	
 
 protected:
 	void Destroy();

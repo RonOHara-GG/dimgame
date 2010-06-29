@@ -64,13 +64,15 @@ void kpgUIText::Load(TiXmlElement* pNode)
 	if( pTopMargin )
 		m_fTopMargin = (float)atof(pTopMargin);
 
-	const char* pWidth = pNode->Attribute("Width");
+	const char* pWidth = pNode->Attribute("TextWidth");
 	if( pWidth )
 		m_fTextWidth = (float)atof(pWidth);
 
-	const char* pHeight = pNode->Attribute("Height");
+	const char* pHeight = pNode->Attribute("TextHeight");
 	if( pHeight )
 		m_fTextHeight = (float)atof(pHeight);
+
+	CalculateTextSize();
 }
 
 void kpgUIText::SetText(const char* szText)
@@ -102,7 +104,8 @@ void kpgUIText::Draw(kpgRenderer* pRenderer, const kpRect& rParent)
 
 		if( m_pFont && m_szText )
 		{
-			kpRect rText = GetTextRectangle();            
+			kpRect rText = GetTextRectangle();    
+			
 			pRenderer->DrawText2D(m_szText, rText, m_pFont);
 		}
 	}
@@ -118,8 +121,8 @@ kpRect kpgUIText::GetTextRectangle()
 	if( m_bHasFrame && m_pBorder )
 		fTop += m_fTopMargin + m_pBorder->GetHeight();		// Offset by the top border
 	float fBottom = fTop + m_fTextHeight;
-
 	return kpRect(fLeft, fRight, fTop, fBottom);
+	
 }
 
 void kpgUIText::CalculateTextSize()

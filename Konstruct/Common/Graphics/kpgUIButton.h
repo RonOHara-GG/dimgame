@@ -8,7 +8,6 @@ public:
 	virtual ~kpgUIButton(void);
 
 	void LoadDefaults();
-	void Load(TiXmlElement *pNode);
 	
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 

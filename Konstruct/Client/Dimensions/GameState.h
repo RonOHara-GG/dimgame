@@ -36,6 +36,5 @@ protected:
 };
 
 extern GameState*		g_pGameState;
-extern kpuLinkedList	g_lPlayerModels;
 extern void ChangeGameState(GameState* newGameState);
 extern void Terminate();

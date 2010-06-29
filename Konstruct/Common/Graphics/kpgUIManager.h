@@ -17,10 +17,13 @@ public:
 
 	u32 HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
 
-	bool LoadWindows(const char* szFile);
-	kpgUIWindow* GetUIWindow(u32 uHash);
+	bool LoadWindows(const char* szFile);	
+	void NewWindow(u32 uHash);
 
 protected:	
+	kpgUIWindow* GetUIWindow(u32 uHash);
+
+
 	kpuMatrix			m_mUIRenderMatrix;
 	kpgUIWindow*		m_pCurrentWindow;
 	kpuLinkedList*		m_plWindowList;	

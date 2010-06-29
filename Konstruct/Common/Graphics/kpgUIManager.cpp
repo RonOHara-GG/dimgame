@@ -91,6 +91,18 @@ kpgUIWindow* kpgUIManager::GetUIWindow(u32 uHash)
 	return 0;
 }
 
+void kpgUIManager::NewWindow(u32 uHash)
+{
+	kpgUIWindow* pWindow = GetUIWindow(uHash);
+	if( pWindow )
+	{
+		pWindow->SetVisible(true);
+
+		m_pCurrentWindow->SetVisible(false);
+		m_pCurrentWindow = pWindow;
+	}
+}
+
 u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
 	// TODO: Handle this event
@@ -105,18 +117,21 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 				//Get window
 				kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
 
-				//Get the click event
-				switch( pWindow->GetClickEvent() )
+				if( pWindow )
 				{
-				case CE_NEW_WINDOW:
+					//Get the click event
+					switch( pWindow->GetClickEvent() )
 					{
-						//Change to a new window
-						m_pCurrentWindow = GetUIWindow(pWindow->ClickEffectedWindow());
-						return 0;
+					case CE_NEW_WINDOW:
+						{
+							//Change to a new window
+							NewWindow(pWindow->ClickEffectedWindow());
+							return 0;
+						}	
+					default:
+						return pWindow->GetClickEvent();
 					}	
-				default:
-					return pWindow->GetClickEvent();
-				}		
+				}
 				
 			}
 			break;

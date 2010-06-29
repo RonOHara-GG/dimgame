@@ -1,53 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Windows>
-	<Window Type="0" Name="StartWin" Background="Assets/UI/FrontEnd/StartWin.dds" Orientation="1" PositionX="0.5" PositionY="0.5" Width="0.50" Height="0.750"
-				Visible="1" HasFrame="1" ClickEvent="" TargetWindow="">
+	<Window Type="0" Name="StartWin" Background="Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
+				Visible="1" HasFrame="1" >
 				
 				<Rect Left="0" Right="512" Top="0" Bottom="512" />
 				
-				<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.06" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Title="Single Player" >			
+				<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
+				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Text="Single Player" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
-				<Button Type="3" Name="MultiPlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.11" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Title="MultiPlayer" >			
+				<Button Type="3" Name="MultiPlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="MultiPlayer" 	>
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
-				<Button Type="3" Name="OptionsBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.16" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Title="Options" >			
+				<Button Type="3" Name="OptionsBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Options" >		
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="ExitBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.21" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Title="Exit" >			
+				<Button Type="3" Name="ExitBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Text="Exit" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 	</Window>
-	<Window Type="0" Name="SinglePlayerWin" Background="Assets/UI/FrontEnd/StartWindow.dds" Orientation="1" PositionX="0.5" PositionY="0.5" Width="0.5" Height="0.75"
-				Visible="1" HasFrame="0" ClickEvent="" TargetWindow="">
+	<Window Type="0" Name="SinglePlayerWin" Background="Assets/UI/FrontEnd/StartWindow.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
+				Visible="0" HasFrame="1" >
 				
-				<Rect Left="80" Right="432" Top="112" Bottom="387" />
+				<Rect Left="0" Right="512" Top="0" Bottom="512" />
 				
-				<Button Type="3" Name="ContinueBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.06" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="0" ClickEvent="LoadMostRecent" TargetWindow="" Title="Continue" >			
+				<Button Type="3" Name="ContinueBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="LoadMostRecent" TargetWindow="" Text="Continue" > 
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="NewGameBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.11" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="0" ClickEvent="NewGame" TargetWindow="" Title="New Game" >			
+				<Button Type="3" Name="NewGameBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="CharacterCreation" TargetWindow="" Text="New Game" > 
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="LoadBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" rientation="1" PositionX="0.5" PositionY="0.16" Width="0.18" Height="0.09"
-				Visible="1" HasFrame="0" ClickEvent="NewWindow" TargetWindow="" Title="Load" >			
+				<Button Type="3" Name="LoadBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Load"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="SinglePlayerBackBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" PositionX="0.5" PositionY="0.21" Width="0.18" Height="0.09"
-				Visible="0" HasFrame="0" ClickEvent="NewWindow" TargetWindow="StartWin" Title="Back" >			
+				<Button Type="3" Name="SinglePlayerBackBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Text="Back"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
+	</Window>
+	<Window Type="0" Name="CharacterCreation" Background="Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
+				Visible="0" HasFrame="1" >				
+				
 	</Window>
 </Windows>
