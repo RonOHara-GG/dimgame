@@ -42,8 +42,6 @@ extern kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 void LoadEnemyList();
 void LoadEnemyType(const char* pszFile);
 
-void LoadPlayerModels();
-
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -72,9 +70,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	//Load enemies
 	LoadEnemyList();
-	
-	//Load the player models;
-	LoadPlayerModels();	
 
 	// Start in the front end game state
 	g_pGameState = new GameState_FrontEnd();
@@ -82,7 +77,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	// Setup timing
 	LARGE_INTEGER liFrameStart;
 	QueryPerformanceFrequency(&liFrameStart);
-	double dfCyclesPerMilliSecond = 1.0 / (double)liFrameStart.QuadPart * 1000;
+	double dfCyclesPerMilliSecond = 1.0 / (double)liFrameStart.QuadPart;
 	QueryPerformanceCounter(&liFrameStart);
 	float fDeltaTime = 0;
 
@@ -119,6 +114,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		QueryPerformanceCounter(&liFrameEnd);
 		double dfDeltaCycles = (double)(liFrameEnd.QuadPart - liFrameStart.QuadPart);
 		fDeltaTime = (float)(dfDeltaCycles * dfCyclesPerMilliSecond);
+		liFrameStart = liFrameEnd;
 	}
 
 	delete g_pGameState;
@@ -247,8 +243,3 @@ void Terminate()
 	g_bExitGame = true; 
 }
 
-void LoadPlayerModels()
-{
-
-
-}

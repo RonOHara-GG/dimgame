@@ -21,9 +21,10 @@ kpgUIWindow::kpgUIWindow(void)
 
 	m_eType = eWT_GenericWindow;
 
-	/*const char* test = "LoadMostRecent";
+	const char* test = "EnterGame";
 
-	u32 uHash = StringHash(test);*/
+	u32 uHash = StringHash(test);
+	Sleep(0);
 }
 
 kpgUIWindow::~kpgUIWindow(void)
@@ -210,13 +211,13 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			m_bHasFrame = (nHasFrame != 0);
 		}
 
-		const char* pClickEvent = pElement->Attribute("Click Event");
+		const char* pClickEvent = pElement->Attribute("ClickEvent");
 		if( pClickEvent )
 			m_uClickEvent = StringHash(pClickEvent);
 
-		const char* pTargetWindow = pElement->Attribute("Target Window");
+		const char* pTargetWindow = pElement->Attribute("TargetWindow");
 		if( pTargetWindow )
-			m_uHash = StringHash(pTargetWindow);
+			m_uTargetHash = StringHash(pTargetWindow);
 
 		// Get the rectangle
 		for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())

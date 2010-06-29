@@ -52,9 +52,3 @@ kpRect kpgUIButton::GetTextRectangle()
 	return kpRect(fMidX - fHalfTextWidth, fMidX + fHalfTextWidth, fMidY - fHalfTextHeight, fMidY + fHalfTextHeight);
 }
 
-void kpgUIButton::Load(TiXmlElement *pNode)
-{
-	kpgUIWindow::Load(pNode);
-
-	
-}
