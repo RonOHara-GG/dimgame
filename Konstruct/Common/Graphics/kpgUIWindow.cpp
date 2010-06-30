@@ -21,10 +21,6 @@ kpgUIWindow::kpgUIWindow(void)
 
 	m_eType = eWT_GenericWindow;
 
-	const char* test = "EnterGame";
-
-	u32 uHash = StringHash(test);
-	Sleep(0);
 }
 
 kpgUIWindow::~kpgUIWindow(void)

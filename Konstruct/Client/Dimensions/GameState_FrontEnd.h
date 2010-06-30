@@ -1,10 +1,12 @@
 #pragma once
 #include "GameState.h"
 #include "Common/Utility/kpuArrayList.h"
+#include "Common/Utility/kpuMatrix.h"
 
 class Level;
 class Actor;
 class PlayerCharacter;
+class kpgModel;
 enum eInputEventType;
 enum ePlayerClass;
 
@@ -29,6 +31,18 @@ public:
 	virtual bool HandleInputEvent(eInputEventType type, u32 button);
 
 protected:
+	struct Planet
+	{
+		kpgModel*	m_pModel;
+		Planet*		m_pParent;
+		float		m_fRotationSpeed;
+		float		m_fRotation;
+		float		m_fOrbitSpeed;
+		float		m_fOrbit;
+		float		m_fDistance;
+	};
+
+	void					LoadBackground(const char* szFile);
 	void					NextCharacterModel();
 	void					LoadAllPlayerModels(const char* szFile);
 	bool					LoadMostRecentSave();
@@ -38,6 +52,12 @@ protected:
 
 	PlayerCharacter*		m_pPlayer;
 	kpuArrayList<Actor*>*	m_paActors;
+
+	kpuLinkedList			m_lBgObjects;
+	Planet*					m_pLookAt;
+	kpuMatrix				m_mBgProjection;
+	kpuMatrix				m_mBgView;
+	kpgModel*				m_pStarSphere;
 
 	/*Character Creation*/	
 	bool					m_bCharacterCreation;

@@ -801,14 +801,20 @@ void kpgModel::Draw(kpgRenderer* pRenderer)
 	}
 }
 
-void kpgModel::RotateY(float fRadians)
+void kpgModel::Rotate(float fXRadians,float fYRadians,float fZRadians)
 {
 	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
 	{
-		m_aInstances[i]->SetRotation(0.0f, fRadians, 0.0f);
+		m_aInstances[i]->SetRotation(fXRadians, fYRadians, fZRadians);
 	}
 
 }
+
+kpuMatrix kpgModel::GetMatrix()
+{
+	return m_aInstances[0]->GetMatrix();
+}
+
 
 kpuVector kpgModel::GetPosition()
 {

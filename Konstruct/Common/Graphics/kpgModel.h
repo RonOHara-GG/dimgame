@@ -30,7 +30,8 @@ public:
 	kpgModel(void);
 	virtual ~kpgModel(void);
 
-	void RotateY(float fRadians);
+	void Rotate(float fXRadians, float fYRadians, float fZRadians);
+	
 
 	bool Load(const char* szFileName);
 
@@ -43,6 +44,8 @@ public:
 
 	kpuVector GetPosition();
 	void	  SetPosition(kpuVector& vPos);
+	
+	kpuMatrix GetMatrix();
 
 private:
 	kpgTexture* LoadImage(TiXmlElement* pLibrary);
