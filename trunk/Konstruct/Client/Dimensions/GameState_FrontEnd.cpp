@@ -11,14 +11,33 @@
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 
+static const u32 s_uHash_SpaceStation = 0x6507d2d3;
+static const u32 s_uHash_Moon = 0x7c892f9e;
+static const u32 s_uHash_Earth = 0xd16bff9;
+
 GameState_FrontEnd::GameState_FrontEnd(void)
 {
+	
+	/*const char* test = "Moon";
+
+	u32 uHash = StringHash(test);*/
+
 	m_pUIManager = new kpgUIManager();
 	m_pUIManager->LoadWindows("Assets/UI/FrontEnd/FrontEndUI.xml");
 	m_plCurrentModel = 0;
 
 	LoadAllPlayerModels("Assets//Player//PlayerModels.xml");
 	m_bCharacterCreation = false;
+
+	LoadBackground("Assets//UI//FrontEnd//FrontEndLevelData.xml");
+
+	// for now, setup a temp light
+	kpgLight* pDummyLight = new kpgLight(kpgLight::eLT_Directional);
+	kpuVector vLightDir(0, -1, 0, 0);
+	vLightDir.Normalize();
+	pDummyLight->SetDirection(vLightDir);
+	pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
+	kpgRenderer::GetInstance()->SetLight(0, pDummyLight);
 }
 
 GameState_FrontEnd::~GameState_FrontEnd(void)
@@ -35,6 +54,22 @@ GameState_FrontEnd::~GameState_FrontEnd(void)
 		}
 		plNext = plNext->Next();
 	}
+
+	plNext = m_lBgObjects.Next();
+	while( plNext )
+	{		
+		Planet* pPlanet = (Planet*)plNext->GetPointer();
+		
+		//delete model
+		delete pPlanet->m_pModel;
+
+		//delete planet
+		delete pPlanet;
+
+		plNext->SetPointer(0);
+		
+		plNext = plNext->Next();
+	}
 }
 
 void GameState_FrontEnd::MouseUpdate(int X, int Y)
@@ -43,14 +78,146 @@ void GameState_FrontEnd::MouseUpdate(int X, int Y)
 
 void GameState_FrontEnd::Update(float fDeltaTime)
 {
+	//rotate the background
+	kpuLinkedList* pNext = m_lBgObjects.Next();
+
+	while( pNext )
+	{
+		Planet* pPlanet = (Planet*)pNext->GetPointer();
+
+		pPlanet->m_fOrbit += pPlanet->m_fOrbitSpeed * fDeltaTime;
+
+		if( pPlanet->m_fOrbit >= PI * 2 )
+			pPlanet->m_fOrbit -= PI * 2;
+
+		//get the new position
+		kpuVector vPos(cosf(pPlanet->m_fOrbit), 0.0f, sinf(pPlanet->m_fOrbit), 0.0f);
+		vPos *= pPlanet->m_fDistance;
+
+		if( pPlanet->m_pParent )
+			vPos += pPlanet->m_pParent->m_pModel->GetPosition();
+
+		pPlanet->m_pModel->SetPosition(vPos);
+		float fDist = vPos.Length();
+
+		pPlanet->m_fRotation += pPlanet->m_fRotationSpeed * fDeltaTime;
+
+		if( pPlanet->m_fRotation >= PI * 2 )
+			pPlanet->m_fRotation -= PI * 2;
+
+		pPlanet->m_pModel->Rotate(0.0f, pPlanet->m_fRotation, 0.0f);
+
+		pNext = pNext->Next();
+	}
+
+	kpuVector vPos = m_pLookAt->m_pModel->GetPosition();
+	kpuVector vDir = vPos - m_pLookAt->m_pParent->m_pModel->GetPosition();;
+	vDir.Normalize();
+
+	m_mBgView.LookAt(vPos + vDir * 10.0f, vPos, kpuv_OneY);	
+}
+
+void GameState_FrontEnd::LoadBackground(const char* szFile)
+{
+	TiXmlDocument doc;
+	char szFileName[2048];
+	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
+
+	if( doc.LoadFile(szFileName) )
+	{
+		Planet* pEarth;
+
+		TiXmlElement* pElement = doc.FirstChildElement();
+		const char* pSky = pElement->Attribute("Skybox");
+
+		if( pSky )
+		{
+			m_pStarSphere = new kpgModel();
+			m_pStarSphere->Load(pSky);
+		}
+
+		for(pElement = pElement->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
+		{
+			Planet* pPlanet = new Planet();
+			pPlanet->m_pModel = new kpgModel();
+			pPlanet->m_pModel->Load(pElement->Attribute("File"));
+			pPlanet->m_fDistance = (float)atof(pElement->Attribute("Distance"));
+
+			//calculate oribit speed	
+			float fOrbitPeriod = (float)atof(pElement->Attribute("Orbit"));		
+			pPlanet->m_fOrbitSpeed = 0.0f;
+
+			if( fOrbitPeriod > 0.0f )
+				pPlanet->m_fOrbitSpeed = PI * 2 / fOrbitPeriod;
+
+			//calaculate rotation speed
+			pPlanet->m_fRotationSpeed = (float)atof(pElement->Attribute("Rotation"));
+
+			if( pPlanet->m_fRotationSpeed > 0.0f )
+				pPlanet->m_fRotationSpeed= PI * 2 / pPlanet->m_fRotationSpeed;
+			else
+				pPlanet->m_fRotationSpeed = 0.0f;
+
+			pPlanet->m_pParent = 0;
+			pPlanet->m_fOrbit = 0.0f;
+			pPlanet->m_fRotation = 0.0f;
+
+			const char* szName = pElement->Attribute("Name");
+			u32 uHash = StringHash(szName);
+
+			if( uHash == s_uHash_Earth )
+				pEarth = pPlanet;
+			else if( uHash == s_uHash_Moon  )
+				pPlanet->m_pParent = pEarth;
+			else if( uHash == s_uHash_SpaceStation )
+			{
+				pPlanet->m_pParent = pEarth;
+				m_pLookAt = pPlanet;
+			}
+
+			kpuVector vParentOffset(0.0f, 0.0f, 0.0f, 0.0f);
+
+			if( pPlanet->m_pParent )
+				vParentOffset = pPlanet->m_pParent->m_pModel->GetPosition();
+
+			pPlanet->m_pModel->SetPosition(kpuv_OneX * pPlanet->m_fDistance + vParentOffset);
+			m_lBgObjects.AddTail(pPlanet);		
+			
+		}
+		
+		kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+		m_mBgProjection.Perspective(45.0f, pRenderer->GetScreenWidth() / pRenderer->GetScreenHeight(), 0.001f, 100000000.0f);
+	}
+
 }
 
 void GameState_FrontEnd::Draw()
 {
-	m_pUIManager->Draw(kpgRenderer::GetInstance());
+	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+	pRenderer->SetAmbientLightColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));	
+
+	kpuMatrix mWorld;
+	mWorld.Identity();
+
+	pRenderer->SetProjectionMatrix(m_mBgProjection);
+	pRenderer->SetViewMatrix(m_mBgView);
+	pRenderer->SetWorldMatrix(mWorld);
+
+	//Draw background
+	m_pStarSphere->Draw();
+	kpuLinkedList* pNext = m_lBgObjects.Next();
+
+	while( pNext )
+	{
+		((Planet*)pNext->GetPointer())->m_pModel->Draw();
+		pNext = pNext->Next();
+	}
+
+	m_pUIManager->Draw(pRenderer);
 
 	if( m_bCharacterCreation )
 		((kpgModel*)m_plCurrentModel->GetPointer())->Draw();
+
 }
 
 void GameState_FrontEnd::AddActor(Actor* pActor)

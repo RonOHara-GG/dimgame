@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Background Skybox="Assets/UI/FrontEnd/Background/StarSphere.dae">
+	<Planet Name="Sun" 			Distance="0" 		Rotation="14.378"  	Orbit="0" 		File="Assets/UI/FrontEnd/Background/Sun.dae" />	
+	<Planet Name="Mercury" 		Distance="57900" 	Rotation="9.65"		Orbit="14.45"	File="Assets/UI/FrontEnd/Background/Mercury.dae" />
+	<Planet Name="Venus" 		Distance="108200" 	Rotation="39.852" 	Orbit="36.9" 	File="Assets/UI/FrontEnd/Background/Venus.dae" />	
+	<Planet Name="Earth"		Distance="149600" 	Rotation="0.164"  	Orbit="60"  	File="Assets/UI/FrontEnd/Background/Earth.dae" />
+	<Planet Name="Moon" 		Distance="380.4403" Rotation="53.614"  	Orbit="2.84"   	File="Assets/UI/FrontEnd/Background/Moon.dae" />	
+	<Planet Name="Mars" 		Distance="227900" 	Rotation="0.168" 	Orbit="112.85"  File="Assets/UI/FrontEnd/Background/Mars.dae" />
+	<Planet Name="Jupiter" 		Distance="778300" 	Rotation="0.067"   	Orbit="711.72" 	File="Assets/UI/FrontEnd/Background/Jupiter.dae" />	
+	<Planet Name="Saturn" 		Distance="1427000" 	Rotation="0.069"  	Orbit="51767.36"File="Assets/UI/FrontEnd/Background/Saturn.dae" />
+	<Planet Name="Uranus" 		Distance="2871000" 	Rotation="0.122"   	Orbit="5044.2" 	File="Assets/UI/FrontEnd/Background/Urnaus.dae" />	
+	<Planet Name="Neptune" 		Distance="4497100" 	Rotation="0.131"   	Orbit="9888.6" 	File="Assets/UI/FrontEnd/Background/Neptune.dae" />	
+	<Planet Name="Pluto" 		Distance="5913000" 	Rotation="1.04" 	Orbit="14862" 	File="Assets/UI/FrontEnd/Background/Pluto.dae" />
+	<Planet Name="SpaceStation" Distance="100" 		Rotation="0.0" 	   	Orbit="2"   	File="Assets/UI/FrontEnd/Background/SpaceStationOutside.dae" />	
+</Background>

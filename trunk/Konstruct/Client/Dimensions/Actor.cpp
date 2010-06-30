@@ -88,7 +88,7 @@ void Actor::SetNextMove(int iTile)
 
 void Actor::UpdateMovement(float fDeltaTime)
 {
-	m_pModel->RotateY(m_fRotation);
+	m_pModel->Rotate(0.0f, m_fRotation, 0.0f);
 
 	// Check to see if we even should move
 	if( m_iDestinationTile >= 0 )
