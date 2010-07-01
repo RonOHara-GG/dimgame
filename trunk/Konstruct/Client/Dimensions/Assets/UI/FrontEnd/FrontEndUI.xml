@@ -72,35 +72,93 @@
 				
 				<Button Type="3" Name="BrawlerSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.15" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectBrawler"  Text="Brawler" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectBrawler" MouseEnterEvent="Show" Show="BrawlerDetails" 
+				MouseExitEvent="Close" Close="BrawlerDetails" Text="Brawler" /> 
+				
+				<Button Type="3" Name="BrawlerDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.20" PositionY="0.25" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Brawler is a character who is skilled in the 
+												 art of hand to hand combat. Typical attacks are 
+												 punches, kicks, grapples, and head-butts." /> 
 				
 				<Button Type="3" Name="ArcherSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.35" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectArcher"  Text="Archer" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectArcher" MouseEnterEvent="Show" Show="ArcherDetails" 
+				MouseExitEvent="Close" Close="ArcherDetails"  Text="Archer" />
+
+				<Button Type="3" Name="ArcherDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.20" PositionY="0.45" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Archer is a character who is skilled in 
+												 the use of bows and crossbows. Bows and 
+												 crossbows both use long projectiles fired 
+												 at high velocity to pierce through multiple
+												 targets." /> 				
 				
 				<Button Type="3" Name="MarksmanSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectMarksman"  Text="Marksman" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectMarksman" MouseEnterEvent="Show" Show="MarksmanDetails" 
+				MouseExitEvent="Close" Close="MarksmanDetails"  Text="Marksman" /> 
+				
+				<Button Type="3" Name="MarksmanDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.20" PositionY="0.65" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Marksman is a character skilled in the use
+												 of firearms." /> 
 				
 				<Button Type="3" Name="RocketeerSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.75" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectRocketeer"  Text="Rocketeer" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectRocketeer" MouseEnterEvent="Show" Show="RocketeerDetails" 
+				MouseExitEvent="Close" Close="RocketeerDetails"  Text="Rocketeer" /> 
+				
+				<Button Type="3" Name="RocketeerDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.20" PositionY="0.85" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Rocketeer is a character skilled in the use
+												 of rocket based projectiles." /> 
 				
 				<Button Type="3" Name="SwordsmanSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.15" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectSwordsman"  Text="Swordsman" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectSwordsman" MouseEnterEvent="Show" Show="SwordsmanDetails" 
+				MouseExitEvent="Close" Close="SwordsmanDetails"  Text="Swordsman" /> 
+				
+				<Button Type="3" Name="SwordsmanDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.80" PositionY="0.25" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Swordsman is a character who is skilled in 
+												 the use of a sword. Swordsmen can use their 
+												 sword for defense as well as offense." /> 
 				
 				<Button Type="3" Name="PriestSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.35" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectPreist"  Text="Priest" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectPreist" MouseEnterEvent="Show" Show="PriestDetails" 
+				MouseExitEvent="Close" Close="PriestDetails"  Text="Priest" /> 
+				
+				<Button Type="3" Name="PriestDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.80" PositionY="0.45" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Priest is a character skilled in the use of
+												 hammers. Priests can also heal and use religious
+												 psionics." /> 
 				
 				<Button Type="3" Name="OcculistSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectOcculist"  Text="Occulist" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectOcculist" MouseEnterEvent="Show" Show="OcculistDetails" 
+				MouseExitEvent="Close" Close="OcculistDetails"  Text="Occulist" /> 
+				
+				<Button Type="3" Name="OcculistDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.80" PositionY="0.65" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Occultist is a character skilled in the arts
+												 of offensive psionics." /> 
 				
 				<Button Type="3" Name="MedicSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.75" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectMedic"  Text="Medic" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectMedic" MouseEnterEvent="Show" Show="MedicDetails" 
+				MouseExitEvent="Close" Close="MedicDetails"    Text="Medic" /> 
+				
+				<Button Type="3" Name="MedicDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				PositionX="0.80" PositionY="0.85" Width="0.20" Height="0.15"
+				Visible="0" HasFrame="1"   Text="The Medic is a character skilled in human 
+												 physiology and anatomy. Medics can provide
+												 health bonuses as well as damage bonuses to
+												 enemies. Medics innoculate all friendly 
+												 players making them immune to the medics 
+												 biological weapons." /> 
 				
 				<Button Type="3" Name="StartGameBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.95" Width="0.20" Height="0.10"

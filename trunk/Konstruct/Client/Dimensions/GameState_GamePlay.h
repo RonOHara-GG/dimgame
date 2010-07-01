@@ -25,7 +25,7 @@ public:
 	virtual void AddActor(Actor* pActor);
 
 	virtual bool HandleInputEvent(eInputEventType type, u32 button);
-
+	virtual void LoadBackground(const char* szFile) { }
 protected:
 
 	PlayerCharacter*		m_pPlayer;

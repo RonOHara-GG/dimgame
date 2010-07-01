@@ -10,6 +10,8 @@
 #include "PlayerCharacter.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
+#include "LevelManager.h"
+#include "Level.h"
 
 static const u32 s_uHash_SpaceStation = 0x6507d2d3;
 static const u32 s_uHash_Moon = 0x7c892f9e;
@@ -17,11 +19,11 @@ static const u32 s_uHash_Earth = 0xd16bff9;
 
 GameState_FrontEnd::GameState_FrontEnd(void)
 {
-	
-	/*const char* test = "Moon";
+	LevelManager* pLevelManager = LevelManager::GetInstance();
+	m_pCurrentLevel = pLevelManager->LoadLevel(eLevelID::eLID_FrontEnd);
 
-	u32 uHash = StringHash(test);*/
-
+	//Load background
+	LoadBackground("Assets/UI/FrontEnd/FrontEndBackground.xml");
 	m_pUIManager = new kpgUIManager();
 	m_pUIManager->LoadWindows("Assets/UI/FrontEnd/FrontEndUI.xml");
 	m_plCurrentModel = 0;
@@ -29,7 +31,10 @@ GameState_FrontEnd::GameState_FrontEnd(void)
 	LoadAllPlayerModels("Assets//Player//PlayerModels.xml");
 	m_bCharacterCreation = false;
 
-	LoadBackground("Assets//UI//FrontEnd//FrontEndLevelData.xml");
+	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+
+	pRenderer->GetDevice()->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+    pRenderer->GetDevice()->SetRenderState( D3DRS_LIGHTING, FALSE );
 
 	// for now, setup a temp light
 	kpgLight* pDummyLight = new kpgLight(kpgLight::eLT_Directional);
@@ -37,7 +42,10 @@ GameState_FrontEnd::GameState_FrontEnd(void)
 	vLightDir.Normalize();
 	pDummyLight->SetDirection(vLightDir);
 	pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
-	kpgRenderer::GetInstance()->SetLight(0, pDummyLight);
+	pRenderer->SetLight(0, pDummyLight);
+
+	//define character view matrix
+	m_mCharacterView.LookAt(kpuVector(0.0f, 0.9f, -4.0f, 0.0f), kpuVector(0.0f, 0.9f, 0.0f, 0.0f), kpuv_OneY);
 }
 
 GameState_FrontEnd::~GameState_FrontEnd(void)
@@ -128,14 +136,7 @@ void GameState_FrontEnd::LoadBackground(const char* szFile)
 		Planet* pEarth;
 
 		TiXmlElement* pElement = doc.FirstChildElement();
-		const char* pSky = pElement->Attribute("Skybox");
-
-		if( pSky )
-		{
-			m_pStarSphere = new kpgModel();
-			m_pStarSphere->Load(pSky);
-		}
-
+	
 		for(pElement = pElement->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
 		{
 			Planet* pPlanet = new Planet();
@@ -203,8 +204,11 @@ void GameState_FrontEnd::Draw()
 	pRenderer->SetViewMatrix(m_mBgView);
 	pRenderer->SetWorldMatrix(mWorld);
 
+	//draw level
+	if( m_pCurrentLevel )
+		m_pCurrentLevel->Draw(pRenderer);
+
 	//Draw background
-	m_pStarSphere->Draw();
 	kpuLinkedList* pNext = m_lBgObjects.Next();
 
 	while( pNext )
@@ -213,11 +217,17 @@ void GameState_FrontEnd::Draw()
 		pNext = pNext->Next();
 	}
 
-	m_pUIManager->Draw(pRenderer);
-
 	if( m_bCharacterCreation )
+	{
+		kpuMatrix mProjection;
+		mProjection.Perspective(45.0f, pRenderer->GetScreenWidth() / pRenderer->GetScreenHeight(), 0.001f, 10000.0f);
+		pRenderer->SetProjectionMatrix(m_mBgProjection);
+		pRenderer->SetViewMatrix(m_mCharacterView);
+		pRenderer->SetWorldMatrix(mWorld);
 		((kpgModel*)m_plCurrentModel->GetPointer())->Draw();
+	}
 
+	m_pUIManager->Draw(pRenderer);
 }
 
 void GameState_FrontEnd::AddActor(Actor* pActor)
@@ -271,7 +281,7 @@ void GameState_FrontEnd::NextCharacterModel()
 {
 	if( m_plCurrentModel )
 	{
-		if( m_plCurrentModel->Next()->GetPointer() )
+		if( m_plCurrentModel->Next() && m_plCurrentModel->Next()->GetPointer() )
 		{
 			m_plCurrentModel = m_plCurrentModel->Next();
 			return;
@@ -280,6 +290,21 @@ void GameState_FrontEnd::NextCharacterModel()
 
 	//Get the first model in the list
 	m_plCurrentModel = m_lPlayerModels.Next();
+}
+
+void GameState_FrontEnd::PreviousCharacterModel()
+{
+	if( m_plCurrentModel )
+	{
+		if( m_plCurrentModel->Prev() && m_plCurrentModel->Prev()->GetPointer() )
+		{
+			m_plCurrentModel = m_plCurrentModel->Prev();
+			return;
+		}
+	}
+
+	//Get the last model in the list
+	m_plCurrentModel = m_lPlayerModels.Last();
 }
 
 void GameState_FrontEnd::LoadAllPlayerModels(const char* szFile)
@@ -326,6 +351,16 @@ bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)
 	case CE_LOAD_MOST_RECENT:
 		{
 			LoadMostRecentSave();
+			return true;
+		}
+	case CE_NEXT_PLAYER_MODEL:
+		{
+			NextCharacterModel();
+			return true;
+		}
+		case CE_PREVIOUS_PLAYER_MODEL:
+		{
+			PreviousCharacterModel();
 			return true;
 		}
 	case CE_EXIT:

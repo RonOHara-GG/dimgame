@@ -22,13 +22,16 @@ public:
 
 protected:	
 	kpgUIWindow* GetUIWindow(u32 uHash);
-
+	
 
 	kpuMatrix			m_mUIRenderMatrix;
 	kpgUIWindow*		m_pCurrentWindow;
+	kpgUIWindow*		m_pWinMouseOver;
 	kpuLinkedList*		m_plWindowList;	
 };
 
 /*Window Hashed Click Events*/
 #define IE_NOT_HANDLED	0x01
 #define CE_NEW_WINDOW	0x40ed18e7	//Move to a new window
+#define CE_SHOW			0x7c8c5c26 //Set a window to visible
+#define CE_CLOSE		0xcf88a3b //Set a window to invisible

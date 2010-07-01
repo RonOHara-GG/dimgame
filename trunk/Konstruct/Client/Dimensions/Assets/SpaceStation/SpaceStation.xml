@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Level Name="Terra Research Lab" Width="150" Height="130">
-  <Meshes Count="1">
+  <Meshes Count="2">
     <Mesh>
 		<Data>Assets/SpaceStation/Models/SpaceStation.dae</Data>
+		<Data>Assets/UI/FrontEnd/Background/StarSphere.dae</Data>
     </Mesh>
   </Meshes>
 </Level>

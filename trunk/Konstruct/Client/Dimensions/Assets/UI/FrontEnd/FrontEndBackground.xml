@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Background Skybox="Assets/UI/FrontEnd/Background/StarSphere.dae">
+<Background>
 	<Planet Name="Sun" 			Distance="0" 		Rotation="14.378"  	Orbit="0" 		File="Assets/UI/FrontEnd/Background/Sun.dae" />	
 	<Planet Name="Mercury" 		Distance="57900" 	Rotation="9.65"		Orbit="14.45"	File="Assets/UI/FrontEnd/Background/Mercury.dae" />
 	<Planet Name="Venus" 		Distance="108200" 	Rotation="39.852" 	Orbit="36.9" 	File="Assets/UI/FrontEnd/Background/Venus.dae" />	

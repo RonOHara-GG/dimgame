@@ -44,6 +44,7 @@ protected:
 
 	void					LoadBackground(const char* szFile);
 	void					NextCharacterModel();
+	void					PreviousCharacterModel();
 	void					LoadAllPlayerModels(const char* szFile);
 	bool					LoadMostRecentSave();
 	bool					LoadGame(const char* szFile);
@@ -57,9 +58,9 @@ protected:
 	Planet*					m_pLookAt;
 	kpuMatrix				m_mBgProjection;
 	kpuMatrix				m_mBgView;
-	kpgModel*				m_pStarSphere;
 
 	/*Character Creation*/	
+	kpuMatrix				m_mCharacterView;
 	bool					m_bCharacterCreation;
 	kpuLinkedList			m_lPlayerModels;
 	kpuLinkedList*			m_plCurrentModel;
@@ -74,7 +75,8 @@ protected:
 #define CE_ENTER_CHARACTER_CREATION		0x129A1407
 #define CE_LOAD_SAVED_GAME				0xa6e8472	//Load the selected saved game
 #define CE_LOAD_MOST_RECENT				0x34d4e6c9	//Load most recent save
-#define CE_NEXT_PLAYER_MODEL			0x0
+#define CE_NEXT_PLAYER_MODEL			0xBa1a75a2
+#define CE_PREVIOUS_PLAYER_MODEL		0x99124100
 #define CE_SELECT_BRAWLER				0x0
 #define CE_SELECT_ARCHER				0x0
 #define CE_SELECT_MEDIC					0x0

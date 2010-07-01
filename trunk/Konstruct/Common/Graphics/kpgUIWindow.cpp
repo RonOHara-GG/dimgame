@@ -207,6 +207,7 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			m_bHasFrame = (nHasFrame != 0);
 		}
 
+		//Get window input events
 		const char* pClickEvent = pElement->Attribute("ClickEvent");
 		if( pClickEvent )
 			m_uClickEvent = StringHash(pClickEvent);
@@ -214,6 +215,22 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 		const char* pTargetWindow = pElement->Attribute("TargetWindow");
 		if( pTargetWindow )
 			m_uTargetHash = StringHash(pTargetWindow);
+
+		const char* pEnterEvent = pElement->Attribute("MouseEnterEvent");
+		if( pEnterEvent )
+			m_uEnterEvent = StringHash(pEnterEvent);
+
+		const char* pShowWindow = pElement->Attribute("Show");
+		if( pShowWindow )
+			m_uShowTarget = StringHash(pShowWindow);
+
+		const char* pExitEvent = pElement->Attribute("MouseExitEvent");
+		if( pExitEvent )
+			m_uExitEvent = StringHash(pExitEvent);
+
+		const char* pCloseWindow = pElement->Attribute("Close");
+		if( pCloseWindow )
+			m_uCloseTarget = StringHash(pCloseWindow);
 
 		// Get the rectangle
 		for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())
@@ -238,6 +255,24 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 		
 	}
 }
+
+kpgUIWindow* kpgUIWindow::GetChild(u32 uHash)
+{
+	//check the kids
+	kpuLinkedList* pIter = m_lChildren.Next();
+	while( pIter )
+	{
+		kpgUIWindow* pChild = (kpgUIWindow*)pIter->GetPointer();		
+
+		if( pChild->m_uHash == uHash )
+			return pChild;
+
+		pIter = pIter->Next();
+	}
+
+	return 0;
+}
+
 
 void kpgUIWindow::LoadDefaults()
 {
