@@ -60,6 +60,8 @@ public:
 	void TransformPoint(float& fX, float& fY, const kpgRenderer* pRenderer);
 
 	void SetVisible(bool bVal) { m_bVisible = bVal; }
+
+	kpgUIWindow* GetChild(u32 uHash);
 	
 	// Sizing functions
 	const kpRect& GetRect(const kpRect& rParent);
@@ -78,9 +80,15 @@ public:
 
 	u32	 GetHashCode()	{ return m_uHash; }
 
-	//Click event
+	//Events and targets
 	u32  GetClickEvent()		{ return m_uClickEvent; }
 	u32  ClickEffectedWindow()	{ return m_uTargetHash; }	
+
+	u32	 MouseEnterEvent()		{ return m_uEnterEvent; }
+	u32	 ShowTarget()			{ return m_uShowTarget; }
+
+	u32	 MouseExitEvent()		{ return m_uExitEvent; }
+	u32	 CloseTarget()			{ return m_uCloseTarget; }
 
 protected:
 	void Destroy();
@@ -105,8 +113,17 @@ protected:
 	kpuLinkedList		m_lChildren;
 	kpgUIWindow*		m_pParent;
 
+	//Events and their targets
 	u32					m_uClickEvent;
 	u32					m_uTargetHash;
+
+	u32					m_uEnterEvent;
+	u32					m_uShowTarget;
+
+	u32					m_uExitEvent;
+	u32					m_uCloseTarget;
+
+	//window name
 	u32					m_uHash;
 };
 

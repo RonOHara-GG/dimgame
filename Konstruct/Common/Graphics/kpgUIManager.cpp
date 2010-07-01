@@ -14,6 +14,7 @@ kpgUIManager::kpgUIManager(void)
 {
 	m_plWindowList = new kpuLinkedList();
 	m_pCurrentWindow = 0;
+	m_pWinMouseOver = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
 }
 
@@ -81,7 +82,7 @@ kpgUIWindow* kpgUIManager::GetUIWindow(u32 uHash)
 	while( pNext )
 	{
 		kpgUIWindow* pWindow = (kpgUIWindow*)pNext->GetPointer();
-
+		
 		if( pWindow->GetHashCode() == uHash )
 			return pWindow;
 
@@ -105,17 +106,20 @@ void kpgUIManager::NewWindow(u32 uHash)
 
 u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
+	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+
+	kpPoint ptMouse = g_pInputManager->GetMouseLoc();
+	kpgUIWindow::eHitLocation eHit;
+	//Get window
+	kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
+
 	// TODO: Handle this event
 	switch(type)
 	{
 	case eIET_ButtonClick:
 		{		
 			if( button == KPIM_BUTTON_0 )
-			{
-				kpPoint ptMouse = g_pInputManager->GetMouseLoc();
-				kpgUIWindow::eHitLocation eHit;
-				//Get window
-				kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, kpgRenderer::GetInstance()->GetScreenWidth(), 0.0f, kpgRenderer::GetInstance()->GetScreenHeight()), &eHit);
+			{	
 
 				if( pWindow )
 				{
@@ -136,6 +140,44 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 			}
 			break;
 		}	
+	case eIET_MouseMove:
+		{
+			if( m_pWinMouseOver )
+			{
+				if( m_pWinMouseOver != pWindow )
+				{
+					//Get mouse exit event
+					switch( m_pWinMouseOver->MouseExitEvent() )
+					{
+					case CE_CLOSE:
+						{
+							kpgUIWindow* pClosed = m_pCurrentWindow->GetChild(m_pWinMouseOver->CloseTarget());
+							pClosed->SetVisible(false);
+							break;
+						}						
+					}	
+				}
+			}
+
+			m_pWinMouseOver = pWindow;
+
+			if( m_pWinMouseOver )
+			{
+				//Get mouse enter event
+				switch( m_pWinMouseOver->MouseEnterEvent() )
+				{
+				case CE_SHOW:
+					{
+						kpgUIWindow* pOpen = m_pCurrentWindow->GetChild(m_pWinMouseOver->ShowTarget());
+						pOpen->SetVisible(true);
+						break;
+					}						
+				}	
+			}
+
+			return 0;
+			
+		}
 	}
 	
 	return IE_NOT_HANDLED;

@@ -22,6 +22,7 @@ public:
 	virtual void Draw() = 0;
 
 	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
+	virtual void LoadBackground(const char* szFile) = 0;
 
 	virtual void AddActor(Actor* pActor) = 0;
 	virtual PlayerCharacter* GetPlayer() = 0;

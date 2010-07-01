@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level Name="Bastarak" Width="150" Height="150">
+<Level Name="FrontEnd" Width="0" Height="0">
 	<Meshes Count="1">
 		<Mesh>
 			<Data>Assets/UI/FrontEnd/Background/StarSphere.dae</Data>
 		</Mesh>
 	</Meshes>
-	<Terrain>Assets/Modules/TerrainPieces.xml</Terrain>
+	<Background>Assets/UI/FrontEnd/FrontEndBackground.xml</Background>
 </Level>

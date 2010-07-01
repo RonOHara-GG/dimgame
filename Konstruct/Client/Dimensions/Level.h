@@ -35,11 +35,9 @@ protected:
 	Grid*							m_pLevelGrid; //The tile grid of the current level
 	kpuQuadTree*					m_pQuadTree;
 	char						    m_szName[64];
-	TerrainModel*				m_pTerrain;
+	TerrainModel*					m_pTerrain;
+	kpuFixedArray<kpgModel*>*       m_paModels;
 	kpuFixedArray<kpgModel*>*		m_paEnemyModels;
 
-	//void LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray);
-	
-	
-	
+	//void LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray);	
 };

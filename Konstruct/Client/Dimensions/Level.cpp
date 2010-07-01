@@ -12,37 +12,40 @@
 #include "LoadStructures.h"
 
 
-static const u32 s_uHash_Name =		0x7c898026;
-static const u32 s_uHash_Modules =	0x354414de;
-static const u32 s_uHash_Enemies =	0xcb2aaeeb;
-static const u32 s_uHash_Mesh =		0x7c890592;
-static const u32 s_uHash_Data =		0x7c84053f;
-static const u32 s_uHash_Count =	0x0;
+static const u32 s_uHash_Name =			0x7c898026;
+static const u32 s_uHash_Terrain =		0x39c3ab7a;
+static const u32 s_uHash_Enemies =		0xcb2aaeeb;
+static const u32 s_uHash_Meshes =		0xc2e0bf8a;
+static const u32 s_uHash_Mesh =			0x7c890592;
+static const u32 s_uHash_Data =			0x7c84053f;
+static const u32 s_uHash_Count =		0xcfa484e;
+static const u32 s_uHash_Background =	0xe62bf365;
 
 Level::Level(void)
 {
 	m_pTerrain = 0;
-	/*m_paModels = 0;*/
+	m_paModels = 0;
 	m_paEnemyModels = 0;
 	m_pLevelGrid = 0;
 	m_pQuadTree = 0;
 
 	//Seed random
 	srand((unsigned int)time(NULL));
+
 }
 
 Level::~Level(void)
 {
-	/*if( m_paModels )
-	{
-		for( int i = 0; i < m_paModels->Count(); i++ )
-		{
-			TerrainModule* pModel = (*m_paModels)[i];
-			if( pModel )
-				delete pModel;
-		}
-		delete m_paModels;
-	}*/
+	if( m_paModels )
+    {
+        for( int i = 0; i < m_paModels->GetNumElements(); i++ )
+        {
+                kpgModel* pModel = m_paModels->GetElement(i);
+                if( pModel )
+                        delete pModel;
+        }
+        delete m_paModels;
+    }
 
 	if( m_pTerrain )
 		delete m_pTerrain;
@@ -83,41 +86,74 @@ bool Level::Load(const char* pszLevelFile)
 
 				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5f, 0.0f, ( iHeight + 1) * -0.5f, 0.0f), iWidth + 1.0f, iHeight + 1.0f);
 
-				// Read Elements
+				 // Read Elements
                 for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
                 {
                         u32 uHash = StringHash(pElement->Value());
-                        if( uHash == s_uHash_Modules )
+                        switch( uHash )
                         {
-							if(	m_pTerrain )
-								delete m_pTerrain;
-
-                            m_pTerrain = new TerrainModel();
-
-							if ( !m_pTerrain->LoadTerrain(pElement->FirstChild()->Value(), iWidth, iHeight) )
+						case s_uHash_Meshes:
 							{
-								bRet = false;
+                                int iMeshCount = atoi(pElement->Attribute("Count"));
+                                if( m_paModels )
+                                        delete m_paModels;
+                                m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+
+                                for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
+                                {
+                                        uHash = StringHash(pEChild->Value());
+                                        if( uHash == s_uHash_Mesh )
+                                        {
+                                                for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
+                                                {
+                                                        uHash = StringHash(pEChild2->Value());
+                                                        if( uHash == s_uHash_Data && m_paModels )
+                                                        {                                                                               
+                                                                kpgModel* pModel = new kpgModel();                                                                              
+                                                                if( pModel->Load(pEChild2->FirstChild()->Value()) )
+                                                                {
+                                                                        m_paModels->Add(pModel);
+                                                                        bRet = true;
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
 								break;
 							}
-
-							//add all peices of terrain to quadtree
-							kpuFixedArray<kpuPhysicalObject*>* pPieces = m_pTerrain->GetPeices();
-
-							for(int i = 0; i < pPieces->GetNumElements(); i++)
+						case s_uHash_Terrain:
 							{
-								m_pQuadTree->Add((*pPieces)[i]);
+								if(	m_pTerrain )
+									delete m_pTerrain;
+
+								m_pTerrain = new TerrainModel();
+
+								if ( !m_pTerrain->LoadTerrain(pElement->FirstChild()->Value(), iWidth, iHeight) )
+								{
+									bRet = false;
+									break;
+								}
+
+								//add all peices of terrain to quadtree
+								kpuFixedArray<kpuPhysicalObject*>* pPieces = m_pTerrain->GetPeices();
+
+								for(int i = 0; i < pPieces->GetNumElements(); i++)
+								{
+									m_pQuadTree->Add((*pPieces)[i]);
+								}
+
+								bRet = true;
+
+
+								break;
 							}
-
-                            bRet = true;
-
-						}
-				}
+							
+                        }
+                }
+				
 			}
 		}
 	}
-
-	
-
 	return bRet;
 }
 
@@ -295,15 +331,16 @@ void Level::Update()
 
 void Level::Draw(kpgRenderer* pRenderer)
 {
-	/*if( m_paModels )
+	if( m_paModels )
 	{
-		for( int i = 0; i < m_paModels->Count(); i++ )
+		for( int i = 0; i < m_paModels->GetNumElements(); i++ )
 		{
 			(*m_paModels)[i]->Draw(pRenderer);
 		}
-	}*/
+	}
 
-	m_pTerrain->Draw(pRenderer);
+	if( m_pTerrain )
+		m_pTerrain->Draw(pRenderer);
 }
 
 
