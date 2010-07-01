@@ -815,6 +815,13 @@ kpuMatrix kpgModel::GetMatrix()
 	return m_aInstances[0]->GetMatrix();
 }
 
+void kpgModel::SetMatrix(const kpuMatrix mMatrix)
+{
+	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
+	{
+		m_aInstances[i]->SetMatrix(mMatrix);
+	}
+}
 
 kpuVector kpgModel::GetPosition()
 {
@@ -826,6 +833,17 @@ void kpgModel::SetPosition(kpuVector& vPos)
 	for(int i = 0; i < m_aInstances.GetNumElements(); i++)
 	{
 		m_aInstances[i]->SetPosition(vPos.GetX(), vPos.GetY(), vPos.GetZ());
+	}
+}
+
+void kpgModel::SetScale(float fScaleX, float fScaleY, float fScaleZ)
+{
+	kpuMatrix mScale;
+	mScale.SetScale(fScaleX, fScaleY, fScaleZ);
+	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
+	{
+		kpuMatrix mScaled = mScale * m_aInstances[i]->GetMatrix();
+		m_aInstances[i]->SetMatrix(mScaled);
 	}
 }
 

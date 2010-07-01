@@ -1,5 +1,6 @@
 #pragma once
 #include "Common/Utility/kpuLinkedList.h"
+#include "Common/Utility/kpuMatrix.h"
 
 class Level;
 class Actor;
@@ -22,7 +23,6 @@ public:
 	virtual void Draw() = 0;
 
 	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
-	virtual void LoadBackground(const char* szFile) = 0;
 
 	virtual void AddActor(Actor* pActor) = 0;
 	virtual PlayerCharacter* GetPlayer() = 0;
@@ -34,6 +34,7 @@ protected:
 	Level*					m_pCurrentLevel;
 	kpgUIManager*			m_pUIManager;
 	kpuCameraController*	m_pCamera;
+	kpuMatrix				m_mProjection;
 };
 
 extern GameState*		g_pGameState;

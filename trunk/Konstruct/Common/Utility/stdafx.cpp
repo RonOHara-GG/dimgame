@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include <stdio.h>
+#include "kpuVector.h"
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
@@ -56,4 +57,23 @@ u32 StringHash(const char* InputString, const char* IgnoreCharacters)
 	}
 
 	return hash;
+}
+
+kpuVector ParseCSVVector(char* szCSV)
+{
+	char* szComma = strchr(szCSV, ',');
+	szComma[0] = 0;
+
+	kpuVector vLoc;
+	vLoc.SetX((float)atof(szCSV));
+	szCSV = szComma + 1;
+	szComma = strchr(szCSV, ',');
+	szComma[0] = 0;
+
+	vLoc.SetY((float)atof(szCSV));
+	szCSV = szComma + 1;
+
+	vLoc.SetZ((float)atof(szCSV));
+
+	return vLoc;
 }

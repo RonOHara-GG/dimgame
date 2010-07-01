@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Level Name="Front End Solar System" Width="0" Height="0">
+  <Meshes Count="13">
+    <Mesh Name="Sun">
+      <Data>Assets/FrontEnd/Models/Sun.dae</Data>
+      <Location>0,0,0</Location>
+    </Mesh>
+    <Mesh Name="Mercury">
+      <Data>Assets/FrontEnd/Models/Mercury.dae</Data>
+      <Location>1500,0,0</Location>
+      <UniformScale>15.0f</UniformScale>
+    </Mesh>
+    <Mesh Name="Venus">
+      <Data>Assets/FrontEnd/Models/Venus.dae</Data>
+      <Location>5000,2000,0</Location>
+      <UniformScale>10.0f</UniformScale>
+    </Mesh>
+    <Mesh Name="Earth">
+      <Data>Assets/FrontEnd/Models/Earth.dae</Data>
+      <Location>22560,-3500,0</Location>
+    </Mesh>
+    <Mesh Name="SpaceStation">
+      <Data>Assets/FrontEnd/Models/SpaceStationOutside.dae</Data>
+      <Location>22560,-3500,-8.5</Location>
+    </Mesh>
+    <Mesh Name="Moon">
+      <Data>Assets/FrontEnd/Models/Moon.dae</Data>
+      <Location>22585.0,-3495,0</Location>
+    </Mesh>
+    <Mesh Name="Mars">
+      <Data>Assets/FrontEnd/Models/Mars.dae</Data>
+      <Location>227900,0,0</Location>
+    </Mesh>
+    <Mesh Name="Jupiter">
+      <Data>Assets/FrontEnd/Models/Jupiter.dae</Data>
+      <Location>778300,0,0</Location>
+    </Mesh>
+    <Mesh Name="Saturn">
+      <Data>Assets/FrontEnd/Models/Saturn.dae</Data>
+      <Location>1427000,0,0</Location>
+    </Mesh>
+    <Mesh Name="Uranus">
+      <Data>Assets/FrontEnd/Models/Uranus.dae</Data>
+      <Location>2871000,0,0</Location>
+    </Mesh>
+    <Mesh Name="Neptune">
+      <Data>Assets/FrontEnd/Models/Neptune.dae</Data>
+      <Location>4497100,0,0</Location>
+    </Mesh>
+    <Mesh Name="Pluto">
+      <Data>Assets/FrontEnd/Models/Pluto.dae</Data>
+      <Location>5913000,0,0</Location>
+    </Mesh>
+    <Mesh Name="StarSphere">
+      <Data>Assets/FrontEnd/Models/StarSphere.dae</Data>
+      <Location>0,0,0</Location>
+    </Mesh>
+  </Meshes>
+  
+  <Lights Count="1">
+    <PointLight>
+      <Location>0,0,0</Location>
+      <Radius>5000000</Radius>
+      <Color>1.0f,1.0f,0.0f</Color>
+    </PointLight>
+  </Lights>
+</Level>

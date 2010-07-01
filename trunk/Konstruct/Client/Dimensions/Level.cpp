@@ -4,56 +4,67 @@
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
-#include "TerrainModel.h"
+#include "Common/Graphics/kpgLight.h"
 #include "Common/Utility/kpuQuadTree.h"
+#include "TerrainModel.h"
 #include "Grid.h"
 #include "Enemy.h"
-#include <time.h>
 #include "LoadStructures.h"
 
 
 static const u32 s_uHash_Name =			0x7c898026;
+static const u32 s_uHash_Meshes =		0xc2e0bf8a;
+static const u32 s_uHash_Lights =		0xc0cd6650;
 static const u32 s_uHash_Terrain =		0x39c3ab7a;
 static const u32 s_uHash_Enemies =		0xcb2aaeeb;
-static const u32 s_uHash_Meshes =		0xc2e0bf8a;
 static const u32 s_uHash_Mesh =			0x7c890592;
 static const u32 s_uHash_Data =			0x7c84053f;
+static const u32 s_uHash_Location =		0xedca3cfe;
+static const u32 s_uHash_PointLight =	0x09a7ab47;
+static const u32 s_uHash_Radius =		0xce39f54d;
+static const u32 s_uHash_Color =		0x0cfa2224;
+static const u32 s_uHash_UniformScale = 0xb583c2ed;
 static const u32 s_uHash_Count =		0xcfa484e;
-static const u32 s_uHash_Background =	0xe62bf365;
 
 Level::Level(void)
 {
 	m_pTerrain = 0;
 	m_paModels = 0;
+	m_paLights = 0;
 	m_paEnemyModels = 0;
 	m_pLevelGrid = 0;
 	m_pQuadTree = 0;
-
-	//Seed random
-	srand((unsigned int)time(NULL));
-
 }
 
 Level::~Level(void)
 {
 	if( m_paModels )
-    {
-        for( int i = 0; i < m_paModels->GetNumElements(); i++ )
-        {
-                kpgModel* pModel = m_paModels->GetElement(i);
-                if( pModel )
-                        delete pModel;
-        }
-        delete m_paModels;
-    }
+	{
+		for( int i = 0; i < m_paModels->GetNumElements(); i++ )
+		{
+			kpgModel* pModel = m_paModels->GetElement(i);
+			if( pModel )
+				delete pModel;
+		}
+		delete m_paModels;
+	}
+
+	if( m_paLights )
+	{
+		for( int i = 0; i < m_paLights->GetNumElements(); i++ )
+		{
+			kpgLight* pLight = m_paLights->GetElement(i);
+			if( pLight )
+				delete pLight;
+		}
+		delete m_paLights;
+	}
 
 	if( m_pTerrain )
 		delete m_pTerrain;
 
 	if( m_pQuadTree )
 		delete m_pQuadTree;
-
-
 }
 
 bool Level::Load(const char* pszLevelFile)
@@ -86,110 +97,133 @@ bool Level::Load(const char* pszLevelFile)
 
 				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5f, 0.0f, ( iHeight + 1) * -0.5f, 0.0f), iWidth + 1.0f, iHeight + 1.0f);
 
-				 // Read Elements
+				// Read Elements
                 for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
                 {
-                        u32 uHash = StringHash(pElement->Value());
-                        switch( uHash )
-                        {
-						case s_uHash_Meshes:
+					u32 uHash = StringHash(pElement->Value());
+					if( uHash == s_uHash_Meshes )
+					{
+						int iMeshCount = atoi(pElement->Attribute("Count"));
+						if( m_paModels )
+							delete m_paModels;
+						m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+
+						for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
+						{
+							uHash = StringHash(pEChild->Value());
+							if( uHash == s_uHash_Mesh )
 							{
-                                int iMeshCount = atoi(pElement->Attribute("Count"));
-                                if( m_paModels )
-                                        delete m_paModels;
-                                m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
+								kpgModel* pModel = new kpgModel();
+								pModel->SetName(StringHash(pEChild->Attribute("Name")));
 
-                                for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
-                                {
-                                        uHash = StringHash(pEChild->Value());
-                                        if( uHash == s_uHash_Mesh )
-                                        {
-                                                for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
-                                                {
-                                                        uHash = StringHash(pEChild2->Value());
-                                                        if( uHash == s_uHash_Data && m_paModels )
-                                                        {                                                                               
-                                                                kpgModel* pModel = new kpgModel();                                                                              
-                                                                if( pModel->Load(pEChild2->FirstChild()->Value()) )
-                                                                {
-                                                                        m_paModels->Add(pModel);
-                                                                        bRet = true;
-                                                                }
-                                                        }
-                                                }
-                                        }
-                                }
-								break;
-							}
-						case s_uHash_Terrain:
-							{
-								if(	m_pTerrain )
-									delete m_pTerrain;
-
-								m_pTerrain = new TerrainModel();
-
-								if ( !m_pTerrain->LoadTerrain(pElement->FirstChild()->Value(), iWidth, iHeight) )
+								bool bLoaded = false;
+								for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
 								{
-									bRet = false;
-									break;
+									uHash = StringHash(pEChild2->Value());
+									if( uHash == s_uHash_Data && m_paModels )
+									{
+										bLoaded = pModel->Load(pEChild2->FirstChild()->Value());
+									}
+									else if( uHash == s_uHash_Location )
+									{
+										kpuVector vLoc = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
+										pModel->SetPosition(vLoc);
+									}
+									else if( uHash == s_uHash_UniformScale )
+									{
+										float fScale = (float)atof(pEChild2->FirstChild()->Value());
+										pModel->SetScale(fScale, fScale, fScale);
+									}
 								}
 
-								//add all peices of terrain to quadtree
-								kpuFixedArray<kpuPhysicalObject*>* pPieces = m_pTerrain->GetPeices();
-
-								for(int i = 0; i < pPieces->GetNumElements(); i++)
+								if( bLoaded )
 								{
-									m_pQuadTree->Add((*pPieces)[i]);
+									m_paModels->Add(pModel);
+									bRet = true;
+								}
+								else
+									delete pModel;
+							}
+						}
+					}
+					else if( uHash == s_uHash_Lights )
+					{
+						int iLightCount = atoi(pElement->Attribute("Count"));
+						assert(!m_paLights);
+						m_paLights = new kpuFixedArray<kpgLight*>(iLightCount);
+
+						for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
+						{
+							uHash = StringHash(pEChild->Value());
+							if( uHash == s_uHash_PointLight )
+							{
+								kpgLight* pLight = new kpgLight(kpgLight::eLT_Point);
+
+								for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
+								{
+									uHash = StringHash(pEChild2->Value());
+									if( uHash == s_uHash_Location )
+									{
+										kpuVector vLoc = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
+										pLight->SetPosition(vLoc);
+									}
+									else if( uHash == s_uHash_Radius )
+									{
+										float fRadius = (float)atof(pEChild2->FirstChild()->Value());
+										pLight->SetRange(fRadius);
+									}
+									else if( uHash == s_uHash_Color )
+									{
+										kpuVector vColor = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
+										pLight->SetColor(vColor);
+									}
 								}
 
-								bRet = true;
-
-
-								break;
+								m_paLights->Add(pLight);
 							}
-							
-                        }
-                }
-				
+						}
+					}
+                    else if( uHash == s_uHash_Terrain )
+                    {
+						if(	m_pTerrain )
+							delete m_pTerrain;
+
+                        m_pTerrain = new TerrainModel();
+
+						if ( !m_pTerrain->LoadTerrain(pElement->FirstChild()->Value(), iWidth, iHeight) )
+						{
+							bRet = false;
+							break;
+						}
+
+						//add all peices of terrain to quadtree
+						kpuFixedArray<kpuPhysicalObject*>* pPieces = m_pTerrain->GetPeices();
+
+						for(int i = 0; i < pPieces->GetNumElements(); i++)
+						{
+							m_pQuadTree->Add((*pPieces)[i]);
+						}
+
+                        bRet = true;
+					}
+				}
 			}
 		}
 	}
+
 	return bRet;
 }
 
-//void Level::LoadEnemyList(kpuArrayList<Enemy*>* paEnemies)
-//{
-//	char szFileName[2048];
-//	TiXmlDocument doc;
-//
-//	kpuFileManager::GetFullFilePath("/Assets/EnemyData/EnemyMasterList.xml", szFileName, sizeof(szFileName));
-//	//Load all enemy types and generate them
-//	if(doc.LoadFile(szFileName))
-//	{
-//		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement())
-//		{
-//			int iCount = atoi(pElement->Attribute("Count"));
-//
-//			kpuFixedArray<EnemyLoadStructure>* paEnemyTypes = new kpuFixedArray<EnemyLoadStructure>(iCount);
-//
-//			for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement())
-//			{
-//				const char* szFilename = pChild->FirstChild()->Value();
-//
-//				LoadEnemyType(szFilename, paEnemyTypes);
-//			}
-//
-//			if(iCount > 0)
-//			{
-//				//Make some enemies
-//				GenerateEnemies(paEnemyTypes, paEnemies, iCount);
-//			}
-//
-//		}
-//	}
-//
-//}
-
+kpgModel* Level::FindModelByName(u32 iNameHash)
+{
+	for( int i = 0; i < m_paModels->GetNumElements(); i++ )
+	{
+		kpgModel* pModel = (*m_paModels)[i];
+		if( pModel->GetName() == iNameHash )
+			return pModel;
+	}
+	return 0;
+}
 
 void Level::GenerateEnemies(kpuArrayList<Actor*> *pActors)
 {
@@ -255,82 +289,23 @@ void Level::GenerateEnemies(kpuArrayList<Actor*> *pActors)
 	}
 }
 
-//void Level::LoadEnemyType(const char* pszFile, kpuFixedArray<EnemyLoadStructure>* pArray)
-//{
-//	char szFilename[2048];
-//
-//	kpuFileManager::GetFullFilePath(pszFile, szFilename, sizeof(szFilename) );
-//
-//	TiXmlDocument doc;
-//
-//	if( doc.LoadFile(szFilename) )
-//	{
-//		TiXmlElement* pElement = doc.FirstChildElement();
-//
-//		EnemyLoadStructure enemyType;
-//		enemyType.pszName = (char*)pElement->Attribute("Name");
-//		enemyType.iLevel = atoi(pElement->Attribute("Level"));
-//		enemyType.iHealth = atoi(pElement->Attribute("Health"));
-//		enemyType.fSpeed = atof(pElement->Attribute("Speed"));
-//		enemyType.pModel = new kpgModel();
-//		enemyType.pModel->Load(pElement->Attribute("Model"));
-//		enemyType.iDamage = atoi(pElement->Attribute("Damage"));
-//		enemyType.fAggroRange = atof(pElement->Attribute("Aggro"));
-//		enemyType.fAttackRange = atof(pElement->Attribute("AtkRange"));
-//		enemyType.fAttackSpeed = atof(pElement->Attribute("AtkSpeed"));
-//		enemyType.iDamageType = atof(pElement->Attribute("DamageType"));
-//
-//		//goto resits
-//		TiXmlElement* pResits = pElement->FirstChildElement();
-//
-//		enemyType.iCrushRes = atoi(pResits->Attribute("Crushing"));
-//		enemyType.iPierceRes = atoi(pResits->Attribute("Piercing"));
-//		enemyType.iSlashRes = atoi(pResits->Attribute("Slashing"));	
-//		enemyType.iMentalRes = atoi(pResits->Attribute("Mental"));
-//		enemyType.iHeatRes = atoi(pResits->Attribute("Heat"));
-//		enemyType.iColdRes = atoi(pResits->Attribute("Cold"));
-//		enemyType.iAcidRes = atoi(pResits->Attribute("Acid"));
-//		enemyType.iViralRes = atoi(pResits->Attribute("Viral"));
-//		enemyType.iHolyRes = atoi(pResits->Attribute("Holy"));
-//		enemyType.iWaterRes = atoi(pResits->Attribute("Water"));
-//		enemyType.iDeathRes = atoi(pResits->Attribute("Death"));
-//		enemyType.iElectRes = atoi(pResits->Attribute("Electric"));
-//
-//		pArray->Add(enemyType);
-//	}
-//    
-//	//FILE* pFile = 0;
-//	//pFile = fopen(szFilename, "rb");
-//
-//	//if(pFile)
-//	//{
-//	//	EnemyenemyTypeure enemyLoad;
-//
-//	//	//Get the enemy name and dae file location
-//	//	fread(&enemyLoad.iNameLength, 4, 2, pFile);
-//
-//	//	fread(enemyLoad.szName, enemyLoad.iNameLength, 1, pFile);
-//	//	fread(enemyLoad.szModel, enemyLoad.iFileLength, 1, pFile);
-//
-//	//	enemyLoad.szName[enemyLoad.iNameLength] = 0;
-//	//	enemyLoad.szModel[enemyLoad.iFileLength] = 0;
-//
-//	//	//read rest of data
-//	//	fread((char*)&enemyLoad.iLevel, sizeof(enemyLoad) - enemyLoad.iNameLength - enemyLoad.iFileLength, 1, pFile);
-//
-//
-//	//	pArray->Add(enemyLoad);
-//
-//	//	fclose(pFile);
-//	//}
-//}
-
 void Level::Update()
 {
 }
 
 void Level::Draw(kpgRenderer* pRenderer)
 {
+	// Bind all the lights
+	if( m_paLights )
+	{
+		for( int i = 0; i < m_paLights->GetNumElements(); i++ )
+		{
+			kpgLight* pLight = (*m_paLights)[i];
+			pRenderer->SetLight(i, pLight);
+		}
+	}
+
+
 	if( m_paModels )
 	{
 		for( int i = 0; i < m_paModels->GetNumElements(); i++ )

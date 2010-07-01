@@ -24,6 +24,8 @@ public:
 	void SetRotationX(float fXRadians);
 	void SetRotationY(float fYRadians);
 	void SetRotationZ(float fZRadians);
+	void SetRotationAboutAxis(const kpuVector& vAxis, float fRadians);
+	void SetScale(float fScaleX, float fScaleY, float fScaleZ);
 
 	kpuMatrix	operator *(const kpuMatrix& m) const;
 
@@ -32,6 +34,7 @@ public:
 	void Invert();
 	void Transpose();
 	void Transform(const kpuMatrix& m);
+	void RotateLocal(const kpuMatrix& m);			// Rotate this matrix by the other matrix (does not rotate the translation)
 
 	void Perspective(float fFoVDegreesY, float fAspectRatio, float fZNear, float fZFar);
 	void Orthographic(float fWidth, float fHeight, float fZNear, float fZFar);
@@ -147,6 +150,28 @@ inline void kpuMatrix::SetRotationZ(float fZRadians)
 	m_vD = kpuv_OneW;
 }
 
+inline void kpuMatrix::SetRotationAboutAxis(const kpuVector& vAxis, float fRadians)
+{
+	// borrowed from http://www.cprogramming.com/tutorial/3d/rotation.html
+
+	float fSin = sinf(fRadians);
+	float fCos = cosf(fRadians);
+	float fT = 1.0f - fCos;
+
+	m_vA.Set((fT * vAxis.GetX() * vAxis.GetX()) + fCos,						(fT * vAxis.GetX() * vAxis.GetY()) + (fSin * vAxis.GetZ()),	(fT * vAxis.GetX() * vAxis.GetZ()) - (fSin * vAxis.GetY()), 0.0f);
+	m_vB.Set((fT * vAxis.GetX() * vAxis.GetY()) - (fSin * vAxis.GetZ()),	(fT * vAxis.GetY() * vAxis.GetY()) + fCos,					(fT * vAxis.GetY() * vAxis.GetZ()) + (fSin * vAxis.GetX()), 0.0f);
+	m_vC.Set((fT * vAxis.GetX() * vAxis.GetY()) + (fSin * vAxis.GetY()),	(fT * vAxis.GetY() * vAxis.GetZ()) - (fSin * vAxis.GetX()), (fT * vAxis.GetZ() * vAxis.GetZ()) + fCos,					0.0f);
+	m_vD = kpuv_OneW;
+}
+
+inline void kpuMatrix::SetScale(float fScaleX, float fScaleY, float fScaleZ)
+{
+	m_vA.Set(fScaleX, 0.0f, 0.0f, 0.0f);
+	m_vB.Set(0.0f, fScaleY, 0.0f, 0.0f);
+	m_vC.Set(0.0f, 0.0f, fScaleZ, 0.0f);
+	m_vD = kpuv_OneW;
+}
+
 inline kpuMatrix kpuMatrix::operator *(const kpuMatrix& m) const
 {
 	kpuMatrix ret;
@@ -179,6 +204,34 @@ inline kpuMatrix kpuMatrix::operator *(const kpuMatrix& m) const
 	ret.SetD(kpuVector(fX, fY, fZ, fW));
 
 	return ret;
+}
+
+inline void kpuMatrix::RotateLocal(const kpuMatrix& m)
+{
+	kpuMatrix trans = m;
+	trans.Transpose();
+
+	float fX, fY, fZ;
+	fX = m_vA.Dot(trans.m_vA);
+	fY = m_vA.Dot(trans.m_vB);
+	fZ = m_vA.Dot(trans.m_vC);
+	m_vA.SetX(fX);
+	m_vA.SetY(fY);
+	m_vA.SetZ(fZ);
+
+	fX = m_vB.Dot(trans.m_vA);
+	fY = m_vB.Dot(trans.m_vB);
+	fZ = m_vB.Dot(trans.m_vC);
+	m_vB.SetX(fX);
+	m_vB.SetY(fY);
+	m_vB.SetZ(fZ);
+
+	fX = m_vC.Dot(trans.m_vA);
+	fY = m_vC.Dot(trans.m_vB);
+	fZ = m_vC.Dot(trans.m_vC);
+	m_vC.SetX(fX);
+	m_vC.SetY(fY);
+	m_vC.SetZ(fZ);
 }
 
 inline void kpuMatrix::Zero()

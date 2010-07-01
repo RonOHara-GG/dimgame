@@ -17,3 +17,8 @@ void kpuCameraController::SetView(const kpuVector& vLocation, const kpuVector& v
 {
 	m_mViewMatrix.LookAt(vLocation, vLookAt, vUp);
 }
+
+void kpuCameraController::Update()
+{
+	m_mViewMatrix.LookAt(m_vLocation, m_vLookAt, m_vUp);
+}

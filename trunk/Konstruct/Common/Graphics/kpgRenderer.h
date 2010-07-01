@@ -54,6 +54,13 @@ public:
 		eDF_AllDirty =		0xFFFFFFFF
 	};
 
+	enum eCullModes
+	{
+		eCM_None =				1,
+		eCM_Clockwise =			2,
+		eCM_CounterClockwise =	3,
+	};
+
 	kpgRenderer();
 	~kpgRenderer(void);
 	bool Create(HWND hWnd);
@@ -100,6 +107,9 @@ public:
 	const kpuMatrix&	GetViewMatrix() const			{ return m_mView; }
 	const kpuMatrix&	GetWorldMatrix() const			{ return m_mWorld; }
 	const kpuMatrix&	GetWorldViewProjMatrix() const	{ return m_mWorldViewProjection; }
+
+	// Render State
+	void				SetCullMode(eCullModes mode);
 
 protected:
 	IDirect3D9*			m_pD3D;

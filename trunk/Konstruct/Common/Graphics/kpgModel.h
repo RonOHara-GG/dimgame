@@ -42,10 +42,15 @@ public:
 	void SetGeometryInstance(kpgGeometryInstance* pInst);
 	void SetGeometryInstance(kpgGeometryInstance* pInst, const kpuMatrix& mLocalToWolrd);
 
-	kpuVector GetPosition();
-	void	  SetPosition(kpuVector& vPos);
+	kpuVector	GetPosition();
+	void		SetPosition(kpuVector& vPos);
+	void		SetScale(float fScaleX, float fScaleY, float fScaleZ);
+
+	void		SetName(u32 iNameHash)						{ m_iNameHash = iNameHash; }
+	u32			GetName()									{ return m_iNameHash; }
 	
-	kpuMatrix GetMatrix();
+	kpuMatrix	GetMatrix();
+	void		SetMatrix(const kpuMatrix mMatrix);
 
 private:
 	kpgTexture* LoadImage(TiXmlElement* pLibrary);
@@ -61,6 +66,7 @@ private:
 
 
 protected:
+	u32									m_iNameHash;
 	kpuFixedArray<kpgGeometry*>			m_aGeometries;
 	kpuFixedArray<kpgGeometryInstance*>	m_aInstances;
 

@@ -31,17 +31,14 @@ GameState_GamePlay::GameState_GamePlay(void)
 	m_pCamera = new kpuThreeQuarterTopDownCamera(vLocation, vLookAt, kpuv_OneY);
 
 	// Setup render matrices
-	kpuMatrix mProjection, mView, mWorld;
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
-	mProjection.Perspective(45.0f, pRenderer->GetScreenWidth() / pRenderer->GetScreenHeight(), 0.001f, 10000.0f);
-	mWorld.Identity();
+	m_mProjection.Perspective(45.0f, pRenderer->GetScreenWidth() / pRenderer->GetScreenHeight(), 0.001f, 10000.0f);
 
-	pRenderer->SetProjectionMatrix(mProjection);
+	pRenderer->SetProjectionMatrix(m_mProjection);
 	pRenderer->SetViewMatrix(m_pCamera->GetViewMatrix());
-	pRenderer->SetWorldMatrix(mWorld);
 
 	// setup render state
-	pRenderer->GetDevice()->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+	pRenderer->SetCullMode(kpgRenderer::eCM_None);
     pRenderer->GetDevice()->SetRenderState( D3DRS_LIGHTING, FALSE );
 	
 	// for now, setup a temp light
