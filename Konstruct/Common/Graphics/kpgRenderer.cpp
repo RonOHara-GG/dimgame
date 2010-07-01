@@ -359,3 +359,8 @@ void kpgRenderer::DrawInstancedGeometry(kpgGeometryInstance* pInstance, kpuMatri
 	
 }
 
+void kpgRenderer::SetCullMode(eCullModes mode)
+{
+	GetDevice()->SetRenderState( D3DRS_CULLMODE, mode );
+}
+

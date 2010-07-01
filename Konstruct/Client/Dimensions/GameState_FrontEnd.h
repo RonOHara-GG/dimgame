@@ -10,6 +10,10 @@ class kpgModel;
 enum eInputEventType;
 enum ePlayerClass;
 
+#define NUM_PLANETS				12
+#define PLANET_EARTH			3
+#define PLANET_SPACE_STATION	11
+
 class GameState_FrontEnd : public GameState
 {
 public:
@@ -33,16 +37,16 @@ public:
 protected:
 	struct Planet
 	{
-		kpgModel*	m_pModel;
-		Planet*		m_pParent;
-		float		m_fRotationSpeed;
-		float		m_fRotation;
-		float		m_fOrbitSpeed;
-		float		m_fOrbit;
-		float		m_fDistance;
+		kpgModel*	m_pModel;				// Pointer to the model in the level
+		kpgModel*	m_pOrbit;				// Pointer to the planet this is orbiting
+		float		m_fRotationalPeriod;	// Time in seconds it takes to complete one rotation around the axis
+		float		m_fOrbitalPeriod;		// Time in seconds it takes to complete one orbit around the parent
+		bool		m_bOrbitReverse;		// true if this should orbit in the reverse direction
+		kpuVector	m_vOrbitAxis;
 	};
 
-	void					LoadBackground(const char* szFile);
+	void					Orbit(int iPlanet, float fDeltaTime);
+	void					SetupOrbitalData(const char* szFile);
 	void					NextCharacterModel();
 	void					PreviousCharacterModel();
 	void					LoadAllPlayerModels(const char* szFile);
@@ -54,10 +58,8 @@ protected:
 	PlayerCharacter*		m_pPlayer;
 	kpuArrayList<Actor*>*	m_paActors;
 
-	kpuLinkedList			m_lBgObjects;
-	Planet*					m_pLookAt;
 	kpuMatrix				m_mBgProjection;
-	kpuMatrix				m_mBgView;
+	Planet					m_aPlanets[NUM_PLANETS];
 
 	/*Character Creation*/	
 	kpuMatrix				m_mCharacterView;

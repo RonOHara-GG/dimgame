@@ -24,6 +24,7 @@
 
 #include <math.h>
 #include <d3dx9math.h>
+#include <time.h>
 
 extern HWND CreateRenderWindow(HINSTANCE hInstance);
 extern void UpdateRenderWindow(HWND hWnd);
@@ -48,6 +49,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
 {
+	//Seed random
+	srand((unsigned int)time(NULL));
+
 	// Create the render window
 	HWND hWnd = CreateRenderWindow(hInstance);
 	if( !hWnd )

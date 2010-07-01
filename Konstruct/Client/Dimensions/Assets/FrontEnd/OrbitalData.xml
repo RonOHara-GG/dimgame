@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RotationPeriod is time in seconds it takes for the planet to rotate 360 degrees around its axis -->
+<!-- OrbitalPeriod is time in seconds it takes for the planet to complete one orbit around the body it is orbiting -->
+<Planet Name="Sun" 			    RotationPeriod="0"    OrbitalPeriod="0"   Orbits=""       OrbitReverse="false"/>	
+<Planet Name="Mercury"      RotationPeriod="0"    OrbitalPeriod="16"   Orbits="Sun"    OrbitReverse="false"/>
+<Planet Name="Venus"        RotationPeriod="0"    OrbitalPeriod="20"   Orbits="Sun"    OrbitReverse="false"/>	
+<Planet Name="Earth"        RotationPeriod="60"   OrbitalPeriod="120" Orbits="Sun"    OrbitReverse="false"/>
+<Planet Name="Moon"         RotationPeriod="0"  	OrbitalPeriod="15"  Orbits="Earth"  OrbitReverse="true"/>	
+<Planet Name="Mars"         RotationPeriod="0" 	  OrbitalPeriod="0"   Orbits="Sun"    OrbitReverse="false"/>
+<Planet Name="Jupiter"      RotationPeriod="0"   	OrbitalPeriod="0"   Orbits="Sun"    OrbitReverse="false"/>	
+<Planet Name="Saturn"       RotationPeriod="0"  	OrbitalPeriod="0"   Orbits="Sun"    OrbitReverse="false"/>
+<Planet Name="Uranus"       RotationPeriod="0"   	OrbitalPeriod="0"   Orbits="Sun"    OrbitReverse="false"/>	
+<Planet Name="Neptune"      RotationPeriod="0"   	OrbitalPeriod="0"   Orbits="Sun"    OrbitReverse="false"/>	
+<Planet Name="Pluto"        RotationPeriod="0" 	  OrbitalPeriod="0"   Orbits="Sun"    OrbitReverse="false"/>
+<Planet Name="SpaceStation" RotationPeriod="0" 	  OrbitalPeriod="0"   Orbits="Earth"  OrbitReverse="false"/>	
+

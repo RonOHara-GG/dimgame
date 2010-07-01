@@ -10,6 +10,7 @@ typedef unsigned long		ul32;
 typedef __int64				s64;
 typedef unsigned __int64	u64;
 
+class kpuVector;
 
 typedef struct _kpRect
 {
@@ -50,7 +51,10 @@ typedef struct _kpPoint
 #define MAX(x, y)	((x > y) ? x : y)
 #define MIN(x, y)	((x < y) ? x : y)
 
+#define FRAND()		((float)rand() * (1.0f / (float)RAND_MAX))
+
 void Printf(const char* pFormat, ...);
 
 u32 StringHash(const char* InputString);
 u32 StringHash(const char* InputString, const char* IgnoreCharacters);
+kpuVector ParseCSVVector(char* szCSV);
