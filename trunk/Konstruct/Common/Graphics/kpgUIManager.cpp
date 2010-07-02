@@ -4,6 +4,7 @@
 #include "Common\Input\kpiInputManager.h"
 #include "External/tinyxml/tinyxml.h"
 #include "kpgUIWindow.h"
+#include "kpgUITextInput.h"
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuFileManager.h"
 
@@ -15,6 +16,7 @@ kpgUIManager::kpgUIManager(void)
 	m_plWindowList = new kpuLinkedList();
 	m_pCurrentWindow = 0;
 	m_pWinMouseOver = 0;
+	m_pCurrentInput = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
 }
 
@@ -124,7 +126,7 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 				if( pWindow )
 				{
 					//Get the click event
-					switch( pWindow->GetClickEvent() )
+					switch( pWindow->ClickEvent() )
 					{
 					case CE_NEW_WINDOW:
 						{
@@ -132,8 +134,17 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 							NewWindow(pWindow->ClickEffectedWindow());
 							return 0;
 						}	
+					case CE_SET_INPUT:
+						{
+							//Get new text input window
+							if( m_pCurrentInput )
+								m_pCurrentInput->LooseFocus();
+
+							m_pCurrentInput = (kpgUITextInput*)pWindow;
+							return 0;
+						}
 					default:
-						return pWindow->GetClickEvent();
+						return pWindow->ClickEvent();
 					}	
 				}
 				
