@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Windows>
-	<Window Type="0" Name="StartWin" Background="Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+	<Window Type="0" Name="StartWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
 				Visible="1" HasFrame="0" >
 				
 				<Rect Left="0" Right="512" Top="0" Bottom="512" />
 				
-				<Button Type="3" Name="SinglePlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
+				<Button Type="3" Name="SinglePlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Text="Single Player" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
-				<Button Type="3" Name="MultiPlayerBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				<Button Type="3" Name="MultiPlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="MultiPlayer" 	>
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
-				<Button Type="3" Name="OptionsBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				<Button Type="3" Name="OptionsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Options" >		
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="ExitBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				<Button Type="3" Name="ExitBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Text="Exit" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 	</Window>
-	<Window Type="0" Name="SinglePlayerWin" Background="Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+	<Window Type="0" Name="SinglePlayerWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
 				Visible="0" HasFrame="0" >
 				
 				<Rect Left="0" Right="512" Top="0" Bottom="512" />
 				
-				<Button Type="3" Name="ContinueBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="ContinueBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="LoadMostRecent" TargetWindow="" Text="Continue" > 
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="NewGameBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="NewGameBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="CharacterCreation" TargetWindow="" Text="New Game" > 
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="LoadBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="LoadBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Load"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
-				<Button Type="3" Name="SinglePlayerBackBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="SinglePlayerBackBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
 				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Text="Back"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
@@ -66,27 +66,27 @@
 				<Text Type="1" Name="NameLabel" Orientation="1" PositionX="0.4" PositionY="0.05"
 				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Name" /> 
 
-				<Button Type="2" Name="PlayerNameInput" Background="Assets/UI/FrontEnd/UITextInput.dds" Orientation="1"
-				PositionX="0.5" PositionY="0.05" Width="0.1" Height="0.04"
+				<TextInput Type="2" Name="PlayerNameInput" Background="./Assets/UI/FrontEnd/UITextInput.dds" Orientation="1"
+				Cursor="./Assets/UI/FrontEnd/Cursor.dds" PositionX="0.5" PositionY="0.05" Width="0.1" Height="0.04"
 				Visible="1" HasFrame="1" ClickEvent="SetCursor" TargetWindow="PlayerNameInput" />	
 				
-				<Button Type="3" Name="BrawlerSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="BrawlerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.15" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectBrawler" MouseEnterEvent="Show" Show="BrawlerDetails" 
 				MouseExitEvent="Close" Close="BrawlerDetails" Text="Brawler" /> 
 				
-				<Button Type="3" Name="BrawlerDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="BrawlerDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.25" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Brawler is a character who is skilled in the 
 												 art of hand to hand combat. Typical attacks are 
 												 punches, kicks, grapples, and head-butts." /> 
 				
-				<Button Type="3" Name="ArcherSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="ArcherSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.35" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectArcher" MouseEnterEvent="Show" Show="ArcherDetails" 
 				MouseExitEvent="Close" Close="ArcherDetails"  Text="Archer" />
 
-				<Button Type="3" Name="ArcherDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="ArcherDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.45" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Archer is a character who is skilled in 
 												 the use of bows and crossbows. Bows and 
@@ -94,64 +94,64 @@
 												 at high velocity to pierce through multiple
 												 targets." /> 				
 				
-				<Button Type="3" Name="MarksmanSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="MarksmanSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.55" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectMarksman" MouseEnterEvent="Show" Show="MarksmanDetails" 
 				MouseExitEvent="Close" Close="MarksmanDetails"  Text="Marksman" /> 
 				
-				<Button Type="3" Name="MarksmanDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="MarksmanDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.65" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Marksman is a character skilled in the use
 												 of firearms." /> 
 				
-				<Button Type="3" Name="RocketeerSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="RocketeerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.75" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectRocketeer" MouseEnterEvent="Show" Show="RocketeerDetails" 
 				MouseExitEvent="Close" Close="RocketeerDetails"  Text="Rocketeer" /> 
 				
-				<Button Type="3" Name="RocketeerDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="RocketeerDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.85" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Rocketeer is a character skilled in the use
 												 of rocket based projectiles." /> 
 				
-				<Button Type="3" Name="SwordsmanSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="SwordsmanSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.15" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectSwordsman" MouseEnterEvent="Show" Show="SwordsmanDetails" 
 				MouseExitEvent="Close" Close="SwordsmanDetails"  Text="Swordsman" /> 
 				
-				<Button Type="3" Name="SwordsmanDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="SwordsmanDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.25" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Swordsman is a character who is skilled in 
 												 the use of a sword. Swordsmen can use their 
 												 sword for defense as well as offense." /> 
 				
-				<Button Type="3" Name="PriestSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="PriestSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.35" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectPreist" MouseEnterEvent="Show" Show="PriestDetails" 
 				MouseExitEvent="Close" Close="PriestDetails"  Text="Priest" /> 
 				
-				<Button Type="3" Name="PriestDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="PriestDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.45" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Priest is a character skilled in the use of
 												 hammers. Priests can also heal and use religious
 												 psionics." /> 
 				
-				<Button Type="3" Name="OcculistSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="OcculistSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.55" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectOcculist" MouseEnterEvent="Show" Show="OcculistDetails" 
 				MouseExitEvent="Close" Close="OcculistDetails"  Text="Occulist" /> 
 				
-				<Button Type="3" Name="OcculistDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="OcculistDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.65" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Occultist is a character skilled in the arts
 												 of offensive psionics." /> 
 				
-				<Button Type="3" Name="MedicSelectBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="MedicSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.75" Width="0.10" Height="0.05"
 				Visible="1" HasFrame="1" ClickEvent="SelectMedic" MouseEnterEvent="Show" Show="MedicDetails" 
 				MouseExitEvent="Close" Close="MedicDetails"    Text="Medic" /> 
 				
-				<Button Type="3" Name="MedicDetails" Background="Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="MedicDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.85" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Medic is a character skilled in human 
 												 physiology and anatomy. Medics can provide
@@ -160,15 +160,15 @@
 												 players making them immune to the medics 
 												 biological weapons." /> 
 				
-				<Button Type="3" Name="StartGameBtn" Background="Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="StartGameBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.95" Width="0.20" Height="0.10"
 				Visible="1" HasFrame="1" ClickEvent="EnterGame"  Text="Start" />
 				
-				<Button Type="3" Name="NextModelBtn" Background="Assets/UI/FrontEnd/LeftArrow.dds" Orientation="1"
+				<Button Type="3" Name="NextModelBtn" Background="./Assets/UI/FrontEnd/LeftArrow.dds" Orientation="1"
 				PositionX="0.40" PositionY="0.80" Width="0.05" Height="0.06"
 				Visible="1" HasFrame="1" ClickEvent="NextPlayerModel" /> 
 				
-				<Button Type="3" Name="PrevModelBtn" Background="Assets/UI/FrontEnd/RightArrow.dds" Orientation="1"
+				<Button Type="3" Name="PrevModelBtn" Background="./Assets/UI/FrontEnd/RightArrow.dds" Orientation="1"
 				PositionX="0.60" PositionY="0.80" Width="0.05" Height="0.06"
 				Visible="1" HasFrame="1" ClickEvent="PreviousPlayerModel"  />
 						

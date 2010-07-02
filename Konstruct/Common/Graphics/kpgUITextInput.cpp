@@ -2,12 +2,16 @@
 #include "Common/Graphics/kpgUITextInput.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
+#include "Common/Input/kpiInputManager.h"
+#include "Common/Graphics/kpgFont.h"
 
 const float kBlinkSpeed = 0.75f;
 
 kpgUITextInput::kpgUITextInput(void)
 {
 	m_pCursor = 0;
+	m_bFocus = false;
+	m_bShiftPress = false;
 	m_bBlink = false;
 	m_BlinkTimer.SetSeconds(kBlinkSpeed);
 	m_szPasswordText = 0;
@@ -32,6 +36,22 @@ void kpgUITextInput::LoadDefaults()
 	m_pCursor = new kpgTexture();
 	m_pCursor->Load("ScreenLayouts\\System\\Images\\DefaultCursor.dds");
 }
+
+void kpgUITextInput::Load(TiXmlElement* pElement)
+{
+	kpgUIWindow::Load(pElement);
+
+	const char* pCursor = pElement->Attribute("Curosr");
+	if( pCursor )
+	{
+		m_pCursor = new kpgTexture();
+		m_pCursor->Load(pCursor);
+	}
+
+	m_pFont = new kpgFont();
+	m_pFont->Load(pElement);
+}
+
 
 void kpgUITextInput::SetPasswordMode(bool bPasswordMode)
 {
@@ -85,7 +105,7 @@ void kpgUITextInput::SetText(const char* szText)
 	else
 	{
 		// Normal mode, just hand it to the normal set text
-		kpgUIText::SetText(szText);
+		kpgUIText::SetText(szText);		
 	}
 }
 
@@ -122,4 +142,82 @@ void kpgUITextInput::Draw(kpgRenderer* pRenderer, const kpRect& rParent)
 void kpgUITextInput::CalculateRectangle(const kpRect& rParent)
 {
 	kpgUIWindow::CalculateRectangle(rParent);
+}
+
+u32 kpgUITextInput::ClickEvent()
+{
+	m_bFocus = true;
+
+	//set cursor position
+
+
+	return m_uClickEvent;
+}
+
+void kpgUITextInput::AddText(char* szText, int iStrLen, int iIndex)
+{
+	if( m_szText )
+	{
+		int iOriginalLen = strlen(m_szText);
+
+		char* newText = (char*)malloc(iStrLen + iOriginalLen);
+		
+		int iOldIndex = 0;
+		for(int i = 0; i < iStrLen + iOriginalLen; i++)
+		{
+			if( i >= iIndex && i < iIndex + iStrLen )
+			{
+				//write new char's
+				newText[i] = szText[i - iIndex];
+				continue;
+			}
+
+			//write old char's
+			newText[i] = m_szText[iOldIndex++];
+		}
+
+		free(m_szText);
+		m_szText = newText;
+		return;
+	}
+
+	//just assign new string
+	kpgUIText::SetText(szText);
+}
+
+u32 kpgUITextInput::KeyPressEvent(u32 uKey)
+{
+	//only handle input if focus
+	if( m_bFocus )
+	{
+		switch( uKey )
+		{
+		case KPIK_RSHIFT:
+			{
+				m_bShiftPress = true;
+				break;
+			}
+		case KPIK_LSHIFT:
+			{
+				m_bShiftPress = true;
+				break;
+			}
+		case KPIK_A:
+			{
+				//Add letter and move cursor
+				if( m_bShiftPress )
+					AddText("A", 1, m_iCursorPos++);
+				else
+					AddText("a", 1, m_iCursorPos++);
+
+				break;
+			}
+
+
+
+
+		}
+	}
+
+	return 0;
 }

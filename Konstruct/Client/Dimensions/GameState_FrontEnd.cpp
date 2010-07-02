@@ -34,6 +34,12 @@ GameState_FrontEnd::GameState_FrontEnd(void)
 	pRenderer->SetCullMode(kpgRenderer::eCM_None);
 
 	SetupOrbitalData("Assets/FrontEnd/OrbitalData.xml");
+
+	//Character model view
+	// setup render state
+	pRenderer->SetCullMode(kpgRenderer::eCM_None);
+    pRenderer->GetDevice()->SetRenderState( D3DRS_LIGHTING, FALSE );
+	m_mCharacterView.LookAt(kpuVector(0.0f, 0.9f, 4.0f, 0.0f), kpuVector(0.0f, 0.9f, 0.0f, 0.0f), kpuv_OneY);
 }
 
 GameState_FrontEnd::~GameState_FrontEnd(void)
@@ -199,10 +205,16 @@ void GameState_FrontEnd::Draw()
 	pRenderer->SetViewMatrix(m_pCamera->GetViewMatrix());
 
 	m_pCurrentLevel->Draw(pRenderer);
-	m_pUIManager->Draw(pRenderer);
 
 	if( m_bCharacterCreation )
+	{
+		pRenderer->SetViewMatrix(m_mCharacterView);
 		((kpgModel*)m_plCurrentModel->GetPointer())->Draw();
+	}
+
+	m_pUIManager->Draw(pRenderer);
+
+	
 
 }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PlayerModels>
-	<Model File="Assets/Player/brettsPlayer.dae" />
-	<Model File="Assets/Player/SoilderCamo.dae"/>
-	<Model File="Assets/Player/RonzPlayer.dae"/>
+	<Model File="./Assets/Player/brettsPlayer.dae" />
+	<Model File="./Assets/Player/SoilderCamo.dae"/>
+	<Model File="./Assets/Player/RonzPlayer.dae"/>
 </PlayerModels>

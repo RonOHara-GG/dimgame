@@ -3,6 +3,7 @@
 
 class kpgRenderer;
 class kpgUIWindow;
+class kpgUITextInput;
 class kpuLinkedList;
 enum eInputEventType;
 
@@ -28,6 +29,8 @@ protected:
 	kpgUIWindow*		m_pCurrentWindow;
 	kpgUIWindow*		m_pWinMouseOver;
 	kpuLinkedList*		m_plWindowList;	
+
+	kpgUITextInput*		m_pCurrentInput;
 };
 
 /*Window Hashed Click Events*/
@@ -35,3 +38,4 @@ protected:
 #define CE_NEW_WINDOW	0x40ed18e7	//Move to a new window
 #define CE_SHOW			0x7c8c5c26 //Set a window to visible
 #define CE_CLOSE		0xcf88a3b //Set a window to invisible
+#define CE_SET_INPUT	0x0 //Set the current text input

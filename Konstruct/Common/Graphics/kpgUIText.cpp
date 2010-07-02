@@ -77,6 +77,9 @@ void kpgUIText::Load(TiXmlElement* pNode)
 
 void kpgUIText::SetText(const char* szText)
 {
+	if( m_szText )
+		free(m_szText);
+
 	m_szText = _strdup(szText);
 
 	CalculateTextSize();

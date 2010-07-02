@@ -37,6 +37,7 @@ float4 DefaultPS( VSOutput IN ) : COLOR0
 	
 	// Combine with the vertex color
 	return vTexColor * float4(IN.vColor, 1.0f);
+	
 }
 
 technique DefaultTechnique
