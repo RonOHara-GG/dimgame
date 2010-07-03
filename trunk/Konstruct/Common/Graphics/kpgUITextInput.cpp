@@ -212,10 +212,6 @@ u32 kpgUITextInput::KeyPressEvent(u32 uKey)
 
 				break;
 			}
-
-
-
-
 		}
 	}
 

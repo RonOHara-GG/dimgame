@@ -108,86 +108,95 @@ void kpgUIManager::NewWindow(u32 uHash)
 
 u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
-	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
-
-	kpPoint ptMouse = g_pInputManager->GetMouseLoc();
-	kpgUIWindow::eHitLocation eHit;
-	//Get window
-	kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
-
-	// TODO: Handle this event
-	switch(type)
+	if( m_pCurrentWindow )
 	{
-	case eIET_ButtonClick:
-		{		
-			if( button == KPIM_BUTTON_0 )
-			{	
+		kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 
-				if( pWindow )
-				{
-					//Get the click event
-					switch( pWindow->ClickEvent() )
-					{
-					case CE_NEW_WINDOW:
-						{
-							//Change to a new window
-							NewWindow(pWindow->ClickEffectedWindow());
-							return 0;
-						}	
-					case CE_SET_INPUT:
-						{
-							//Get new text input window
-							if( m_pCurrentInput )
-								m_pCurrentInput->LooseFocus();
+		kpPoint ptMouse = g_pInputManager->GetMouseLoc();
+		kpgUIWindow::eHitLocation eHit;
 
-							m_pCurrentInput = (kpgUITextInput*)pWindow;
-							return 0;
-						}
-					default:
-						return pWindow->ClickEvent();
-					}	
-				}
-				
-			}
-			break;
-		}	
-	case eIET_MouseMove:
+		//Get window
+		kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
+	
+
+		// TODO: Handle this event
+		switch(type)
 		{
-			if( m_pWinMouseOver )
-			{
-				if( m_pWinMouseOver != pWindow )
-				{
-					//Get mouse exit event
-					switch( m_pWinMouseOver->MouseExitEvent() )
+		case eIET_ButtonClick:
+			{		
+				if( button == KPIM_BUTTON_0 )
+				{	
+
+					if( pWindow )
 					{
-					case CE_CLOSE:
+						//Get the click event
+						switch( pWindow->ClickEvent() )
 						{
-							kpgUIWindow* pClosed = m_pCurrentWindow->GetChild(m_pWinMouseOver->CloseTarget());
-							pClosed->SetVisible(false);
+						case CE_NEW_WINDOW:
+							{
+								//Change to a new window
+								NewWindow(pWindow->ClickEffectedWindow());
+								return 0;
+							}	
+						case CE_SET_INPUT:
+							{
+								//Get new text input window
+								if( m_pCurrentInput )
+									m_pCurrentInput->LooseFocus();
+
+								m_pCurrentInput = (kpgUITextInput*)pWindow;
+								return 0;
+							}
+						default:
+							return pWindow->ClickEvent();
+						}	
+					}
+					
+				}
+				break;
+			}	
+		case eIET_MouseMove:
+			{
+				if( m_pWinMouseOver )
+				{
+					if( m_pWinMouseOver != pWindow )
+					{
+						//Get mouse exit event
+						switch( m_pWinMouseOver->MouseExitEvent() )
+						{
+						case CE_CLOSE:
+							{
+								kpgUIWindow* pClosed = m_pCurrentWindow->GetChild(m_pWinMouseOver->CloseTarget());
+
+								if( pClosed )
+									pClosed->SetVisible(false);
+								break;
+							}						
+						}	
+					}
+				}
+
+				m_pWinMouseOver = pWindow;
+
+				if( m_pWinMouseOver )
+				{
+					//Get mouse enter event
+					switch( m_pWinMouseOver->MouseEnterEvent() )
+					{
+					case CE_SHOW:
+						{
+							kpgUIWindow* pOpen = m_pCurrentWindow->GetChild(m_pWinMouseOver->ShowTarget());
+
+							if( pOpen )
+								pOpen->SetVisible(true);
 							break;
 						}						
 					}	
 				}
+
+				return 0;
+				
 			}
-
-			m_pWinMouseOver = pWindow;
-
-			if( m_pWinMouseOver )
-			{
-				//Get mouse enter event
-				switch( m_pWinMouseOver->MouseEnterEvent() )
-				{
-				case CE_SHOW:
-					{
-						kpgUIWindow* pOpen = m_pCurrentWindow->GetChild(m_pWinMouseOver->ShowTarget());
-						pOpen->SetVisible(true);
-						break;
-					}						
-				}	
-			}
-
-			return 0;
-			
 		}
 	}
 	
