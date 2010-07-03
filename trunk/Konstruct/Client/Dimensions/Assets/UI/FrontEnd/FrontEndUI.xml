@@ -14,7 +14,7 @@
 				
 				<Button Type="3" Name="MultiPlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="MultiPlayer" 	>
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MultiPlayerWin" Text="MultiPlayer" 	>
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
@@ -63,12 +63,12 @@
 	<Window Type="0" Name="CharacterCreation" Orientation="1" PositionX="0.5" PositionY="0.5" Width="1" Height="1"
 				Visible="0" HasFrame="0" >	
 				
-				<Text Type="1" Name="NameLabel" Orientation="1" PositionX="0.4" PositionY="0.05"
+				<!-- <Text Type="1" Name="NameLabel" Orientation="1" PositionX="0.4" PositionY="0.05"
 				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Name" /> 
 
 				<TextInput Type="2" Name="PlayerNameInput" Background="./Assets/UI/FrontEnd/UITextInput.dds" Orientation="1"
 				Cursor="./Assets/UI/FrontEnd/Cursor.dds" PositionX="0.5" PositionY="0.05" Width="0.1" Height="0.04"
-				Visible="1" HasFrame="1" ClickEvent="SetCursor" TargetWindow="PlayerNameInput" />	
+				Visible="1" HasFrame="1" ClickEvent="SetInput" TargetWindow="PlayerNameInput" /> -->	
 				
 				<Button Type="3" Name="BrawlerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.15" Width="0.10" Height="0.05"
@@ -136,12 +136,12 @@
 												 hammers. Priests can also heal and use religious
 												 psionics." /> 
 				
-				<Button Type="3" Name="OcculistSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
+				<Button Type="3" Name="OccultistSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectOcculist" MouseEnterEvent="Show" Show="OcculistDetails" 
-				MouseExitEvent="Close" Close="OcculistDetails"  Text="Occulist" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectOccultist" MouseEnterEvent="Show" Show="OccultistDetails" 
+				MouseExitEvent="Close" Close="OccultistDetails"  Text="Occultist" /> 
 				
-				<Button Type="3" Name="OcculistDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
+				<Button Type="3" Name="OccultistDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.65" Width="0.20" Height="0.15"
 				Visible="0" HasFrame="1"   Text="The Occultist is a character skilled in the arts
 												 of offensive psionics." /> 
@@ -177,4 +177,16 @@
 				
 				
 	</Window>
+	<Window Type="0" Name="MultiPlayerWin" Orientation="1" PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
+				Visible="0" HasFrame="0" >
+				
+				<Button Type="3" Name="LoginBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
+				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1"  Text="Login" />
+				
+				<Button Type="3" Name="BackBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Text="Back" 	/>
+	</Window>	
+	
 </Windows>

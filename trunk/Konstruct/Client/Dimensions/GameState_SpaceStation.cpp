@@ -14,7 +14,7 @@ GameState_SpaceStation::GameState_SpaceStation(PlayerCharacter* pPlayer)
 	m_paActors = new kpuArrayList<Actor*>();
 
 	m_paActors->Add(m_pPlayer);
-	m_pCurrentLevel->GenerateEnemies(m_paActors); 
+	//m_pCurrentLevel->GenerateEnemies(m_paActors); 
 }
 
 GameState_SpaceStation::~GameState_SpaceStation(void)

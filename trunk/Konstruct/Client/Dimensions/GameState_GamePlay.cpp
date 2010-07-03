@@ -52,9 +52,8 @@ GameState_GamePlay::GameState_GamePlay(void)
 
 GameState_GamePlay::~GameState_GamePlay(void)
 {
-	delete m_pCurrentLevel;
-	delete m_pPlayer;
-	
+	//delete m_pCurrentLevel;
+		
 	if(m_paActors)
 	{
 		for(int i = 0; i < m_paActors->Count(); i++)
@@ -66,9 +65,7 @@ GameState_GamePlay::~GameState_GamePlay(void)
 		}
 
 		delete m_paActors;
-
-	}
-		
+	}		
 }
 
 void GameState_GamePlay::MouseUpdate(int X, int Y)
@@ -100,8 +97,8 @@ void GameState_GamePlay::ScreenCordsToGameCords(kpuVector& vCords)
 {
 	// Find projected ground point for the screen coordinates
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
-	kpuMatrix mIProj = pRenderer->GetProjectionMatrix();
-	kpuMatrix mIView = pRenderer->GetViewMatrix();	
+	kpuMatrix mIProj = m_mProjection;
+	kpuMatrix mIView = m_pCamera->GetViewMatrix();	
 	kpuVector vRayDir;
 	vRayDir.SetX(-(((2.0f * vCords.GetX()) / pRenderer->GetScreenWidth()) - 1) / mIProj.GetA().GetX());
 	vRayDir.SetY((((2.0f * vCords.GetY()) / pRenderer->GetScreenHeight()) - 1) / mIProj.GetB().GetY());
@@ -113,13 +110,11 @@ void GameState_GamePlay::ScreenCordsToGameCords(kpuVector& vCords)
 	// Project the ray onto the ground plane to find the ground point
 	kpuVector vRayOrigin = mIView.GetD();
 	float fT = -vRayOrigin.GetY() / vRayDir.GetY();
-	kpuVector vGroundPoint = vRayOrigin + (vRayDir * fT);
+	vCords = vRayOrigin + (vRayDir * fT);
 }
 
 void GameState_GamePlay::Update(float fDeltaTime)
 {
-	m_pCamera->Update();
-
 	// Update the UI
 	m_pUIManager->Update();
 
@@ -127,6 +122,8 @@ void GameState_GamePlay::Update(float fDeltaTime)
 	{
 		m_pCamera->SetLookAt(m_pPlayer->GetLocation());
 	}
+
+	m_pCamera->Update();
 
 	if( m_pCurrentLevel )
 		m_pCurrentLevel->Update();
@@ -153,6 +150,7 @@ void GameState_GamePlay::Draw()
 {
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 
+	pRenderer->SetProjectionMatrix(m_mProjection);
 	pRenderer->SetViewMatrix(m_pCamera->GetViewMatrix());
 	pRenderer->SetAmbientLightColor(kpuVector(0.75f, 0.75f, 0.75f, 1.0f));	
 
@@ -181,7 +179,7 @@ void GameState_GamePlay::AddActor(Actor* pActor)
 
 bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 {
-	if( m_pUIManager && m_pUIManager->HandleInputEvent(type, button) )
+	if( m_pUIManager && m_pUIManager->HandleInputEvent(type, button) != IE_NOT_HANDLED )
 		return true;
 
 	bool bHandled = false;

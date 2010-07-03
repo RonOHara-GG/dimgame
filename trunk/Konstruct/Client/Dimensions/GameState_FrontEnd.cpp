@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "GameState_FrontEnd.h"
 #include "GameState_SpaceStation.h"
+#include "GameState_Main.h"
 #include "LoadStructures.h"
 #include "PlayerCharacter.h"
 #include "LevelManager.h"
@@ -12,6 +13,7 @@
 #include "Common\Utility\kpuCameraController.h"
 #include "Common\Utility\kpuFileManager.h"
 #include "Common\Graphics\kpgModel.h"
+#include "PlayerClass.h"
 
 static const u32 s_uHash_Planet =	0xca551fa9;
 static const u32 s_uHash_true =		0x7c9e9fe5;
@@ -45,11 +47,12 @@ GameState_FrontEnd::GameState_FrontEnd(void)
 GameState_FrontEnd::~GameState_FrontEnd(void)
 {
 	delete m_pUIManager;
+	//delete m_pCurrentLevel;
 
 	kpuLinkedList* plNext = m_lPlayerModels.Next();
 	while( plNext )
 	{
-		if( plNext->GetPointer() != m_plCurrentModel )
+		if( plNext->GetPointer() != m_plCurrentModel->GetPointer() )
 		{
 			delete plNext->GetPointer();
 			plNext->SetPointer(0);
@@ -326,7 +329,7 @@ bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)
 	{
 	case CE_ENTER_GAME:
 		{
-			m_pPlayer = new PlayerCharacter((kpgModel*)m_plCurrentModel->GetPointer(), m_szName, m_eStartClass);
+			m_pPlayer = new PlayerCharacter((kpgModel*)m_plCurrentModel->GetPointer(), m_eStartClass);
 			ChangeGameState(new GameState_SpaceStation(m_pPlayer));
 			return true;
 		}
@@ -346,11 +349,51 @@ bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)
 			NextCharacterModel();
 			return true;
 		}
-		case CE_PREVIOUS_PLAYER_MODEL:
+	case CE_PREVIOUS_PLAYER_MODEL:
 		{
 			PreviousCharacterModel();
 			return true;
 		}
+	case CE_SELECT_ARCHER:
+		{
+			m_eStartClass = eCL_Archer;
+			break;
+		}
+	case CE_SELECT_BRAWLER:
+		{
+			m_eStartClass = eCL_Brawler;
+			break;
+		}
+	case CE_SELECT_MEDIC:
+	{
+		m_eStartClass = eCL_Medic;
+		break;
+	}
+	case CE_SELECT_PRIEST:
+	{
+		m_eStartClass = eCL_Priest;
+		break;
+	}
+	case CE_SELECT_ROCKETEER:
+	{
+		m_eStartClass = eCL_Rocketeer;
+		break;
+	}
+	case CE_SELECT_MARKSMAN:
+	{
+		m_eStartClass = eCL_Marksman;
+		break;
+	}
+	case CE_SELECT_OCCULTIST:
+	{
+		m_eStartClass = eCL_Occultist;
+		break;
+	}
+	case CE_SELECT_SWORDSMAN:
+	{
+		m_eStartClass = eCL_Swordsman;
+		break;
+	}
 	case CE_EXIT:
 		{
 			Terminate();
