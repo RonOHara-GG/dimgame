@@ -29,6 +29,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	delete pCollision;
 
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
+	ZeroMemory(m_aInventory, sizeof(m_aInventory));
 
 	m_fBaseSpeed = 10.0f;
 	m_pActiveSkill = 0;
@@ -69,10 +70,9 @@ PlayerCharacter::PlayerCharacter(PlayerLoadStructure &playerData)
 
 }
 
-PlayerCharacter::PlayerCharacter(kpgModel* pModel, char szName[], ePlayerClass eClass)
+PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 {
 	m_pModel = pModel;
-	strcpy_s(m_szName, sizeof(szName), szName);
 
 	kpgModel* pCollision = new kpgModel();
 
@@ -82,6 +82,7 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, char szName[], ePlayerClass e
 	delete pCollision;
 
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
+	ZeroMemory(m_aInventory, sizeof(m_aInventory));
 
 	m_fBaseSpeed = 10.0f;
 	m_pActiveSkill = 0;
@@ -115,8 +116,11 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, char szName[], ePlayerClass e
 
 PlayerCharacter::~PlayerCharacter(void)
 {
-	if(m_aClasses)
-		delete[] &m_aClasses;
+	for(int i = 0; i < NUM_PLAYER_CLASSES; i++)
+	{
+		if( m_aClasses[i] )
+			delete m_aClasses[i];
+	}
 
 	if(m_pSkillCombos)
 		delete m_pSkillCombos;
@@ -127,7 +131,12 @@ PlayerCharacter::~PlayerCharacter(void)
 	delete m_pLightSource;
 	delete m_pEquippedWeapon;
 
-	delete[] &m_aInventory;
+	for(int i = 0; i < INVENTORY_SIZE; i++)
+	{
+		if( m_aInventory[i] )
+			delete m_aInventory[i];	
+
+	}
 }
 
 bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass, float fExpPercent)

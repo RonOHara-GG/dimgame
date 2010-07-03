@@ -196,7 +196,7 @@
   </library_effects>
   <library_images>
     <image id="file4" name="file4">
-      <init_from>./UI/FrontEnd/Background/Textures/UranusRings.png</init_from>
+      <init_from>./FrontEnd/Background/Textures/UranusRings.png</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>

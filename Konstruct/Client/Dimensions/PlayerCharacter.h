@@ -21,6 +21,7 @@ class PlayerPet;
 
 
 #define INVENTORY_SIZE 10
+#define NUM_PLAYER_CLASSES 8
 
 #define ATTRIBUTE_POINTS_PER_LEVEL 5
 #define EXP_EXPONENT 3.75
@@ -36,7 +37,7 @@ class PlayerCharacter:public Actor
 {
 public:
 	PlayerCharacter(void);
-	PlayerCharacter(kpgModel* pModel, char szName[], ePlayerClass eClass);
+	PlayerCharacter(kpgModel* pModel, ePlayerClass eClass);
 	PlayerCharacter(PlayerLoadStructure& playerData);
 	~PlayerCharacter(void);
 
@@ -105,7 +106,6 @@ protected:
 	void LevelUp(); //Handles distirbution of skill and attribute points when a class reaches a new level
 	void UpdateSkills(float fGameTime);
 
-	char						m_szName[MAX_NAME];
 	//Leveling up stuff
 	int							m_iAttribPoints;	
 	int							m_iSkillPoints;
@@ -116,7 +116,7 @@ protected:
 	Weapon*						m_pSecondaryWeapon;
 	Item*						m_aInventory[INVENTORY_SIZE];
 
-	PlayerClass*				m_aClasses[8];
+	PlayerClass*				m_aClasses[NUM_PLAYER_CLASSES];
 
 	Skill*						m_pActiveSkill; //The skill currently being cast/used
 	kpuArrayList<SkillCombo*>*	m_pSkillCombos; //List of combos created

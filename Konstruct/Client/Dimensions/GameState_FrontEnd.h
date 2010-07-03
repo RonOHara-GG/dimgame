@@ -67,7 +67,6 @@ protected:
 	kpuLinkedList			m_lPlayerModels;
 	kpuLinkedList*			m_plCurrentModel;
 
-	char					m_szName[MAX_NAME];
 	ePlayerClass			m_eStartClass;
 };
 
@@ -79,12 +78,12 @@ protected:
 #define CE_LOAD_MOST_RECENT				0x34d4e6c9	//Load most recent save
 #define CE_NEXT_PLAYER_MODEL			0xBa1a75a2
 #define CE_PREVIOUS_PLAYER_MODEL		0x99124100
-#define CE_SELECT_BRAWLER				0x0
-#define CE_SELECT_ARCHER				0x0
-#define CE_SELECT_MEDIC					0x0
-#define CE_SELECT_PRIEST				0x0
-#define CE_SELECT_ROCKETEER				0x0
-#define CE_SELECT_SWORDSMAN				0x0
-#define CE_SELECT_OCCULIST				0x0
-#define CE_SELECT_MARKSMAN				0x0
+#define CE_SELECT_BRAWLER				0x57994854
+#define CE_SELECT_ARCHER				0x5d6a831a
+#define CE_SELECT_MEDIC					0xf422d727
+#define CE_SELECT_PRIEST				0x806b23dc
+#define CE_SELECT_ROCKETEER				0xa38e3509
+#define CE_SELECT_SWORDSMAN				0x2615bf23
+#define CE_SELECT_OCCULTIST				0x4ad53c1f
+#define CE_SELECT_MARKSMAN				0x7bcaf33f
 

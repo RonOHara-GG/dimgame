@@ -9,7 +9,7 @@ GameState_Main::GameState_Main(PlayerCharacter* pPlayer, eLevelID eLID)
 {
 	LevelManager* pLevelManager = LevelManager::GetInstance();
 	m_pCurrentLevel = pLevelManager->LoadLevel(eLID);
-	m_pPlayer = pPlayer;
+	m_pPlayer = new PlayerCharacter();
 	m_pCurrentLevel->GetQuadTree()->Add(m_pPlayer);
 	m_paActors = new kpuArrayList<Actor*>();
 

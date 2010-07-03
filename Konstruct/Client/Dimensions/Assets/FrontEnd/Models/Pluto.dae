@@ -138,7 +138,7 @@
   </library_effects>
   <library_images>
     <image id="file1" name="file1">
-      <init_from>./UI/FrontEnd/Background/Textures/plutomap1k.jpg</init_from>
+      <init_from>./FrontEnd/Background/Textures/plutomap1k.jpg</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>
