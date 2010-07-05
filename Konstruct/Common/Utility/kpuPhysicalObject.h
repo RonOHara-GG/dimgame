@@ -51,8 +51,5 @@ protected:
 
 	kpuQuadTree*						m_pCurrentNode;
 
-	u32									m_nFlags;
-
-	
-	
+	u32									m_nFlags;	
 };

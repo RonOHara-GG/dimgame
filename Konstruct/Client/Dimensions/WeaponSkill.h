@@ -16,7 +16,7 @@ public:
 	float GetRangeBonus() { return m_fRangeBonus; }
 	float GetRecoveryBonus() { return m_fRecoveryBonus; }
 	float GetSpeedBonus() { return m_fSpeedBonus; }
-	Weapon::eWeaponType GetUsage() { return m_eWeaponType; }
+	eWeaponType GetUsage() { return m_eWeaponType; }
 
 protected:
 	int					m_iDamageBonus;
@@ -25,7 +25,7 @@ protected:
 	float				m_fSpeedBonus;	
 
 	//data that needs to be loaded
-	Weapon::eWeaponType	m_eWeaponType;
+	eWeaponType	m_eWeaponType;
 	float				m_fRangeMod;
 	float				m_fRecoveryMod;
 	float				m_fSpeedMod;

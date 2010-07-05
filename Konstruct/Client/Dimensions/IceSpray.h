@@ -8,15 +8,14 @@ public:
 	IceSpray(void);
 	~IceSpray(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	float		m_fMaxCosSqrd;
+	int			GetRange() { return  m_iMinRange + m_iSkillRank /m_iRangeMod; }
+
 	float		m_fArcMod;
-	float		m_fRangeMod;
-	float		m_fMinRange;
-	float		m_iResistStr;
-	float		m_fMinResist;
-	float		m_iResistMod;
+	int			m_iRangeMod;
+	int			m_iMinRange;
+	int			m_iMinResist;
+	int			m_iResistMod;
 };

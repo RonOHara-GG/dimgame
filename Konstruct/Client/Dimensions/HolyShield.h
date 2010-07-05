@@ -9,11 +9,12 @@ public:
 	~HolyShield(void);
 
 	bool Activate(PlayerCharacter* pSkillOwner);
-	//bool Deactivate();
-	//SpreadableBuff* CopyBuff();
 
 protected:
-	float	m_iDamageReduction;
+	SpreadableBuff* GetBuff(Actor* pSpreadee);
+
+	int		m_iDamageReduction;
 	float	m_fRadiusMod;
 	float	m_fMinRadius;
+	
 };

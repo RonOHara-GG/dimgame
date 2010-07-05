@@ -6,6 +6,7 @@ class SpreadableBuff :
 {
 public:
 	SpreadableBuff(PlayerCharacter* pSource);
+	SpreadableBuff(void);
 	virtual ~SpreadableBuff(void);
 
 	virtual void			Tick(PlayerCharacter* pTarget) { }
@@ -15,6 +16,9 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);	
 
 protected:
+	virtual SpreadableBuff*     GetBuff(Actor* pSpreadee) { return new SpreadableBuff(m_pSource); }
+
 	float				m_fRadius;
 	PlayerCharacter*	m_pSource;
+	Actor*				m_pInfected;
 };

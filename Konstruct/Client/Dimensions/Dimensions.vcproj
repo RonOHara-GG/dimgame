@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HolyShieldBuff.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Level.cpp"
 				>
 			</File>
@@ -605,6 +609,10 @@
 			</File>
 			<File
 				RelativePath=".\Grid.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HolyShieldBuff.h"
 				>
 			</File>
 			<File

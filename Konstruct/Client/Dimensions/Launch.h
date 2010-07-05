@@ -2,6 +2,8 @@
 #include "skill.h"
 #include "Common/Utility/kpuVector.h"
 
+class Weapon;
+
 class Launch :
 	public Skill
 {
@@ -9,10 +11,11 @@ public:
 	Launch(void);
 	~Launch(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
-	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
+	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);	
 
 protected:
+	int	GetRange(Actor* p1);
+
 	enum LauncherType
 	{
 		eLT_RPG,
@@ -23,9 +26,8 @@ protected:
 
 	kpuVector		m_vSource;
 	Actor*			m_pTarget;
-	int				m_iDamage;
 	DamageType		m_eDamageType;
-	float			m_fRange;
+	Weapon*			m_pEquipped;
 
 	//--Loaded Data--
 	float				m_fDamageMod;

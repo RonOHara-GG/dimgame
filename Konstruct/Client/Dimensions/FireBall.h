@@ -8,16 +8,15 @@ public:
 	FireBall(void);
 	~FireBall(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	float		m_fRadius;
+	int			GetRange() { return m_iMinRange + m_iSkillRank; }
+	
 	float		m_fRadiusMod;
-	int			m_iResistStr;
-	float		m_fResistMod;
+	int			m_iResistMod;
 
-	float		m_fMinRange;
+	int			m_iMinRange;
 	float		m_fMinRadius;
 	int			m_iMinResist;
 };

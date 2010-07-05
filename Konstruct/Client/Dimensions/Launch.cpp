@@ -12,50 +12,17 @@ Launch::~Launch(void)
 {
 }
 
-bool Launch::Activate(PlayerCharacter *pSkillOwner)
+int Launch::GetRange(Actor* p1)
 {
-	if( m_bReady )
-	{
-		Weapon* pEquipped = 0;
-		
-		switch(m_eLauncherType)
-		{
-		case eLT_RPG:
-			{
-				pEquipped = pSkillOwner->GetEquippedWeapon();
-				break;
-			}
-		default:
-			{
-				pEquipped = pSkillOwner->GetSecondaryWeapon();
-				break;
-			}
-		}
+	if( !m_pEquipped )
+		return 0;
 
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
-
-	    m_fRange = pEquipped->GetRange() + (m_iSkillRank / m_iRangeMod);
-		m_iDamage = pEquipped->GetDamage() + (iRankMultiple * m_iSkillRank);
-		m_fSpeed = pEquipped->GetSpeed();
-		m_fRecovery = pEquipped->GetRecovery();
-
-		m_bExecuted = false;
-		m_bReady = false;
-		m_fElaspedSinceCast = 0.0f;
-		m_pTarget = 0;
-
-		pSkillOwner->SetActiveSkill(this);
-		return true;
-	}
-
-	return false;
+	return m_pEquipped->GetRange() + (m_iSkillRank / m_iRangeMod);
 }
 
 bool Launch::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	//Get target from input
-
-	
+	//Get target from input	
 
 	if( m_pTarget )
 	{
@@ -63,11 +30,18 @@ bool Launch::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		if( m_fElaspedSinceCast >= m_fSpeed )
 		{
+			int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
+
+			int iRange = GetRange(0);
+			int iDamage = m_pEquipped->GetDamage() + (iRankMultiple * m_iSkillRank);
+			
+			m_fRecovery = m_pEquipped->GetRecovery();
+
 			//send projectile at target
 			kpuVector vDir = m_pTarget->GetLocation() - m_vSource;
 			vDir.Normalize();
 
-			Projectile* pMissile = new Projectile(Projectile::ePT_Missile, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, m_vSource, vDir);
+			Projectile* pMissile = new Projectile(Projectile::ePT_Missile, iDamage, iRange, m_eDamageType, pSkillOwner, m_vSource, vDir);
 			g_pGameState->AddActor(pMissile);
 			return false;
 		}

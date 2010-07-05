@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "Teleport.h"
 #include "PlayerCharacter.h"
+#include "level.h"
+#include "grid.h"
 
 Teleport::Teleport(void)
 {
@@ -12,18 +14,35 @@ Teleport::~Teleport(void)
 
 bool Teleport::Activate(PlayerCharacter* pSkillOwner)
 {
-	if(m_bReady)
+	if( m_bReady )
 	{
 		m_fElaspedSinceCast = 0.0f;
 		
-		m_fRange = m_fMinRange + m_iSkillRank;		
+		//if actor is selected select him and wait for destination
+		//if not move the skill owner to the desitanion tile
+
+		if( VaildTarget(pSkillOwner) )
+		{
+			m_pTarget = pSkillOwner->GetTarget();
+			m_iDestinationTile = -1;
+		}
+		else
+		{
+			m_pTarget = pSkillOwner;
+			m_iDestinationTile = GetTargetTile();
+
+			//see if target move is in range
+			if( !InRange(pSkillOwner, m_iDestinationTile, GetRange()) )
+				return false;
+
+			//start animation
+
+		}				
 
 		pSkillOwner->SetActiveSkill(this);
 		
 		m_bReady = false;
 		m_bExecuted = false;	
-		m_bTargetSelected = false;
-		m_pTarget = pSkillOwner;
 		
 		return true;		
 	}
@@ -33,29 +52,25 @@ bool Teleport::Activate(PlayerCharacter* pSkillOwner)
 
 bool Teleport::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
-	//check input and see if mouse was clicked
-
-	//if left mouse clicked then target selected and get the target	
-
-	//if right mouse clicked then cancel skill
-	//return false;
-
-
-	if( m_bTargetSelected )
+	if( m_iDestinationTile > -1 )
 	{
 		m_fElaspedSinceCast += fDeltaTime;		
 
 		if( m_fElaspedSinceCast >= m_fSpeed )
 		{
-			kpuVector vVelocity = m_vTarget - m_pTarget->GetLocation();
+			//move target to desination
+			kpuVector vLoc = kpuv_Zero;
+			g_pGameState->GetLevel()->GetGrid()->GetTileLocation(m_iDestinationTile, vLoc);
 
-			m_pTarget->Move(vVelocity);
+			m_pTarget->SetLocation(vLoc);			
 
 			m_bExecuted = true;
 			return false;		
 			
 		}
 	}
+	//get location to move target if not skill owner
+	
 
 	return true;
 }

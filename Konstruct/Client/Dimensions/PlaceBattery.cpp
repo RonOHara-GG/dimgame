@@ -2,8 +2,6 @@
 #include "PlaceBattery.h"
 #include "PlayerCharacter.h"
 
-#define MAX_SPEED 50
-
 PlaceBattery::PlaceBattery(void)
 {
 }
@@ -16,9 +14,15 @@ bool PlaceBattery::Activate(PlayerCharacter* pSkillOwner)
 {
 	if( m_bReady )
 	{
-		m_fSpeed = MAX_SPEED - (m_fSpeedMod * m_iSkillRank);
 		m_fElaspedSinceCast = 0.0f;
-		m_iTargetTile = -1;
+
+		//Get the target tile that it will be placed
+		m_iTargetTile = GetTargetTile();
+
+		//make sure tile is in range
+		if( !InRange(pSkillOwner, m_iTargetTile, GetRange()) )
+			return false;
+		
 		pSkillOwner->SetActiveSkill(this);
 		return true;
 	}
@@ -27,22 +31,16 @@ bool PlaceBattery::Activate(PlayerCharacter* pSkillOwner)
 
 bool PlaceBattery::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	//get location to place battery
-
-	if( m_iTargetTile > -1 )
+	//place battery according to animation
+	if( true )
 	{
+		//place battery			
+		pSkillOwner->EquipSecondary(new MissileBattery(pSkillOwner, 1, m_eBatteryType));		
 
-		m_fElaspedSinceCast += fDeltaTime;
+		return false;
 
-		if( m_fElaspedSinceCast >= m_fSpeed )
-		{
-			//place battery			
-			pSkillOwner->EquipSecondary(new MissileBattery(pSkillOwner, 1, m_eBatteryType));		
-
-			return false;
-
-		}
 	}
+	
 
 	return true;
 }

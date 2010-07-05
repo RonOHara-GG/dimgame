@@ -13,11 +13,16 @@ LightningBolt::~LightningBolt(void)
 
 bool LightningBolt::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if( m_fElaspedSinceCast >= m_fSpeed )
+	//Go on animation
+	if( true )
 	{
-		Projectile* pBolt= new LightningProjectile(m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), m_fMinArcChance + m_iSkillRank, m_iResistStr);
+		float fRadius = m_fMinRadius + (m_iSkillRank / m_fRadiusMod);
+		
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iDamage = iRankMultiple * m_iSkillRank;
+		int iResistStr = m_iMinResist + m_iSkillRank * m_iResistMod;
+
+		Projectile* pBolt= new LightningProjectile(iDamage, GetRange(), m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading(), m_fMinArcChance + m_iSkillRank, iResistStr);
 		g_pGameState->AddActor(pBolt);
 
 		m_bExecuted = true;

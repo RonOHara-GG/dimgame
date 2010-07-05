@@ -17,40 +17,24 @@ IceSpray::~IceSpray(void)
 {
 }
 
-bool IceSpray::Activate(PlayerCharacter *pSkillOwner)
-{
-	if( m_bReady )
-	{
-		m_fRange = m_fMinRange + m_iSkillRank /m_fRangeMod;
-		m_fMaxCosSqrd = cos(MIN_ARC + (m_iSkillRank * m_fArcMod));
-
-		m_fMaxCosSqrd *= m_fMaxCosSqrd;
-		
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_iDamage = iRankMultiple * m_iSkillRank;
-		m_iResistStr = m_fMinResist + m_iSkillRank * m_iResistMod;
-
-		m_fElaspedSinceCast = 0.0f;
-		m_bReady = false;
-		m_bExecuted = false;
-
-		pSkillOwner->SetActiveSkill(this);
-		return true;
-	}
-
-	return false;
-}
-
 bool IceSpray::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
-	m_fElaspedSinceCast += fDeltaTime;
-
-	if( m_fElaspedSinceCast >= m_fSpeed )
+	
+	if( true )
 	{
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iDamage = iRankMultiple * m_iSkillRank;
+		int iResistStr = m_iMinResist + m_iSkillRank * m_iResistMod;
+
 		//spray some ice
 		//get all actors in range
 		//find the enemies in the arc
-		kpuBoundingSphere sphere(m_fRange, pSkillOwner->GetLocation());
+		float fHalfTheta = MIN_ARC + (m_iSkillRank * m_fArcMod);
+		fHalfTheta *= 0.5f;
+
+		
+		//possible add bounding cone
+		kpuBoundingSphere sphere(GetRange(), pSkillOwner->GetLocation());
 		kpuArrayList<kpuCollisionData> collidedObjects;
 
 		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);
@@ -62,20 +46,26 @@ bool IceSpray::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			//get distance to the object
 			kpuVector vDir = pNext->m_pObject->GetLocation() - pSkillOwner->GetLocation();
 			vDir.Normalize();
+			
+			float fBeta = atan2(vDir.GetX(), vDir.GetZ());		
+			
 
-			float fCos = vDir.Dot(pSkillOwner->GetHeading());
-			fCos *= fCos;
+			if( fBeta <= fHalfTheta || fBeta >= PI * 2 - fHalfTheta )
+			{
+				if( pNext->m_pObject->HasFlag(ENEMY) )
+				{
+					Actor* pTarget = (Actor*)pNext->m_pObject;
 
-			if( fCos <= m_fMaxCosSqrd )
-			{		
-				pNext->m_pObject->AreaEffect(pSkillOwner->GetLocation(), m_fRange, &m_iDamage, this);
+					if( pTarget->InLineOfSight(pSkillOwner, GetRange()) )
+						pTarget->TakeDamage(iDamage, m_eDamageType, iResistStr);
+				}
 			}
 		}
 		
 
 		m_bExecuted = true;
-		return true;
+		return false;
 	}
 
-	return false;
+	return true;
 }

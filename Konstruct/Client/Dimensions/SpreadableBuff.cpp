@@ -12,6 +12,13 @@ SpreadableBuff::SpreadableBuff(PlayerCharacter* pSource)
 	m_pSource = pSource;
 	m_fElaspedSinceCast = 0.0f;
 	m_fSpeed = 1.0f;
+	m_pInfected = 0;
+
+	Activate(pSource);
+}
+
+SpreadableBuff::SpreadableBuff(void)
+{
 }
 
 SpreadableBuff::~SpreadableBuff(void)
@@ -46,8 +53,8 @@ bool SpreadableBuff::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 				
 				if( pTarget->InLineOfSight(pSkillOwner, m_fRadius * 2) )
 				{
-					this->Activate(pTarget);
-					pTarget->AddPersistentSkill(this);									
+					SpreadableBuff* pCopy = GetBuff(pTarget);
+					pTarget->AddPersistentSkill(pCopy);										
 				}				
 			}
 		}
