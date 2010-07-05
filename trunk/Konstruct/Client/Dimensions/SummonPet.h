@@ -8,11 +8,11 @@ public:
 	SummonPet(void);
 	~SummonPet(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int		m_iRange;
+	int	GetRange() { return m_iMinRange + (m_iSkillRank / m_iRangeMod); }
+
 	int		m_iRangeMod;
 	int		m_iMinRange;
 };

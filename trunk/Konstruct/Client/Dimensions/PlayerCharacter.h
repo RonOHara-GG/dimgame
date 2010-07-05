@@ -69,7 +69,7 @@ public:
 	bool EquipArmor(Armor* armor);
 	bool UnequipArmor();
 
-	WeaponSkill* GetWeaponSkill(Weapon::eWeaponType eType);
+	WeaponSkill* GetWeaponSkill(eWeaponType eType);
 	void AddWeaponSkill(WeaponSkill* pSkill);
 
 	void AddPet(PlayerPet* pPet);

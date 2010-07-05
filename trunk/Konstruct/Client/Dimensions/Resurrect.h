@@ -8,15 +8,11 @@ public:
 	Resurrect(void);
 	~Resurrect(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 protected:
-	int				m_iRange;
+	int				GetRange(Actor* p1) { return m_iMinRange + (m_iSkillRank / m_iRangeMod); }
+
 	int				m_iRangeMod;
 	int				m_iMinRange;
-	int				m_iHeal;
-	int				m_iHealMod;
-
-	PlayerCharacter* m_pTarget;
-	
+	int				m_iHealMod;	
 };

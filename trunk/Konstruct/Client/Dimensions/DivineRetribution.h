@@ -5,7 +5,8 @@ class DivineRetribution :
 	public SpreadableBuff
 {
 public:
-	DivineRetribution(PlayerCharacter* pSource, PlayerCharacter* pSpreadTo);
+	DivineRetribution(PlayerCharacter* pSource, PlayerCharacter* pSpreadTo, float fRadius);
+	DivineRetribution(void);
 	~DivineRetribution(void);
 
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);

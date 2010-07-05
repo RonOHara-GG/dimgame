@@ -8,14 +8,15 @@ public:
 	TakeLife(void);
 	~TakeLife(void);
 	
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
+	int GetRange() { return m_iMinRange + m_iSkillRank /  m_iRangeMod; }
+
 	int		m_iRangeMod;
 	int		m_iResistStr;
 	float	m_fResistMod;	
-	float	m_fMinRange;
+	int		m_iMinRange;
 	int		m_iMinResist;
 	Actor*  m_pTarget;
 };

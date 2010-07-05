@@ -219,15 +219,25 @@ bool Grid::TileWalkable(int iTile)
 
 int Grid::Distance(Actor* pActor1, Actor* pActor2)
 {
-	int iTile = GetTileAtLocation(pActor1->GetLocation());
-	kpuVector v1;
-	GetTileLocation(iTile, v1);
-
-	iTile = GetTileAtLocation(pActor2->GetLocation());
-	kpuVector v2;
-	GetTileLocation(iTile, v2);
-
-	return  (int)sqrt(kpuVector::DistanceSquared(v1, v2));
+	return (int)sqrt((float)DistanceSquared(pActor1, pActor2));
 }
 
+int Grid::DistanceSquared(Actor *pActor1, Actor *pActor2)
+{
+	int iTile1 = GetTileAtLocation(pActor1->GetLocation());
+	int iTile2 = GetTileAtLocation(pActor2->GetLocation());
+
+	return DistanceSquared(iTile1, iTile2);	
+}
+
+int Grid::DistanceSquared(int iTile1, int iTile2)
+{
+	kpuVector v1;
+	GetTileLocation(iTile1, v1);
+	
+	kpuVector v2;
+	GetTileLocation(iTile2, v2);
+
+	return (int)kpuVector::DistanceSquared(v1, v2);
+}
 

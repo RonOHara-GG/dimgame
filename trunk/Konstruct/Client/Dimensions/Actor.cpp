@@ -245,65 +245,68 @@ bool Actor::BuildPathToDestination()
 
 bool Actor::TakeDamage(int iDamage, DamageType eDmgType, int iResistStr)
 {
+	/*if( iResistStr < GetResist(eDamageType) )
+		return false;*/
+
 	switch(eDmgType)
 	{
 	case eDT_Acid:
 		{
-			iDamage -= m_iAcidRes + iResistStr;
+			iDamage -= m_iAcidRes - iResistStr;
 			break;
 		}
 	case eDT_Cold:
 		{
-			iDamage -= m_iColdRes + iResistStr;
+			iDamage -= m_iColdRes - iResistStr;
 		}
 	case eDT_Crushing:
 		{
-			iDamage -= m_iCrushRes + iResistStr;
+			iDamage -= m_iCrushRes - iResistStr;
 			break;
 		}
 	case eDT_Death:
 		{
-			iDamage -= m_iDeathRes+ iResistStr;
+			iDamage -= m_iDeathRes - iResistStr;
 			break;
 		}
 	case eDT_Electrical:
 		{
-			iDamage -= m_iElectRes+ iResistStr;
+			iDamage -= m_iElectRes - iResistStr;
 			break;
 		}
 	case eDT_Heat:
 		{
-			iDamage -= m_iHeatRes+ iResistStr;
+			iDamage -= m_iHeatRes - iResistStr;
 			break;
 		}
 	case eDT_Holy:
 		{
-			iDamage -= m_iHolyRes+ iResistStr;
+			iDamage -= m_iHolyRes - iResistStr;
 			break;
 		}
 	case eDT_Mental:
 		{
-			iDamage -= m_iMentalRes+ iResistStr;
+			iDamage -= m_iMentalRes - iResistStr;
 			break;
 		}
 	case eDT_Piercing:
 		{
-			iDamage -= m_iPierceRes+ iResistStr;
+			iDamage -= m_iPierceRes - iResistStr;
 			break;
 		}
 	case eDT_Slashing:
 		{
-			iDamage -= m_iSlashRes+ iResistStr;
+			iDamage -= m_iSlashRes - iResistStr;
 			break;
 		}
 	case eDT_Viral:
 		{
-			iDamage -= m_iViralRes+ iResistStr;
+			iDamage -= m_iViralRes - iResistStr;
 			break;
 		}
 	case eDT_Water:
 		{
-			iDamage -= m_iWaterRes+ iResistStr;
+			iDamage -= m_iWaterRes - iResistStr;
 			break;
 		}
 	}

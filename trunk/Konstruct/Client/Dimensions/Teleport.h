@@ -13,9 +13,8 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	PlayerCharacter*	m_pTarget;
-	kpuVector			m_vTarget;
-	bool				m_bTargetSelected;
-	float				m_fRange;
-	float				m_fMinRange;
+	int	GetRange() { return m_iMinRange + m_iSkillRank;	}
+
+	int					m_iDestinationTile;
+	int					m_iMinRange;
 };

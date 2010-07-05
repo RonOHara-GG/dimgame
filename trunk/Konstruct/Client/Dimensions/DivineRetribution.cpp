@@ -9,10 +9,15 @@
 #include "Common/utility/kpuBoundingSphere.h"
 
 
-DivineRetribution::DivineRetribution(PlayerCharacter* pSource, PlayerCharacter* pSpreadTo):
+DivineRetribution::DivineRetribution(PlayerCharacter* pSource, PlayerCharacter* pSpreadTo, float fRadius):
 	SpreadableBuff(pSource)
 {
 	m_pSpreadTo = pSpreadTo;
+	m_fRadius = fRadius;
+}
+
+DivineRetribution::DivineRetribution(void)
+{
 }
 
 DivineRetribution::~DivineRetribution(void)
@@ -54,8 +59,8 @@ bool DivineRetribution::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 			
 			if( pTarget->InLineOfSight(pSkillOwner, m_fRadius * 2) )
 			{
-				Activate(pTarget);
-				pTarget->AddPersistentSkill(this);									
+				DivineRetribution* pCopy = new DivineRetribution(m_pSource, pTarget, m_fRadius);
+				pTarget->AddPersistentSkill(pCopy);									
 			}				
 		}
 		else if( pNext->m_pObject->HasFlag(ENEMY) )

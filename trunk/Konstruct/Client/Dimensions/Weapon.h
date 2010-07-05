@@ -6,6 +6,24 @@
 class Actor;
 class WeaponSkill;
 
+enum eWeaponType
+{
+	eWT_Pistol,
+	eWT_Rifle,
+	eWT_AssultRifle,
+	eWT_ShortBowm,
+	eWT_LongBow,
+	eWT_CompoundBow,
+	eWT_CrossBow,
+	eWT_Ballista,
+	eWT_RPG,
+	eWT_SeekerMissle,
+	eWT_CruiseMissle,
+	eWT_BallisticMissle,
+	eWT_Hammer,
+	eWT_Staff
+};
+
 class Weapon: public Equippable
 {
 public:
@@ -20,6 +38,7 @@ public:
 	float GetRecovery();
 
 	_DamageType GetDamageType() { return m_eDamageType; }
+	eWeaponType GetType() { return m_eWeaponType; }
 
 	bool IsReady() { return m_bReady; }
 	void SetReady(bool bReady) { m_bReady = bReady; }
@@ -27,23 +46,7 @@ public:
 	void Equipped(WeaponSkill* pSkill) { m_pWeaponSkill = pSkill; }
 	void Unequipped() { m_pWeaponSkill = 0; }
 
-	enum eWeaponType
-	{
-		eWT_Pistol,
-		eWT_Rifle,
-		eWT_AssultRifle,
-		eWT_ShortBowm,
-		eWT_LongBow,
-		eWT_CompoundBow,
-		eWT_CrossBow,
-		eWT_Ballista,
-		eWT_RPG,
-		eWT_SeekerMissle,
-		eWT_CruiseMissle,
-		eWT_BallisticMissle,
-		eWT_Hammer,
-		eWT_Staff
-	};
+	
 
 protected:
 
@@ -53,6 +56,7 @@ protected:
 	float			m_fElaspedRecov;
 	float			m_fSpeed;
 	DamageType		m_eDamageType;
+	eWeaponType		m_eWeaponType;
 	bool			m_bReady;			//True if weapon is recovered and ready to use
 	
 	WeaponSkill*	m_pWeaponSkill;

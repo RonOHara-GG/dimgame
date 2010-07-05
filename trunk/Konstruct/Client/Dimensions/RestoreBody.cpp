@@ -15,26 +15,6 @@ RestoreBody::~RestoreBody(void)
 {
 }
 
-bool RestoreBody::Activate(PlayerCharacter *pSkillOwner)
-{
-	if( m_bReady )
-	{
-		m_fRadius = m_fMinRadius + m_iSkillRank * m_fRadiusMod;
-		
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_iHeal = iRankMultiple * m_iSkillRank;
-		
-		m_fElaspedSinceCast = 0.0f;
-		m_bReady = false;
-		m_bExecuted = false;
-
-		pSkillOwner->SetActiveSkill(this);
-		return true;
-	}
-
-	return false;
-}
-
 bool RestoreBody::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
 	m_fElaspedSinceCast += fDeltaTime;
@@ -42,9 +22,13 @@ bool RestoreBody::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	if( m_fElaspedSinceCast >= m_fSpeed )
 	{
 		m_bExecuted = true;
+		float fRadius = m_fMinRadius + m_iSkillRank * m_fRadiusMod;
+		
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iHeal = iRankMultiple * m_iSkillRank;
 
 		//get all actors in range
-		kpuBoundingSphere sphere(m_fRadius, pSkillOwner->GetLocation());
+		kpuBoundingSphere sphere(fRadius, pSkillOwner->GetLocation());
 		kpuArrayList<kpuCollisionData> collidedObjects;
 
 		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);
@@ -53,8 +37,17 @@ bool RestoreBody::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 		{
 			kpuCollisionData* pNext = &collidedObjects[i];
 
-			//heal the target somehow
-			//pNext->m_pObject->AreaEffect(vTarget, m_fRadius, &m_fHeal, this);
+			//heal the target
+			if( pNext->m_pObject->HasFlag(PLAYER) )
+			{
+				PlayerCharacter* pPlayer = (PlayerCharacter*)pNext->m_pObject;
+
+				//check line of sight
+				if( pPlayer->InLineOfSight(pSkillOwner, fRadius) )
+					pPlayer->Heal(iHeal);
+			}
+
+				
 		}
 
 		return true;

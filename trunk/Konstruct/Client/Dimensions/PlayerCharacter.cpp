@@ -498,7 +498,7 @@ bool PlayerCharacter::EquipSecondary(Weapon* weapon)
 }
 
 
-WeaponSkill* PlayerCharacter::GetWeaponSkill(Weapon::eWeaponType eType)
+WeaponSkill* PlayerCharacter::GetWeaponSkill(eWeaponType eType)
 {
 	kpuLinkedList* pNext = m_pWeaponSkills->Next();
 
