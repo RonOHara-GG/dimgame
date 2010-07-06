@@ -7,5 +7,5 @@
 [NPC_AmySparks Major Amy Sparks] - Army Research Lab Liason<br/>
 [NPC_ChuckAston Private Chuck Aston] - Army Nutritionist<br/>
 [NPC_Seer Psychic/Seer] - Person who can see the future<br/>
-[NPC_Professor Professor} - Expert on extra planar beings and inter-dimensional phenomenon<br/>
+[NPC_Professor Professor] - Expert on extra planar beings and inter-dimensional phenomenon<br/>
 [NPC_Janitor Janitor] - Cleans the space station and overhears things<br/>
