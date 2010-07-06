@@ -957,30 +957,114 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="Assets"
 			>
 			<File
-				RelativePath=".\Dimensions.ico"
+				RelativePath=".\Assets\Levels.xml"
 				>
 			</File>
-			<File
-				RelativePath=".\Dimensions.rc"
+			<Filter
+				Name="FrontEnd"
 				>
-			</File>
-			<File
-				RelativePath=".\small.ico"
+				<File
+					RelativePath=".\Assets\FrontEnd\OrbitalData.xml"
+					>
+				</File>
+				<File
+					RelativePath=".\Assets\FrontEnd\SolarSystem.xml"
+					>
+				</File>
+				<Filter
+					Name="Models"
+					>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Earth.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Jupiter.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Mars.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Mercury.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Moon.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Neptune.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Pluto.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Saturn.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\SpaceStationOutside.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\StarSphere.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Sun.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Uranus.dae"
+						>
+					</File>
+					<File
+						RelativePath=".\Assets\FrontEnd\Models\Venus.dae"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="SpaceStation"
 				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Levels"
-			>
-			<File
-				RelativePath=".\Assets\SpaceStation\SpaceStation.xml"
+				<File
+					RelativePath=".\Assets\SpaceStation\SpaceStation.xml"
+					>
+				</File>
+				<Filter
+					Name="Models"
+					>
+					<File
+						RelativePath=".\Assets\SpaceStation\Models\SpaceStation.dae"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Resource Files"
+				Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+				UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 				>
-			</File>
+				<File
+					RelativePath=".\Dimensions.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\Dimensions.rc"
+					>
+				</File>
+				<File
+					RelativePath=".\small.ico"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
