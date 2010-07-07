@@ -13,9 +13,11 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
+	int		GetRange();
+	float	GetSpeed();
+
 	int		m_iShotCount;
 	int		m_iShotMax;
 	int		m_iShotMultiple;
-	float	m_fSpeedMultiple;
 	float	m_fPlayersSpeed;
 };

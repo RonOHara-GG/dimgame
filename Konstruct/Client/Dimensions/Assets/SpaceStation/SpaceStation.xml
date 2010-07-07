@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Level Name="Terra Research Lab" Width="150" Height="130">
-  <Meshes Count="1">
-   <!-- <Mesh Name="SpaceStation">
+  <Meshes Count="2">
+   <Mesh Name="SpaceStation">
 		<Data>Assets\SpaceStation\Models\SpaceStation.dae</Data>
-	</Mesh> -->
+	</Mesh> 
 	<Mesh Name="StarSphere">
 		<Data>Assets\FrontEnd\Models\StarSphere.dae</Data>
 		<Location>0,0,0</Location>
 		<UniformScale>0.001f</UniformScale>
     </Mesh>
   </Meshes>
-  <Terrain>Assets\SpaceStation\SpaceStationTerrain.xml</Terrain>
+  <Npcs> Assets\SpaceStation\SpaceStationNpcs.xml </Npcs>
+	
+  <!-- <Terrain>Assets\SpaceStation\SpaceStationTerrain.xml</Terrain> -->
 </Level>

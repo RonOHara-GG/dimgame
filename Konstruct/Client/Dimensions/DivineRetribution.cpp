@@ -57,7 +57,7 @@ bool DivineRetribution::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 		{
 			PlayerCharacter* pTarget = (PlayerCharacter*)pNext->m_pObject;
 			
-			if( pTarget->InLineOfSight(pSkillOwner, m_fRadius * 2) )
+			if( pTarget->InLineOfSight(pSkillOwner, m_fRadius * 2) && !pTarget->HasPersistentSkill(m_uID) )
 			{
 				DivineRetribution* pCopy = new DivineRetribution(m_pSource, pTarget, m_fRadius);
 				pTarget->AddPersistentSkill(pCopy);									

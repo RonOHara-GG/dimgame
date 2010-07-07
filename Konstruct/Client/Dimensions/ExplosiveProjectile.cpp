@@ -42,6 +42,6 @@ void ExplosiveProjectile::Impact(kpuVector vImpact)
 		}
 	}
 
-	m_fDistTraveled = m_fRange * m_fRange;
+	m_fDistTraveled = m_iRange * m_iRange;
 
 }

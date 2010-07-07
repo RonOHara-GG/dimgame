@@ -7,11 +7,11 @@
 
 
 
-Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir)
+Projectile::Projectile(ProjectileType eType, int iDamage,int iRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir)
 {
 	m_eProjectileType = eType;
 	m_iDamage = iDamage;
-	m_fRange = fRange;
+	m_iRange = iRange;
 	m_eDamageType = eDamageType;
 	m_pOwner = pOwner;
 	SetLocation(vLocation);
@@ -30,9 +30,9 @@ Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageTy
 	m_fRadius = 0.0f;
 }
 
-Projectile::Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, int iResist)
+Projectile::Projectile(ProjectileType eType, int iDamage, int iRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, int iResist)
 {
-	Projectile(eType, iDamage, fRange, eDamageType, pOwner, vLocation, vDir);
+	Projectile(eType, iDamage, iRange, eDamageType, pOwner, vLocation, vDir);
 	
 	m_fRadius = fRadius;
 	m_iResistStr = iResist;
@@ -44,7 +44,7 @@ Projectile::~Projectile(void)
 
 bool Projectile::Update(float fGameTime)
 {
-	if( m_fDistTraveled >= m_fRange )
+	if( m_fDistTraveled >= m_iRange )
 		return false;
 
 	kpuVector vVelocity;

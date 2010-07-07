@@ -17,13 +17,13 @@ HeadButt::~HeadButt(void)
 
 bool HeadButt::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( !Strike::Activate(pSkillOwner) )
-		return false;
-
 	//make sure we are in a bear hug
 	Skill* pSkill = pSkillOwner->GetActiveSkill();
 
-	if( pSkill->GetIndex() != BearHug::m_siBearhugIndex )
+	if( !Skill::Activate(pSkillOwner) )	
+		return false;
+
+	if( !pSkill || pSkill->GetIndex() != BearHug::m_siBearhugIndex )
 	{
 		//use the bear hug skill somehow
 		pSkill = PlayerClass::GetSkill(eCL_Brawler, BearHug::m_siBearhugIndex);
@@ -32,9 +32,7 @@ bool HeadButt::Activate(PlayerCharacter *pSkillOwner)
 	if( !pSkill->Activate(pSkillOwner) )
 		return false;
 
-	m_pCurrentBearHug = pSkill;
-
-	pSkillOwner->SetActiveSkill(this);
+	m_pCurrentBearHug = pSkill;	
 
 	return true;
 }

@@ -15,7 +15,7 @@ SpineCrank::~SpineCrank(void)
 
 bool SpineCrank::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( Strike::Activate(pSkillOwner) )
+	if( Skill::Activate(pSkillOwner) )
 	{
 		m_fSpeed = m_fBaseSpeed + (pSkillOwner->GetStr() / 50 );
 
@@ -32,12 +32,10 @@ bool SpineCrank::Activate(PlayerCharacter *pSkillOwner)
 		int iDeathChance = rand() % 2;
 
 		if( iDeathChance == 1 )
-		{
-			m_pTarget->TakeDamage(m_pTarget->GetMaxHealth() * 10000, eDT_Death);
+		{			
+			m_pTarget->SetCurrentHealth(-1);
 			m_fElaspedSinceCast = m_fSpeed;
-		}
-		
-		pSkillOwner->SetActiveSkill(this);
+		}		
 
 		return true;
 	}

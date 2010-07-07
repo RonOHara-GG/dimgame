@@ -566,7 +566,7 @@ void kpuCollisionDetection::SphereVsCapsuleRadiiSquared(kpuVector vPos1, float f
 
 	float fDist = denom - fDelta; 
 
-	if( fDelta < 0 )	
+	if( fDelta <= 0 )	
 		fDist = kpuVector::DistanceSquared(vStart, vPos1);
 	else if( fDist > 0 )
 	{

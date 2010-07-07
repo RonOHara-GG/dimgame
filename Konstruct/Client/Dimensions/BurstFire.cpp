@@ -15,21 +15,11 @@ BurstFire::~BurstFire(void)
 
 bool BurstFire::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( m_bReady )
+	if( Skill::Activate(pSkillOwner) )
 	{
-		m_fElaspedSinceCast = 0;
-		m_iShotsFired = 0;
-		m_bReady = false;
-		m_bExecuted = false;
-			
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		Weapon* pEquipped = pSkillOwner->GetEquippedWeapon();
-		m_fRange = pEquipped->GetRange();
-		m_iShotsToFire = MIN_SHOTS + m_iSkillRank;
-		m_iDamage = int(pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
-		m_eDamageType = pEquipped->GetDamageType();
-		m_fSpeed = pEquipped->GetSpeed() * m_fSpeedMod;
-		m_fRecovery = pEquipped->GetRecovery() * m_fRecoveryMod;
+		m_iShotsToFire = MIN_SHOTS + m_iSkillRank;		
+		m_eDamageType = m_pEquipped->GetDamageType();		
+		m_fRecovery = m_pEquipped->GetRecovery() * m_fRecoveryMod;
 
 		return true;
 	}
@@ -45,7 +35,10 @@ bool BurstFire::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 	{
 		m_fElaspedSinceCast = 0.0f;		
 
-		Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iDamage = int(m_pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
+
+		Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, iDamage, m_pEquipped->GetRange(), m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
 		g_pGameState->AddActor(pBullet);
 
 		m_iShotsFired++;

@@ -25,9 +25,7 @@ protected:
 	};
 
 	kpuVector		m_vSource;
-	Actor*			m_pTarget;
 	DamageType		m_eDamageType;
-	Weapon*			m_pEquipped;
 
 	//--Loaded Data--
 	float				m_fDamageMod;

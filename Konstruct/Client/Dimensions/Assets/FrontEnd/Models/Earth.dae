@@ -138,7 +138,7 @@
   </library_effects>
   <library_images>
     <image id="file1" name="file1">
-      <init_from>./FrontEnd/Textures/earthmap1k.jpg</init_from>
+      <init_from>..\Textures\earthmap1k.jpg</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>

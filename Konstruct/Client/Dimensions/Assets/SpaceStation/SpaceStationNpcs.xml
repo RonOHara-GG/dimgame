@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Npcs>
+	<Friendlies Count="1" />
+		<Npc Name="Sales Man" Static="true" Function="Merchant" MerchantType="Equippables" />
+			<Location>2,0,2</Location>
+		</Npc>
+	</Friendlies>
+</Npcs>

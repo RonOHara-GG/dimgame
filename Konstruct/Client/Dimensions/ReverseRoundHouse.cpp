@@ -14,9 +14,8 @@ ReverseRoundHouse::~ReverseRoundHouse(void)
 
 bool ReverseRoundHouse::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( Strike::Activate(pSkillOwner) )
-	{
-		pSkillOwner->SetActiveSkill(this);
+	if( Skill::Activate(pSkillOwner) )
+	{		
 		m_eCurrentTarget = e_drLEFT;
 		return true;
 	}
@@ -45,6 +44,9 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 	Actor* pTarget = 0; // = pGrid->GetActor(iTargetTile);
 
+	int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
+	int iDamage = (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple );
+
 	switch( m_eCurrentTarget )
 	{
 	case e_drLEFT:
@@ -58,7 +60,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_iDamage, m_eDamageType);
+				pTarget->TakeDamage(iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drUPPER_LEFT;		
 		}
@@ -77,7 +79,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_iDamage, m_eDamageType);
+				pTarget->TakeDamage(iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drFRONT;		
 		}
@@ -91,7 +93,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_iDamage, m_eDamageType);
+				pTarget->TakeDamage(iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drUPPER_RIGHT;		
 		}
@@ -108,7 +110,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_iDamage, m_eDamageType);
+				pTarget->TakeDamage(iDamage, m_eDamageType);
 			m_eCurrentTarget = e_drRIGHT;		
 		}
 		break;
@@ -124,7 +126,7 @@ bool ReverseRoundHouse::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			pTarget = pGrid->GetActor(iTargetTile);		
 
 			if( pTarget )	
-				pTarget->TakeDamage(m_iDamage, m_eDamageType);
+				pTarget->TakeDamage(iDamage, m_eDamageType);
 
 			m_eCurrentTarget = e_drNONE;		
 		}

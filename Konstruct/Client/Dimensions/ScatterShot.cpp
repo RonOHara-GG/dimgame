@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "PlayerCharacter.h"
 #include "Level.h"
+#include "grid.h"
 #include "Common/input/kpiInputManager.h"
 #include "Common/utility/kpuArrayList.h"
 #include "Common/utility/kpuQuadTree.h"
@@ -17,20 +18,6 @@ ScatterShot::~ScatterShot(void)
 {
 }
 
-bool ScatterShot::Activate(PlayerCharacter* pSkillOwner)
-{
-	if(Skill::Activate(pSkillOwner))
-	{
-		//Get mouse location
-		kpPoint ptMouse = g_pInputManager->GetMouseLoc();
-		m_vTarget = kpuVector(ptMouse.m_iX, ptMouse.m_iY, 0.0f, 0.0f);
-		g_pGameState->ScreenCordsToGameCords(m_vTarget);		
-		
-		return true;		
-	}
-
-	return false;
-}
 
 bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
@@ -44,13 +31,16 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
 
 		int iBaseDamage = pEquippedWeapon->GetDamage() * m_iDamageMultiple + (iRankMultiple * m_iSkillRank);
-		m_fRange = pEquippedWeapon->GetRange() * m_fRangeMultiple;
-		m_fSpeed = pEquippedWeapon->GetSpeed() * m_fSpeedMod;
+		
 		m_fRecovery = pEquippedWeapon->GetRecovery() * m_fRecoveryMod;
-		float fRadius = MIN_RADIUS + (m_iSkillRank * m_fRadiusMod);
+
+		float fRadius = m_fMinRadius + (m_iSkillRank * m_fRadiusMod);
+
+		kpuVector vTarget = kpuv_Zero;
+		g_pGameState->GetLevel()->GetGrid()->GetTileLocation(m_iTargetTile, vTarget);
 
 		//get all actors in range
-		kpuBoundingSphere sphere(fRadius, m_vTarget);
+		kpuBoundingSphere sphere(fRadius, vTarget);
 		kpuArrayList<kpuCollisionData> collidedObjects;
 
 		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &collidedObjects);
@@ -60,7 +50,7 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			kpuCollisionData* pNext = &collidedObjects[i];
 
 			//get distance to the object
-			float fDist = (pNext->m_pObject->GetLocation() - m_vTarget).Length();
+			float fDist = (pNext->m_pObject->GetLocation() - vTarget).Length();
 
 			int iDamage = iBaseDamage - int( (fDist / fRadius) * iBaseDamage );
 			
@@ -68,7 +58,7 @@ bool ScatterShot::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 			{
 				Actor* pTarget = (Actor*)pNext->m_pObject;
 				
-				if( pTarget->InLineOfSight(m_vTarget, m_fRange) )
+				if( pTarget->InLineOfSight(vTarget, GetRange()) )
 					pTarget->TakeDamage(iDamage, pEquippedWeapon->GetDamageType());
 			}
 		}

@@ -3,7 +3,8 @@
 	<!-- The doors are stored as followed: start tile of door, # of tiles door spaces.
 		If the side has no holes in the wall on one side store it as 0 0 if it has no walls
 		store it as -1 0 -->
-	 <Data File="Assets\SpaceStation\Models\SpaceStation.dae" Collision="Assets\SpaceStation\Models\SpaceStation.dae" Width="150" Height="3" Lenght="130">	
+	 <Data File="Assets\SpaceStation\Models\SpaceStation.dae" Collision="Assets\SpaceStation\Models\SpaceStationCollision.dae"
+	 Width="150" Height="3" Lenght="130" Static="true">	
 			<Door Side="Top">0 0</Door>		
 			<Door Side="Right">0 0</Door>		
 			<Door Side="Bottom">0 0</Door>		

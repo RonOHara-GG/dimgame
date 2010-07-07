@@ -16,7 +16,4 @@ protected:
 	int							m_iNumOfShotsMultiple;
 	float						m_fFireArcMultiple;
 };
-
-#define SPEED_MULTIPLE 1.5f
-#define RECOVERY_MULTIPLE 2
 #define MIN_SHOTS_FIRED 2

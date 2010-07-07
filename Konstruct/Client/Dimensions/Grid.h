@@ -53,6 +53,7 @@ public:
 	
 
 	bool		BuildPath(int iStartTile, int& iEndTile, int* outTiles, int maxOutSize, Actor* pActor, int outTilesSize = 0, int iLastDirection = -1);
+	void		BuildStraightPath(int iStartTile, int& iEndTile, int* outTiles, Actor* pActor, kpuVector vDirection);
 	int			BestMove(kpuVector vNorm, int iStartTile);
 	int			NearestTile(kpuVector vNorm, int iTile, Actor* pActor);
 	GameObject* GetLoot(int iTile) { return m_pTiles[iTile].m_Item; } //Get the loot at the target tile

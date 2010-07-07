@@ -8,23 +8,21 @@ public:
 	AcidRain(void);
 	~AcidRain(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	kpuVector	m_vTarget;
-	bool		m_bTargetSelected;
-	float		m_fRadius;
-	int			m_iBaseDamage;
-	int			m_iRadiusMod;
+	int			GetRange() { return m_iMinRange + m_iSkillRank /  m_iRangeMod; }
+	float		GetSpeed() { return m_fSpeed + m_iSkillRank * m_fSpeedMod; }
+
+	
+	float		m_fRadiusMod;
+	float		m_fMinRadius;	
+
+	float		m_fSpeedMod;	
+	
 	int			m_iRangeMod;
-	float		m_fSpeedMod;
-	float		m_iResistStr;
-	float		m_iResistMod;
-	float		m_fElaspedSinceTick;
-
-	float		m_fMinRange;
-	float		m_fMinRadius;
-	float		m_fMinResist;
-
+	int			m_iMinRange;
+	
+	int			m_iMinResist;
+	int			m_iResistMod;
 };

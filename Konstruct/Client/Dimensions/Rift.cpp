@@ -8,12 +8,12 @@
 #include "Common/utility/kpuCollisionData.h"
 #include "Common/utility/kpuBoundingSphere.h"
 
-Rift::Rift(PlayerCharacter* pOwner, int iLevel, float fRadius, kpuVector vLocation, float fResist, float fDuration, DamageType eType):
+Rift::Rift(PlayerCharacter* pOwner, int iLevel, float fRadius, kpuVector vLocation, int iResist, float fDuration, DamageType eType):
 	PlayerPet(pOwner, iLevel)
 {
 	m_fDuration = fDuration;
 	m_fRadius = fRadius;
-	m_iResistStr = fResist;
+	m_iResistStr = iResist;
 	SetLocation(vLocation);
 	m_fElasped = 0.0f;
 }

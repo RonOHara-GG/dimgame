@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "HolyShield.h"
-#include "HolyShieldBuff.h"
 #include "PlayerCharacter.h"
 
 
@@ -30,10 +29,7 @@ bool HolyShield::Activate(PlayerCharacter *pSkillOwner)
 	return true;
 }
 
-SpreadableBuff* HolyShield::GetBuff(Actor* pSpreadee)
+SpreadableBuff* HolyShield::CopyBuff(Actor* pSpreadee)
 {
-	int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-	int iDamageReduction = iRankMultiple * m_iSkillRank;
-
-	return new HolyShieldBuff(m_pSource, pSpreadee, m_fRadius, iDamageReduction);
+	return new HolyShield(m_pSource);
 }

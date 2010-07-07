@@ -71,7 +71,7 @@ void BounceArrow::Impact(kpuVector vImpact)
 	else
 	{
 		//arrow bounces to nothing
-		 m_fDistTraveled = m_fRange * m_fRange;
+		 m_fDistTraveled = m_iRange * m_iRange;
 	}
 
 

@@ -26,6 +26,7 @@ public:
 	bool	AtDestination()		{ return m_iDestinationTile < 0; }
 
 	bool BuildPathToDestination();
+	void BuildStraightPath(float fDist, kpuVector vDirection);
 
 	virtual float GetExpGiven() { return m_fExpGiven; }
 
@@ -49,6 +50,7 @@ public:
 	void HealMental(int iAmount);
 	void RemovePersistentSkill(PersistentSkill* pSkill);
 	void AddPersistentSkill(PersistentSkill* pSkill);
+	bool HasPersistentSkill(u32 uID);
 
 	virtual bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	bool IsAlive() { return m_iCurrentHealth > 0; }

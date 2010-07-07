@@ -124,7 +124,7 @@
   </library_effects>
   <library_images>
     <image id="TextureFBXASC032file6" name="TextureFBXASC032file6">
-      <init_from>./Player/SoldierCamo.tga</init_from>
+      <init_from>.\SoldierCamo.tga</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>

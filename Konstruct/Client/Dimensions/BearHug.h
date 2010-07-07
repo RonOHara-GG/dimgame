@@ -8,7 +8,6 @@ public:
 	BearHug(void);
 	virtual ~BearHug(void);
 	
-	bool Activate(PlayerCharacter* pSkillOwner);
 	virtual bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 	static int m_siBearhugIndex;
 

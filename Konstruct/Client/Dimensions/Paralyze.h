@@ -11,7 +11,7 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int			GetRange() { return m_fMinRange + m_iSkillRank / m_iRangeMod; }
+	int			GetRange() { return m_iMinRange + m_iSkillRank / m_iRangeMod; }
 
 	float		m_fMinRadius;
 	int			m_iRadiusMod;

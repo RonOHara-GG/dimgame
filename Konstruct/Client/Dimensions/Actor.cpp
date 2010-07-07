@@ -243,6 +243,17 @@ bool Actor::BuildPathToDestination()
 	return false;
 }
 
+void Actor::BuildStraightPath(float fDist, kpuVector vDirection)
+{
+	Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
+
+	m_iDestinationTile = pGrid->GetTileAtLocation(GetLocation() + (vDirection * fDist));
+
+	// Build the path
+	pGrid->BuildStraightPath(pGrid->GetTileAtLocation(GetLocation()), m_iDestinationTile, m_aPathNodes, this, vDirection);	
+	m_iCurrentPathNode = 0;		
+}
+
 bool Actor::TakeDamage(int iDamage, DamageType eDmgType, int iResistStr)
 {
 	/*if( iResistStr < GetResist(eDamageType) )
@@ -533,6 +544,23 @@ void Actor::RemovePersistentSkill(PersistentSkill* pSkill)
 void Actor::AddPersistentSkill(PersistentSkill* pSkill)
 {	
 	m_paPersistentSkills->AddTail(pSkill);
+}
+
+bool Actor::HasPersistentSkill(u32 uID)
+{
+	kpuLinkedList* pNext = m_paPersistentSkills->Next();
+
+	while( pNext )
+	{
+		Skill* pData = (Skill*)pNext->GetPointer();
+		
+		if( pData->GetID() == uID )
+			return true;
+
+		pNext = pNext->Next();
+	}
+
+	return false;
 }
 
 void Actor::AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource)
