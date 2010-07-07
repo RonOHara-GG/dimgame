@@ -2,8 +2,8 @@
 #include "CreateRift.h"
 #include "PlayerCharacter.h"
 #include "Rift.h"
-
-#define MIN_DURATION 2.0f
+#include "Level.h"
+#include "Grid.h"
 
 CreateRift::CreateRift(void)
 {
@@ -13,52 +13,22 @@ CreateRift::~CreateRift(void)
 {
 }
 
-
-bool CreateRift::Activate(PlayerCharacter* pSkillOwner)
-{
-	if(m_bReady)
-	{
-		m_fElaspedSinceCast = 0.0f;
-		
-		m_fDuration = MIN_DURATION + m_iSkillRank;
-		m_fRange = m_fMinRange + m_iSkillRank /  m_iRangeMod;
-		m_fRadius = m_fMinRadius + (m_iSkillRank / m_iRadiusMod);
-		m_iResistStr = m_fMinResist + (m_iSkillRank * m_iResistMod);		
-
-		pSkillOwner->SetActiveSkill(this);
-		
-		m_bReady = false;
-		m_bExecuted = false;	
-		m_bTargetSelected = false;
-		
-		return true;		
-	}
-
-	return false;
-}
-
 bool CreateRift::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
-	//check input and see if mouse was clicked
-
-	//if left mouse clicked then target selected and get the target	
-
-	//if right mouse clicked then cancel skill
-	//return false;
-
-
-	if( m_bTargetSelected )
+	if( true )
 	{
-		m_fElaspedSinceCast += fDeltaTime;		
+		float fDuration = m_fMinDuration + m_iSkillRank;
+		float fRadius = m_fMinRadius + (m_iSkillRank / m_fRadiusMod);
+		int iResistStr = m_iMinResist + (m_iSkillRank * m_iResistMod);	
 
-		if( m_fElaspedSinceCast >= m_fSpeed )
-		{
-			//create rift
-			pSkillOwner->AddPet(new Rift(pSkillOwner, 0, m_fRadius, m_vTarget, m_iResistStr, m_fDuration, m_eDamageType));
-			m_bExecuted = true;
-			return false;
-		}
-	}
+		kpuVector vTarget = kpuv_Zero;
+		g_pGameState->GetLevel()->GetGrid()->GetTileLocation(m_iTargetTile, vTarget);
+
+		//create rift
+		pSkillOwner->AddPet(new Rift(pSkillOwner, 0, fRadius, vTarget, iResistStr, fDuration, m_eDamageType));
+		m_bExecuted = true;
+		return false;
+	}	
 
 	return true;
 }

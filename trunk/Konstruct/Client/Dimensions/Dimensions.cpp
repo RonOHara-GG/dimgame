@@ -240,6 +240,7 @@ void ChangeGameState(GameState* newGameState)
 {
 	if( g_pPendingGameState )
 		delete g_pPendingGameState;
+
 	g_pPendingGameState = newGameState;
 }
 void Terminate()

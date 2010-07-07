@@ -196,7 +196,7 @@
   </library_effects>
   <library_images>
     <image id="file4" name="file4">
-      <init_from>./FrontEnd/Background/Textures/SaturnRings.png</init_from>
+      <init_from>..\Textures\SaturnRings.png</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>
@@ -206,7 +206,7 @@
       </extra>
     </image>
     <image id="file1" name="file1">
-      <init_from>./FrontEnd/Textures/saturnmap.jpg</init_from>
+      <init_from>..\Textures\saturnmap.jpg</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>

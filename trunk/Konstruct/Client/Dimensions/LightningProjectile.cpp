@@ -25,11 +25,11 @@ void LightningProjectile::Impact(kpuVector vImpact)
 
 	if( iChance < m_fArcChance )
 	{
-		kpuBoundingSphere sphere(m_fRange, vImpact);
+		kpuBoundingSphere sphere(m_iRange, vImpact);
 		kpuArrayList<kpuCollisionData> pCollisions;
 		g_pGameState->GetLevel()->GetQuadTree()->GetPossibleCollisions(sphere, &pCollisions);
 
-		float fClosest = m_fRange * m_fRange;
+		float fClosest = m_iRange * m_iRange;
 		Actor* pTarget = 0;
 
 		//find the closest target
@@ -37,7 +37,7 @@ void LightningProjectile::Impact(kpuVector vImpact)
 		{
 			kpuCollisionData data = pCollisions[i];
 			
-			if( data.m_pObject->HasFlag(ATTACKABLE) && InLineOfSight((Actor*)data.m_pObject, m_fRange) )
+			if( data.m_pObject->HasFlag(ATTACKABLE) && InLineOfSight((Actor*)data.m_pObject, m_iRange) )
 			{
 				float fDist = kpuVector::DistanceSquared(data.m_pObject->GetLocation(), vImpact);
 
@@ -63,7 +63,7 @@ void LightningProjectile::Impact(kpuVector vImpact)
 		}
 		else
 		{
-			m_fDistTraveled = m_fRange * m_fRange;
+			m_fDistTraveled = m_iRange * m_iRange;
 		}
 	}
 }

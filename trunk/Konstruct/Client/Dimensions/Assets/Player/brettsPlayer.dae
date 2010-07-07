@@ -124,7 +124,7 @@
   </library_effects>
   <library_images>
     <image id="TextureFBXASC032file6" name="TextureFBXASC032file6">
-      <init_from>./Player/Swat_Texture_1024.jpg</init_from>
+      <init_from>.\Swat_Texture_1024.jpg</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>

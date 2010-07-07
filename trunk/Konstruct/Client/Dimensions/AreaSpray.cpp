@@ -15,23 +15,18 @@ AreaSpray::~AreaSpray(void)
 {
 }
 
+int	AreaSpray::GetRange() { return m_pEquipped->GetRange() * m_fRangeMod; }
+float AreaSpray::GetSpeed() { return m_pEquipped->GetSpeed() * m_fSpeedMod; }
+
 bool AreaSpray::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( m_bReady )
+	if( Skill::Activate(pSkillOwner) )
 	{
-		m_fElaspedSinceCast = 0;
-		m_iShotsFired = 0;
-		m_bReady = false;
-		m_bExecuted = false;
-			
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
-		Weapon* pEquipped = pSkillOwner->GetEquippedWeapon();
-		m_fRange = pEquipped->GetRange() * m_fRangeMod;
+		
 		m_iShotsToFire = MIN_SHOTS + m_iSkillRank / m_iShotsMod;
-		m_iDamage = int(pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
-		m_eDamageType = pEquipped->GetDamageType();
-		m_fSpeed = pEquipped->GetSpeed() * m_fSpeedMod;
-		m_fRecovery = pEquipped->GetRecovery() * m_fRecoveryMod;
+		
+		m_eDamageType = m_pEquipped->GetDamageType();
+		m_fRecovery = m_pEquipped->GetRecovery() * m_fRecoveryMod;
 	
 		m_fAngleFreq = ARC_ANGLE / m_iShotsToFire;
 		m_fPlayerSpeed = pSkillOwner->GetSpeed();
@@ -47,7 +42,7 @@ bool AreaSpray::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 {
 	m_fElaspedSinceCast += fDeltaTime;
 
-	if( m_fElaspedSinceCast >= m_fSpeed)
+	if( m_fElaspedSinceCast >= GetSpeed())
 	{
 		m_fElaspedSinceCast = 0.0f;
 		kpuVector vDir = pSkillOwner->GetHeading() % kpuv_OneY;
@@ -57,7 +52,10 @@ bool AreaSpray::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 
 		rotMatrix.SetRotationY( (m_iShotsFired + 1) * m_fAngleFreq);
 
-		Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
+		int iRankMultiple = m_iRankMultipleMin + ( rand() % (int)(m_iRankMultipleMax - m_iRankMultipleMin) );
+		int iDamage = int(m_pEquipped->GetDamage() * m_fDamageMod) + (iRankMultiple * m_iSkillRank);
+
+		Projectile* pBullet = new Projectile(Projectile::ePT_Bullet, m_iDamage, GetRange(), m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), vDir * rotMatrix);
 		g_pGameState->AddActor(pBullet);
 
 		m_iShotsFired++;

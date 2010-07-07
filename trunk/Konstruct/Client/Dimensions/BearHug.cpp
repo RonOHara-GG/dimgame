@@ -15,31 +15,21 @@ BearHug::~BearHug(void)
 {
 }
 
-bool BearHug::Activate(PlayerCharacter *pSkillOwner)
+bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
-	if( Strike::Activate(pSkillOwner) )
+	if( !m_pTarget )
 	{
-		m_fDuration = m_fSpeed + pSkillOwner->GetStr() / 25.0f;
+		Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
+		int iTile = pGrid->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * (float)m_iRange ) );
+		Actor* pTarget = pGrid->GetActor(iTile);
 
-		int iTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + ( pSkillOwner->GetHeading() * (float)m_iRange ) );
-
-		Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(iTile);
-
-		if( !pTarget || !pTarget->HasFlag(ATTACKABLE) )		
+		if( !pTarget || !pTarget->HasFlag(ENEMY) )		
 			return false;
 		
 		m_pTarget = pTarget;
-
-		pSkillOwner->SetActiveSkill(this);
-		return true;
-
+		m_fDuration = m_fSpeed + pSkillOwner->GetStr() / 25.0f;		
 	}
 
-	return false;
-}
-
-bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
-{
 	m_fElaspedSinceCast += fDeltaTime;
 
 	if(m_fElaspedSinceCast > m_fDuration )
@@ -48,7 +38,10 @@ bool BearHug::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		return false;
 	}
 
- 	m_pTarget->TakeDamage(m_iDamage, m_eDamageType);
+	int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
+	int iDamage = (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple );
+
+ 	m_pTarget->TakeDamage(iDamage, m_eDamageType);
 
 	if( !m_pTarget->IsAlive() )
 	{

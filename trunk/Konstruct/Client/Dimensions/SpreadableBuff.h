@@ -16,7 +16,7 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);	
 
 protected:
-	virtual SpreadableBuff*     GetBuff(Actor* pSpreadee) { return new SpreadableBuff(m_pSource); }
+	virtual SpreadableBuff*    CopyBuff(Actor* pSpreadee) { return new SpreadableBuff(m_pSource); }
 
 	float				m_fRadius;
 	PlayerCharacter*	m_pSource;

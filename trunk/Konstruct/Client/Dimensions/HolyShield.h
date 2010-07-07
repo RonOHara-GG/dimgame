@@ -11,7 +11,7 @@ public:
 	bool Activate(PlayerCharacter* pSkillOwner);
 
 protected:
-	SpreadableBuff* GetBuff(Actor* pSpreadee);
+	SpreadableBuff* CopyBuff(Actor* pSpreadee);
 
 	int		m_iDamageReduction;
 	float	m_fRadiusMod;

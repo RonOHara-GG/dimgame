@@ -15,24 +15,6 @@ ButterflyKick::~ButterflyKick(void)
 {
 }
 
-bool ButterflyKick::Activate(Actor *pTarget, PlayerCharacter *pSkillOwner)
-{
-	if(m_bReady)
-	{
-		//Check if target is attack able		
-		int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
-		m_iDamage = ( (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple ) + int( m_fAgiMultiple * pSkillOwner->GetAgi()) );
-
-		pSkillOwner->SetActiveSkill(this);
-		m_iLastTile = -1;
-		
-		m_bReady = false;
-		return true;			
-		
-	}
-
-	return false;
-}
 
 bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
@@ -44,10 +26,13 @@ bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 		int iCurrent = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation());
 		pSkillOwner->SetNextMove(iCurrent);
 		m_fElaspedSinceCast = 0.0f;
+		m_iLastTile = -1;
 		return false;
 	}
 
 	int iCurrentTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation());
+	int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
+	int iDamage = (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple );
 
 	if( iCurrentTile != m_iLastTile )
 	{
@@ -62,7 +47,7 @@ bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 		if( pTarget && pTarget->HasFlag(ATTACKABLE) )
 		{
-			pTarget->TakeDamage(m_iDamage , m_eDamageType);
+			pTarget->TakeDamage(iDamage , m_eDamageType);
 		}
 
 		//deal half damage to front tile and move it to the left
@@ -72,9 +57,9 @@ bool ButterflyKick::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 		if( pTarget && pTarget->HasFlag(ATTACKABLE) )
 		{
-			pTarget->TakeDamage(m_iDamage / 2 , m_eDamageType);
+			pTarget->TakeDamage(iDamage / 2 , m_eDamageType);
 
-			MoveTarget(pTarget, vDir * -1, 1.0f);
+			pTarget->BuildStraightPath( 1.0f, vDir * -1);		
 		}		
 		
 		m_iLastTile = iCurrentTile;

@@ -8,13 +8,11 @@ public:
 	ShoulderThrow(void);
 	~ShoulderThrow(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int m_iThrowDist;
+	float m_fMinThrow;
 	int	m_iStrFactor;
 
 };
 
-#define BASE_THROW_DIST 3

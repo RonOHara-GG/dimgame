@@ -14,8 +14,8 @@ public:
 		ePT_Missile
 	};
 
-	Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir);
-	Projectile(ProjectileType eType, int iDamage, float fRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, int iResist);
+	Projectile(ProjectileType eType, int iDamage, int iRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir);
+	Projectile(ProjectileType eType, int iDamage, int iRange, DamageType eDamageType, Actor* pOwner, kpuVector vLocation, kpuVector vDir, float fRadius, int iResist);
 	virtual ~Projectile(void);	
 
 	bool Update(float fGameTime);	
@@ -26,7 +26,7 @@ protected:
 	ProjectileType	m_eProjectileType;
 	int				m_iDamage;
 	DamageType		m_eDamageType;	
-	float			m_fRange;
+	int				m_iRange;
 	float			m_fRadius;
 	int				m_iResistStr;
 	float			m_fDistTraveled;

@@ -5,7 +5,7 @@ class Rift :
 	public PlayerPet
 {
 public:
-	Rift(PlayerCharacter* pOwner, int iLevel, float fRadius, kpuVector vLocation, float fResist, float fDuration, DamageType eType);
+	Rift(PlayerCharacter* pOwner, int iLevel, float fRadius, kpuVector vLocation, int iResist, float fDuration, DamageType eType);
 	~Rift(void);
 
 	bool Update(float fGameTime);
@@ -15,5 +15,5 @@ protected:
 	float		m_fElasped;
 	float		m_fDuration;
 	float		m_fRadius;
-	float		m_iResistStr;
+	int			m_iResistStr;
 };

@@ -25,27 +25,28 @@ public:
 
 	char*			GetName() { return m_szName; }
 	int				GetIndex() { return m_iIndex; }
+	u32				GetID()		{ return m_uID; }
 	
-	virtual float	GetSpeed() { return m_fSpeed; }
 
 	bool			InRange(Actor* p1, Actor* p2, int iRange);
 	bool			InRange(Actor* p1, int iTile1, int iRange);
 	bool			InRange(int iTile1, int iTile2, int iRange);
 
 protected:
-	bool		VaildTarget(PlayerCharacter* pSkillOwner);
-	int			GetTargetTile(); //return tile at mouse location
-	int			GetRange() { return 0; }
+	bool				VaildTarget(PlayerCharacter* pSkillOwner);
+	int					GetTargetTile(); //return tile at mouse location
+	virtual int			GetRange() { return m_iMinRange; }
+	virtual float		GetSpeed() { return m_fMinSpeed; }
 
 	char		m_szName[SKILL_NAME_LENGTH];
+	u32			m_uID;
 	int			m_iRankMultipleMin;	
 	int			m_iRankMultipleMax;	
 	int			m_iRequiredLevel;
 	int			m_iIndex;
 	int			m_iSkillRank;
 	float		m_fElaspedSinceCast;
-	float		m_fRecovery;	
-	float		m_fRecoveryMod;
+			
 	float		m_fElaspedRecovery;
 	float		m_fSpeed;
 	bool		m_bReady;
@@ -62,4 +63,12 @@ protected:
 	bool		m_bSecondaryRequired;
 	eWeaponType	m_eWeaponType;
 	Weapon*		m_pEquipped;
+
+	float		m_fRecovery;
+	float		m_fMinSpeed;
+	int			m_iMinRange;
+
+	float		m_fRecoveryMod;
+	float		m_fSpeedMod;
+	float		m_fRangeMod;
 };

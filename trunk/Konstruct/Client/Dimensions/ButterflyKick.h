@@ -8,7 +8,6 @@ public:
 	ButterflyKick(void);
 	~ButterflyKick(void);
 
-	bool Activate(Actor* pTarget, PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:

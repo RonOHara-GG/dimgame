@@ -28,6 +28,7 @@ private:
 		int								aWallRanges[8];
 		int								aDoorLocations[8];
 		int								iPiece;
+		bool							bStatic;
 	};
 
 	struct Space

@@ -113,7 +113,15 @@ bool Skill::VaildTarget(PlayerCharacter* pSkillOwner)
 
 	//check target type
 	if( !pTarget->HasFlag(m_uTargetType) )
+	{
+		if( m_uTargetType == PLAYER )
+		{
+			m_pTarget = pSkillOwner;
+			return true;
+		}
+
 		return false;
+	}
 
 	//check range
 	if( !InRange(pSkillOwner, pTarget, GetRange()) )

@@ -12,8 +12,12 @@ public:
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
+	int			GetRange();
+	float		GetSpeed();
+
 	float		m_fPlayerSpeed;
 	float		m_fRangeMod;
+	int			m_iDamage;
 	float		m_fDamageMod;
 	float		m_fSpeedMod;
 	float		m_fRecoveryMod;

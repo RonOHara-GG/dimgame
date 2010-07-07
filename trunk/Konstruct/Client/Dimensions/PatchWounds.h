@@ -8,13 +8,12 @@ public:
 	PatchWounds(void);
 	~PatchWounds(void);
 
-	bool Activate(PlayerCharacter* pSkillOwner);
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int			m_iHealImd;
-	int			m_iHealPS;
-	float		m_fDuration;
+	float		GetSpeed() { return m_fSpeed - (m_iSkillRank * m_fSpeedModifier); }
+
+	float		m_fMinDuration;
 	float		m_fDurationModifier;
 	float		m_fSpeedModifier;
 
@@ -22,7 +21,4 @@ protected:
 	int			m_iHealImdMax;
 	int			m_iHealPSMin;
 	int			m_iHealPSMax;
-	
-
-	Actor* m_pTarget;
 };

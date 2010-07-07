@@ -72,7 +72,7 @@ int Grid::BestMove(kpuVector vNorm, int iStartTile)
 				//Check if there is anything that will collide in the path
 				kpuVector v2;
 				GetTileLocation(iTile, v2);
-				kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);
+				kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);				
 
 				if( !g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, 0) )
 				{
@@ -87,7 +87,44 @@ int Grid::BestMove(kpuVector vNorm, int iStartTile)
 	
 	return iBestTile;
 }
+void Grid::BuildStraightPath(int iStartTile, int& iEndTile, int* outTiles, Actor* pActor, kpuVector vDirection)
+{
+	kpuVector vStartTile;
+	GetTileLocation(iStartTile, vStartTile);
 
+	int iCurrentTile = iStartTile;
+	int iPathSize = 0;
+	outTiles[0] = iStartTile;
+
+	while( iCurrentTile != iEndTile )
+	{
+		int iTile = GetTileAtLocation(vStartTile + vDirection);
+
+		if( m_pTiles[iTile].m_Actor && m_pTiles[iTile].m_Actor != pActor)	
+		{
+			iEndTile = iCurrentTile;
+			return;
+		}
+		
+		//Check if there is anything that will collide in the path
+		kpuVector v2;
+		GetTileLocation(iTile, v2);
+		kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);
+
+		if( g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, pActor) )
+		{
+			//collision found return path
+			iEndTile = iCurrentTile;
+			return;	
+		}		
+
+		//add tile to path
+		iCurrentTile = iTile;
+		outTiles[iPathSize++] = iCurrentTile;		
+	}
+
+
+}
 
 bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSize, Actor* pActor, int outTilesSize, int iLastDirection)
 {
@@ -134,7 +171,8 @@ bool Grid::BuildPath(int iStartTile, int& iEndTile, int* outTiles,  int maxOutSi
 					//Check if there is anything that will collide in the path
 					kpuVector v2;
 					GetTileLocation(iTile, v2);
-					kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);
+					/*kpuBoundingSphere sphere(TILE_SIZE * 0.5f, v2);*/
+					kpuBoundingCapsule sphere(vStartTile, v2, TILE_SIZE * 0.5f);
 
 					if( !g_pGameState->GetLevel()->GetQuadTree()->CheckCollision(sphere, pActor) )
 					{

@@ -16,7 +16,7 @@ static const u32 s_uHash_Top =		0xb8826f8;
 static const u32 s_uHash_Left =		0x7c887790;
 static const u32 s_uHash_Right =	0xe063143;
 static const u32 s_uHash_Bottom =	0xa9edb65a;
-
+static const u32 s_uHash_true =		0x7c9e9fe5;
 
 
 
@@ -71,6 +71,14 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 					aTerrainData[iPiece].iWidth = atoi(pEChild->Attribute("Width"));
 					aTerrainData[iPiece].iHeight = atoi(pEChild->Attribute("Height"));
 					aTerrainData[iPiece].iLength = atoi(pEChild->Attribute("Lenght"));
+					
+					const char* szStatic = pEChild->Attribute("Static");
+					u32 uStatic = StringHash(szStatic);
+					if( uStatic == s_uHash_true )
+						aTerrainData[iPiece].bStatic = true;
+					else
+						aTerrainData[iPiece].bStatic = false;
+
 
 					for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
 					{				
@@ -163,14 +171,19 @@ bool TerrainModel::LoadTerrain(const char* pszFile, int iWidth, int iHeigth)
 		int iPiece = rand() % aTerrainData.GetNumElements();
 		TerrainData module = aTerrainData[iPiece];
 
-		int iRotation = rand() % 4;		
+		int iRotation = 0;
 
-		if( iRotation & 1 )
+		if( !module.bStatic )
 		{
-			//flip dimensions
-			int xtemp = module.iWidth;
-			module.iWidth = module.iLength;
-			module.iLength = xtemp;
+			iRotation = rand() % 4;		
+
+			if( iRotation & 1 )
+			{
+				//flip dimensions
+				int xtemp = module.iWidth;
+				module.iWidth = module.iLength;
+				module.iLength = xtemp;
+			}
 		}
 
 		kpuLinkedList* pIter = spacesAvailable.Next();

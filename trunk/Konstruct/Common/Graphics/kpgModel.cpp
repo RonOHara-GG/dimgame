@@ -67,8 +67,14 @@ bool kpgModel::Load(const char* cszFileName)
 {
 	bool bRet = false;
 	// Load the level list
-	char szFileName[2048];
+	char szFileName[512];
 	kpuFileManager::GetFullFilePath(cszFileName, szFileName, sizeof(szFileName));
+
+	//Set root directory to model directory
+	char szOldRoot[512];
+	memcpy(szOldRoot, kpuFileManager::GetRoot(), sizeof(szOldRoot));
+	char* pszRoot = kpuFileManager::GetDirectory(szFileName);
+	kpuFileManager::SetRootPath(pszRoot);	
 
 	//Texture
 	kpgTexture* pTexture = 0;
@@ -155,6 +161,10 @@ bool kpgModel::Load(const char* cszFileName)
 	vMin.SetW(1);
 
 	Init(vMin, vMax);	
+
+	//reset root directory
+	kpuFileManager::SetRootPath(szOldRoot);
+	free(pszRoot);
 
 	return bRet;
 }
@@ -676,25 +686,10 @@ kpgTexture*  kpgModel::LoadImage(TiXmlElement* pLibrary)
 		u32 uHash = StringHash(pEGeometry->Value());
 		if( uHash == s_uHash_image )
 		{
-			char* pszFilename = (char*)pEGeometry->FirstChildElement()->FirstChild()->Value();
-			
-			int iLength = strlen(pszFilename);
-
-			for(int i = 0; i < iLength - 2; i++)
-			{
-				pszFilename[i] = pszFilename[i+2];
-			}
-
-			pszFilename[iLength - 1] = 0;
-			pszFilename[iLength - 2] = 0;
-
-			char assetPath[512];
-
-			strcpy_s(assetPath, sizeof(assetPath), "Assets//");
-			strcat_s(assetPath, sizeof(assetPath), pszFilename);
+			char* pszFilename = (char*)pEGeometry->FirstChildElement()->FirstChild()->Value();			
 
 			kpgTexture* texture = new kpgTexture();
-			texture->Load(assetPath);
+			texture->Load(pszFilename);
 			return texture;
 		}
 	}

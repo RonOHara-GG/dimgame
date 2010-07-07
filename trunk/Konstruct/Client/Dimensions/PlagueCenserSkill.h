@@ -12,19 +12,19 @@ public:
 	bool	Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	int			m_iRankMultipleMin;	
-	int			m_iRankMultipleMax;	
-	int			m_iDamage;
-	DamageType  m_eDamageType;
-	float		m_fRange;
-	float		m_fRangeMod;		 
-	int			m_iResistStr;
-	int			m_iResistMod;
-	float		m_fRadius;
-	float		m_fRadiusMod;
+	int			GetRange() { return m_iMinRange + (m_iSkillRank / m_iRangeMod); }
+	float		GetSpeed() { return m_fSpeed - m_iSkillRank; }
 
-	float		m_fMinRange;
-	float		m_fMinRadius;
+	
+	DamageType  m_eDamageType;
+
+	int			m_iMinRange;
+	int			m_iRangeMod;	
+
 	int			m_iMinResist;
+	int			m_iResistMod;
+	
+	float		m_fRadiusMod;	
+	float		m_fMinRadius;
+	
 };
-#define MIN_SPEED 20.0f

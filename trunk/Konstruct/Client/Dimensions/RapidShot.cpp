@@ -16,17 +16,14 @@ RapidShot::~RapidShot(void)
 {
 }
 
+int RapidShot::GetRange() { return  m_pEquipped->GetRange() * m_fRangeMultiple; }
+float RapidShot::GetSpeed() { return m_pEquipped->GetSpeed() * m_fSpeedMod; }
+
 bool RapidShot::Activate(PlayerCharacter *pSkillOwner)
 {
-	if( m_bReady )
-	{
-		m_iDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_iDamageMultiple + (m_iRankMultipleMax * m_iSkillRank));
-		m_fRange = pSkillOwner->GetEquippedWeapon()->GetRange() * m_fRangeMultiple;
-		m_iShotMax = MIN_SHOT_COUNT + (m_iSkillRank / m_iShotMultiple);
-		m_fSpeed = pSkillOwner->GetEquippedWeapon()->GetSpeed() * m_fSpeedMultiple;
-
-		m_bReady = false;
-		m_bExecuted = false;		
+	if( Skill::Activate(pSkillOwner) )
+	{		
+		m_iShotMax = MIN_SHOT_COUNT + (m_iSkillRank / m_iShotMultiple);		
 		
 		m_iShotCount = 0;
 
@@ -34,8 +31,6 @@ bool RapidShot::Activate(PlayerCharacter *pSkillOwner)
 		m_fPlayersSpeed = pSkillOwner->GetSpeed();
 
 		pSkillOwner->SetSpeed(0.0f);
-
-		pSkillOwner->SetActiveSkill(this);
 
 		return true;
 	}
@@ -51,10 +46,11 @@ bool RapidShot::Update(PlayerCharacter *pSkillOwner, float fDeltaTime)
 	if( m_fElaspedSinceCast >= m_fSpeed * 0.5f )
 	{
 		m_fElaspedSinceCast = 0.0f;
+		int iDamage = pSkillOwner->GetEquippedWeapon()->GetDamage() * (m_iDamageMultiple + (m_iRankMultipleMax * m_iSkillRank));
 
 		//fire new arrow
 		m_iShotCount++;
-		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, m_iDamage, m_fRange, m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
+		Projectile* pArrow = new Projectile(Projectile::ePT_Arrow, iDamage, GetRange(), m_eDamageType, pSkillOwner, pSkillOwner->GetLocation(), pSkillOwner->GetHeading());
 		g_pGameState->AddActor(pArrow);
 
 		if( m_iShotCount == m_iShotMax )

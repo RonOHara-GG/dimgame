@@ -7,22 +7,21 @@ class CreateRift :
 public:
 	CreateRift(void);
 	~CreateRift(void);
-	
-	bool Activate(PlayerCharacter* pSkillOwner);
+
 	bool Update(PlayerCharacter* pSkillOwner, float fDeltaTime);
 
 protected:
-	kpuVector	m_vTarget;	
-	bool		m_bTargetSelected;
-	float		m_fRadius;
-	int			m_iRangeMod;
-	int			m_iRadiusMod;
-	float		m_iResistStr;
-	float		m_iResistMod;
-	float		m_fDuration;
+	int			GetRange() { return m_iMinRange + m_iSkillRank /  m_iRangeMod; }
+	
+	float		m_fMinDuration;
 
-	float		m_fMinRange;
 	float		m_fMinRadius;
-	float		m_fMinResist;
+	float		m_fRadiusMod;	
+	
+	int			m_iRangeMod;
+	int			m_iMinRange;
+	
+	int			m_iResistMod;
+	int			m_iMinResist;
 
 };

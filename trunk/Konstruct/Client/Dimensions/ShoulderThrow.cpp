@@ -6,24 +6,13 @@
 
 ShoulderThrow::ShoulderThrow(void)
 {
-	m_iThrowDist = 0;
+	
 }
 
 ShoulderThrow::~ShoulderThrow(void)
 {
 }
 
-bool ShoulderThrow::Activate(PlayerCharacter* pSkillOwner)
-{
-	if( Strike::Activate(pSkillOwner) )
-	{
-		m_iThrowDist = BASE_THROW_DIST + (pSkillOwner->GetStr() / m_iStrFactor);
-		pSkillOwner->SetActiveSkill(this);
-		return true;
-	}
-
-	return false;
-}
 
 bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 {
@@ -31,23 +20,22 @@ bool ShoulderThrow::Update(PlayerCharacter* pSkillOwner, float fDeltaTime)
 
 	//Get target
 	Actor* pTarget = g_pGameState->GetLevel()->GetGrid()->GetActor(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pSkillOwner->GetLocation() + pSkillOwner->GetHeading()));
+	float fThrowDist = m_fMinThrow + (pSkillOwner->GetStr() / m_iStrFactor);
 
-	if( m_fElaspedSinceCast >= m_fSpeed )
+	if( true )
 	{
-		if( pTarget && pTarget->HasFlag(ATTACKABLE) )
+		if( pTarget && pTarget->HasFlag(ENEMY) )
 		{
+			int iRankMultiple = m_iRankMultipleMin + ( rand() % (m_iRankMultipleMax - m_iRankMultipleMin) );
+			int iDamage = (iRankMultiple * m_iSkillRank) + int( pSkillOwner->GetStr() * m_fStrMultiple );
+
 			//move target to center of current tile
-			pTarget->SetNextMove(g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(pTarget->GetLocation()));
-			pTarget->TakeDamage(m_iDamage, m_eDamageType);
+			pTarget->BuildStraightPath(fThrowDist, pSkillOwner->GetHeading() * -1.0f);			
+			pTarget->TakeDamage(iDamage, m_eDamageType);
 		}
+
 		m_fElaspedSinceCast = 0.0f;
 		return false;
-	}
-
-	if( pTarget && pTarget->HasFlag(ATTACKABLE) )
-	{
-		//try and move the target back the tiles needed, be thrown at 1m/s
-		MoveTarget(pTarget, pSkillOwner->GetHeading() * -1, (fDeltaTime / m_fSpeed) * m_iThrowDist );
 	}
 
 	return true;
