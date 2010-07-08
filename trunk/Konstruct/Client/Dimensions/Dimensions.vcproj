@@ -230,6 +230,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MerchantNpc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PlayerClass.cpp"
 				>
 			</File>
@@ -505,7 +509,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\NPC.cpp"
+					RelativePath=".\Npc.cpp"
 					>
 				</File>
 				<File
@@ -633,6 +637,10 @@
 			</File>
 			<File
 				RelativePath=".\LoadStructures.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MerchantNpc.h"
 				>
 			</File>
 			<File
@@ -895,7 +903,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\NPC.h"
+					RelativePath=".\Npc.h"
 					>
 				</File>
 				<File

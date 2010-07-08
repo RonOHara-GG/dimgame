@@ -73,22 +73,38 @@ void GameState_GamePlay::MouseUpdate(int X, int Y)
 	kpuVector vGroundPoint((float)X, (float)Y, 0.0f, 0.0f);
 
 	ScreenCordsToGameCords(vGroundPoint);	
+
+	//set heading to mouse
+	m_pPlayer->SetHeading(kpuVector::Normalize(vGroundPoint - m_pPlayer->GetLocation()));
 	
 	// Update the players move target to the new ground point
 	int iTile = m_pCurrentLevel->GetGrid()->GetTileAtLocation(vGroundPoint);
 
 	if( m_pCurrentLevel->GetGrid()->TileWalkable(iTile) )
 	{	
-		//If target tile contains an enemy try and attack
+		//If target tile contains an actor get it and process event
 		Actor* pTarget = m_pCurrentLevel->GetGrid()->GetActor(iTile);
-
-		if( pTarget && pTarget->HasFlag(ATTACKABLE) && m_pPlayer->IsInRange(pTarget, m_pPlayer->GetRange()) )
+		if( pTarget )
 		{
-			m_pPlayer->SetTarget(pTarget);
-			m_pPlayer->UseDefaultAttack(pTarget, m_pCurrentLevel->GetGrid());
+			if( pTarget->HasFlag(ATTACKABLE) && m_pPlayer->IsInRange(pTarget, m_pPlayer->GetRange()) )
+			{
+				//attack it
+				m_pPlayer->SetTarget(pTarget);
+				m_pPlayer->UseDefaultAttack(pTarget, m_pCurrentLevel->GetGrid());
+
+			}
+			else if( pTarget->HasFlag(NPC) && pTarget->IsInRange(m_pPlayer, pTarget->GetRange()) )
+			{
+				Npc* pNpc = (Npc*)pTarget;
+
+				pNpc->Interact(m_pPlayer);
+			}
+			else
+				m_pPlayer->SetMoveTarget(iTile);
 		}
 		else
-			m_pPlayer->SetMoveTarget(iTile);	
+			m_pPlayer->SetMoveTarget(iTile);
+		
 	}
 	
 }
@@ -126,7 +142,7 @@ void GameState_GamePlay::Update(float fDeltaTime)
 	m_pCamera->Update();
 
 	if( m_pCurrentLevel )
-		m_pCurrentLevel->Update();
+		m_pCurrentLevel->Update(fDeltaTime);
 
 	if(m_paActors)
 	{

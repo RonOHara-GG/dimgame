@@ -1,12 +1,12 @@
 #pragma once
 
-class NPC;
+class Npc;
 
 class AIControl
 {
 public:
 	AIControl(void) {}
-	AIControl(NPC* pNpc);
+	AIControl(Npc* pNpc);
 	virtual ~AIControl(void);
 	virtual void Update( float fDeltaTime) {}
 

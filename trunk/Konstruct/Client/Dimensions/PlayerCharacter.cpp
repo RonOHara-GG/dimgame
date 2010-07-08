@@ -47,7 +47,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_bBox.Move(GetLocation());
 	m_bSphere.Move(GetLocation());*/
 
-	SetFlag(ATTACKABLE);
+	SetFlag(ATTACKABLE | PLAYER);
 	m_iCurrentHealth = m_iMaxHealth = 100;
 
 	PlayerClass* pClass = new PlayerClass(eCL_Brawler, 100.0f);

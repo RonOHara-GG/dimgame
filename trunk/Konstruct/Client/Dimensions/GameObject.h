@@ -19,3 +19,4 @@ public:
 #define ATTACKABLE	( 1 << 1 )
 #define PLAYER		( 1 << 2 )
 #define ENEMY		( 1 << 3 )
+#define NPC			( 1 << 4 )

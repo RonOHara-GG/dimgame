@@ -1,19 +1,21 @@
 #include "StdAfx.h"
-#include "NPC.h"
+#include "Npc.h"
 #include "AIControl.h"
 
-NPC::NPC(void):Actor()
+Npc::Npc(void):Actor()
 {
 	m_pAIBehavior = 0;
+	m_pszName = 0;
+	SetFlag(NPC);
 }
 
-NPC::~NPC(void)
+Npc::~Npc(void)
 {
 	if( m_pAIBehavior )
 		delete m_pAIBehavior;
 }
 
-void NPC::SetAI(AIControl* pAI)
+void Npc::SetAI(AIControl* pAI)
 {
 	if( m_pAIBehavior )
 		delete m_pAIBehavior;
@@ -21,6 +23,16 @@ void NPC::SetAI(AIControl* pAI)
 	m_pAIBehavior = pAI;
 }
 
+bool Npc::Update(float fGameTime)
+{
+	if( !m_bStatic )
+		UpdateMovement(fGameTime);
+
+	if( m_pAIBehavior )
+		m_pAIBehavior->Update(fGameTime);
+
+	return true;
+}
 
 
 

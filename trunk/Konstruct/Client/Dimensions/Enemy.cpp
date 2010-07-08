@@ -7,7 +7,7 @@
 #include "AskaranAI.h"
 
 
-Enemy::Enemy(EnemyLoadStructure& loadStruct):NPC()
+Enemy::Enemy(EnemyLoadStructure& loadStruct):Npc()
 {
 	m_pModel = new kpgModel();
 	m_pModel->SetGeometryInstance(loadStruct.pModel->GetInstance(0));
@@ -118,7 +118,7 @@ void Enemy::Wander(float fDeltaTime)
 
 bool Enemy::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
 {
-	if(pTarget->HasFlag(ATTACKABLE))
+	if(pTarget->HasFlag(PLAYER))
 	{		
 		if( m_fElaspedAttack >= m_fAttackSpeed )
 		{			

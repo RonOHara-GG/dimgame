@@ -10,7 +10,7 @@
 #include "Grid.h"
 #include "Enemy.h"
 #include "LoadStructures.h"
-
+#include "MerchantNpc.h"
 
 static const u32 s_uHash_Name =			0x7c898026;
 static const u32 s_uHash_Meshes =		0xc2e0bf8a;
@@ -24,16 +24,20 @@ static const u32 s_uHash_PointLight =	0x09a7ab47;
 static const u32 s_uHash_Radius =		0xce39f54d;
 static const u32 s_uHash_Color =		0x0cfa2224;
 static const u32 s_uHash_UniformScale = 0xb583c2ed;
+static const u32 s_uHash_Rotation =		0x9efcecf5;
 static const u32 s_uHash_Count =		0xcfa484e;
+static const u32 s_uHash_true =			0x7c9e9fe5;
+static const u32 s_uHash_Npcs =			0x7c89beb9;
+static const u32 s_uHash_Merchcant =	0xfb608e17;
 
 Level::Level(void)
 {
 	m_pTerrain = 0;
 	m_paModels = 0;
 	m_paLights = 0;
-	m_paEnemyModels = 0;
 	m_pLevelGrid = 0;
 	m_pQuadTree = 0;
+	m_paNpcs = 0;
 }
 
 Level::~Level(void)
@@ -134,6 +138,11 @@ bool Level::Load(const char* pszLevelFile)
 										float fScale = (float)atof(pEChild2->FirstChild()->Value());
 										pModel->SetScale(fScale, fScale, fScale);
 									}
+									else if( uHash == s_uHash_Rotation )
+									{
+										kpuVector vRot = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
+										pModel->Rotate(vRot.GetX() * DEG_TO_RAD, vRot.GetY()* DEG_TO_RAD, vRot.GetZ()* DEG_TO_RAD);
+									}
 								}
 
 								if( bLoaded )
@@ -206,12 +215,95 @@ bool Level::Load(const char* pszLevelFile)
 
                         bRet = true;
 					}
+					else if( uHash == s_uHash_Npcs )
+					{
+						LoadNpcs(pElement);
+					}
 				}
 			}
 		}
 	}
 
 	return bRet;
+}
+
+void Level::LoadNpcs(TiXmlElement* pElement)
+{
+	if( m_paNpcs )
+		delete m_paNpcs;
+
+	m_paNpcs = new kpuFixedArray<Npc*>(atoi(pElement->Attribute("Count")));
+
+	for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+	{
+		Npc* pNpc = 0;
+
+		const char* szName = pChild->Attribute("Name");
+		const char* szModel = pChild->Attribute("Model");
+		kpgModel* pModel = 0;
+
+		if( szModel )
+		{
+			u32 uHash = StringHash(szModel);
+			pModel = FindModelByName(uHash);
+		}
+
+		szModel = 0;
+		szModel = pChild->Attribute("Collision");
+		kpgModel* pCollisionModel = 0;
+
+		if( szModel )	
+		{	
+			pCollisionModel = new kpgModel();
+			pCollisionModel->Load(szModel);	
+		}
+
+		//Get collision model
+		
+		bool bStatic = false;
+		const char* szStatic = pChild->Attribute("Static");
+		if( szStatic )
+		{
+			u32 uHash = StringHash(szStatic);
+			
+			bStatic = uHash == s_uHash_true;
+		}
+
+		//Get Npc function
+		const char* szType = pChild->Attribute("Function");		
+		u32 uHashType = StringHash(szType);
+
+		switch(uHashType)
+		{
+		case s_uHash_Merchcant:
+			{
+				//Get what kind of items
+				szType = pChild->Attribute("MerchantType");		
+				uHashType = StringHash(szType);
+				
+				//Create new merchant
+				Npc* pNpc = new MerchantNpc(pModel, szName, uHashType, bStatic);
+
+				if( pCollisionModel )
+					pNpc->CalculateBoundingVolumes(pCollisionModel);
+
+				m_paNpcs->Add(pNpc);	
+
+				//Make sure npc is in a tile
+				int iTile = m_pLevelGrid->GetTileAtLocation(pNpc->GetLocation());
+				pNpc->SetActionRange( (float)atof(pChild->Attribute("ActionRange")) );
+				pNpc->SetMoveTarget(iTile);				
+				m_pLevelGrid->AddActor(pNpc);
+				m_pQuadTree->Add(pNpc);
+
+				break;
+			}
+		}
+
+		delete pCollisionModel;
+	}
+
+	
 }
 
 kpgModel* Level::FindModelByName(u32 iNameHash)
@@ -289,8 +381,13 @@ void Level::GenerateEnemies(kpuArrayList<Actor*> *pActors)
 	}
 }
 
-void Level::Update()
+void Level::Update(float fDeltaTime)
 {
+	//update npcs
+	for(int i = 0; i < m_paNpcs->GetNumElements(); i++)
+	{
+		(*m_paNpcs)[i]->Update(fDeltaTime);
+	}
 }
 
 void Level::Draw(kpgRenderer* pRenderer)

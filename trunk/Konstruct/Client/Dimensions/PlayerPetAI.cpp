@@ -58,7 +58,7 @@ void PlayerPetAI::Update(float fDeltaTime)
 
 				Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
 				//Charge toward target until within attack range
-				if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetActionRange()) )
+				if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetRange()) )
 				{
 					kpuVector vLocation = m_pTheMindless->GetLocation();
 					kpuVector vTarget = m_pTheMindless->GetTarget()->GetLocation();
@@ -130,7 +130,7 @@ void PlayerPetAI::Update(float fDeltaTime)
 		}	
 	case eST_Attack:
 		{
-			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetActionRange()) )
+			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetRange()) )
 			{
 				m_eCurrentState = eST_Aggro;
 				break;

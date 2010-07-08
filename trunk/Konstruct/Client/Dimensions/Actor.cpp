@@ -71,7 +71,7 @@ void Actor::Draw(kpgRenderer* pRenderer)
 void Actor::SetHeading(kpuVector &vHeading)
 {
 	m_fRotation = atan2(vHeading.GetX(),vHeading.GetZ());
-	m_vHeading = vHeading;
+	m_vHeading = vHeading;	
 }
 
 
@@ -88,7 +88,7 @@ void Actor::SetNextMove(int iTile)
 
 void Actor::UpdateMovement(float fDeltaTime)
 {
-	m_pModel->Rotate(0.0f, m_fRotation, 0.0f);
+	m_pModel->Rotate(0.0f, m_fRotation, 0.0f);	
 
 	// Check to see if we even should move
 	if( m_iDestinationTile >= 0 )
@@ -346,7 +346,7 @@ bool Actor::IsInRange(Actor *pTarget, float fRange)
 
 	//if(fDist <= iRange)
 	//	return true;
-	return g_pGameState->GetLevel()->GetGrid()->Distance(this, pTarget) <= fRange;
+	return g_pGameState->GetLevel()->GetGrid()->DistanceSquared(this, pTarget) <= fRange * fRange;
 }
 
 bool Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)
