@@ -4,13 +4,21 @@
    <Mesh Name="SpaceStation">
 		<Data>Assets\SpaceStation\Models\SpaceStation.dae</Data>
 	</Mesh> 
+	<Mesh Name="GearMerchant">
+		<Data>Assets\Player\SoldierCamo.dae</Data>
+			<Location>-2.5,0,-2.5</Location>
+			<Rotation>0,45,0</Rotation>
+	</Mesh>
 	<Mesh Name="StarSphere">
 		<Data>Assets\FrontEnd\Models\StarSphere.dae</Data>
 		<Location>0,0,0</Location>
 		<UniformScale>0.001f</UniformScale>
     </Mesh>
   </Meshes>
-  <Npcs> Assets\SpaceStation\SpaceStationNpcs.xml </Npcs>
+  <Npcs Count="1" >
+	<Npc Name="Bruce" Model="GearMerchant" Collision="Assets\Player\PlayerCollision.dae" Static="true" ActionRange="1.0"
+		Function="Merchant" MerchantType="Equippables" />			 
+  </Npcs>
 	
   <!-- <Terrain>Assets\SpaceStation\SpaceStationTerrain.xml</Terrain> -->
 </Level>

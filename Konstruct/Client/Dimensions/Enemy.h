@@ -3,7 +3,7 @@
 #include "LoadStructures.h"
 
 class Enemy :
-	public NPC
+	public Npc
 {
 public:
 	Enemy(EnemyLoadStructure& loadStruct);

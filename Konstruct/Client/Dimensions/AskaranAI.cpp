@@ -1,11 +1,11 @@
 #include "StdAfx.h"
 #include "AskaranAI.h"
-#include "NPC.h"
+#include "Npc.h"
 #include "Level.h"
 #include "Grid.h"
 #include "PlayerCharacter.h"
 
-AskaranAI::AskaranAI(NPC* pNpc)
+AskaranAI::AskaranAI(Npc* pNpc)
 {
 	m_eCurrentState = eST_Wait;
 	m_iPreviousTile = -1;
@@ -29,7 +29,7 @@ void AskaranAI::Update(float fDeltaTime)
 		{
 			Grid* pGrid = g_pGameState->GetLevel()->GetGrid();
 			//Charge toward target until within attack range
-			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetActionRange()) )
+			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetRange()) )
 			{
 				kpuVector vLocation = m_pTheMindless->GetLocation();
 				kpuVector vTarget = m_pTheMindless->GetTarget()->GetLocation();
@@ -107,7 +107,7 @@ void AskaranAI::Update(float fDeltaTime)
 				int iDist = g_pGameState->GetLevel()->GetGrid()->Distance( m_pTheMindless->GetTarget(), m_pTheMindless );
 				int iCurrentTile = g_pGameState->GetLevel()->GetGrid()->GetTileAtLocation(m_pTheMindless->GetLocation());
 
-				if(  iDist < m_pTheMindless->GetActionRange() + 2 )
+				if(  iDist < m_pTheMindless->GetRange() + 2 )
 				{
 					kpuVector vTarget = m_pTheMindless->GetLocation() - m_pTheMindless->GetTarget()->GetLocation();
 					vTarget.Normalize();			
@@ -138,7 +138,7 @@ void AskaranAI::Update(float fDeltaTime)
 		}
 	case eST_Attack:
 		{
-			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetActionRange()) )
+			if( !m_pTheMindless->IsInRange(m_pTheMindless->GetTarget(), m_pTheMindless->GetRange()) )
 			{
 				m_eCurrentState = eST_Aggro;
 				break;

@@ -1,12 +1,12 @@
 #pragma once
-#include "NPC.h"
+#include "Npc.h"
 
 class AIControl;
 class PlayerCharacter;
 class Enemy;
 
 class PlayerPet :
-	public NPC
+	public Npc
 {
 public:
 	PlayerPet(PlayerCharacter* pOwner, int iLevel);

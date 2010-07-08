@@ -76,6 +76,8 @@ public:
 	int GetConst() { return m_iConst; }
 	int GetDestinationTile() { return m_iDestinationTile; }
 
+	virtual float GetRange() { return 0.0f; }
+
 	void SetHeading(kpuVector& vHeading);
 	void SetTarget(Actor* pTarget) { m_pTarget = pTarget; }
 	void SetSpeed(float fSpeed) { m_fBaseSpeed = fSpeed; }

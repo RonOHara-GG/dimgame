@@ -6,7 +6,7 @@ class AskaranAI :
 {
 public:
 	AskaranAI(void) {}
-	AskaranAI(NPC* pNpc);
+	AskaranAI(Npc* pNpc);
 	~AskaranAI(void);
 
 	void Update(float fDeltaTime);
@@ -22,7 +22,7 @@ private:
 	};
 
 
-	NPC*		m_pTheMindless;
+	Npc*		m_pTheMindless;
 	eState		m_eCurrentState;
 	int			m_iPreviousTile;
 

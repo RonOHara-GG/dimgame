@@ -61,7 +61,7 @@ extern void	InputEvent(eInputEventType type, u32 button);
 extern kpiInputManager* g_pInputManager;
 
 // Timing for clicks in frames
-#define CLICK_DELTA 1.0f
+#define CLICK_DELTA 0.5f
 
 #define KPIK_ESCAPE          0x001
 #define KPIK_1               0x002
