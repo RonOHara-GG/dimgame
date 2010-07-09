@@ -3,6 +3,7 @@
 #include "Common/Graphics/kpgUIText.h"
 #include "Common/Graphics/kpgUITextInput.h"
 #include "Common/Graphics/kpgUIButton.h"
+#include "Common/Graphics/kpgUIList.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
 
@@ -71,6 +72,9 @@ kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode)
 					break;
 				case eWT_Button:
 					pWindow = new kpgUIButton();
+					break;
+				case eWT_List:
+					pWindow = new kpgUIList();
 					break;
 				default:
 					assert(0);
@@ -220,7 +224,7 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 		if( pEnterEvent )
 			m_uEnterEvent = StringHash(pEnterEvent);
 
-		const char* pShowWindow = pElement->Attribute("Show");
+		const char* pShowWindow = pElement->Attribute("Open");
 		if( pShowWindow )
 			m_uShowTarget = StringHash(pShowWindow);
 
@@ -231,6 +235,10 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 		const char* pCloseWindow = pElement->Attribute("Close");
 		if( pCloseWindow )
 			m_uCloseTarget = StringHash(pCloseWindow);
+
+		const char* pDataSource = pElement->Attribute("DataSource");
+		if( pDataSource )
+			m_uDataSource = StringHash(pDataSource);
 
 		// Get the rectangle
 		for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())
@@ -316,6 +324,10 @@ void kpgUIWindow::Update()
 		pChild->Update();
 		pIter = pIter->Next();
 	}
+}
+
+void kpgUIWindow::SetDataSource(const char* pszData)
+{
 }
 
 void kpgUIWindow::Draw(kpgRenderer* pRenderer, const kpRect& rParent)

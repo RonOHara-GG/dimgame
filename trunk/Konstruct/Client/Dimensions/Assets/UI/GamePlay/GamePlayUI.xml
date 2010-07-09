@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+	<Window Type="0" Name="MainHUD" Orientation="1" PositionX="0.5" PositionY="0.5" Width="1.0" Height="1.0"
+			Visible="1" HasFrame="0" > 
+			
+		<Button Type="3" Name="LeftSkillBtn" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+				PositionX="0.025" PositionY="0.96" Width="0.05" Height="0.078"	Visible="1" HasFrame="1" 
+				MouseDownEvent="Open" Open="SkillSelectWin" />
+				
+		<Button Type="3" Name="RightSkillBtn" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+				PositionX="0.975" PositionY="0.96" Width="0.05" Height="0.078"	Visible="1" HasFrame="1" 
+				MouseDownEvent="Open" Open="SkillSelectWin" />
+				
+		<Window Type="0" Name="SkillSelectWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.875" Width="1.0" Height="0.10"	Visible="0" HasFrame="1" /> 
+					
+		<Window Type="0" Name="EmptyHealthBar" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+				PositionX="0.05" PositionY="0.0125" Width="0.1" Height="0.025" Visible="1" HasFrame="1" /> 
+					
+		<Window Type="0" Name="FullHealthBar" Background="" Orientation="1" 
+				PositionX="0.05" PositionY="0.0125" Width="0.1" Height="0.025" Visible="1" HasFrame="0" />
+					
+		<Window Type="0" Name="EmptyMentalBar" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+				PositionX="0.05" PositionY="0.0355" Width="0.1" Height="0.025" Visible="1" HasFrame="1" /> 
+					
+		<Window Type="0" Name="FullMentalBar" Background="" Orientation="1" 
+				PositionX="0.05" PositionY="0.0355" Width="0.1" Height="0.025" Visible="1" HasFrame="0" />
+		
+		<Window Type="0" Name="ButtonBarWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.95" Width="0.7" Height="0.1" Visible="1" HasFrame="1" >
+				
+				<Button Type="3" Name="MainMenuBtn" Background="./Assets/UI/FrontEnd/StartWin.dds"  Orientation="1" 
+					PositionX="0.05" PositionY="0.5" Width="0.10" Height="0.90"
+					Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MainMenu" />	
+					
+				<Button Type="3" Name="BackPackBtn" Background="./Assets/UI/FrontEnd/StartWin.dds"  Orientation="1" 
+					PositionX="0.15" PositionY="0.5" Width="0.10" Height="0.90"
+					Visible="1" HasFrame="1" ClickEvent="Open" Open="BackBackWin" />				
+				
+				<Button Type="3" Name="SkillsBtn" Background="./Assets/UI/FrontEnd/StartWin.dds"  Orientation="1" 
+					PositionX="0.25" PositionY="0.5" Width="0.10" Height="0.90"
+					Visible="1" HasFrame="1" ClickEvent="Open" Open="SkillWin" />	
+		</Window>
+		
+		<List Type="4" Name="MerchantList" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.30" Visible="0" HasFrame="1"
+			Columns="3" Rows="20" DataSource="ItemList" RowHeight="0.2" ColumnWidth="0.3333333">		
+			
+			<Button Type="3" Name="BuyItemsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
+				PositionX="0.05" PositionY="0.5" Width="0.10" Height="0.10"
+				Visible="1" HasFrame="1" ClickEvent="BuySelected" /> 
+				
+			<Button Type="3" Name="LeaveShopBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
+				PositionX="0.05" PositionY="0.5" Width="0.10" Height="0.10"
+				Visible="1" HasFrame="1" ClickEvent="Close" TargetWindow="MerchantList"/> 
+		</List>
+		
+	</Window>
+	
+	
+			
+	<Window Type="0" Name="MainMenu" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.5"
+				Visible="1" HasFrame="1" > 
+				
+				<Button Type="3" Name="SaveBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
+				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Save Game" />				
+				
+				<Button Type="3" Name="LoadBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.30" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Load Game" 	/>
+				
+				<Button Type="3" Name="OptionsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.45" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Options" />		
+				
+				<Button Type="3" Name="QuitBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.60" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="QuitToFrontEnd" Text="Quit Game" />
+				
+				<Button Type="3" Name="ExitBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.75" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Text="Exit Dimensions" />	
+
+				<Button Type="3" Name="CancelBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+				PositionX="0.5" PositionY="0.90" Width="0.5" Height="0.125"
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MainHUD" Text="Cancel" />	
+	</Window>
+	
+</Windows>
+			

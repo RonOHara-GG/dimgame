@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpgUIList.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpgUIManager.cpp"
 				>
 			</File>
@@ -290,6 +294,10 @@
 			</File>
 			<File
 				RelativePath=".\kpgUIButton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgUIList.h"
 				>
 			</File>
 			<File
