@@ -346,7 +346,7 @@ bool Actor::IsInRange(Actor *pTarget, float fRange)
 
 	//if(fDist <= iRange)
 	//	return true;
-	return g_pGameState->GetLevel()->GetGrid()->DistanceSquared(this, pTarget) <= fRange * fRange;
+	return g_pGameState->GetLevel()->GetGrid()->Distance(this, pTarget) <= fRange ;
 }
 
 bool Actor::UseDefaultAttack(Actor *pTarget, Grid *pGrid)

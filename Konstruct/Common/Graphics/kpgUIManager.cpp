@@ -18,6 +18,7 @@ kpgUIManager::kpgUIManager(void)
 	m_pWinMouseOver = 0;
 	m_pCurrentInput = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
+
 }
 
 kpgUIManager::~kpgUIManager(void)
@@ -106,6 +107,31 @@ void kpgUIManager::NewWindow(u32 uHash)
 	}
 }
 
+void kpgUIManager::OpenUIWindow(u32 uHash)
+{
+	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
+
+	if( pWindow )	
+		pWindow->SetVisible(true);
+}
+
+void kpgUIManager::CloseUIWindow(u32 uHash)
+{
+	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
+
+	if( pWindow )	
+		pWindow->SetVisible(false);
+}
+
+void kpgUIManager::SetDataSource(u32 uDataSource, const char* pData)
+{
+	//find the window with that data source
+	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uDataSource);
+
+	if( pWindow )	
+		pWindow->SetDataSource(pData);
+}
+
 u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
 	if( m_pCurrentWindow )
@@ -166,10 +192,7 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 						{
 						case CE_CLOSE:
 							{
-								kpgUIWindow* pClosed = m_pCurrentWindow->GetChild(m_pWinMouseOver->CloseTarget());
-
-								if( pClosed )
-									pClosed->SetVisible(false);
+								CloseUIWindow(m_pWinMouseOver->CloseTarget());
 								break;
 							}						
 						}	
@@ -183,13 +206,10 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 					//Get mouse enter event
 					switch( m_pWinMouseOver->MouseEnterEvent() )
 					{
-					case CE_SHOW:
+					case CE_OPEN:
 						{
-							kpgUIWindow* pOpen = m_pCurrentWindow->GetChild(m_pWinMouseOver->ShowTarget());
-
-							if( pOpen )
-								pOpen->SetVisible(true);
-							break;
+							OpenUIWindow(m_pWinMouseOver->ShowTarget());
+							return 0;
 						}						
 					}	
 				}
@@ -197,7 +217,14 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 				return 0;
 				
 			}
+		case eIET_ButtonUp:
+			{
+				if( pWindow  && pWindow->IsVisible() && pWindow->HasFrame() )
+					return 0;
+				break;
+			}
 		}
+	
 	}
 	
 	return IE_NOT_HANDLED;

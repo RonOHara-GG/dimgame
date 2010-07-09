@@ -48,6 +48,9 @@ GameState_GamePlay::GameState_GamePlay(void)
 	pDummyLight->SetDirection(vLightDir);
 	pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
 	pRenderer->SetLight(0, pDummyLight);
+
+	m_pUIManager = new kpgUIManager();
+	m_pUIManager->LoadWindows("Assets/UI/GamePlay/GamePlayUI.xml");
 }
 
 GameState_GamePlay::~GameState_GamePlay(void)
@@ -101,6 +104,7 @@ void GameState_GamePlay::MouseUpdate(int X, int Y)
 			}
 			else
 				m_pPlayer->SetMoveTarget(iTile);
+
 		}
 		else
 			m_pPlayer->SetMoveTarget(iTile);

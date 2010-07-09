@@ -23,6 +23,7 @@ public:
 	virtual void Draw() = 0;
 
 	virtual Level* GetLevel()		{ return m_pCurrentLevel; }
+	virtual kpgUIManager* GetUIManager() { return m_pUIManager; }
 
 	virtual void AddActor(Actor* pActor) = 0;
 	virtual PlayerCharacter* GetPlayer() = 0;

@@ -16,6 +16,7 @@ public:
 		eWT_Text,
 		eWT_TextInput,
 		eWT_Button,
+		eWT_List,
 
 		eWT_Last
 	};
@@ -77,8 +78,15 @@ public:
 	void SetPosition(float fX, float fY);
 	void Move(float fDeltaX, float fDeltaY);
 	
+	bool HasFrame() { return m_bHasFrame; }
+	bool IsVisible() { return m_bVisible; }
+	void SetOrientation(eWindowOrientation eWO) { m_eOrientation = eWO; }
 
 	u32	 GetHashCode()	{ return m_uHash; }
+	u32	 GetDataSource()	{ return m_uDataSource; }
+
+	//set the data source
+	virtual void SetDataSource(const char* pszData); 
 
 	//Events and targets
 	virtual u32  ClickEvent()			{ return m_uClickEvent; }
@@ -125,6 +133,8 @@ protected:
 
 	//window name
 	u32					m_uHash;
+	u32					m_uDataSource;
+	
 };
 
 

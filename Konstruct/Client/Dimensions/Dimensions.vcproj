@@ -230,10 +230,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MerchantNpc.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PlayerClass.cpp"
 				>
 			</File>
@@ -505,6 +501,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MerchantNpc.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MissileBattery.cpp"
 					>
 				</File>
@@ -637,10 +637,6 @@
 			</File>
 			<File
 				RelativePath=".\LoadStructures.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MerchantNpc.h"
 				>
 			</File>
 			<File
@@ -896,6 +892,10 @@
 				</File>
 				<File
 					RelativePath=".\Enemy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MerchantNpc.h"
 					>
 				</File>
 				<File
