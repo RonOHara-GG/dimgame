@@ -63,6 +63,9 @@ public:
 	void SetVisible(bool bVal) { m_bVisible = bVal; }
 
 	kpgUIWindow* GetChild(u32 uHash);
+	kpgUIWindow* GetUIParent() { return m_pParent; }
+
+	void SetHeight(float fHeight) { m_fHeight = fHeight; }
 	
 	// Sizing functions
 	const kpRect& GetRect(const kpRect& rParent);

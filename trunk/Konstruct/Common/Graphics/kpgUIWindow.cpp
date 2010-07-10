@@ -266,14 +266,20 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 
 kpgUIWindow* kpgUIWindow::GetChild(u32 uHash)
 {
+	//Check this window
+	if( m_uHash == uHash )
+		return this;
+
 	//check the kids
 	kpuLinkedList* pIter = m_lChildren.Next();
 	while( pIter )
 	{
 		kpgUIWindow* pChild = (kpgUIWindow*)pIter->GetPointer();		
 
-		if( pChild->m_uHash == uHash )
-			return pChild;
+		kpgUIWindow* pNextChild = pChild->GetChild(uHash);
+
+		if( pNextChild )
+			return pNextChild;
 
 		pIter = pIter->Next();
 	}
