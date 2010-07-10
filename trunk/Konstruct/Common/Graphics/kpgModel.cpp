@@ -348,7 +348,7 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 			kpuVector vPos(pPositions->aFloats[iIndex + 0], pPositions->aFloats[iIndex + 1], pPositions->aFloats[iIndex + 2], 0.0f);
 			kpuVector vNrm(pNormals->aFloats[iIndex + 0], pNormals->aFloats[iIndex + 1], pNormals->aFloats[iIndex + 2], 0.0f);
 			iIndex = i * 2;
-			kpuVector vUV(pUVs->aFloats[iIndex + 0], pUVs->aFloats[iIndex + 1], 0.0f, 0.0f);		
+			kpuVector vUV(pUVs->aFloats[iIndex + 0], -pUVs->aFloats[iIndex + 1], 0.0f, 0.0f);		
 			
 			pVertexBuffer->SetPosition(i, vPos);
 			pVertexBuffer->SetNormal(i, vNrm);
