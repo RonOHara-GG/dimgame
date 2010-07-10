@@ -53,20 +53,22 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 	if( IsInRange(pPlayer, m_fActionRange) )
 	{
 		//open dialog
-		const char*** pItemData = (const char***)malloc(sizeof(char*) * 20);
+		char*** pItemData = (char***)malloc(sizeof(char*) * 20);
 
 		for(int i = 0; i < 20; i++)
 		{
-			pItemData[i] = (const char**)malloc(sizeof(char*) * 3);
+			pItemData[i] = (char**)malloc(sizeof(char*) * 3);
 		} 
 
-		for(int x = 0; x < 20; x++)
+		for(int x = 0; x < 1; x++)
 		{
 			for(int y = 0; y < 3; y++)
 			{
-				pItemData[x][y] = new char[32];
-				sprintf((char*)pItemData[x][y], "Test[%d][%d]", x, y );				
+				pItemData[x][y] = "%4";
+				/*strcpy_s(pItemData[x][y], 2, "%4");
+				pItemData[x][y][2] = 0;		*/					
 			}
+			pItemData[x + 1][0] = 0;
 		}
 
 		//for now open basic item window
@@ -76,7 +78,7 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 
 		m_pInTransaction = pPlayer;
 
-		for(int x = 0; x < 20; x++)
+		/*for(int x = 0; x < 20; x++)
 		{
 			for(int y = 0; y < 3; y++)
 			{
@@ -86,7 +88,7 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 			free(pItemData[x]);
 		}
 
-		free(pItemData);
+		free(pItemData);*/
 
 	}
 
