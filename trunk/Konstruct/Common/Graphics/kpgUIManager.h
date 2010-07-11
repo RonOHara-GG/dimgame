@@ -43,3 +43,5 @@ protected:
 #define CE_OPEN			0x7c8a4b57 //Set a window to visible
 #define CE_CLOSE		0xcf88a3b //Set a window to invisible
 #define CE_SET_INPUT	0x0 //Set the current text input
+#define CE_SCROLL_UP	0xebd294f9
+#define CE_SCROLL_DOWN	0x2ac2704c

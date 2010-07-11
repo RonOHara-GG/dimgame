@@ -27,6 +27,8 @@ protected:
 
 
 	PlayerCharacter*	m_pInTransaction;  //The player that is currently in a transaction	
+
+	char*** m_pItemData;
 };
 
 #define MT_EQUIPPABLES	0x000000

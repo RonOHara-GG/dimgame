@@ -1,12 +1,12 @@
 #pragma once
-#include "kpguiwindow.h"
+#include "kpguitext.h"
 #include "Common/Utility/kpuFixedArray.h"
 
 class kpgUIText;
 class kpgFont;
 
 class kpgUIList :
-	public kpgUIWindow
+	public kpgUIText
 {
 public:
 	kpgUIList(void);
@@ -16,26 +16,31 @@ public:
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
 	virtual void SetDataSource(const char* pszData);
+	void ScrollUp();
+	void ScrollDown();
 	
 	//Events and targets
 	virtual u32  ClickEvent()			{ return m_uClickEvent; }
 	virtual u32  ClickEffectedWindow()	{ return m_uTargetHash; }
 
 protected:
-	int	ContainsEscChar(const char* psz);
+	virtual kpRect GetTextRectangle(kpRect& rRect);
+	kpRect GetIconRectangle(kpRect& rRect);
+	void CalculateRectangle(const kpRect& rParent);
 
 protected:
 	int							m_iRows;
 	int							m_iColumns;
-	//kpuFixedArray<float>*		m_paRowHeights;
-	float						m_fRowHeight;
+	kpuFixedArray<float>*		m_paRowHeights;
 	kpuFixedArray<float>*		m_paColumnWidths;	
 	kpuFixedArray<kpgTexture*>* m_paIcons;
-	kpgFont*					m_pFont;
+	float						m_fIconSize[2];
 
 	char***						m_pDataSource;
 
 	/** Scroll bar stuff **/
 	kpgUIWindow*				m_pScrollBar;
-	float						m_fViewPosition[2];
+	float						m_fViewOffset[2];
+	float						m_fScrollDelta;
+	
 };

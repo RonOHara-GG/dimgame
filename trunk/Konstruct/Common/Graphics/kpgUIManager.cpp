@@ -5,6 +5,7 @@
 #include "External/tinyxml/tinyxml.h"
 #include "kpgUIWindow.h"
 #include "kpgUITextInput.h"
+#include "kpgUIList.h"
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuFileManager.h"
 
@@ -18,6 +19,12 @@ kpgUIManager::kpgUIManager(void)
 	m_pWinMouseOver = 0;
 	m_pCurrentInput = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
+
+	const char* szScroll = "ScrollUp";
+	u32  uHash = StringHash(szScroll);
+
+	szScroll = "ScrollDown";
+	uHash = StringHash(szScroll);
 
 }
 
@@ -164,13 +171,16 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 								NewWindow(pWindow->ClickEffectedWindow());
 								return 0;
 							}	
-						case CE_SET_INPUT:
+						case CE_SCROLL_UP:
 							{
-								//Get new text input window
-								if( m_pCurrentInput )
-									m_pCurrentInput->LooseFocus();
-
-								m_pCurrentInput = (kpgUITextInput*)pWindow;
+								kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
+								pList->ScrollUp();
+								return 0;
+							}
+						case CE_SCROLL_DOWN:
+							{
+								kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
+								pList->ScrollDown();
 								return 0;
 							}
 						default:

@@ -260,7 +260,7 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			}
 		}
 
-		
+			
 	}
 }
 
