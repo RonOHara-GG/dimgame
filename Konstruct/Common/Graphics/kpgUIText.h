@@ -19,10 +19,10 @@ public:
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
 protected:
-	kpRect GetTextRectangle();
+	virtual kpRect GetTextRectangle();
 	virtual void CalculateRectangle(const kpRect& rParent);
 
-private:
+//private:
 	virtual void CalculateTextSize();
 
 protected:

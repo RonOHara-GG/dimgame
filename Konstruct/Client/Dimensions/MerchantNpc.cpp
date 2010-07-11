@@ -22,6 +22,20 @@ MerchantNpc::MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool b
 	memset(m_paTheGoodStuff, 0,sizeof(m_paTheGoodStuff) * MAX_SHOP_INVENTORY);
 
 	m_pInTransaction = 0;
+
+	m_pItemData = (char***)malloc(sizeof(char*) * 20);
+
+	for(int i = 0; i < 20; i++)
+	{
+		m_pItemData[i] = (char**)malloc(sizeof(char*) * 3);
+	} 
+
+
+	m_pItemData[0][0] = "%4";
+	m_pItemData[0][1] = "Woman";
+	m_pItemData[0][2] = "$50,000";								
+			
+	m_pItemData[1][0] = 0;
 }
 
 MerchantNpc::~MerchantNpc(void)
@@ -29,6 +43,17 @@ MerchantNpc::~MerchantNpc(void)
 	delete[] m_paBasicItems;
 	delete[] m_paTheGoodStuff;
 	free(m_pszName);
+
+	delete m_pItemData[0][0], "%4";
+	delete m_pItemData[0][1], "Woman";
+	delete m_pItemData[0][2], "$50,000";
+
+	for(int i = 0; i < 20; i++)
+	{
+		free(m_pItemData[i]);
+	} 
+
+	free(m_pItemData);
 }
 bool MerchantNpc::Update(float fGameTime)
 {
@@ -53,27 +78,12 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 	if( IsInRange(pPlayer, m_fActionRange) )
 	{
 		//open dialog
-		char*** pItemData = (char***)malloc(sizeof(char*) * 20);
-
-		for(int i = 0; i < 20; i++)
-		{
-			pItemData[i] = (char**)malloc(sizeof(char*) * 3);
-		} 
-
-		for(int x = 0; x < 1; x++)
-		{
-			for(int y = 0; y < 3; y++)
-			{
-				pItemData[x][y] = "%4";
-				/*strcpy_s(pItemData[x][y], 2, "%4");
-				pItemData[x][y][2] = 0;		*/					
-			}
-			pItemData[x + 1][0] = 0;
-		}
+		
+		
 
 		//for now open basic item window
 		kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
-		pUIManager->SetDataSource(s_uHash_MerchantWindow, (const char*)pItemData);
+		pUIManager->SetDataSource(s_uHash_MerchantWindow, (const char*)m_pItemData);
 		pUIManager->OpenUIWindow(s_uHash_MerchantWindow);		
 
 		m_pInTransaction = pPlayer;
