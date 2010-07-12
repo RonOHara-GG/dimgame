@@ -18,9 +18,10 @@ public:
 
 
 protected:
+	void				LoadItems(const char* szFile);
 	void				FillInventory();
-	Item*				m_paBasicItems;
-	Item*				m_paTheGoodStuff;
+	Item**				m_paBasicItems;
+	Item**				m_paTheGoodStuff;
 
 	u32					m_uMerchantType;
 	u32					m_uSellingWindow; //The name of the window that is used for selling / buying goods

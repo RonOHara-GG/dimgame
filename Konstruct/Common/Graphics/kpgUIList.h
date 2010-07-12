@@ -35,6 +35,7 @@ protected:
 	kpuFixedArray<float>*		m_paColumnWidths;	
 	kpuFixedArray<kpgTexture*>* m_paIcons;
 	float						m_fIconSize[2];
+	float						m_fListDimensions[2];
 
 	char***						m_pDataSource;
 
