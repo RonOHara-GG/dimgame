@@ -44,9 +44,8 @@
 		
 		<List Type="4" Name="MerchantList" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.5" PositionY="0.5" Width="0.60" Height="0.50" Visible="0" HasFrame="1"
-			Columns="3" Rows="20" DataSource="ItemList"  ScrollVertical="ScrollBar" ScrollDelta="0.2"
-			RowHeight="0.2" 
-			ColumnWidth="0.16666 0.4 0.24">		
+			ListWidth="0.8" ListHeight="0.8" Columns="3" Rows="20" DataSource="ItemList" 
+			ScrollVertical="ScrollBar" ScrollDelta="0.25" RowHeight="0.25" ColumnWidth="0.25 0.50 0.25">		
 			
 			<Window Type="0" Name="ScrollBackground" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 				PositionX="0.95" PositionY="0.5" Width="0.05" Height="0.8" Visible="1" HasFrame="1" >
@@ -57,11 +56,11 @@
 			</Window>
 			
 			<Button Type="3" Name="ScrollUpBtn" Background="./Assets/UI/GamePlay/Textures/UpArrow.png"  Orientation="1" 
-				PositionX="0.95" PositionY="0.04" Width="0.05" Height="0.072"
+				PositionX="0.95" PositionY="0.07" Width="0.05" Height="0.072"
 				Visible="1" HasFrame="1" ClickEvent="ScrollUp" TargetWindow="MerchantList"/> 
 					
 			<Button Type="3" Name="ScrollDownBtn" Background="./Assets/UI/GamePlay/Textures/DownArrow.png"  Orientation="1" 
-				PositionX="0.95" PositionY="0.96" Width="0.05" Height="0.072"
+				PositionX="0.95" PositionY="0.93" Width="0.05" Height="0.072"
 				Visible="1" HasFrame="1" ClickEvent="ScrollDown" TargetWindow="MerchantList"/>
 			
 			<Button Type="3" Name="BuyItemsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
@@ -72,7 +71,7 @@
 				PositionX="0.75" PositionY="0.9" Width="0.20" Height="0.10"
 				Visible="1" HasFrame="1" ClickEvent="Close" TargetWindow="MerchantList" Text="Leave"/> 
 				
-			<Icons Count="5" Size="0.55 0.8">
+			<Icons Count="5" Size="0.50 0.8">
 				<Icon>.\Assets\UI\GamePlay\Textures\Gun.png </Icon>
 				<Icon>.\Assets\UI\GamePlay\Textures\Dog.png </Icon>
 				<Icon>.\Assets\UI\GamePlay\Textures\Bow.png </Icon>

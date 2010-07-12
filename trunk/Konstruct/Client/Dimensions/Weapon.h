@@ -11,7 +11,7 @@ enum eWeaponType
 	eWT_Pistol,
 	eWT_Rifle,
 	eWT_AssultRifle,
-	eWT_ShortBowm,
+	eWT_ShortBow,
 	eWT_LongBow,
 	eWT_CompoundBow,
 	eWT_CrossBow,
@@ -51,7 +51,8 @@ public:
 protected:
 
 	float			m_fRange;
-	int				m_iDamage;
+	int				m_iMinDamage;
+	int				m_iMaxDamage;
 	float			m_fRecovery;
 	float			m_fElaspedRecov;
 	float			m_fSpeed;

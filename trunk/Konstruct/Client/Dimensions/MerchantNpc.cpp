@@ -3,6 +3,8 @@
 #include "Item.h"
 #include "Common/Graphics/kpgUIManager.h"
 #include "PlayerCharacter.h"
+#include "External/tinyxml/tinyxml.h"
+#include "Common/Utility/kpuFileManager.h"
 
 #define MAX_SHOP_INVENTORY 20
 static const u32 s_uHash_MerchantWindow = 0xb6c33c53;
@@ -15,27 +17,23 @@ MerchantNpc::MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool b
 	m_bStatic = bStatic;
 	m_uMerchantType = uType;
 	
-	m_paBasicItems = new Item[MAX_SHOP_INVENTORY];
+	m_paBasicItems = (Item**)malloc(sizeof(Item*) * MAX_SHOP_INVENTORY);
 	memset(m_paBasicItems, 0,sizeof(m_paBasicItems) * MAX_SHOP_INVENTORY);
 
-	m_paTheGoodStuff = new Item[MAX_SHOP_INVENTORY];
+	m_paTheGoodStuff = (Item**)malloc(sizeof(Item*) * MAX_SHOP_INVENTORY);
 	memset(m_paTheGoodStuff, 0,sizeof(m_paTheGoodStuff) * MAX_SHOP_INVENTORY);
 
 	m_pInTransaction = 0;
 
-	m_pItemData = (char***)malloc(sizeof(char*) * 20);
+	m_pItemData = (char***)malloc(sizeof(char*) * MAX_SHOP_INVENTORY);
 
-	for(int i = 0; i < 20; i++)
+	for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
 	{
 		m_pItemData[i] = (char**)malloc(sizeof(char*) * 3);
 	} 
 
-
-	m_pItemData[0][0] = "%4";
-	m_pItemData[0][1] = "Woman";
-	m_pItemData[0][2] = "$50,000";								
-			
-	m_pItemData[1][0] = 0;
+	//Load item list from here for now
+	LoadItems("Assets/TempItemList.xml");
 }
 
 MerchantNpc::~MerchantNpc(void)
@@ -43,10 +41,6 @@ MerchantNpc::~MerchantNpc(void)
 	delete[] m_paBasicItems;
 	delete[] m_paTheGoodStuff;
 	free(m_pszName);
-
-	delete m_pItemData[0][0], "%4";
-	delete m_pItemData[0][1], "Woman";
-	delete m_pItemData[0][2], "$50,000";
 
 	for(int i = 0; i < 20; i++)
 	{
@@ -78,7 +72,22 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 	if( IsInRange(pPlayer, m_fActionRange) )
 	{
 		//open dialog
-		
+		for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
+		{
+			if( m_paBasicItems[i] )
+			{
+				m_pItemData[i][0] = m_paBasicItems[i]->GetIcon();				
+				m_pItemData[i][1] =	m_paBasicItems[i]->GetDescription();
+				m_pItemData[i][2] = m_paBasicItems[i]->GetCostDisplay();				
+			}
+			else
+			{
+				m_pItemData[i][0] = 0;
+				m_pItemData[i][1] = 0;
+				m_pItemData[i][2] = 0;			
+				break;
+			}
+		}
 		
 
 		//for now open basic item window
@@ -115,4 +124,46 @@ void MerchantNpc::FillInventory()
 		}
 
 	}
+}
+
+void MerchantNpc::LoadItems(const char* szFile)
+{
+	TiXmlDocument doc;
+	char szFileName[2048];
+	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
+
+	if( doc.LoadFile(szFileName) )
+	{
+		TiXmlElement* pStart = doc.FirstChildElement();
+		
+		int i = 0;
+		for(TiXmlElement* pElement = pStart->FirstChildElement(); pElement != 0 && i < MAX_SHOP_INVENTORY; pElement = pElement->NextSiblingElement() )
+		{
+			char* szSaleDisplay = (char*)pElement->Attribute("SaleDisplay");
+			if( szSaleDisplay )
+			{
+				//seperate into 3 components icon, description, cost
+				char* szIcon = szSaleDisplay;
+
+				char* szDescription = strstr(szIcon, "|");
+				*szDescription = 0;
+				szDescription++;
+
+				char* szCost = strstr(szDescription, "|");
+				*szCost = 0;
+				szCost++;
+
+				Item* item = new Item();
+				item->SetSaleDisplay(szIcon, szDescription, szCost);
+
+				m_paBasicItems[i] = item;
+			}
+
+
+			i++;
+		}
+
+		m_paBasicItems[i] = 0;
+	}
+
 }

@@ -15,6 +15,7 @@ kpgUIList::kpgUIList(void)
 	m_paIcons = 0;
 	m_pScrollBar = 0;
 	m_pDataSource = 0;
+	m_fContentHeight = 0.0f;
 	m_fScrollDelta = DEFAULT_SCROLL_DELTA;
 
 	m_fViewOffset[0] = 0.0f;
@@ -65,7 +66,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 	m_paColumnWidths = new kpuFixedArray<float>(m_iColumns);
 	m_paRowHeights = new kpuFixedArray<float>(m_iRows);
 
-	m_fContentHeight = 0.0f;
+	
 
 	//get column and row sizes
 	char* szRowHeight = _strdup(pNode->Attribute("RowHeight"));	 
@@ -125,21 +126,33 @@ void kpgUIList::Load(TiXmlElement *pNode)
 		
 	}	
 
+	//Get the display height and width of the list
+	const char* szDisplayWidth = pNode->Attribute("ListWidth");
+	if( szDisplayWidth )
+		m_fListDimensions[0] = (float)atof(szDisplayWidth);
+
+	const char* szDisplayHeight = pNode->Attribute("ListHeight");
+	if( szDisplayHeight )
+		m_fListDimensions[1] = (float)atof(szDisplayHeight);
+
+
 	//see if this window has a scroll bar
 	const char* pScroll = pNode->Attribute("ScrollVertical");
 	if( pScroll )
 	{
 		u32 uHash = StringHash(pScroll);
 		m_pScrollBar = GetChild(uHash);		
-
-		float fHeight = 1.0f / m_fContentHeight;
-		m_pScrollBar->SetHeight(fHeight);
-
-		m_pScrollBar->SetPosition(0.5f, 0.0f + (fHeight * 0.5f) );
 		
 		pScroll = pNode->Attribute("ScrollDelta");
 		if( pScroll )
 			m_fScrollDelta = (float)atof(pScroll);		
+		
+		float fHeight = 1.0f / ( m_fContentHeight / m_fScrollDelta);
+		fHeight *= m_fListDimensions[1];
+
+		m_pScrollBar->SetHeight(fHeight);
+
+		m_pScrollBar->SetPosition(0.5f, 0.0f + (fHeight * 0.5f) );
 
 	}	
 
@@ -198,13 +211,21 @@ void kpgUIList::Draw(kpgRenderer *pRenderer, const kpRect &rParent)
 	if( m_bVisible )
 	{
 		kpgUIWindow::Draw(pRenderer, rParent);
+
+		kpRect rListRect = m_rRect;
+		rListRect.m_fBottom = rListRect.m_fTop + (m_fListDimensions[1] * m_rRect.Height());
+		rListRect.m_fRight = rListRect.m_fLeft + (m_fListDimensions[0] * m_rRect.Width());
 				
-		float fY = m_rRect.m_fTop;
+		float fY = rListRect.m_fTop;
 
 		//Draw list only draw rows that fit within the window
-		for(int x = 0 ; x < 1 ; x++)
+		for(int x = 0 ; x < m_iRows ; x++)
 		{
-			float fX = m_rRect.m_fLeft;
+			float fX = rListRect.m_fLeft;
+
+			//Make sure we still have data
+			if( !m_pDataSource[x][0]  )
+				break;
 
 			for(int y = 0; y < m_iColumns; y++)
 			{				
@@ -213,13 +234,13 @@ void kpgUIList::Draw(kpgRenderer *pRenderer, const kpRect &rParent)
 				rect.m_fLeft = fX;
 
 				//add width to fX
-				fX += m_rRect.Width() * m_paColumnWidths->GetElement(y);
+				fX += rListRect.Width() * m_paColumnWidths->GetElement(y);
 				rect.m_fRight = fX ;
-				rect.m_fTop = fY -( m_fViewOffset[1] * m_rRect.Height() );
-				rect.m_fBottom = rect.m_fTop +  m_rRect.Height() * m_paRowHeights->GetElement(x);
+				rect.m_fTop = fY -( m_fViewOffset[1] * rListRect.Height() );
+				rect.m_fBottom = rect.m_fTop +  rListRect.Height() * m_paRowHeights->GetElement(x);
 
 				//Only Draw if cell is inside of winow
-				if( rect.m_fBottom <= m_rRect.m_fBottom && rect.m_fTop >= m_rRect.m_fTop && rect.m_fLeft >= m_rRect.m_fLeft && rect.m_fRight <= m_rRect.m_fRight)
+				if( rect.m_fBottom <= rListRect.m_fBottom && rect.m_fTop >= rListRect.m_fTop && rect.m_fLeft >= rListRect.m_fLeft && rect.m_fRight <= rListRect.m_fRight)
 				{				
 					char* pEsc = strstr(m_pDataSource[x][y], "%");
 
@@ -244,7 +265,7 @@ void kpgUIList::Draw(kpgRenderer *pRenderer, const kpRect &rParent)
 
 			}
 
-			fY +=  m_rRect.Height() * m_paRowHeights->GetElement(x);
+			fY +=  rListRect.Height() * m_paRowHeights->GetElement(x);
 		}
 		
 		
@@ -287,7 +308,7 @@ void kpgUIList::ScrollUp()
 		return;
 	}
 
-	m_pScrollBar->Move(0.0f, -m_fScrollDelta);
+	m_pScrollBar->Move(0.0f, -m_fScrollDelta / m_fContentHeight);
 }
 
 void kpgUIList::ScrollDown()
@@ -302,6 +323,6 @@ void kpgUIList::ScrollDown()
 		return;
 	}	
 
-	m_pScrollBar->Move(0.0f, m_fScrollDelta);
+	m_pScrollBar->Move(0.0f, m_fScrollDelta / m_fContentHeight);
 
 }

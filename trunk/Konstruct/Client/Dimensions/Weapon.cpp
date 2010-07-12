@@ -6,7 +6,8 @@
 Weapon::Weapon(void)
 {
 	m_fRange = 0.0f;
-	m_iDamage = 0;
+	m_iMinDamage = 0;
+	m_iMaxDamage = 0;
 	m_fRecovery = 0.0f;
 	m_fElaspedRecov = 0.0f;
 	m_eDamageType = (DamageType)0;
@@ -40,10 +41,13 @@ void Weapon::Use(Actor* pTarget)
 
 int Weapon::GetDamage()
 {
-	if( m_pWeaponSkill )
-		return m_iDamage + m_pWeaponSkill->GetDamageBonus();
+	int iDamageRange = m_iMaxDamage - m_iMinDamage;
 
-	return m_iDamage;
+	int iDamage = m_iMinDamage + (rand() % iDamageRange + 1);
+	if( m_pWeaponSkill )
+		return iDamage + m_pWeaponSkill->GetDamageBonus();
+
+	return iDamage;
 }
 
 float Weapon::GetRange()
