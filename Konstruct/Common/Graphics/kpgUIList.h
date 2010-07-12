@@ -42,5 +42,6 @@ protected:
 	kpgUIWindow*				m_pScrollBar;
 	float						m_fViewOffset[2];
 	float						m_fScrollDelta;
+	float						m_fContentHeight;
 	
 };

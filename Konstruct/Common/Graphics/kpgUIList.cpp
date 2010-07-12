@@ -16,6 +16,9 @@ kpgUIList::kpgUIList(void)
 	m_pScrollBar = 0;
 	m_pDataSource = 0;
 	m_fScrollDelta = DEFAULT_SCROLL_DELTA;
+
+	m_fViewOffset[0] = 0.0f;
+	m_fViewOffset[1] = 0.0f;
 }
 
 kpgUIList::~kpgUIList(void)
@@ -62,7 +65,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 	m_paColumnWidths = new kpuFixedArray<float>(m_iColumns);
 	m_paRowHeights = new kpuFixedArray<float>(m_iRows);
 
-	float fContentHeight = 0.0f;
+	m_fContentHeight = 0.0f;
 
 	//get column and row sizes
 	char* szRowHeight = _strdup(pNode->Attribute("RowHeight"));	 
@@ -80,10 +83,18 @@ void kpgUIList::Load(TiXmlElement *pNode)
 
 			float fHeight = (float)atof(pData);
 			m_paRowHeights->Add( fHeight );	
-			fContentHeight += fHeight;
+			m_fContentHeight += fHeight;
 		}
 
 		free(szRowHeight);
+
+		 //fill the rest of the column widths in the same pattern
+		for(int j = i; j < m_iRows; j++)
+		{
+			float fHeight = m_paRowHeights->GetElement(j % i);
+			m_paRowHeights->Add(fHeight);
+			m_fContentHeight += fHeight;
+		}
 		
 	}
 
@@ -105,6 +116,12 @@ void kpgUIList::Load(TiXmlElement *pNode)
 		}
 
 		free(szColumnWidth);
+
+		 //fill the rest of the column widths in the same pattern
+        for(int j = i++; j < m_iColumns; j++)
+        {
+			m_paColumnWidths->Add(m_paColumnWidths->GetElement(j % i));
+        }
 		
 	}	
 
@@ -115,7 +132,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 		u32 uHash = StringHash(pScroll);
 		m_pScrollBar = GetChild(uHash);		
 
-		float fHeight = 1.0f / fContentHeight;
+		float fHeight = 1.0f / m_fContentHeight;
 		m_pScrollBar->SetHeight(fHeight);
 
 		m_pScrollBar->SetPosition(0.5f, 0.0f + (fHeight * 0.5f) );
@@ -198,27 +215,31 @@ void kpgUIList::Draw(kpgRenderer *pRenderer, const kpRect &rParent)
 				//add width to fX
 				fX += m_rRect.Width() * m_paColumnWidths->GetElement(y);
 				rect.m_fRight = fX ;
-				rect.m_fTop = fY;
-				rect.m_fBottom = fY +  m_rRect.Height() * m_paRowHeights->GetElement(x);
-				
-				char* pEsc = strstr(m_pDataSource[x][y], "%");
+				rect.m_fTop = fY -( m_fViewOffset[1] * m_rRect.Height() );
+				rect.m_fBottom = rect.m_fTop +  m_rRect.Height() * m_paRowHeights->GetElement(x);
 
-				if( pEsc )
-				{
-					//get the index of the icon to draw
-					int iIcon = atoi(++pEsc);
+				//Only Draw if cell is inside of winow
+				if( rect.m_fBottom <= m_rRect.m_fBottom && rect.m_fTop >= m_rRect.m_fTop && rect.m_fLeft >= m_rRect.m_fLeft && rect.m_fRight <= m_rRect.m_fRight)
+				{				
+					char* pEsc = strstr(m_pDataSource[x][y], "%");
 
-					//calculate icon rect
-					rect = GetIconRectangle(rect);
+					if( pEsc )
+					{
+						//get the index of the icon to draw
+						int iIcon = atoi(++pEsc);
 
-					pRenderer->DrawQuad2D(rect, m_paIcons->GetElement(iIcon));
-				}
-				else
-				{
-					m_szText = m_pDataSource[x][y];
-					CalculateTextSize();
-					rect = GetTextRectangle(rect);
-					pRenderer->DrawText2D(m_szText, rect, m_pFont);
+						//calculate icon rect
+						rect = GetIconRectangle(rect);
+
+						pRenderer->DrawQuad2D(rect, m_paIcons->GetElement(iIcon));
+					}
+					else
+					{
+						m_szText = m_pDataSource[x][y];
+						CalculateTextSize();
+						rect = GetTextRectangle(rect);
+						pRenderer->DrawText2D(m_szText, rect, m_pFont);
+					}
 				}
 
 			}
@@ -257,22 +278,30 @@ void kpgUIList::CalculateRectangle(const kpRect& rParent)
 void kpgUIList::ScrollUp()
 {
 	//move the scroll bar up and adjust offset
-	/*m_fViewOffset[1] -= m_fScrollDelta * m_rRect.Height();
+	m_fViewOffset[1] -= m_fScrollDelta;
 
-	float fX, fY;
-	m_pScrollBar->GetPosition(fX, fY);
+	//make sure it doesn't go below 0.0
+	if( m_fViewOffset[1] < 0.0f )
+	{
+		m_fViewOffset[1] = 0.0f;
+		return;
+	}
 
-	fY -= m_fScrollDelta * m_pScrollBar->GetUIParent()->GetRect(m_rRect).Height();*/
+	m_pScrollBar->Move(0.0f, -m_fScrollDelta);
 }
 
 void kpgUIList::ScrollDown()
 {
 	//move the scroll bar up and adjust offset
-	/*m_fViewOffset[1] += m_fScrollDelta * (kpgUIWindow::GetBottom() - kpgUIWindow::GetTop());
+	m_fViewOffset[1] += m_fScrollDelta;
 
-	float fX, fY;
-	m_pScrollBar->GetPosition(fX, fY);
-	kpgUIWindow* pScrollBackBg = m_pScrollBar->GetUIParent();
+	//make sure it doesn't go over the height of the content
+	if( m_fViewOffset[1] > m_fContentHeight )
+	{
+		m_fViewOffset[1] = m_fContentHeight;
+		return;
+	}	
 
-	fY += m_fScrollDelta * (pScrollBackBg->GetBottom() - pScrollBackBg->GetTop());*/
+	m_pScrollBar->Move(0.0f, m_fScrollDelta);
+
 }

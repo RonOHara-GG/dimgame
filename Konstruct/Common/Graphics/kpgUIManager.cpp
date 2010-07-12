@@ -92,9 +92,11 @@ kpgUIWindow* kpgUIManager::GetUIWindow(u32 uHash)
 	while( pNext )
 	{
 		kpgUIWindow* pWindow = (kpgUIWindow*)pNext->GetPointer();
-		
-		if( pWindow->GetHashCode() == uHash )
-			return pWindow;
+
+		kpgUIWindow* pChild = pWindow->GetChild(uHash);
+
+		if( pChild )
+			return pChild;
 
 		pNext = pNext->Next();
 	}
@@ -174,13 +176,17 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 						case CE_SCROLL_UP:
 							{
 								kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
-								pList->ScrollUp();
+
+								if( pList )
+									pList->ScrollUp();
 								return 0;
 							}
 						case CE_SCROLL_DOWN:
 							{
 								kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
-								pList->ScrollDown();
+
+								if( pList )
+									pList->ScrollDown();
 								return 0;
 							}
 						default:
