@@ -297,6 +297,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpuMap.h"
+				>
+			</File>
+			<File
 				RelativePath=".\kpuMatrix.h"
 				>
 			</File>
