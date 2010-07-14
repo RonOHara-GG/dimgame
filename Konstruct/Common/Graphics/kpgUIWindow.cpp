@@ -6,12 +6,13 @@
 #include "Common/Graphics/kpgUIList.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
+#include "Common/Graphics/kpgUIManager.h"
 
 
 const float kMinimumWindowWidth = 0.05f;
 const float kMinimumWindowHeight = 0.05f;
 
-kpgUIWindow::kpgUIWindow(void)
+kpgUIWindow::kpgUIWindow(kpgUIManager* pManager)
 {
 	m_bHasFrame = false;
 	m_pBackground = 0;
@@ -19,8 +20,11 @@ kpgUIWindow::kpgUIWindow(void)
 	m_pCorner = 0;
 	m_pParent = 0;
 	m_szName = 0;
+	m_pDataSource = 0;
+	m_pData = 0;
 
 	m_eType = eWT_GenericWindow;
+	m_pUIManager = pManager;
 
 }
 
@@ -49,7 +53,7 @@ void kpgUIWindow::Destroy()
 	m_pParent = 0;
 }
 
-kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode)
+kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode, kpgUIManager* pManager)
 {
 	kpgUIWindow* pWindow = 0;
 	TiXmlElement* pElement = static_cast<TiXmlElement*>(pNode);
@@ -62,19 +66,19 @@ kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode)
 			switch( nType )
 			{
 				case eWT_GenericWindow:
-					pWindow = new kpgUIWindow();
+					pWindow = new kpgUIWindow(pManager);
 					break;
 				case eWT_Text:
-					pWindow = new kpgUIText();
+					pWindow = new kpgUIText(pManager);
 					break;
 				case eWT_TextInput:
-					pWindow = new kpgUITextInput();
+					pWindow = new kpgUITextInput(pManager);
 					break;
 				case eWT_Button:
-					pWindow = new kpgUIButton();
+					pWindow = new kpgUIButton(pManager);
 					break;
 				case eWT_List:
-					pWindow = new kpgUIList();
+					pWindow = new kpgUIList(pManager);
 					break;
 				default:
 					assert(0);
@@ -237,8 +241,8 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			m_uCloseTarget = StringHash(pCloseWindow);
 
 		const char* pDataSource = pElement->Attribute("DataSource");
-		if( pDataSource )
-			m_uDataSource = StringHash(pDataSource);
+		if( pDataSource )		
+			m_pDataSource = _strdup(pDataSource);		
 
 		// Get the rectangle
 		for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())
@@ -252,7 +256,7 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 			}
 			else
 			{	// Child Window
-				kpgUIWindow* pWindow = kpgUIWindow::Load((TiXmlNode*)pChild);
+				kpgUIWindow* pWindow = kpgUIWindow::Load((TiXmlNode*)pChild, m_pUIManager);
 				if( pWindow )
 				{
 					AddChildWindow(pWindow, kpgRenderer::GetInstance());
@@ -285,6 +289,12 @@ kpgUIWindow* kpgUIWindow::GetChild(u32 uHash)
 	}
 
 	return 0;
+}
+
+void kpgUIWindow::GetDataSource()
+{
+	if( m_pDataSource) 
+		m_pData = *m_pUIManager->GetDataSource(m_pDataSource);
 }
 
 
@@ -330,10 +340,6 @@ void kpgUIWindow::Update()
 		pChild->Update();
 		pIter = pIter->Next();
 	}
-}
-
-void kpgUIWindow::SetDataSource(const char* pszData)
-{
 }
 
 void kpgUIWindow::Draw(kpgRenderer* pRenderer, const kpRect& rParent)
@@ -463,6 +469,9 @@ void kpgUIWindow::CalculateRectangle(const kpRect& rParent)
 
 kpgUIWindow* kpgUIWindow::HitTest(float fX, float fY, const kpRect& rParent, eHitLocation* pOutLocation)
 {
+	if( !m_bVisible )
+		return 0;
+
 	kpgUIWindow* pHitWindow = 0;
 	eHitLocation eHl = eHL_Outside;
 
@@ -838,4 +847,11 @@ void kpgUIWindow::Move(float fDeltaX, float fDeltaY)
 
 	m_fPosition[0] += fDeltaX;
 	m_fPosition[1] += fDeltaY;
+}
+void kpgUIWindow::SetVisible(bool bVal)
+{
+	m_bVisible = bVal; 
+
+	if( m_bVisible )
+		GetDataSource();
 }

@@ -6,6 +6,8 @@ Item::Item(void)
 	m_pszDescription = 0;
 	m_pszCost = 0;
 	m_pszIcon = 0;
+
+	m_iCost = 1000000;
 }
 
 Item::~Item(void)

@@ -6,7 +6,7 @@
 
 #define DEFAULT_SCROLL_DELTA 0.2f
 
-kpgUIList::kpgUIList(void)
+kpgUIList::kpgUIList(kpgUIManager* pManager):kpgUIText(pManager)
 {
 	m_iRows = 0;
 	m_iColumns = 0;
@@ -14,7 +14,6 @@ kpgUIList::kpgUIList(void)
 	m_paRowHeights = 0;
 	m_paIcons = 0;
 	m_pScrollBar = 0;
-	m_pDataSource = 0;
 	m_fContentHeight = 0.0f;
 	m_fScrollDelta = DEFAULT_SCROLL_DELTA;
 
@@ -33,21 +32,6 @@ kpgUIList::~kpgUIList(void)
 	}	
 
 	delete m_paIcons;
-
-	if( m_pDataSource )
-	{
-		for(int x = 0; x < m_iRows; x++)
-		{
-			for(int y = 0; y < m_iColumns; y++)
-			{
-				delete m_pDataSource[x][y];							
-			}
-
-			free(m_pDataSource[x]);
-		}
-
-		free(m_pDataSource);
-	}
 }
 
 void kpgUIList::Load(TiXmlElement *pNode)
@@ -64,9 +48,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 		m_iColumns = atoi(szColumns);
 
 	m_paColumnWidths = new kpuFixedArray<float>(m_iColumns);
-	m_paRowHeights = new kpuFixedArray<float>(m_iRows);
-
-	
+	m_paRowHeights = new kpuFixedArray<float>(m_iRows);	
 
 	//get column and row sizes
 	char* szRowHeight = _strdup(pNode->Attribute("RowHeight"));	 
@@ -147,13 +129,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 		if( pScroll )
 			m_fScrollDelta = (float)atof(pScroll);		
 		
-		float fHeight = 1.0f / ( m_fContentHeight / m_fScrollDelta);
-		fHeight *= m_fListDimensions[1];
-
-		m_pScrollBar->SetHeight(fHeight);
-
-		m_pScrollBar->SetPosition(0.5f, 0.0f + (fHeight * 0.5f) );
-
+		CalculateScrollHeight();
 	}	
 
 	TiXmlElement* pChild = pNode->FirstChildElement("Icons");
@@ -200,9 +176,33 @@ void kpgUIList::Load(TiXmlElement *pNode)
 	
 }
 
-void kpgUIList::SetDataSource(const char* pszData)
+
+
+void kpgUIList::GetDataSource()
 {
-	m_pDataSource = (char***)pszData;	
+	kpgUIWindow::GetDataSource();
+
+	if( m_pData )
+	{
+		int i = 0;
+		m_iRows = 0;
+		m_fContentHeight = 0.0f;
+		//Get the height of the data
+		while( ((char***)m_pData)[i++][0] )
+		{
+			m_fContentHeight += m_paRowHeights->GetElement(i);
+			m_iRows++;
+		}
+
+		//reset scroll
+		if( m_pScrollBar )
+		{
+			CalculateScrollHeight();
+			m_pScrollBar->SetPosition(0.0f, 0.0f);
+			m_fViewOffset[1] = 0.0f;
+		}
+	}
+
 }
 
 void kpgUIList::Draw(kpgRenderer *pRenderer, const kpRect &rParent)
@@ -212,63 +212,60 @@ void kpgUIList::Draw(kpgRenderer *pRenderer, const kpRect &rParent)
 	{
 		kpgUIWindow::Draw(pRenderer, rParent);
 
-		kpRect rListRect = m_rRect;
-		rListRect.m_fBottom = rListRect.m_fTop + (m_fListDimensions[1] * m_rRect.Height());
-		rListRect.m_fRight = rListRect.m_fLeft + (m_fListDimensions[0] * m_rRect.Width());
-				
-		float fY = rListRect.m_fTop;
-
-		//Draw list only draw rows that fit within the window
-		for(int x = 0 ; x < m_iRows ; x++)
+		if( m_pData )
 		{
-			float fX = rListRect.m_fLeft;
+			kpRect rListRect = m_rRect;
+			rListRect.m_fBottom = rListRect.m_fTop + (m_fListDimensions[1] * m_rRect.Height());
+			rListRect.m_fRight = rListRect.m_fLeft + (m_fListDimensions[0] * m_rRect.Width());
+					
+			float fY = rListRect.m_fTop;
 
-			//Make sure we still have data
-			if( !m_pDataSource[x][0]  )
-				break;
+			//Draw list only draw rows that fit within the window and go until no more data or max rows
+			for(int x = 0 ; x < m_iRows ; x++)
+			{
+				float fX = rListRect.m_fLeft;
 
-			for(int y = 0; y < m_iColumns; y++)
-			{				
-				//calculate cell's rect
-				kpRect rect;
-				rect.m_fLeft = fX;
-
-				//add width to fX
-				fX += rListRect.Width() * m_paColumnWidths->GetElement(y);
-				rect.m_fRight = fX ;
-				rect.m_fTop = fY -( m_fViewOffset[1] * rListRect.Height() );
-				rect.m_fBottom = rect.m_fTop +  rListRect.Height() * m_paRowHeights->GetElement(x);
-
-				//Only Draw if cell is inside of winow
-				if( rect.m_fBottom <= rListRect.m_fBottom && rect.m_fTop >= rListRect.m_fTop && rect.m_fLeft >= rListRect.m_fLeft && rect.m_fRight <= rListRect.m_fRight)
+				for(int y = 0; y < m_iColumns && ((char***)m_pData)[x][y]; y++)
 				{				
-					char* pEsc = strstr(m_pDataSource[x][y], "%");
+					//calculate cell's rect
+					kpRect rect;
+					rect.m_fLeft = fX;
 
-					if( pEsc )
-					{
-						//get the index of the icon to draw
-						int iIcon = atoi(++pEsc);
+					//add width to fX
+					fX += rListRect.Width() * m_paColumnWidths->GetElement(y);
+					rect.m_fRight = fX ;
+					rect.m_fTop = fY -( m_fViewOffset[1] * rListRect.Height() );
+					rect.m_fBottom = rect.m_fTop +  rListRect.Height() * m_paRowHeights->GetElement(x);
 
-						//calculate icon rect
-						rect = GetIconRectangle(rect);
+					//Only Draw if cell is inside of winow
+					if( rect.m_fBottom <= rListRect.m_fBottom && rect.m_fTop >= rListRect.m_fTop && rect.m_fLeft >= rListRect.m_fLeft && rect.m_fRight <= rListRect.m_fRight)
+					{				
 
-						pRenderer->DrawQuad2D(rect, m_paIcons->GetElement(iIcon));
+						if( ((char***)m_pData)[x][y][0] == '%' )
+						{
+							//get the index of the icon to draw
+							int iIcon = atoi(&((char***)m_pData)[x][y][1]);
+
+							//calculate icon rect
+							rect = GetIconRectangle(rect);
+
+							pRenderer->DrawQuad2D(rect, m_paIcons->GetElement(iIcon));
+						}
+						else
+						{
+							m_szText = ((char***)m_pData)[x][y];
+							CalculateTextSize();
+							rect = GetTextRectangle(rect);
+							pRenderer->DrawText2D(m_szText, rect, m_pFont);
+						}
 					}
-					else
-					{
-						m_szText = m_pDataSource[x][y];
-						CalculateTextSize();
-						rect = GetTextRectangle(rect);
-						pRenderer->DrawText2D(m_szText, rect, m_pFont);
-					}
+
 				}
 
-			}
-
-			fY +=  rListRect.Height() * m_paRowHeights->GetElement(x);
+				fY +=  rListRect.Height() * m_paRowHeights->GetElement(x);
+			}	
+		
 		}
-		
-		
 	}
 }
 
@@ -316,13 +313,71 @@ void kpgUIList::ScrollDown()
 	//move the scroll bar up and adjust offset
 	m_fViewOffset[1] += m_fScrollDelta;
 
-	//make sure it doesn't go over the height of the content
-	if( m_fViewOffset[1] > m_fContentHeight )
+	//make sure it doesn't go over the height of the content minus the height of the list
+	if( m_fViewOffset[1] > m_fContentHeight - 1.0f)
 	{
-		m_fViewOffset[1] = m_fContentHeight;
+		m_fViewOffset[1] = m_fContentHeight - 1.0f;
 		return;
 	}	
 
 	m_pScrollBar->Move(0.0f, m_fScrollDelta / m_fContentHeight);
 
+}
+
+void kpgUIList::CalculateScrollHeight()
+{
+	float fHeight = 1.0f / ( (m_fContentHeight - 1.0f) / m_fScrollDelta);
+	fHeight *= m_fListDimensions[1];
+
+	m_pScrollBar->SetHeight(fHeight);	
+}
+
+void kpgUIList::SelectCell(float fX, float fY)
+{
+	m_iCellClicked[0] = -1;
+	m_iCellClicked[1] = -1;
+
+	kpRect rListRect = m_rRect;
+	rListRect.m_fBottom = rListRect.m_fTop + (m_fListDimensions[1] * m_rRect.Height());
+	rListRect.m_fRight = rListRect.m_fLeft + (m_fListDimensions[0] * m_rRect.Width());
+
+	//see if mouse is in cells
+	if( rListRect.m_fBottom >= fY && rListRect.m_fTop <= fY && rListRect.m_fLeft <= fX && rListRect.m_fRight >= fX)
+	{
+		//calculate the cell hit
+		float fDY = rListRect.m_fTop;
+
+		for(int x = 0 ; x < m_iRows ; x++)
+		{
+			float fDX = rListRect.m_fLeft;
+			kpRect rect;
+			rect.m_fTop = fDY -( m_fViewOffset[1] * rListRect.Height() );
+			rect.m_fBottom = rect.m_fTop +  rListRect.Height() * m_paRowHeights->GetElement(x);
+
+			//check if mouse is in this row
+			if( rect.m_fBottom >= fY && rect.m_fTop <= fY )
+			{
+				m_iCellClicked[1] = x;
+				//find column
+				for(int y = 0; y < m_iColumns; y++)
+				{				
+					rect.m_fLeft = fDX - ( m_fViewOffset[0] * rListRect.Width() );
+
+					//add width to fX
+					fDX += rListRect.Width() * m_paColumnWidths->GetElement(y);
+					rect.m_fRight = fDX ;						
+
+					//see if mouse is in cell
+					if( rect.m_fLeft <= fX && rect.m_fRight >= fX)
+					{				
+						m_iCellClicked[0] = y;							
+					}
+				}
+			}
+
+			fDY +=  rListRect.Height() * m_paRowHeights->GetElement(x);
+		}	
+	
+	}
+		
 }

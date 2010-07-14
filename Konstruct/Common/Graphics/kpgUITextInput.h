@@ -7,7 +7,7 @@ class kpgTexture;
 class kpgUITextInput :	public kpgUIText
 {
 public:
-	kpgUITextInput(void);
+	kpgUITextInput(kpgUIManager* pManager);
 	virtual ~kpgUITextInput(void);
 
 	void LoadDefaults();

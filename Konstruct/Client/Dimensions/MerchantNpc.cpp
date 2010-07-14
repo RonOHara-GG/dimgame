@@ -2,6 +2,7 @@
 #include "MerchantNpc.h"
 #include "Item.h"
 #include "Common/Graphics/kpgUIManager.h"
+#include "Common/Graphics/kpgUIList.h"
 #include "PlayerCharacter.h"
 #include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFileManager.h"
@@ -17,23 +18,24 @@ MerchantNpc::MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool b
 	m_bStatic = bStatic;
 	m_uMerchantType = uType;
 	
-	m_paBasicItems = (Item**)malloc(sizeof(Item*) * MAX_SHOP_INVENTORY);
-	memset(m_paBasicItems, 0,sizeof(m_paBasicItems) * MAX_SHOP_INVENTORY);
+	m_paBasicItems = (Item**)calloc(MAX_SHOP_INVENTORY, sizeof(Item*));
 
-	m_paTheGoodStuff = (Item**)malloc(sizeof(Item*) * MAX_SHOP_INVENTORY);
-	memset(m_paTheGoodStuff, 0,sizeof(m_paTheGoodStuff) * MAX_SHOP_INVENTORY);
+	m_paTheGoodStuff = (Item**)calloc(MAX_SHOP_INVENTORY, sizeof(Item*));
 
 	m_pInTransaction = 0;
 
-	m_pItemData = (char***)malloc(sizeof(char*) * MAX_SHOP_INVENTORY);
+	m_pItemData = (char***)malloc(MAX_SHOP_INVENTORY * sizeof(char*));
 
 	for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
 	{
-		m_pItemData[i] = (char**)malloc(sizeof(char*) * 3);
+		m_pItemData[i] = (char**)calloc(3, sizeof(char*));
 	} 
+
 
 	//Load item list from here for now
 	LoadItems("Assets/TempItemList.xml");
+
+	SetFlag(MERCHANT);
 }
 
 MerchantNpc::~MerchantNpc(void)
@@ -44,7 +46,8 @@ MerchantNpc::~MerchantNpc(void)
 
 	for(int i = 0; i < 20; i++)
 	{
-		free(m_pItemData[i]);
+		if( m_pItemData[i] )
+			free(m_pItemData[i]);
 	} 
 
 	free(m_pItemData);
@@ -56,6 +59,8 @@ bool MerchantNpc::Update(float fGameTime)
 
 	if( m_pInTransaction )
 	{
+		m_pInTransaction->SetTarget(this);
+
 		if( !IsInRange(m_pInTransaction, m_fActionRange) )
 		{
 			m_pInTransaction = 0;
@@ -71,28 +76,10 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 {
 	if( IsInRange(pPlayer, m_fActionRange) )
 	{
-		//open dialog
-		for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
-		{
-			if( m_paBasicItems[i] )
-			{
-				m_pItemData[i][0] = m_paBasicItems[i]->GetIcon();				
-				m_pItemData[i][1] =	m_paBasicItems[i]->GetDescription();
-				m_pItemData[i][2] = m_paBasicItems[i]->GetCostDisplay();				
-			}
-			else
-			{
-				m_pItemData[i][0] = 0;
-				m_pItemData[i][1] = 0;
-				m_pItemData[i][2] = 0;			
-				break;
-			}
-		}
-		
+		SetListData();
 
-		//for now open basic item window
-		kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
-		pUIManager->SetDataSource(s_uHash_MerchantWindow, (const char*)m_pItemData);
+		//open dialog
+		kpgUIManager* pUIManager = g_pGameState->GetUIManager();	
 		pUIManager->OpenUIWindow(s_uHash_MerchantWindow);		
 
 		m_pInTransaction = pPlayer;
@@ -112,7 +99,28 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 	}
 
 }
+void MerchantNpc::SetListData()
+{
+	int j = 0;
+	for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
+	{
+		if( m_paBasicItems[i] )
+		{
+			m_pItemData[j][0] = m_paBasicItems[i]->GetIcon();				
+			m_pItemData[j][1] =	m_paBasicItems[i]->GetDescription();
+			m_pItemData[j][2] = m_paBasicItems[i]->GetCostDisplay();	
+			j++;
+		}		
+			
+	}	
 
+	m_pItemData[j][0] = 0;	
+
+	//for now open basic item window
+	kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
+	pUIManager->SetDataSource("ItemList", (char*)m_pItemData);
+
+}
 void MerchantNpc::FillInventory()
 {
 	switch( m_uMerchantType )
@@ -145,11 +153,11 @@ void MerchantNpc::LoadItems(const char* szFile)
 				//seperate into 3 components icon, description, cost
 				char* szIcon = szSaleDisplay;
 
-				char* szDescription = strstr(szIcon, "|");
+				char* szDescription = strchr(szIcon, ',');
 				*szDescription = 0;
 				szDescription++;
 
-				char* szCost = strstr(szDescription, "|");
+				char* szCost = strchr(szDescription, ',');
 				*szCost = 0;
 				szCost++;
 
@@ -165,5 +173,34 @@ void MerchantNpc::LoadItems(const char* szFile)
 
 		m_paBasicItems[i] = 0;
 	}
+
+}
+void MerchantNpc::SellSelectedItem()
+{
+	//Get the selected item from the merchant list	
+	kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
+	kpgUIList* pItemList = (kpgUIList*)pUIManager->GetUIWindow(s_uHash_MerchantWindow);
+
+	int iIndex = pItemList->GetSelectedRow();
+
+	if( iIndex > -1 && iIndex < MAX_SHOP_INVENTORY && m_pInTransaction->GetMoney() >= m_paBasicItems[iIndex]->GetCost() )
+	{
+		//sell item to player
+		if( m_pInTransaction->AddItemToInventory(m_paBasicItems[iIndex]) )
+		{
+			m_pInTransaction->AddMoney(-m_paBasicItems[iIndex]->GetCost());
+
+			m_paBasicItems[iIndex] = 0;
+
+			//reset list data with updated list
+			SetListData();
+		}
+
+		//if no room don't add possibly display text to player stating not enough room
+	}
+}
+
+void MerchantNpc::BuySelectedItem()
+{
 
 }

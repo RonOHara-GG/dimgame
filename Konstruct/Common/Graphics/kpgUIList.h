@@ -9,24 +9,29 @@ class kpgUIList :
 	public kpgUIText
 {
 public:
-	kpgUIList(void);
+	kpgUIList(kpgUIManager* pManager);
 	virtual ~kpgUIList(void);
 
-	virtual void Load(TiXmlElement* pNode);
-	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
+	void Load(TiXmlElement* pNode);
+	void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
-	virtual void SetDataSource(const char* pszData);
 	void ScrollUp();
 	void ScrollDown();
+	void SelectCell(float fX, float fY);
 	
 	//Events and targets
 	virtual u32  ClickEvent()			{ return m_uClickEvent; }
 	virtual u32  ClickEffectedWindow()	{ return m_uTargetHash; }
 
+	int GetSelectedRow() { return m_iCellClicked[1]; }
+	int GetSelectedColumn() { return m_iCellClicked[0]; }
+
 protected:
 	virtual kpRect GetTextRectangle(kpRect& rRect);
 	kpRect GetIconRectangle(kpRect& rRect);
 	void CalculateRectangle(const kpRect& rParent);
+	void CalculateScrollHeight();
+	void GetDataSource();
 
 protected:
 	int							m_iRows;
@@ -37,12 +42,12 @@ protected:
 	float						m_fIconSize[2];
 	float						m_fListDimensions[2];
 
-	char***						m_pDataSource;
-
 	/** Scroll bar stuff **/
 	kpgUIWindow*				m_pScrollBar;
 	float						m_fViewOffset[2];
 	float						m_fScrollDelta;
 	float						m_fContentHeight;
+
+	int							m_iCellClicked[2];
 	
 };

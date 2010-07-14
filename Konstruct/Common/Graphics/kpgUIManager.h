@@ -1,5 +1,6 @@
 #pragma once
 #include "Common/Utility/kpuMatrix.h"
+#include "Common/Utility/kpuMap.h"
 
 class kpgRenderer;
 class kpgUIWindow;
@@ -20,21 +21,23 @@ public:
 
 	bool LoadWindows(const char* szFile);	
 	void NewWindow(u32 uHash);
+	void ToggleUIWindow(u32 uHash);
 	void OpenUIWindow(u32 uHash);
 	void CloseUIWindow(u32 uHash);
 
-	void SetDataSource(u32 uDataSource, const char* pData);
+	void SetDataSource(char* pszName, char* pData);
+	char** GetDataSource(char* pszName);
+	kpgUIWindow* GetUIWindow(u32 uHash);
 
 protected:	
-	kpgUIWindow* GetUIWindow(u32 uHash);
+	kpuMatrix							m_mUIRenderMatrix;
+	kpgUIWindow*						m_pCurrentWindow;
+	kpgUIWindow*						m_pWinMouseOver;
+	kpuLinkedList*						m_plWindowList;	
+
+	kpgUITextInput*						m_pCurrentInput;
+	kpuMap<char*,char*>*				m_pDataSourceMap;
 	
-
-	kpuMatrix			m_mUIRenderMatrix;
-	kpgUIWindow*		m_pCurrentWindow;
-	kpgUIWindow*		m_pWinMouseOver;
-	kpuLinkedList*		m_plWindowList;	
-
-	kpgUITextInput*		m_pCurrentInput;
 };
 
 /*Window Hashed Click Events*/
@@ -45,3 +48,4 @@ protected:
 #define CE_SET_INPUT	0x0 //Set the current text input
 #define CE_SCROLL_UP	0xebd294f9
 #define CE_SCROLL_DOWN	0x2ac2704c
+#define CE_SELECT_CELL	0x73fb9385

@@ -13,9 +13,11 @@ public:
 	void Interact(PlayerCharacter* pPlayer);
 	bool Update(float fGameTime);
 
-	void BuyItem(PlayerCharacter* pPlayer); //player buys item from merchant
-	int SellItem(Item* pItem); // player sells item to merchant and is returned money
+	void BuySelectedItem(); //buys selected item from player
+	void SellSelectedItem(); // sells selected item to player
 
+protected:
+	void SetListData();
 
 protected:
 	void				LoadItems(const char* szFile);

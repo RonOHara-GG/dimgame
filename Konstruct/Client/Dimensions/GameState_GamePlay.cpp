@@ -17,6 +17,7 @@
 #include "Common\Utility\kpuVector.h"
 #include "Grid.h"
 #include "Enemy.h"
+#include "MerchantNpc.h"
 #include "Common/Utility/kpuQuadTree.h"
 #include "Common\Input\kpiInputManager.h"
 
@@ -24,6 +25,7 @@ GameState_GamePlay::GameState_GamePlay(void)
 {
 	// Create the UI manager & load the UI for this game state
 	m_pUIManager = new kpgUIManager();
+	m_pUIManager->LoadWindows("Assets/UI/GamePlay/GamePlayUI.xml");
 
 	// Setup basic camera info
 	kpuVector vLocation(12.0f, 18.0f, 12.0f, 0.0f);
@@ -49,8 +51,7 @@ GameState_GamePlay::GameState_GamePlay(void)
 	pDummyLight->SetColor(kpuVector(0.0f, 0.0f, 0.0f, 0.75f));
 	pRenderer->SetLight(0, pDummyLight);
 
-	m_pUIManager = new kpgUIManager();
-	m_pUIManager->LoadWindows("Assets/UI/GamePlay/GamePlayUI.xml");
+	
 }
 
 GameState_GamePlay::~GameState_GamePlay(void)
@@ -199,22 +200,60 @@ void GameState_GamePlay::AddActor(Actor* pActor)
 
 bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 {
-	if( m_pUIManager && m_pUIManager->HandleInputEvent(type, button) != IE_NOT_HANDLED )
-		return true;
+	if( m_pUIManager )
+	{
+		u32 uResult = m_pUIManager->HandleInputEvent(type, button);
+
+		if( uResult == 0 )
+			return true;
+
+		//try and handle game specific result
+		switch( uResult )
+		{
+		case CE_BUY:
+			{
+				//buy the selected item from the player's current target
+				Actor* pTarget = m_pPlayer->GetTarget();
+
+				if( pTarget->HasFlag(MERCHANT));
+					((MerchantNpc*)pTarget)->SellSelectedItem();
+			}
+
+		}
+	}
 
 	bool bHandled = false;
 	kpPoint ptMousePos = g_pInputManager->GetMouseLoc();
 	switch(type)
 	{		
 		case eIET_ButtonUp:
+		{
 			switch(button)
 			{
 				case KPIM_BUTTON_0:
-					MouseUpdate(ptMousePos.m_iX, ptMousePos.m_iY );
-					bHandled = true;
-					break;
+					{
+						MouseUpdate(ptMousePos.m_iX, ptMousePos.m_iY );
+						bHandled = true;
+						break;	
+					}
+				
 			}
 			break;
+		}
+		case eIET_KeyPress:
+			{
+				switch(button)
+				{
+					case KPIK_I:
+					{
+						//toggle the inventory window
+						m_pUIManager->ToggleUIWindow(KE_INVENTORY);
+						bHandled = true;
+						break;
+					}
+				}
+				break;
+			}
 	}
 	return bHandled;
 }

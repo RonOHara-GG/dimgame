@@ -62,7 +62,12 @@ bool kpiInputManager::Update(float fDeltaTime)
 					InputEvent(eIET_ButtonUp, i);
 
 				if( newKeyState[i] != 0 )
+				{
+					if( m_aKeyState[i] != newKeyState[i] )
+						InputEvent(eIET_KeyPress, i);
+					
 					InputEvent(eIET_ButtonDown, i);
+				}
 			}
 
 			m_aKeyState[i] = newKeyState[i];

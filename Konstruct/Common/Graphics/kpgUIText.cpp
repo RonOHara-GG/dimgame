@@ -4,7 +4,7 @@
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
 
-kpgUIText::kpgUIText(void)
+kpgUIText::kpgUIText(kpgUIManager* pManager):kpgUIWindow(pManager)
 {
 	m_szText = 0;
 	m_pFont = new kpgFont();
