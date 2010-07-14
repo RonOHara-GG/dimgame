@@ -26,32 +26,30 @@
 		<Window Type="0" Name="FullMentalBar" Background="" Orientation="1" 
 				PositionX="0.05" PositionY="0.0355" Width="0.1" Height="0.025" Visible="1" HasFrame="0" />
 		
-		<Window Type="0" Name="ButtonBarWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
-				PositionX="0.5" PositionY="0.95" Width="0.7" Height="0.1" Visible="1" HasFrame="1" >
-				
-				<Button Type="3" Name="MainMenuBtn" Background="./Assets/UI/FrontEnd/StartWin.dds"  Orientation="1" 
-					PositionX="0.05" PositionY="0.5" Width="0.10" Height="0.90"
-					Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MainMenu" />	
-					
-				<Button Type="3" Name="BackPackBtn" Background="./Assets/UI/FrontEnd/StartWin.dds"  Orientation="1" 
-					PositionX="0.15" PositionY="0.5" Width="0.10" Height="0.90"
-					Visible="1" HasFrame="1" ClickEvent="Open" Open="BackBackWin" />				
-				
-				<Button Type="3" Name="SkillsBtn" Background="./Assets/UI/FrontEnd/StartWin.dds"  Orientation="1" 
-					PositionX="0.25" PositionY="0.5" Width="0.10" Height="0.90"
-					Visible="1" HasFrame="1" ClickEvent="Open" Open="SkillWin" />	
-		</Window>
+		<List Type="4" Name="Inventory" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.28125" Height="0.50" Visible="0" HasFrame="1"
+			ListWidth="1.0" ListHeight="1.0" Columns="5" Rows="5"  RowHeight="0.20" ColumnWidth="0.20"
+			DataSource="InventoryIcons" >
+			<Icons Count="5" Size="0.85 0.8">
+				<Icon>.\Assets\UI\GamePlay\Textures\Gun.png </Icon>
+				<Icon>.\Assets\UI\GamePlay\Textures\Dog.png </Icon>
+				<Icon>.\Assets\UI\GamePlay\Textures\Bow.png </Icon>
+				<Icon>.\Assets\UI\GamePlay\Textures\Armor.png </Icon>
+				<Icon>.\Assets\UI\GamePlay\Textures\Woman.png </Icon>
+			</Icons>
+		</List>
 		
 		<List Type="4" Name="MerchantList" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.5" PositionY="0.5" Width="0.60" Height="0.50" Visible="0" HasFrame="1"
 			ListWidth="0.8" ListHeight="0.8" Columns="3" Rows="20" DataSource="ItemList" 
-			ScrollVertical="ScrollBar" ScrollDelta="0.25" RowHeight="0.25" ColumnWidth="0.25 0.50 0.25">		
+			ScrollVertical="ScrollBar" ScrollDelta="0.25" RowHeight="0.25" ColumnWidth="0.25 0.50 0.25"
+			ClickEvent="SelectCell">		
 			
 			<Window Type="0" Name="ScrollBackground" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 				PositionX="0.95" PositionY="0.5" Width="0.05" Height="0.8" Visible="1" HasFrame="1" >
 												
-				<Window Type="0" Name="ScrollBar"  Background="./Assets/UI/GamePlay/Textures/ScrollBar.png" Orientation="1" 
-					PositionX="0.5" PositionY="0.5" Width="1.0" Height="1.0" Visible="1" HasFrame="1"
+				<Window Type="0" Name="ScrollBar"  Background="./Assets/UI/GamePlay/Textures/ScrollBar.png" Orientation="0" 
+					PositionX="0.0" PositionY="0.0" Width="1.0" Height="1.0" Visible="1" HasFrame="1"
 					MouseDragEvent="ScrollDelta" TargetWindow="MerchantList"/>					
 			</Window>
 			
@@ -65,11 +63,11 @@
 			
 			<Button Type="3" Name="BuyItemsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 				PositionX="0.25" PositionY="0.9" Width="0.20" Height="0.10"
-				Visible="1" HasFrame="1" ClickEvent="BuySelected" Text="Buy"/> 
+				Visible="1" HasFrame="1" ClickEvent="Buy" Text="Buy"/> 
 				
 			<Button Type="3" Name="LeaveShopBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 				PositionX="0.75" PositionY="0.9" Width="0.20" Height="0.10"
-				Visible="1" HasFrame="1" ClickEvent="Close" TargetWindow="MerchantList" Text="Leave"/> 
+				Visible="1" HasFrame="1" ClickEvent="Close" Close="MerchantList" Text="Leave"/> 
 				
 			<Icons Count="5" Size="0.50 0.8">
 				<Icon>.\Assets\UI\GamePlay\Textures\Gun.png </Icon>

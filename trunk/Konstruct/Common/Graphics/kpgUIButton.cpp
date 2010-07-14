@@ -2,7 +2,7 @@
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgUIButton.h"
 
-kpgUIButton::kpgUIButton(void)
+kpgUIButton::kpgUIButton(kpgUIManager* pManager):kpgUIText(pManager)
 {
 	m_eType = eWT_Button;
 }

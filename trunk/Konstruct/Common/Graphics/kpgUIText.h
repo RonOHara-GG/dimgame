@@ -7,7 +7,7 @@ class kpgFont;
 class kpgUIText : public kpgUIWindow
 {
 public:
-	kpgUIText(void);
+	kpgUIText(kpgUIManager* pManager);
 	virtual ~kpgUIText(void);
 
 	void SetText(const char* szText);

@@ -20,12 +20,13 @@ kpgUIManager::kpgUIManager(void)
 	m_pCurrentInput = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
 
-	const char* szScroll = "ScrollUp";
-	u32  uHash = StringHash(szScroll);
+	m_pDataSourceMap = new kpuMap<char*, char*>;
 
-	szScroll = "ScrollDown";
-	uHash = StringHash(szScroll);
+	char* test = "SelectCell";
+	u32 uhasf = StringHash(test);
 
+	test = "Buy";
+	uhasf = StringHash(test);
 }
 
 kpgUIManager::~kpgUIManager(void)
@@ -72,7 +73,7 @@ bool kpgUIManager::LoadWindows(const char *szFile)
 	{
 		for(TiXmlElement* pElement = doc.FirstChildElement()->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
 		{
-			kpgUIWindow* pWindow = new kpgUIWindow();
+			kpgUIWindow* pWindow = new kpgUIWindow(this);
 			pWindow->Load(pElement);
 			m_plWindowList->AddTail(pWindow);
 		}
@@ -120,8 +121,9 @@ void kpgUIManager::OpenUIWindow(u32 uHash)
 {
 	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
 
-	if( pWindow )	
+	if( pWindow )		
 		pWindow->SetVisible(true);
+		
 }
 
 void kpgUIManager::CloseUIWindow(u32 uHash)
@@ -132,13 +134,27 @@ void kpgUIManager::CloseUIWindow(u32 uHash)
 		pWindow->SetVisible(false);
 }
 
-void kpgUIManager::SetDataSource(u32 uDataSource, const char* pData)
+void kpgUIManager::ToggleUIWindow(u32 uHash)
 {
-	//find the window with that data source
-	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uDataSource);
+	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
 
 	if( pWindow )	
-		pWindow->SetDataSource(pData);
+	{
+		if( pWindow->IsVisible() )
+			pWindow->SetVisible(false);
+		else		
+			pWindow->SetVisible(true);
+	}
+}
+
+void kpgUIManager::SetDataSource(char* pszName, char* pData)
+{
+	m_pDataSourceMap->Add(pszName, pData);	
+}
+
+char** kpgUIManager::GetDataSource(char* pszName)
+{
+	return (*m_pDataSourceMap)[pszName];
 }
 
 u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
@@ -189,6 +205,19 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 									pList->ScrollDown();
 								return 0;
 							}
+						case CE_CLOSE:
+							{
+								CloseUIWindow(m_pWinMouseOver->CloseTarget());
+								break;
+							}
+						case CE_SELECT_CELL:
+							{
+								kpgUIList* pList = (kpgUIList*)pWindow;
+
+								if( pList )
+									pList->SelectCell((float)ptMouse.m_iX, (float)ptMouse.m_iY);
+								return 0;
+							}
 						default:
 							return pWindow->ClickEvent();
 						}	
@@ -225,12 +254,12 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 					case CE_OPEN:
 						{
 							OpenUIWindow(m_pWinMouseOver->ShowTarget());
-							return 0;
+							break;
 						}						
 					}	
 				}
 
-				return 0;
+				
 				
 			}
 		case eIET_ButtonUp:

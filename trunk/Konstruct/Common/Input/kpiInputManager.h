@@ -14,7 +14,8 @@ enum eInputEventType
 	eIET_ButtonUp,
 	eIET_ButtonRepeat,
 	eIET_ButtonClick,
-	eIET_ButtonDoubleClick
+	eIET_ButtonDoubleClick,
+	eIET_KeyPress
 };
 
 #define MICE_BUTTONS_SUPPORTED 4

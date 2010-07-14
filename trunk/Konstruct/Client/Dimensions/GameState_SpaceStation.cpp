@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "PlayerCharacter.h"
 #include "Common\Utility\kpuQuadTree.h"
+#include "Common\Graphics\kpgUIManager.h"
 
 GameState_SpaceStation::GameState_SpaceStation(PlayerCharacter* pPlayer)
 {
@@ -15,6 +16,9 @@ GameState_SpaceStation::GameState_SpaceStation(PlayerCharacter* pPlayer)
 
 	m_paActors->Add(m_pPlayer);
 	//m_pCurrentLevel->GenerateEnemies(m_paActors); 
+
+	//update UI's inventory data source from player
+	m_pUIManager->SetDataSource("InventoryIcons", m_pPlayer->GetInventoryIcons());
 }
 
 GameState_SpaceStation::~GameState_SpaceStation(void)

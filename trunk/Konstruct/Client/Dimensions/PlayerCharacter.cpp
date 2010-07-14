@@ -29,7 +29,7 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	delete pCollision;
 
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
-	ZeroMemory(m_aInventory, sizeof(m_aInventory));
+	ZeroMemory(m_paInventory, sizeof(m_paInventory));
 
 	m_fBaseSpeed = 10.0f;
 	m_pActiveSkill = 0;
@@ -54,11 +54,12 @@ PlayerCharacter::PlayerCharacter(void):Actor()
 	m_aClasses[0] = pClass;
 
 	m_pWeaponSkills = new kpuLinkedList();
-	m_plPlayerPets = new kpuLinkedList();
-	
+	m_plPlayerPets = new kpuLinkedList();	
 
 	m_iStr = 100;
 	m_iAgi = 100;
+
+	m_iMoney = 1000000;
 
 }
 
@@ -82,7 +83,7 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 	delete pCollision;
 
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
-	ZeroMemory(m_aInventory, sizeof(m_aInventory));
+	ZeroMemory(m_paInventory, sizeof(m_paInventory));
 
 	m_fBaseSpeed = 10.0f;
 	m_pActiveSkill = 0;
@@ -112,6 +113,14 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 
 	m_iStr = 100;
 	m_iAgi = 100;
+	m_iMoney = 1000000;
+
+	m_pInventoryIcons = (char***)malloc(5 * sizeof(char*));
+
+	for(int i = 0; i < 5; i++)
+	{
+		m_pInventoryIcons[i] = (char**)calloc(5, sizeof(char*));
+	} 
 }
 
 PlayerCharacter::~PlayerCharacter(void)
@@ -133,10 +142,17 @@ PlayerCharacter::~PlayerCharacter(void)
 
 	for(int i = 0; i < INVENTORY_SIZE; i++)
 	{
-		if( m_aInventory[i] )
-			delete m_aInventory[i];	
+		if( m_paInventory[i] )
+			delete m_paInventory[i];	
+		
+		if( m_pInventoryIcons[i % 5] )
+		{
+			free(m_pInventoryIcons[i % 5]);
+			m_pInventoryIcons[i % 5] = 0;
+		}
+	} 
 
-	}
+	free(m_pInventoryIcons);
 }
 
 bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass, float fExpPercent)
@@ -444,9 +460,9 @@ bool PlayerCharacter::UnequipWeapon()
 		//See if we can remove the currently equipped weapon
 		for(int i = 0; i < INVENTORY_SIZE; i++)
 		{
-			if(!m_aInventory[i])
+			if(!m_paInventory[i])
 			{
-				m_aInventory[i] = m_pEquippedWeapon;
+				m_paInventory[i] = m_pEquippedWeapon;
 				m_pEquippedWeapon->Unequip(this);
 				m_pEquippedWeapon = 0;
 				return true;
@@ -467,9 +483,9 @@ bool PlayerCharacter::UnequipSecondary()
 		//See if we can remove the currently equipped weapon
 		for(int i = 0; i < INVENTORY_SIZE; i++)
 		{
-			if(!m_aInventory[i])
+			if(!m_paInventory[i])
 			{
-				m_aInventory[i] = m_pSecondaryWeapon;
+				m_paInventory[i] = m_pSecondaryWeapon;
 				m_pSecondaryWeapon->Unequip(this);
 				m_pSecondaryWeapon = 0;
 				return true;
@@ -518,4 +534,25 @@ WeaponSkill* PlayerCharacter::GetWeaponSkill(eWeaponType eType)
 void PlayerCharacter::AddWeaponSkill(WeaponSkill* pSkill)
 {	
 	m_pWeaponSkills->AddTail(pSkill);
+}
+
+bool PlayerCharacter::AddItemToInventory(Item* pItem)
+{
+	//see if we have room for item, if we do add item and return true or return false
+	for(int i = 0; i < INVENTORY_SIZE; i++)
+	{
+		if( !m_paInventory[i] )
+		{
+			m_paInventory[i] = pItem;
+
+			//get row and column
+			int iRow = i / 5;
+			int iColumn = i % 5;
+			//update item icons
+			m_pInventoryIcons[iRow][iColumn] = pItem->GetIcon();
+			return true;
+		}
+	}
+
+	return false;
 }

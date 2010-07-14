@@ -20,3 +20,4 @@ public:
 #define PLAYER		( 1 << 2 )
 #define ENEMY		( 1 << 3 )
 #define NPC			( 1 << 4 )
+#define MERCHANT	( 1 << 5 )

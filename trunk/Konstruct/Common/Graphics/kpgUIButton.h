@@ -4,7 +4,7 @@
 class kpgUIButton :	public kpgUIText
 {
 public:
-	kpgUIButton(void);
+	kpgUIButton(kpgUIManager* pManager);
 	virtual ~kpgUIButton(void);
 
 	void LoadDefaults();

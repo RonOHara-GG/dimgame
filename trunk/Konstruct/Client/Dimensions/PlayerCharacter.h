@@ -20,7 +20,7 @@ class WeaponSkill;
 class PlayerPet;
 
 
-#define INVENTORY_SIZE 10
+#define INVENTORY_SIZE 25
 #define NUM_PLAYER_CLASSES 8
 
 #define ATTRIBUTE_POINTS_PER_LEVEL 5
@@ -69,6 +69,8 @@ public:
 	bool EquipArmor(Armor* armor);
 	bool UnequipArmor();
 
+	bool AddItemToInventory(Item* pItem);
+
 	WeaponSkill* GetWeaponSkill(eWeaponType eType);
 	void AddWeaponSkill(WeaponSkill* pSkill);
 
@@ -86,6 +88,11 @@ public:
 
 	Weapon* GetEquippedWeapon()	{ return m_pEquippedWeapon; }
 	Weapon* GetSecondaryWeapon() { return m_pSecondaryWeapon; }
+
+	void	AddMoney(int iAmount) { m_iMoney += iAmount; m_iMoney < 0 ? m_iMoney = 0 : m_iMoney; }
+	int		GetMoney() { return m_iMoney; }
+
+	char*	GetInventoryIcons() { return (char*)m_pInventoryIcons; }
 
 #pragma endregion
 
@@ -114,7 +121,10 @@ protected:
 	Armor*						m_pEqupipedArmor;
 	Weapon*						m_pEquippedWeapon;
 	Weapon*						m_pSecondaryWeapon;
-	Item*						m_aInventory[INVENTORY_SIZE];
+	Item*						m_paInventory[INVENTORY_SIZE];
+	char***						m_pInventoryIcons;
+
+	int							m_iMoney;
 
 	PlayerClass*				m_aClasses[NUM_PLAYER_CLASSES];
 

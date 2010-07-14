@@ -7,7 +7,7 @@
 
 const float kBlinkSpeed = 0.75f;
 
-kpgUITextInput::kpgUITextInput(void)
+kpgUITextInput::kpgUITextInput(kpgUIManager* pManager):kpgUIText(pManager)
 {
 	m_pCursor = 0;
 	m_bFocus = false;

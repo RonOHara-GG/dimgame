@@ -5,6 +5,7 @@
 
 class kpgRenderer;
 class kpgTexture;
+class kpgUIManager;
 
 class kpgUIWindow
 {
@@ -41,10 +42,10 @@ public:
 		eHL_Background,
 	};
 
-	kpgUIWindow(void);
+	kpgUIWindow(kpgUIManager* pManager);
 	~kpgUIWindow(void);
 
-	static kpgUIWindow* Load(TiXmlNode* pNode);
+	static kpgUIWindow* Load(TiXmlNode* pNode, kpgUIManager* pManager);
 	virtual TiXmlElement* Save(TiXmlNode* pParent);
 	virtual void Load(TiXmlElement* pNode);
 
@@ -60,7 +61,7 @@ public:
 	// Translate a point from pixel space to homogeneous space
 	void TransformPoint(float& fX, float& fY, const kpgRenderer* pRenderer);
 
-	void SetVisible(bool bVal) { m_bVisible = bVal; }
+	void SetVisible(bool bVal); 
 
 	kpgUIWindow* GetChild(u32 uHash);
 	kpgUIWindow* GetUIParent() { return m_pParent; }
@@ -86,10 +87,7 @@ public:
 	void SetOrientation(eWindowOrientation eWO) { m_eOrientation = eWO; }
 
 	u32	 GetHashCode()	{ return m_uHash; }
-	u32	 GetDataSource()	{ return m_uDataSource; }
-
-	//set the data source
-	virtual void SetDataSource(const char* pszData); 
+	
 
 	//Events and targets
 	virtual u32  ClickEvent()			{ return m_uClickEvent; }
@@ -105,6 +103,7 @@ protected:
 	void Destroy();
 	void DrawFrame(kpgRenderer* pRenderer, const kpRect& rRect);
 	virtual void CalculateRectangle(const kpRect& rParent);
+	virtual void GetDataSource();
 
 protected:
 	char*				m_szName;
@@ -136,7 +135,10 @@ protected:
 
 	//window name
 	u32					m_uHash;
-	u32					m_uDataSource;
+	char*				m_pDataSource;
+	char*				m_pData;
+
+	kpgUIManager*		m_pUIManager;
 	
 };
 

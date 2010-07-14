@@ -31,3 +31,6 @@ protected:
 	PlayerCharacter*		m_pPlayer;
 	kpuArrayList<Actor*>*	m_paActors;
 };
+
+#define KE_INVENTORY 0x1cdb4fd3
+#define CE_BUY		 0xb87db35
