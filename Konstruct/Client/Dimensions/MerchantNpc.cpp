@@ -8,13 +8,15 @@
 #include "Common/Utility/kpuFileManager.h"
 
 #define MAX_SHOP_INVENTORY 20
+#define SELL_BACK_RATIO 2
 static const u32 s_uHash_MerchantWindow = 0xb6c33c53;
-static const u32 s_uHash_ItemList = 0x0000;
+static const u32 s_uHash_MerchantDialogWin = 0x7b27095;
 
-MerchantNpc::MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool bStatic)
+MerchantNpc::MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool bStatic, char* pszDialog)
 {
 	m_pModel = pModel;
 	m_pszName = _strdup(szName);
+	m_pszDialog = _strdup(pszDialog);
 	m_bStatic = bStatic;
 	m_uMerchantType = uType;
 	
@@ -66,6 +68,7 @@ bool MerchantNpc::Update(float fGameTime)
 			m_pInTransaction = 0;
 
 			//close open dialog/ windows
+			g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_MerchantDialogWin);
 			g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_MerchantWindow);		
 		}
 	}
@@ -78,9 +81,14 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 	{
 		SetListData();
 
-		//open dialog
-		kpgUIManager* pUIManager = g_pGameState->GetUIManager();	
-		pUIManager->OpenUIWindow(s_uHash_MerchantWindow);		
+		//open dialog		
+		kpgUIManager* pUIManager = g_pGameState->GetUIManager();
+		pUIManager->SetDataSource("Dialog", m_pszDialog);
+		pUIManager->OpenUIWindow(s_uHash_MerchantDialogWin, this);	
+
+		//pUIManager->OpenUIWindow(s_uHash_MerchantWindow, this);		
+
+
 
 		m_pInTransaction = pPlayer;
 
@@ -119,6 +127,9 @@ void MerchantNpc::SetListData()
 	//for now open basic item window
 	kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
 	pUIManager->SetDataSource("ItemList", (char*)m_pItemData);
+
+	
+
 
 }
 void MerchantNpc::FillInventory()
@@ -202,5 +213,77 @@ void MerchantNpc::SellSelectedItem()
 
 void MerchantNpc::BuySelectedItem()
 {
+	kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
+	kpgUIList* pItemList = (kpgUIList*)pUIManager->GetUIWindow(s_uHash_MerchantWindow);
 
+	int iIndex = pItemList->GetSelectedRow();
+
+	if( iIndex > -1 && iIndex < INVENTORY_SIZE )
+	{
+		//get the item from the player
+		Item* pItem = m_pInTransaction->RemoveFromInventory(iIndex);
+
+		if( pItem )
+		{		
+			//take item and pay player
+			m_pInTransaction->AddMoney(pItem->GetCost() / SELL_BACK_RATIO);
+			
+			//if possible add to merchant inventory
+			for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
+			{
+				if( !m_paBasicItems[i] )
+				{
+					m_paBasicItems[i] = pItem;
+					return;
+				}
+			}
+			
+			//no room delete item
+			delete pItem;			
+		}	
+		
+	}
+}
+
+u32 MerchantNpc::HandleEvent(u32 uEvent)
+{
+	if( uEvent == 0 )
+		return 0;
+
+	switch( uEvent )
+		{
+		case CE_OPEN_SELL:
+			{
+				//open the window for the player to buy items
+				kpgUIManager* pUIManager = g_pGameState->GetUIManager();				
+				SetListData();
+				pUIManager->OpenUIWindow(s_uHash_MerchantWindow, this);
+				g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_MerchantDialogWin);
+				m_bSelling = true;
+				return 0;
+			}
+		case CE_OPEN_BUY:
+			{
+				//open the window for the player to buy items
+				kpgUIManager* pUIManager = g_pGameState->GetUIManager();				
+				m_pInTransaction->SetInventoryList();
+				pUIManager->OpenUIWindow(s_uHash_MerchantWindow, this);
+				g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_MerchantDialogWin);
+				m_bSelling = false;
+				return 0;
+			}
+		case CE_BUY:			
+			//buy the selected item from the player's current target
+			if( m_bSelling )
+				SellSelectedItem();	
+			else
+				BuySelectedItem();
+
+			return 0;			
+		case CE_SELL:
+			BuySelectedItem();
+			return 0;
+		}
+
+	return IE_NOT_HANDLED;
 }

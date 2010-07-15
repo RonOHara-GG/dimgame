@@ -7,7 +7,8 @@
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
 #include "Common/Graphics/kpgUIManager.h"
-
+#include "common/input/kpiInputManager.h"
+#include "Common/Utility/kpuPhysicalObject.h"
 
 const float kMinimumWindowWidth = 0.05f;
 const float kMinimumWindowHeight = 0.05f;
@@ -22,6 +23,7 @@ kpgUIWindow::kpgUIWindow(kpgUIManager* pManager)
 	m_szName = 0;
 	m_pDataSource = 0;
 	m_pData = 0;
+	m_pContextObj = 0;
 
 	m_eType = eWT_GenericWindow;
 	m_pUIManager = pManager;
@@ -848,10 +850,129 @@ void kpgUIWindow::Move(float fDeltaX, float fDeltaY)
 	m_fPosition[0] += fDeltaX;
 	m_fPosition[1] += fDeltaY;
 }
-void kpgUIWindow::SetVisible(bool bVal)
-{
-	m_bVisible = bVal; 
+u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
+{	
+	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 
-	if( m_bVisible )
-		GetDataSource();
+	kpPoint ptMouse = g_pInputManager->GetMouseLoc();
+	kpgUIWindow::eHitLocation eHit;
+
+	//Get window
+	kpgUIWindow* pWindow = HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
+
+	// TODO: Handle this event
+	switch(type)
+	{
+	case eIET_ButtonClick:
+		{		
+			if( button == KPIM_BUTTON_0 )
+			{
+				if( pWindow )
+				{
+					//Get the click event
+					switch( pWindow->ClickEvent() )
+					{
+					case CE_NEW_WINDOW:
+						{
+							//Change to a new window
+							m_pUIManager->OpenUIWindow(pWindow->ClickEffectedWindow());
+							m_bVisible = false;
+							return 0;
+						}	
+					case CE_SCROLL_UP:
+						{
+							kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(pWindow->ClickEffectedWindow());
+
+							if( pList )
+								pList->ScrollUp();
+							return 0;
+						}
+					case CE_SCROLL_DOWN:
+						{
+							kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(pWindow->ClickEffectedWindow());
+
+							if( pList )
+								pList->ScrollDown();
+							return 0;
+						}
+					case CE_CLOSE:
+						{
+							m_pUIManager->CloseUIWindow(pWindow->CloseTarget());
+							return 0;
+						}
+					case CE_SELECT_CELL:
+						{
+							kpgUIList* pList = (kpgUIList*)pWindow;
+
+							if( pList )
+								pList->SelectCell((float)ptMouse.m_iX, (float)ptMouse.m_iY);
+							return 0;
+						}
+					default:
+						{
+							//see if context can handle it
+							if( m_pContextObj )	
+								return m_pContextObj->HandleEvent(pWindow->ClickEvent());
+
+							return pWindow->ClickEvent();
+						}
+					}	
+				}
+				
+			}
+			break;
+		}	
+	case eIET_MouseMove:
+		{
+			kpgUIWindow* pWinMouseOver = m_pUIManager->WinMouseOver();
+
+			if( pWinMouseOver )
+			{
+				if( pWinMouseOver != pWindow )
+				{
+					//Get mouse exit event
+					switch( pWinMouseOver->MouseExitEvent() )
+					{
+					case CE_CLOSE:
+						{
+							m_pUIManager->CloseUIWindow(pWinMouseOver->CloseTarget());
+							break;
+						}						
+					}	
+				}
+			}
+
+			pWinMouseOver = pWindow;
+			m_pUIManager->SetWinMouseOver(pWinMouseOver);
+
+			if( pWinMouseOver )
+			{
+				//Get mouse enter event
+				switch( pWinMouseOver->MouseEnterEvent() )
+				{
+				case CE_OPEN:
+					{
+						m_pUIManager->OpenUIWindow(pWinMouseOver->ShowTarget());
+						break;
+					}						
+				}	
+			}			
+			
+		}
+	case eIET_ButtonUp:
+		{
+			if( pWindow  )
+				return 0;
+			break;
+		}
+	}	
+	
+	return IE_NOT_HANDLED;
+}
+
+void kpgUIWindow::Open(kpuPhysicalObject* pContext)
+{
+	m_bVisible = true;
+	m_pContextObj = pContext;
+	GetDataSource();
 }

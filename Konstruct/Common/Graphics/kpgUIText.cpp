@@ -105,6 +105,9 @@ void kpgUIText::Draw(kpgRenderer* pRenderer, const kpRect& rParent)
 		if( m_bHasFrame )
 			DrawFrame(pRenderer, m_rRect);
 
+		if( m_pData )
+			m_szText = m_pData;
+
 		if( m_pFont && m_szText )
 		{
 			kpRect rText = GetTextRectangle();    

@@ -17,7 +17,7 @@
   </Meshes>
   <Npcs Count="1" >
 	<Npc Name="Bruce" Model="GearMerchant" Collision="Assets\Player\PlayerCollision.dae" Static="true" ActionRange="1.0"
-		Function="Merchant" MerchantType="Equippables" />			 
+		Function="Merchant" MerchantType="Equippables" Dialog="Hi, My name is Bruce I sell and buy things." />			 
   </Npcs>
 	
   <!-- <Terrain>Assets\SpaceStation\SpaceStationTerrain.xml</Terrain> -->

@@ -12,8 +12,8 @@ public:
 	kpgUIList(kpgUIManager* pManager);
 	virtual ~kpgUIList(void);
 
-	void Load(TiXmlElement* pNode);
-	void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
+	virtual void Load(TiXmlElement* pNode);
+	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
 	void ScrollUp();
 	void ScrollDown();

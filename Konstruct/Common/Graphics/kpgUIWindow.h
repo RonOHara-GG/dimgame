@@ -6,6 +6,8 @@
 class kpgRenderer;
 class kpgTexture;
 class kpgUIManager;
+class kpuPhysicalObject;
+enum eInputEventType;
 
 class kpgUIWindow
 {
@@ -61,7 +63,8 @@ public:
 	// Translate a point from pixel space to homogeneous space
 	void TransformPoint(float& fX, float& fY, const kpgRenderer* pRenderer);
 
-	void SetVisible(bool bVal); 
+	void SetVisible(bool bVal) { m_bVisible = bVal; } 
+	void SetContext(kpuPhysicalObject* pObj) { m_pContextObj = pObj; }
 
 	kpgUIWindow* GetChild(u32 uHash);
 	kpgUIWindow* GetUIParent() { return m_pParent; }
@@ -87,6 +90,8 @@ public:
 	void SetOrientation(eWindowOrientation eWO) { m_eOrientation = eWO; }
 
 	u32	 GetHashCode()	{ return m_uHash; }
+
+	void Open(kpuPhysicalObject* pContext = 0);
 	
 
 	//Events and targets
@@ -98,6 +103,8 @@ public:
 
 	virtual u32	 MouseExitEvent()		{ return m_uExitEvent; }
 	virtual u32	 CloseTarget()			{ return m_uCloseTarget; }
+
+	u32 HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
 
 protected:
 	void Destroy();
@@ -139,7 +146,15 @@ protected:
 	char*				m_pData;
 
 	kpgUIManager*		m_pUIManager;
+	kpuPhysicalObject*	m_pContextObj;
 	
 };
 
 
+#define CE_NEW_WINDOW	0x40ed18e7	//Move to a new window
+#define CE_OPEN			0x7c8a4b57 //Set a window to visible
+#define CE_CLOSE		0xcf88a3b //Set a window to invisible
+#define CE_SET_INPUT	0x0 //Set the current text input
+#define CE_SCROLL_UP	0xebd294f9
+#define CE_SCROLL_DOWN	0x2ac2704c
+#define CE_SELECT_CELL	0x73fb9385

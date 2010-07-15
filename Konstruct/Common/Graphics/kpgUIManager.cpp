@@ -15,18 +15,14 @@ static const u32 s_uHash_StartUp_Window =	0xe10340e1;
 kpgUIManager::kpgUIManager(void)
 {
 	m_plWindowList = new kpuLinkedList();
-	m_pCurrentWindow = 0;
+	m_lCurrentWindow = kpuLinkedList();
 	m_pWinMouseOver = 0;
 	m_pCurrentInput = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
 
 	m_pDataSourceMap = new kpuMap<char*, char*>;
 
-	char* test = "SelectCell";
-	u32 uhasf = StringHash(test);
 
-	test = "Buy";
-	uhasf = StringHash(test);
 }
 
 kpgUIManager::~kpgUIManager(void)
@@ -59,8 +55,16 @@ void kpgUIManager::Draw(kpgRenderer* pRenderer)
 	pRenderer->SetViewMatrix(mIdentity);
 	pRenderer->SetWorldMatrix(mIdentity);
 
-	if( m_pCurrentWindow )
-		m_pCurrentWindow->Draw(pRenderer, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()));
+	kpgUIWindow* pWindow = 0;
+	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
+
+	while( pIter )
+	{
+		pWindow = (kpgUIWindow*)pIter->GetPointer();
+		pWindow->Draw(pRenderer, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()));
+		pIter = pIter->Next();
+	}
+		
 }
 
 bool kpgUIManager::LoadWindows(const char *szFile)
@@ -73,14 +77,18 @@ bool kpgUIManager::LoadWindows(const char *szFile)
 	{
 		for(TiXmlElement* pElement = doc.FirstChildElement()->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
 		{
-			kpgUIWindow* pWindow = new kpgUIWindow(this);
-			pWindow->Load(pElement);
-			m_plWindowList->AddTail(pWindow);
-		}
+			kpgUIWindow* pWindow = kpgUIWindow::Load(pElement, this);
 
-		m_pCurrentWindow = (kpgUIWindow*)m_plWindowList->Next()->GetPointer();
+			if( pWindow )
+			{
+				pWindow->Load(pElement);
+				m_plWindowList->AddTail(pWindow);
+
+				if( pWindow->IsVisible() )
+					m_lCurrentWindow.AddTail(pWindow);
+			}
+		}		
 	}
-
 	
 
 	return false;
@@ -105,51 +113,107 @@ kpgUIWindow* kpgUIManager::GetUIWindow(u32 uHash)
 	return 0;
 }
 
-void kpgUIManager::NewWindow(u32 uHash)
+void kpgUIManager::OpenUIWindow(u32 uHash, kpuPhysicalObject* pContext)
 {
-	kpgUIWindow* pWindow = GetUIWindow(uHash);
-	if( pWindow )
-	{
-		pWindow->SetVisible(true);
+	kpgUIWindow* pWindow = 0;
+	kpuLinkedList*	pIter = m_plWindowList->Next();
 
-		m_pCurrentWindow->SetVisible(false);
-		m_pCurrentWindow = pWindow;
-	}
+	while( pIter && !pWindow )
+	{
+		pWindow = ((kpgUIWindow*)pIter->GetPointer())->GetChild(uHash);
+
+		if( pWindow )		
+		{
+			pWindow->Open(pContext);
+
+			//add to list
+			m_lCurrentWindow.AddTail(pWindow);
+		}
+
+		pIter = pIter->Next();
+	}		
 }
 
-void kpgUIManager::OpenUIWindow(u32 uHash)
+void kpgUIManager::CloseAll()
 {
-	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
+	kpgUIWindow* pWindow = 0;
+	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
 
-	if( pWindow )		
-		pWindow->SetVisible(true);
-		
+	while( pIter )
+	{
+		pWindow = (kpgUIWindow*)pIter->GetPointer();
+
+		kpuLinkedList* pNext = pIter->Next();
+		pWindow->SetVisible(false);
+		//remove the window from the list
+		pIter->SetPointer(0);
+		delete pIter;			
+
+		pIter = pNext;
+	}
 }
 
 void kpgUIManager::CloseUIWindow(u32 uHash)
 {
-	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
+	kpgUIWindow* pWindow = 0;
+	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
 
-	if( pWindow )	
-		pWindow->SetVisible(false);
+	while( pIter && !pWindow )
+	{
+		pWindow = ((kpgUIWindow*)pIter->GetPointer())->GetChild(uHash);
+
+		if( pWindow )
+		{
+			pWindow->SetVisible(false);
+			//remove the window from the list
+			pIter->SetPointer(0);
+			delete pIter;
+			break;
+		}
+
+		pIter = pIter->Next();
+	}
 }
 
 void kpgUIManager::ToggleUIWindow(u32 uHash)
 {
-	kpgUIWindow* pWindow = m_pCurrentWindow->GetChild(uHash);
+	kpgUIWindow* pWindow = 0;
+	kpuLinkedList*	pIter = m_plWindowList->Next();
 
-	if( pWindow )	
+	while( pIter && !pWindow )
 	{
-		if( pWindow->IsVisible() )
-			pWindow->SetVisible(false);
-		else		
-			pWindow->SetVisible(true);
+		pWindow = ((kpgUIWindow*)pIter->GetPointer())->GetChild(uHash);
+
+		if( pWindow )	
+		{
+			if( pWindow->IsVisible() )
+			{
+				//close the window
+				CloseUIWindow(uHash);
+			}
+			else	
+			{
+				//add the window to the open list
+				pWindow->SetVisible(true);
+				m_lCurrentWindow.AddTail(pWindow);
+			}
+			break;
+		}
+
+		pIter = pIter->Next();
 	}
+
+	
 }
 
 void kpgUIManager::SetDataSource(char* pszName, char* pData)
 {
-	m_pDataSourceMap->Add(pszName, pData);	
+	char** pOldData = (*m_pDataSourceMap)[pszName];
+
+	if( pOldData )
+		*pOldData = pData;
+	else
+		m_pDataSourceMap->Add(pszName, pData);	
 }
 
 char** kpgUIManager::GetDataSource(char* pszName)
@@ -159,118 +223,132 @@ char** kpgUIManager::GetDataSource(char* pszName)
 
 u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
-	if( m_pCurrentWindow )
+	kpgUIWindow* pWindow = 0;
+	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
+
+	while( pIter )
 	{
-		kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+		pWindow = ((kpgUIWindow*)pIter->GetPointer());
 
-		kpPoint ptMouse = g_pInputManager->GetMouseLoc();
-		kpgUIWindow::eHitLocation eHit;
+		u32 uResult = pWindow->HandleInputEvent(type, button);
 
-		//Get window
-		kpgUIWindow* pWindow = m_pCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
-	
+		if( uResult != IE_NOT_HANDLED)
+			return uResult;
 
-		// TODO: Handle this event
-		switch(type)
-		{
-		case eIET_ButtonClick:
-			{		
-				if( button == KPIM_BUTTON_0 )
-				{	
-
-					if( pWindow )
-					{
-						//Get the click event
-						switch( pWindow->ClickEvent() )
-						{
-						case CE_NEW_WINDOW:
-							{
-								//Change to a new window
-								NewWindow(pWindow->ClickEffectedWindow());
-								return 0;
-							}	
-						case CE_SCROLL_UP:
-							{
-								kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
-
-								if( pList )
-									pList->ScrollUp();
-								return 0;
-							}
-						case CE_SCROLL_DOWN:
-							{
-								kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
-
-								if( pList )
-									pList->ScrollDown();
-								return 0;
-							}
-						case CE_CLOSE:
-							{
-								CloseUIWindow(m_pWinMouseOver->CloseTarget());
-								break;
-							}
-						case CE_SELECT_CELL:
-							{
-								kpgUIList* pList = (kpgUIList*)pWindow;
-
-								if( pList )
-									pList->SelectCell((float)ptMouse.m_iX, (float)ptMouse.m_iY);
-								return 0;
-							}
-						default:
-							return pWindow->ClickEvent();
-						}	
-					}
-					
-				}
-				break;
-			}	
-		case eIET_MouseMove:
-			{
-				if( m_pWinMouseOver )
-				{
-					if( m_pWinMouseOver != pWindow )
-					{
-						//Get mouse exit event
-						switch( m_pWinMouseOver->MouseExitEvent() )
-						{
-						case CE_CLOSE:
-							{
-								CloseUIWindow(m_pWinMouseOver->CloseTarget());
-								break;
-							}						
-						}	
-					}
-				}
-
-				m_pWinMouseOver = pWindow;
-
-				if( m_pWinMouseOver )
-				{
-					//Get mouse enter event
-					switch( m_pWinMouseOver->MouseEnterEvent() )
-					{
-					case CE_OPEN:
-						{
-							OpenUIWindow(m_pWinMouseOver->ShowTarget());
-							break;
-						}						
-					}	
-				}
-
-				
-				
-			}
-		case eIET_ButtonUp:
-			{
-				if( pWindow  && pWindow->IsVisible() && pWindow->HasFrame() )
-					return 0;
-				break;
-			}
-		}
-	
+		pIter = pIter->Next();
 	}
+
+	//	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+
+	//	kpPoint ptMouse = g_pInputManager->GetMouseLoc();
+	//	kpgUIWindow::eHitLocation eHit;
+
+	//	//Get window
+	//	kpgUIWindow* pWindow = m_lCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
+	//
+
+	//	// TODO: Handle this event
+	//	switch(type)
+	//	{
+	//	case eIET_ButtonClick:
+	//		{		
+	//			if( button == KPIM_BUTTON_0 )
+	//			{	
+
+	//				if( pWindow )
+	//				{
+	//					//Get the click event
+	//					switch( pWindow->ClickEvent() )
+	//					{
+	//					case CE_NEW_WINDOW:
+	//						{
+	//							//Change to a new window
+	//							NewWindow(pWindow->ClickEffectedWindow());
+	//							return 0;
+	//						}	
+	//					case CE_SCROLL_UP:
+	//						{
+	//							kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
+
+	//							if( pList )
+	//								pList->ScrollUp();
+	//							return 0;
+	//						}
+	//					case CE_SCROLL_DOWN:
+	//						{
+	//							kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
+
+	//							if( pList )
+	//								pList->ScrollDown();
+	//							return 0;
+	//						}
+	//					case CE_CLOSE:
+	//						{
+	//							CloseUIWindow(m_pWinMouseOver->CloseTarget());
+	//							break;
+	//						}
+	//					case CE_SELECT_CELL:
+	//						{
+	//							kpgUIList* pList = (kpgUIList*)pWindow;
+
+	//							if( pList )
+	//								pList->SelectCell((float)ptMouse.m_iX, (float)ptMouse.m_iY);
+	//							return 0;
+	//						}
+	//					default:
+	//						return pWindow->ClickEvent();
+	//					}	
+	//				}
+	//				
+	//			}
+	//			break;
+	//		}	
+	//	case eIET_MouseMove:
+	//		{
+	//			if( m_pWinMouseOver )
+	//			{
+	//				if( m_pWinMouseOver != pWindow )
+	//				{
+	//					//Get mouse exit event
+	//					switch( m_pWinMouseOver->MouseExitEvent() )
+	//					{
+	//					case CE_CLOSE:
+	//						{
+	//							CloseUIWindow(m_pWinMouseOver->CloseTarget());
+	//							break;
+	//						}						
+	//					}	
+	//				}
+	//			}
+
+	//			m_pWinMouseOver = pWindow;
+
+	//			if( m_pWinMouseOver )
+	//			{
+	//				//Get mouse enter event
+	//				switch( m_pWinMouseOver->MouseEnterEvent() )
+	//				{
+	//				case CE_OPEN:
+	//					{
+	//						OpenUIWindow(m_pWinMouseOver->ShowTarget());
+	//						break;
+	//					}						
+	//				}	
+	//			}
+
+	//			
+	//			
+	//		}
+	//	case eIET_ButtonUp:
+	//		{
+	//			if( pWindow  && pWindow->IsVisible() && pWindow->HasFrame() )
+	//				return 0;
+	//			break;
+	//		}
+	//	}
+	//
+	//}
+	
 	
 	return IE_NOT_HANDLED;
 }

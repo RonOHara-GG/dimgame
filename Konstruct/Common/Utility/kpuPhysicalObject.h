@@ -35,6 +35,7 @@ public:
 
 	virtual void						Move(kpuVector vVel);	
 	virtual void						AreaEffect(kpuVector vCenter, float fRadius, void* pEffect, void* pSource) { }
+	virtual u32							HandleEvent(u32 uEvent) { return 1; }
 
 	void								SetFlag(unsigned int flag) { m_nFlags |= flag; }
 	void								UnsetFlag(unsigned int flag) { m_nFlags &= ~flag; }

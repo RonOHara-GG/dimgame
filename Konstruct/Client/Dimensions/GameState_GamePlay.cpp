@@ -208,18 +208,7 @@ bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 			return true;
 
 		//try and handle game specific result
-		switch( uResult )
-		{
-		case CE_BUY:
-			{
-				//buy the selected item from the player's current target
-				Actor* pTarget = m_pPlayer->GetTarget();
-
-				if( pTarget->HasFlag(MERCHANT));
-					((MerchantNpc*)pTarget)->SellSelectedItem();
-			}
-
-		}
+		
 	}
 
 	bool bHandled = false;
