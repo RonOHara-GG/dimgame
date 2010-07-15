@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Inventory Count="20">
+	<Static Count="0" />
+	<Dynamic Count="10" Type="Weapon" />
+	<Dynamic Count="10" Type="Armor" />
+</Inventory>

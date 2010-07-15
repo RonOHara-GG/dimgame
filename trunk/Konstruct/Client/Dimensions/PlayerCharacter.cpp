@@ -559,12 +559,8 @@ bool PlayerCharacter::AddItemToInventory(Item* pItem)
 		if( !m_paInventory[i] )
 		{
 			m_paInventory[i] = pItem;
-
-			//get row and column
-			int iRow = i / 5;
-			int iColumn = i % 5;
-			//update item icons
-			m_pInventoryIcons[iRow][iColumn] = pItem->GetIcon();
+			//set the inventory icon
+			m_pInventoryIcons[i/ 5][i % 5] = pItem->GetIcon();
 			return true;
 		}
 	}
@@ -601,5 +597,9 @@ Item* PlayerCharacter::RemoveFromInventory(int iIndex)
 	m_paInventory[iIndex] = 0;
 	//update inventory list
 	SetInventoryList();
+
+	//update item icons
+	m_pInventoryIcons[iIndex / 5][iIndex % 5] = 0;
+
 	return pItem;
 }

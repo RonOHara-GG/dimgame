@@ -194,7 +194,7 @@ void kpgUIManager::ToggleUIWindow(u32 uHash)
 			else	
 			{
 				//add the window to the open list
-				pWindow->SetVisible(true);
+				pWindow->Open();
 				m_lCurrentWindow.AddTail(pWindow);
 			}
 			break;
