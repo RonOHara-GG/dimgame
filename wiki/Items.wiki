@@ -1,12 +1,12 @@
 [Main Dimensions]
 
 <br/> 
-*Base Item Types*
-Short Bow
-Long Bow
-Compound Bow
-Crossbow
-Ballista
-Short Sword
-Long Sword
-Two-Handed Sword
+*Base Item Types*<br/>
+Short Bow<br/>
+Long Bow<br/>
+Compound Bow<br/>
+Crossbow<br/>
+Ballista<br/>
+Short Sword<br/>
+Long Sword<br/>
+Two-Handed Sword<br/>
