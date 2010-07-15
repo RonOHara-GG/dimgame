@@ -238,69 +238,34 @@ void Level::LoadNpcs(TiXmlElement* pElement)
 	{
 		Npc* pNpc = 0;
 
-		const char* szName = pChild->Attribute("Name");
-		const char* szModel = pChild->Attribute("Model");
-		kpgModel* pModel = 0;
-
-		if( szModel )
-		{
-			u32 uHash = StringHash(szModel);
-			pModel = FindModelByName(uHash);
-		}
-
-		szModel = 0;
-		szModel = pChild->Attribute("Collision");
-		kpgModel* pCollisionModel = 0;
-
-		if( szModel )	
-		{	
-			pCollisionModel = new kpgModel();
-			pCollisionModel->Load(szModel);	
-		}
-
-		//Get collision model
-		
-		bool bStatic = false;
-		const char* szStatic = pChild->Attribute("Static");
-		if( szStatic )
-		{
-			u32 uHash = StringHash(szStatic);
-			
-			bStatic = uHash == s_uHash_true;
-		}
-
 		//Get Npc function
-		const char* szType = pChild->Attribute("Function");		
+		const char* szType = pChild->Attribute("Type");		
 		u32 uHashType = StringHash(szType);
+
+		kpgModel* pModel = 0;
+		const char* szModel = pChild->Attribute("Model");
+		u32 uModel = 0;
+		if( szModel )
+			uModel = StringHash(szModel);
+		
 
 		switch(uHashType)
 		{
-		case s_uHash_Merchcant:
-			{
-				//Get what kind of items
-				szType = pChild->Attribute("MerchantType");		
-				uHashType = StringHash(szType);
-				
-				//Create new merchant
-				Npc* pNpc = new MerchantNpc(pModel, szName, uHashType, bStatic, (char*)pChild->Attribute("Dialog"));
-
-				if( pCollisionModel )
-					pNpc->CalculateBoundingVolumes(pCollisionModel);
-
-				m_paNpcs->Add(pNpc);	
-
-				//Make sure npc is in a tile
-				int iTile = m_pLevelGrid->GetTileAtLocation(pNpc->GetLocation());
-				pNpc->SetActionRange( (float)atof(pChild->Attribute("ActionRange")) );
-				pNpc->SetMoveTarget(iTile);				
-				m_pLevelGrid->AddActor(pNpc);
-				m_pQuadTree->Add(pNpc);
-
-				break;
-			}
+		case s_uHash_Merchcant:						
+			//Create new merchant
+			pNpc = new MerchantNpc();
+			pNpc->Load(pChild, FindModelByName(uModel));
+			break;			
 		}
+		
+		m_paNpcs->Add(pNpc);	
 
-		delete pCollisionModel;
+		//Make sure npc is in a tile
+		int iTile = m_pLevelGrid->GetTileAtLocation(pNpc->GetLocation());
+		pNpc->SetMoveTarget(iTile);				
+		m_pLevelGrid->AddActor(pNpc);
+		m_pQuadTree->Add(pNpc);
+		
 	}
 
 	

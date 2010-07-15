@@ -7,9 +7,10 @@ class MerchantNpc :
 	public Npc
 {
 public:
-	MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool bStatic, char* pszDialog);
+	MerchantNpc();
 	~MerchantNpc(void);
 	
+	void Load(TiXmlElement* pElement, kpgModel* pModel);
 	void Interact(PlayerCharacter* pPlayer);
 	bool Update(float fGameTime);
 
@@ -22,21 +23,20 @@ protected:
 	void SetListData();
 
 protected:
-	void				LoadItems(const char* szFile);
-	void				FillInventory();
-	Item**				m_paBasicItems;
-	Item**				m_paTheGoodStuff;
+	void					LoadItems(const char* szFile);
+	void					FillInventory();
+	kpuFixedArray<Item*>*	m_paBasicItems;
 
-	u32					m_uMerchantType;
-	u32					m_uSellingWindow; //The name of the window that is used for selling / buying goods
+	u32						m_uMerchantType;
+	u32						m_uSellingWindow; //The name of the window that is used for selling / buying goods
 
 
-	PlayerCharacter*	m_pInTransaction;  //The player that is currently in a transaction	
+	PlayerCharacter*		m_pInTransaction;  //The player that is currently in a transaction	
 
-	char***				m_pItemData;
-	char*				m_pszDialog;
+	char***					m_pItemData;
+	char*					m_pszDialog;
 
-	bool				m_bSelling;
+	bool					m_bSelling;
 };
 
 #define MT_EQUIPPABLES	0x000000

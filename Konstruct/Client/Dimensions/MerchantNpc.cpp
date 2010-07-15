@@ -7,51 +7,55 @@
 #include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFileManager.h"
 
-#define MAX_SHOP_INVENTORY 20
 #define SELL_BACK_RATIO 2
 static const u32 s_uHash_MerchantWindow = 0xb6c33c53;
 static const u32 s_uHash_MerchantDialogWin = 0x7b27095;
+static const u32 s_uHash_Static = 0x00000;
+static const u32 s_uHash_Dynamic = 0x0001;
 
-MerchantNpc::MerchantNpc(kpgModel* pModel, const char* szName, u32 uType, bool bStatic, char* pszDialog)
+MerchantNpc::MerchantNpc()
 {
-	m_pModel = pModel;
-	m_pszName = _strdup(szName);
-	m_pszDialog = _strdup(pszDialog);
-	m_bStatic = bStatic;
-	m_uMerchantType = uType;
+	m_pModel = 0;
+	m_pszName = 0;
+	m_pszDialog = 0;
+	m_bStatic = true;
+	m_uMerchantType = 0;
 	
-	m_paBasicItems = (Item**)calloc(MAX_SHOP_INVENTORY, sizeof(Item*));
-
-	m_paTheGoodStuff = (Item**)calloc(MAX_SHOP_INVENTORY, sizeof(Item*));
+	m_paBasicItems = 0;
 
 	m_pInTransaction = 0;
 
-	m_pItemData = (char***)malloc(MAX_SHOP_INVENTORY * sizeof(char*));
+	/*m_pItemData = (char***)malloc(MAX_SHOP_INVENTORY * sizeof(char*));
 
 	for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
 	{
 		m_pItemData[i] = (char**)calloc(3, sizeof(char*));
-	} 
-
+	} */
 
 	//Load item list from here for now
-	LoadItems("Assets/TempItemList.xml");
+	
 
 	SetFlag(MERCHANT);
 }
 
 MerchantNpc::~MerchantNpc(void)
 {
-	delete[] m_paBasicItems;
-	delete[] m_paTheGoodStuff;
-	free(m_pszName);
-
-	for(int i = 0; i < 20; i++)
+	for(int i = 0; i < m_paBasicItems->GetNumElements(); i++)
 	{
+		if( (*m_paBasicItems)[i] )
+			delete (*m_paBasicItems)[i];
+		
 		if( m_pItemData[i] )
+		{
 			free(m_pItemData[i]);
-	} 
+			m_pItemData[i] = 0;
+		}
+	}
 
+	delete m_paBasicItems;
+
+	free(m_pszName);
+	free(m_pszDialog);
 	free(m_pItemData);
 }
 bool MerchantNpc::Update(float fGameTime)
@@ -86,10 +90,6 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 		pUIManager->SetDataSource("Dialog", m_pszDialog);
 		pUIManager->OpenUIWindow(s_uHash_MerchantDialogWin, this);	
 
-		//pUIManager->OpenUIWindow(s_uHash_MerchantWindow, this);		
-
-
-
 		m_pInTransaction = pPlayer;
 
 		/*for(int x = 0; x < 20; x++)
@@ -110,13 +110,13 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 void MerchantNpc::SetListData()
 {
 	int j = 0;
-	for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
+	for(int i = 0; i < m_paBasicItems->GetNumElements(); i++)
 	{
-		if( m_paBasicItems[i] )
+		if( (*m_paBasicItems)[i] )
 		{
-			m_pItemData[j][0] = m_paBasicItems[i]->GetIcon();				
-			m_pItemData[j][1] =	m_paBasicItems[i]->GetDescription();
-			m_pItemData[j][2] = m_paBasicItems[i]->GetCostDisplay();	
+			m_pItemData[j][0] = (*m_paBasicItems)[i]->GetIcon();				
+			m_pItemData[j][1] =	(*m_paBasicItems)[i]->GetDescription();
+			m_pItemData[j][2] = (*m_paBasicItems)[i]->GetCostDisplay();	
 			j++;
 		}		
 			
@@ -127,10 +127,6 @@ void MerchantNpc::SetListData()
 	//for now open basic item window
 	kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
 	pUIManager->SetDataSource("ItemList", (char*)m_pItemData);
-
-	
-
-
 }
 void MerchantNpc::FillInventory()
 {
@@ -156,7 +152,7 @@ void MerchantNpc::LoadItems(const char* szFile)
 		TiXmlElement* pStart = doc.FirstChildElement();
 		
 		int i = 0;
-		for(TiXmlElement* pElement = pStart->FirstChildElement(); pElement != 0 && i < MAX_SHOP_INVENTORY; pElement = pElement->NextSiblingElement() )
+		for(TiXmlElement* pElement = pStart->FirstChildElement(); pElement != 0 && i < m_paBasicItems->GetNumElements(); pElement = pElement->NextSiblingElement() )
 		{
 			char* szSaleDisplay = (char*)pElement->Attribute("SaleDisplay");
 			if( szSaleDisplay )
@@ -175,7 +171,7 @@ void MerchantNpc::LoadItems(const char* szFile)
 				Item* item = new Item();
 				item->SetSaleDisplay(szIcon, szDescription, szCost);
 
-				m_paBasicItems[i] = item;
+				m_paBasicItems->Add(item);
 			}
 
 
@@ -194,14 +190,14 @@ void MerchantNpc::SellSelectedItem()
 
 	int iIndex = pItemList->GetSelectedRow();
 
-	if( iIndex > -1 && iIndex < MAX_SHOP_INVENTORY && m_pInTransaction->GetMoney() >= m_paBasicItems[iIndex]->GetCost() )
+	if( iIndex > -1 && iIndex < m_paBasicItems->GetNumElements()&& m_pInTransaction->GetMoney() >= (*m_paBasicItems)[iIndex]->GetCost() )
 	{
 		//sell item to player
-		if( m_pInTransaction->AddItemToInventory(m_paBasicItems[iIndex]) )
+		if( m_pInTransaction->AddItemToInventory((*m_paBasicItems)[iIndex]) )
 		{
-			m_pInTransaction->AddMoney(-m_paBasicItems[iIndex]->GetCost());
+			m_pInTransaction->AddMoney(-(*m_paBasicItems)[iIndex]->GetCost());
 
-			m_paBasicItems[iIndex] = 0;
+			(*m_paBasicItems)[iIndex] = 0;
 
 			//reset list data with updated list
 			SetListData();
@@ -229,11 +225,11 @@ void MerchantNpc::BuySelectedItem()
 			m_pInTransaction->AddMoney(pItem->GetCost() / SELL_BACK_RATIO);
 			
 			//if possible add to merchant inventory
-			for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
+			for(int i = 0; i < m_paBasicItems->GetNumElements(); i++)
 			{
-				if( !m_paBasicItems[i] )
+				if( !(*m_paBasicItems)[i] )
 				{
-					m_paBasicItems[i] = pItem;
+					(*m_paBasicItems)[i] = pItem;
 					return;
 				}
 			}
@@ -286,4 +282,52 @@ u32 MerchantNpc::HandleEvent(u32 uEvent)
 		}
 
 	return IE_NOT_HANDLED;
+}
+
+void MerchantNpc::Load(TiXmlElement *pElement, kpgModel* pModel)
+{
+	Npc::Load(pElement, pModel);
+
+	//Get dialog
+	m_pszDialog = _strdup(pElement->Attribute("Dialog"));
+
+	//load inventory list
+	char szFileName[2048];
+	kpuFileManager::GetFullFilePath(pElement->FirstChildElement()->FirstChild()->Value(), szFileName, sizeof(szFileName));
+	
+	TiXmlDocument doc;
+	if( doc.LoadFile(szFileName) )
+	{
+		int iSize = 0;
+		pElement = doc.FirstChildElement();
+
+		iSize = atoi(pElement->Attribute("Count"));
+
+		if( m_paBasicItems )
+			delete m_paBasicItems;
+
+		m_paBasicItems = new kpuFixedArray<Item*>(iSize);
+
+		for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+		{
+			u32 uHash = StringHash(pChild->Value());
+
+			switch(uHash)
+			{
+			case s_uHash_Static:
+				break;
+			case s_uHash_Dynamic:
+				break;
+			}
+		}
+	}
+
+	m_pItemData = (char***)malloc(m_paBasicItems->GetNumElements() * sizeof(char*));
+
+	for(int i = 0; i < m_paBasicItems->GetNumElements(); i++)
+	{
+		m_pItemData[i] = (char**)calloc(3, sizeof(char*));
+	} 
+
+	LoadItems("Assets/TempItemList.xml");
 }

@@ -2,6 +2,7 @@
 #include "actor.h"
 
 class AIControl;
+class TiXmlElement;
 
 class Npc :
 	public Actor
@@ -9,6 +10,8 @@ class Npc :
 public:
 	Npc(void);
 	virtual ~Npc(void);
+
+	virtual void	Load(TiXmlElement* pElement, kpgModel* pModel);
 
 	virtual bool	Update(float fGameTime);
 	virtual void	Interact(PlayerCharacter* pPlayer) { }
