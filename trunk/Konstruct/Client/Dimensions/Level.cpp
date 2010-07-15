@@ -282,7 +282,7 @@ void Level::LoadNpcs(TiXmlElement* pElement)
 				uHashType = StringHash(szType);
 				
 				//Create new merchant
-				Npc* pNpc = new MerchantNpc(pModel, szName, uHashType, bStatic);
+				Npc* pNpc = new MerchantNpc(pModel, szName, uHashType, bStatic, (char*)pChild->Attribute("Dialog"));
 
 				if( pCollisionModel )
 					pNpc->CalculateBoundingVolumes(pCollisionModel);

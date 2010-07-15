@@ -2,6 +2,7 @@
 #include "PlayerCharacter.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
+#include "Common/Graphics/kpgUIManager.h"
 #include "Skill.h"
 #include "Weapon.h"
 #include "Armor.h"
@@ -121,6 +122,13 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 	{
 		m_pInventoryIcons[i] = (char**)calloc(5, sizeof(char*));
 	} 
+
+	m_pInventoryList = (char***)malloc(INVENTORY_SIZE * sizeof(char*));
+
+	for(int i = 0; i < INVENTORY_SIZE; i++)
+	{
+		m_pInventoryList[i] = (char**)calloc(3, sizeof(char*));
+	} 
 }
 
 PlayerCharacter::~PlayerCharacter(void)
@@ -150,9 +158,16 @@ PlayerCharacter::~PlayerCharacter(void)
 			free(m_pInventoryIcons[i % 5]);
 			m_pInventoryIcons[i % 5] = 0;
 		}
+
+		if( m_pInventoryList[i] )
+		{
+			free(m_pInventoryList[i]);
+			m_pInventoryList[i] = 0;
+		}
 	} 
 
 	free(m_pInventoryIcons);
+	free(m_pInventoryList);
 }
 
 bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass, float fExpPercent)
@@ -555,4 +570,36 @@ bool PlayerCharacter::AddItemToInventory(Item* pItem)
 	}
 
 	return false;
+}
+
+void PlayerCharacter::SetInventoryList()
+{
+	int j = 0;
+	for(int i = 0; i < INVENTORY_SIZE; i++)
+	{
+		if( m_paInventory[i] )
+		{
+			m_pInventoryList[j][0] = m_paInventory[i]->GetIcon();				
+			m_pInventoryList[j][1] = m_paInventory[i]->GetDescription();
+			m_pInventoryList[j][2] = m_paInventory[i]->GetCostDisplay();	
+			j++;
+		}		
+			
+	}	
+
+	m_pInventoryList[j][0] = 0;	
+
+	//for now open basic item window
+	kpgUIManager* pUIManager = g_pGameState->GetUIManager();		
+	pUIManager->SetDataSource("ItemList", (char*)m_pInventoryList);
+
+}
+
+Item* PlayerCharacter::RemoveFromInventory(int iIndex)
+{
+	Item* pItem = m_paInventory[iIndex];
+	m_paInventory[iIndex] = 0;
+	//update inventory list
+	SetInventoryList();
+	return pItem;
 }

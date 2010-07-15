@@ -336,7 +336,8 @@ bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)
 	case CE_ENTER_CHARACTER_CREATION:
 		{
 			m_bCharacterCreation = true;
-			m_pUIManager->NewWindow(CE_ENTER_CHARACTER_CREATION);
+			m_pUIManager->CloseAll();
+			m_pUIManager->OpenUIWindow(CE_ENTER_CHARACTER_CREATION);
 			return true;
 		}
 	case CE_LOAD_MOST_RECENT:

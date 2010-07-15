@@ -326,8 +326,11 @@ void kpgUIList::ScrollDown()
 
 void kpgUIList::CalculateScrollHeight()
 {
-	float fHeight = 1.0f / ( (m_fContentHeight - 1.0f) / m_fScrollDelta);
-	fHeight *= m_fListDimensions[1];
+	float fHeight = 1.0f / m_fContentHeight ;
+
+	//height cannot be bigger than 1.0
+	if( fHeight > 1.0f )
+		fHeight = 1.0f;	
 
 	m_pScrollBar->SetHeight(fHeight);	
 }

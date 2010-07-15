@@ -93,6 +93,8 @@ public:
 	int		GetMoney() { return m_iMoney; }
 
 	char*	GetInventoryIcons() { return (char*)m_pInventoryIcons; }
+	void	SetInventoryList();
+	Item*	RemoveFromInventory(int iIndex);
 
 #pragma endregion
 
@@ -123,6 +125,7 @@ protected:
 	Weapon*						m_pSecondaryWeapon;
 	Item*						m_paInventory[INVENTORY_SIZE];
 	char***						m_pInventoryIcons;
+	char***						m_pInventoryList;
 
 	int							m_iMoney;
 

@@ -33,4 +33,4 @@ protected:
 };
 
 #define KE_INVENTORY 0x1cdb4fd3
-#define CE_BUY		 0xb87db35
+
