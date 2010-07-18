@@ -130,15 +130,7 @@ void MerchantNpc::SetListData()
 }
 void MerchantNpc::FillInventory()
 {
-	switch( m_uMerchantType )
-	{
-	case MT_EQUIPPABLES:
-		{
-			//generate some random weapons and armor both basic and premium
-			break;
-		}
 
-	}
 }
 
 void MerchantNpc::LoadItems(const char* szFile)
@@ -289,7 +281,10 @@ void MerchantNpc::Load(TiXmlElement *pElement, kpgModel* pModel)
 	Npc::Load(pElement, pModel);
 
 	//Get dialog
-	m_pszDialog = _strdup(pElement->Attribute("Dialog"));
+	char* szDialog = (char*)pElement->Attribute("Dialog");
+
+	if( szDialog )
+		m_pszDialog = _strdup(szDialog);
 
 	//load inventory list
 	char szFileName[2048];

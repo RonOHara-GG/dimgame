@@ -497,6 +497,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ClassTrainer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Enemy.cpp"
 					>
 				</File>
@@ -888,6 +892,10 @@
 				>
 				<File
 					RelativePath=".\Actor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ClassTrainer.h"
 					>
 				</File>
 				<File

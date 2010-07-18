@@ -14,6 +14,8 @@ enum ePlayerClass
 	eCL_Occultist,
 };
 
+#define NUM_OF_CLASSES 8
+
 class PlayerClass
 {
 public:
@@ -25,7 +27,7 @@ public:
 
 	int				GetLevel() { return m_iLevel; }
 	float			GetExpSplit() { return m_fExpSplit; }
-	float			SetExpSplit(float fExpSplit) { m_fExpSplit = fExpSplit; }
+	inline void		SetExpSplit(float fExpSplit);
 
 	
 	Skill*			GetSkill(int iIndex); //Get the skill of this class
@@ -59,7 +61,7 @@ private:
 	//ePlayerClass Initialization
 	void ClassInit();
 
-	void LevelUp();
+	void LevelUp() { m_iLevel++; }
 };
 
 #define MIN_EXP_SPLIT 0.05
@@ -74,4 +76,12 @@ private:
 #define NUMBER_OF_ROCKETEER_SKILLS 14
 #define NUMBER_OF_SWORDSMAN_SKILLS 18
 
+void PlayerClass::SetExpSplit(float fExpSplit)
+{
+	m_fExpSplit = fExpSplit;
 
+	if( m_fExpSplit > 1.0f )
+		m_fExpSplit = 1.0f;
+	else if( m_fExpSplit < 0.0f )
+		m_fExpSplit = 0.0f;
+}

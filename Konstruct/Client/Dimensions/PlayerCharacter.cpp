@@ -228,6 +228,22 @@ float PlayerCharacter::RemoveClass(ePlayerClass ePlayerClass)
 	return fExpSplit;
 }
 
+void PlayerCharacter::AdjustExpSplit(ePlayerClass eClass, float fExp)
+{
+	if( m_aClasses[eClass] )
+	{
+		m_aClasses[eClass]->SetExpSplit(m_aClasses[eClass]->GetExpSplit() + fExp);
+	}
+}
+
+float PlayerCharacter::GetExpSplit(ePlayerClass eClass)
+{
+	if( m_aClasses[eClass] )
+		return m_aClasses[eClass]->GetExpSplit();
+
+	return 0.0f;
+}
+
 void PlayerCharacter::GainExp(int iExp)
 {
 	

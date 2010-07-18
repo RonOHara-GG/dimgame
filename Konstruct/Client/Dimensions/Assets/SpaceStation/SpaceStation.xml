@@ -17,7 +17,9 @@
   </Meshes>
   <Npcs Count="1" >
 	<Npc Name="Bruce" Model="GearMerchant" Collision="Assets\Player\PlayerCollision.dae" ActionRange="1.0"
-		Type="Merchant" Dialog="Hi, My name is Bruce I sell and buy things." >	
+		Type="Merchant" Dialog="Hi, My name is Bruce. I sell armor and weapons to people 
+								like you.  I will also buy your old shit and give you 
+								money for it, hough not as much money as I charge for it." >	
 			<Inventory>Assets\SpaceStation\GearMerchantInventory.xml </Inventory>
 	</Npc>
   </Npcs>

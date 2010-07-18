@@ -121,10 +121,9 @@ bool PlayerClass::GainExp(int iExp)
 	return false;
 }
 
-void PlayerClass::LevelUp()
-{
-	m_iLevel++;
-}
+
+
+
 
 Skill* PlayerClass::GetSkill(int iIndex)
 {
