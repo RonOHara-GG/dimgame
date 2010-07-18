@@ -17,7 +17,7 @@ public:
 	void BuySelectedItem(); //buys selected item from player
 	void SellSelectedItem(); // sells selected item to player
 
-	virtual u32 HandleEvent(u32 uEvent);
+	u32 HandleEvent(u32 uEvent);
 
 protected:
 	void SetListData();
@@ -38,8 +38,6 @@ protected:
 
 	bool					m_bSelling;
 };
-
-#define MT_EQUIPPABLES	0x000000
 
 //input click events
 #define CE_OPEN_BUY		0xd19b4847

@@ -975,4 +975,13 @@ void kpgUIWindow::Open(kpuPhysicalObject* pContext)
 	m_bVisible = true;
 	m_pContextObj = pContext;
 	GetDataSource();
+
+	//Set children data source
+	kpuLinkedList* pNext = m_lChildren.Next();
+
+	while( pNext )
+	{
+		((kpgUIWindow*)pNext->GetPointer())->GetDataSource();
+		pNext = pNext->Next();
+	}
 }
