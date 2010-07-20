@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Common/Utility/kpuVector.h"
 #include "External/Tinyxml/tinyxml.h"
 #include "Common/Utility/kpuLinkedList.h"
 
@@ -20,6 +21,7 @@ public:
 		eWT_TextInput,
 		eWT_Button,
 		eWT_List,
+		eWT_Slider,
 
 		eWT_Last
 	};
@@ -91,18 +93,18 @@ public:
 
 	u32	 GetHashCode()	{ return m_uHash; }
 
-	void Open(kpuPhysicalObject* pContext = 0);
-	
+	void Open(kpuPhysicalObject* pContext = 0);	
 
 	//Events and targets
-	virtual u32  ClickEvent()			{ return m_uClickEvent; }
-	virtual u32  ClickEffectedWindow()	{ return m_uTargetHash; }	
+	virtual u32  ClickEvent(float fX, float fY);
 
 	virtual u32	 MouseEnterEvent()		{ return m_uEnterEvent; }
 	virtual u32	 ShowTarget()			{ return m_uShowTarget; }
 
 	virtual u32	 MouseExitEvent()		{ return m_uExitEvent; }
 	virtual u32	 CloseTarget()			{ return m_uCloseTarget; }
+
+	virtual u32 MouseDrag(const kpuVector &vDelta, const kpuVector &vPos);
 
 	u32 HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
 
@@ -140,6 +142,8 @@ protected:
 	u32					m_uExitEvent;
 	u32					m_uCloseTarget;
 
+	u32					m_uDragEvent;
+
 	//window name
 	u32					m_uHash;
 	char*				m_pDataSource;
@@ -157,4 +161,5 @@ protected:
 #define CE_SET_INPUT	0x0 //Set the current text input
 #define CE_SCROLL_UP	0xebd294f9
 #define CE_SCROLL_DOWN	0x2ac2704c
+#define CE_SCROLL		0xd0bb1494
 #define CE_SELECT_CELL	0x73fb9385

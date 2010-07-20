@@ -4,6 +4,7 @@
 
 class kpgUIText;
 class kpgFont;
+class kpgUISlider;
 
 class kpgUIList :
 	public kpgUIText
@@ -17,11 +18,12 @@ public:
 
 	void ScrollUp();
 	void ScrollDown();
+	void Scroll();
+
 	void SelectCell(float fX, float fY);
 	
 	//Events and targets
-	virtual u32  ClickEvent()			{ return m_uClickEvent; }
-	virtual u32  ClickEffectedWindow()	{ return m_uTargetHash; }
+	virtual u32  ClickEvent(float fX, float fY);		
 
 	int GetSelectedRow() { return m_iCellClicked[1]; }
 	int GetSelectedColumn() { return m_iCellClicked[0]; }
@@ -43,7 +45,7 @@ protected:
 	float						m_fListDimensions[2];
 
 	/** Scroll bar stuff **/
-	kpgUIWindow*				m_pScrollBar;
+	kpgUISlider*				m_pScrollBar;
 	float						m_fViewOffset[2];
 	float						m_fScrollDelta;
 	float						m_fContentHeight;

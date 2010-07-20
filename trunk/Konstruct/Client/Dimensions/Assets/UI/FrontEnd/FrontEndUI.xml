@@ -8,19 +8,21 @@
 				
 				<Button Type="3" Name="SinglePlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Text="Single Player" >
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Close="StartWin"
+				Text="Single Player" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
 				<Button Type="3" Name="MultiPlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MultiPlayerWin" Text="MultiPlayer" 	>
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MultiPlayerWin"  Close="StartWin"
+				Text="MultiPlayer" 	>
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
 				<Button Type="3" Name="OptionsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Options" >		
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow=""  Close="" Text="Options" >		
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
@@ -50,13 +52,13 @@
 				
 				<Button Type="3" Name="LoadBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Load"  >					
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow=""  Close=""Text="Load"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
 				<Button Type="3" Name="SinglePlayerBackBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Text="Back"  >					
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Close="SinglePlayerWin" Text="Back"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 	</Window>
@@ -186,7 +188,7 @@
 				
 				<Button Type="3" Name="BackBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Text="Back" 	/>
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Close="MultiPlayerWin" Text="Back" 	/>
 	</Window>	
 	
 </Windows>

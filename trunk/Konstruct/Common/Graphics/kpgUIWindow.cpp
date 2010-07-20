@@ -4,6 +4,7 @@
 #include "Common/Graphics/kpgUITextInput.h"
 #include "Common/Graphics/kpgUIButton.h"
 #include "Common/Graphics/kpgUIList.h"
+#include "Common/Graphics/kpgUISlider.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
 #include "Common/Graphics/kpgUIManager.h"
@@ -27,6 +28,9 @@ kpgUIWindow::kpgUIWindow(kpgUIManager* pManager)
 
 	m_eType = eWT_GenericWindow;
 	m_pUIManager = pManager;
+
+	m_uDragEvent = IE_NOT_HANDLED;
+	m_uClickEvent = IE_NOT_HANDLED;
 
 }
 
@@ -81,6 +85,9 @@ kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode, kpgUIManager* pManager)
 					break;
 				case eWT_List:
 					pWindow = new kpgUIList(pManager);
+					break;
+				case eWT_Slider:
+					pWindow = new kpgUISlider(pManager);
 					break;
 				default:
 					assert(0);
@@ -229,6 +236,10 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 		const char* pEnterEvent = pElement->Attribute("MouseEnterEvent");
 		if( pEnterEvent )
 			m_uEnterEvent = StringHash(pEnterEvent);
+
+		const char* pDragEvent = pElement->Attribute("MouseDragEvent");
+		if( pDragEvent )
+			m_uDragEvent = StringHash(pDragEvent);
 
 		const char* pShowWindow = pElement->Attribute("Open");
 		if( pShowWindow )
@@ -855,10 +866,11 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 
 	kpPoint ptMouse = g_pInputManager->GetMouseLoc();
+	kpuVector vMousePos((float)ptMouse.m_iX, (float)ptMouse.m_iY, 0.0f, 0.0f);
 	kpgUIWindow::eHitLocation eHit;
 
 	//Get window
-	kpgUIWindow* pWindow = HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
+	kpgUIWindow* pWindow = HitTest(vMousePos.GetX(), vMousePos.GetY(), kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
 
 	// TODO: Handle this event
 	switch(type)
@@ -868,57 +880,15 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 			if( button == KPIM_BUTTON_0 )
 			{
 				if( pWindow )
-				{
-					//Get the click event
-					switch( pWindow->ClickEvent() )
-					{
-					case CE_NEW_WINDOW:
-						{
-							//Change to a new window
-							m_pUIManager->OpenUIWindow(pWindow->ClickEffectedWindow());
-							m_bVisible = false;
-							return 0;
-						}	
-					case CE_SCROLL_UP:
-						{
-							kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(pWindow->ClickEffectedWindow());
+				{	//Get the click event
+					u32 uEvent = pWindow->ClickEvent(vMousePos.GetX(), vMousePos.GetY());
+						
+					//see if context can handle it
+					if( uEvent != 0 && m_pContextObj )	
+						return m_pContextObj->HandleEvent(uEvent);
 
-							if( pList )
-								pList->ScrollUp();
-							return 0;
-						}
-					case CE_SCROLL_DOWN:
-						{
-							kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(pWindow->ClickEffectedWindow());
-
-							if( pList )
-								pList->ScrollDown();
-							return 0;
-						}
-					case CE_CLOSE:
-						{
-							m_pUIManager->CloseUIWindow(pWindow->CloseTarget());
-							return 0;
-						}
-					case CE_SELECT_CELL:
-						{
-							kpgUIList* pList = (kpgUIList*)pWindow;
-
-							if( pList )
-								pList->SelectCell((float)ptMouse.m_iX, (float)ptMouse.m_iY);
-							return 0;
-						}
-					default:
-						{
-							//see if context can handle it
-							if( m_pContextObj )	
-								return m_pContextObj->HandleEvent(pWindow->ClickEvent());
-
-							return pWindow->ClickEvent();
-						}
-					}	
-				}
-				
+					return uEvent;										
+				}				
 			}
 			break;
 		}	
@@ -956,8 +926,18 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 						break;
 					}						
 				}	
-			}			
-			
+			}
+			break;			
+		}
+	case eIET_MouseDrag:
+		{
+			if( pWindow )
+			{
+				kpPoint pDelta = g_pInputManager->GetMouseDelta();
+				return pWindow->MouseDrag(kpuVector(pDelta.m_iX, pDelta.m_iY, 0.0f, 0.0f), vMousePos);	
+
+			}
+			break;
 		}
 	case eIET_ButtonUp:
 		{
@@ -984,4 +964,56 @@ void kpgUIWindow::Open(kpuPhysicalObject* pContext)
 		((kpgUIWindow*)pNext->GetPointer())->GetDataSource();
 		pNext = pNext->Next();
 	}
+}
+
+u32 kpgUIWindow::ClickEvent(float fX, float fY)
+{
+	switch( m_uClickEvent )
+	{
+	case CE_NEW_WINDOW:
+		{
+			//Change to a new window
+			m_pUIManager->OpenUIWindow(m_uTargetHash);
+			m_pUIManager->CloseUIWindow(m_uCloseTarget);
+			return 0;
+		}	
+	case CE_SCROLL_UP:
+		{
+			kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uTargetHash);
+
+			if( pList )
+				pList->ScrollUp();
+			return 0;
+		}
+	case CE_SCROLL_DOWN:
+		{
+			kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uTargetHash);
+
+			if( pList )
+				pList->ScrollDown();
+			return 0;
+		}
+	case CE_CLOSE:
+		{
+			m_pUIManager->CloseUIWindow(m_uCloseTarget);
+			return 0;
+		}
+	default:
+		return m_uClickEvent;
+	}
+
+}
+
+u32 kpgUIWindow::MouseDrag(const kpuVector &vDelta, const kpuVector &vPos)
+{
+	switch( m_uDragEvent )
+	{
+	case CE_SCROLL:
+		kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uTargetHash);
+		if( pList )
+			pList->Scroll();
+		return 0;
+	}
+
+	return IE_NOT_HANDLED;
 }

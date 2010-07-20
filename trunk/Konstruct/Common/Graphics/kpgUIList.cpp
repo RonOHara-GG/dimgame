@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "kpgUIList.h"
+#include "kpgUISlider.h"
 #include "kpgTexture.h"
 #include "kpgRenderer.h"
 #include "Common/Graphics/kpgFont.h"
@@ -123,7 +124,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 	if( pScroll )
 	{
 		u32 uHash = StringHash(pScroll);
-		m_pScrollBar = GetChild(uHash);		
+		m_pScrollBar = (kpgUISlider*)GetChild(uHash);		
 		
 		pScroll = pNode->Attribute("ScrollDelta");
 		if( pScroll )
@@ -198,7 +199,7 @@ void kpgUIList::GetDataSource()
 		if( m_pScrollBar )
 		{
 			CalculateScrollHeight();
-			m_pScrollBar->SetPosition(0.0f, 0.0f);
+			m_pScrollBar->SetSliderPos(0.0f);
 			m_fViewOffset[1] = 0.0f;
 		}
 	}
@@ -305,7 +306,7 @@ void kpgUIList::ScrollUp()
 		return;
 	}
 
-	m_pScrollBar->Move(0.0f, -m_fScrollDelta / m_fContentHeight);
+	m_pScrollBar->MoveSlider(-m_fScrollDelta / m_fContentHeight);
 }
 
 void kpgUIList::ScrollDown()
@@ -320,7 +321,26 @@ void kpgUIList::ScrollDown()
 		return;
 	}	
 
-	m_pScrollBar->Move(0.0f, m_fScrollDelta / m_fContentHeight);
+	m_pScrollBar->MoveSlider(m_fScrollDelta / m_fContentHeight);
+
+}
+
+void kpgUIList::Scroll()
+{
+	//get scroll bar position
+	float fDelta = m_pScrollBar->GetSliderDelta();
+	float fScrollPos = m_pScrollBar->GetSliderPos();
+
+	float fMove = fScrollPos /  m_fScrollDelta;
+	int iOffset = (int)fMove;
+
+	if( fMove - iOffset != 0.0f )
+	{
+		if( fDelta < 0.0f )
+			m_fViewOffset[1] = m_fScrollDelta * iOffset;
+		else
+			m_fViewOffset[1] = m_fScrollDelta * ( iOffset + 1);
+	}		
 
 }
 
@@ -332,7 +352,7 @@ void kpgUIList::CalculateScrollHeight()
 	if( fHeight > 1.0f )
 		fHeight = 1.0f;	
 
-	m_pScrollBar->SetHeight(fHeight);	
+	m_pScrollBar->SetSliderHeight(fHeight);	
 }
 
 void kpgUIList::SelectCell(float fX, float fY)
@@ -383,4 +403,17 @@ void kpgUIList::SelectCell(float fX, float fY)
 	
 	}
 		
+}
+
+u32 kpgUIList::ClickEvent(float fX, float fY)
+{
+	switch( m_uClickEvent )
+	{
+	case CE_SELECT_CELL:		
+			SelectCell(fX, fY);
+			return 0;		
+	default:
+		return kpgUIWindow::ClickEvent(fX, fY);
+	}
+
 }

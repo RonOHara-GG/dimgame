@@ -42,13 +42,15 @@
 		ScrollVertical="ScrollBar" ScrollDelta="0.25" RowHeight="0.25" ColumnWidth="0.25 0.50 0.25"
 		ClickEvent="SelectCell">		
 		
-		<Window Type="0" Name="ScrollBackground" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
-			PositionX="0.95" PositionY="0.5" Width="0.05" Height="0.8" Visible="1" HasFrame="1" >
+		<Window Type="5" Name="ScrollBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.95" PositionY="0.5" Width="0.05" Height="0.8" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="0" SlideDirection="0" SliderWidth="1.0f" SliderHeight="1.0f"
+			MouseDragEvent="Scroll" TargetWindow="MerchantList" />
 											
-			<Window Type="0" Name="ScrollBar"  Background="./Assets/UI/GamePlay/Textures/ScrollBar.png" Orientation="0" 
+		 <!--	<Window Type="0" Name="ScrollBar"  Background="./Assets/UI/GamePlay/Textures/ScrollBar.png" Orientation="0" 
 				PositionX="0.0" PositionY="0.0" Width="1.0" Height="1.0" Visible="1" HasFrame="1"
 				MouseDragEvent="ScrollDelta" TargetWindow="MerchantList"/>					
-		</Window>
+		</Window> -->
 		
 		<Button Type="3" Name="ScrollUpBtn" Background="./Assets/UI/GamePlay/Textures/UpArrow.png"  Orientation="1" 
 			PositionX="0.95" PositionY="0.07" Width="0.05" Height="0.072"
