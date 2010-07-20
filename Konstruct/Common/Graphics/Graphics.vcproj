@@ -211,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpgUISlider.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpgUIText.cpp"
 				>
 			</File>
@@ -302,6 +306,10 @@
 			</File>
 			<File
 				RelativePath=".\kpgUIManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgUISlider.h"
 				>
 			</File>
 			<File
