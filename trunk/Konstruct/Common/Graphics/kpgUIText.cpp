@@ -3,6 +3,7 @@
 #include "Common/Graphics/kpgFont.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
+#include "Common/Graphics/kpgUIManager.h"
 
 kpgUIText::kpgUIText(kpgUIManager* pManager):kpgUIWindow(pManager)
 {
@@ -85,6 +86,17 @@ void kpgUIText::SetText(const char* szText)
 	CalculateTextSize();
 }
 
+void kpgUIText::GetDataSource()
+{
+	if( m_pDataSource) 
+	{
+		m_pData = *m_pUIManager->GetDataSource(m_pDataSource);
+
+		if( m_pData )
+			SetText(m_pData);
+	}
+}
+
 void kpgUIText::SetFont(kpgFont* pFont)
 {
 	if( m_pFont )
@@ -104,9 +116,6 @@ void kpgUIText::Draw(kpgRenderer* pRenderer, const kpRect& rParent)
 		// Draw the frame
 		if( m_bHasFrame )
 			DrawFrame(pRenderer, m_rRect);
-
-		if( m_pData )
-			m_szText = m_pData;
 
 		if( m_pFont && m_szText )
 		{

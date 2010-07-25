@@ -11,7 +11,7 @@ enum ePlayerClass
 	eCL_Rocketeer,
 	eCL_Medic,
 	eCL_Priest,
-	eCL_Occultist,
+	eCL_Occultist
 };
 
 #define NUM_OF_CLASSES 8

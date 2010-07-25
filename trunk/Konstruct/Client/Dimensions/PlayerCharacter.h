@@ -51,6 +51,7 @@ public:
 	bool	HasClass(ePlayerClass eClass) { return m_aClasses[eClass] != 0; }
 	void	AdjustExpSplit(ePlayerClass eClass, float fExp);
 	float	GetExpSplit(ePlayerClass eClass);
+	int		ClassCount() { return m_iClassCount; }
 
 	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);
 	void UseSkill(int iIndex, ePlayerClass ePlayerClass);
@@ -133,6 +134,7 @@ protected:
 	int							m_iMoney;
 
 	PlayerClass*				m_aClasses[NUM_PLAYER_CLASSES];
+	int							m_iClassCount;
 
 	Skill*						m_pActiveSkill; //The skill currently being cast/used
 	kpuArrayList<SkillCombo*>*	m_pSkillCombos; //List of combos created

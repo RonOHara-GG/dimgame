@@ -331,7 +331,7 @@ void kpgUIList::Scroll()
 	float fDelta = m_pScrollBar->GetSliderDelta();
 	float fScrollPos = m_pScrollBar->GetSliderPos();
 
-	float fMove = fScrollPos /  m_fScrollDelta;
+	float fMove = fScrollPos /  (m_fContentHeight / m_fScrollDelta);
 	int iOffset = (int)fMove;
 
 	if( fMove - iOffset != 0.0f )

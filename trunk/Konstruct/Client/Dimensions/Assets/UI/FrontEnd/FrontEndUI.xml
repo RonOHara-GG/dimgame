@@ -8,27 +8,25 @@
 				
 				<Button Type="3" Name="SinglePlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="SinglePlayerWin" Close="StartWin"
-				Text="Single Player" >
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="SinglePlayerWin" Text="Single Player" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
 				<Button Type="3" Name="MultiPlayerBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MultiPlayerWin"  Close="StartWin"
-				Text="MultiPlayer" 	>
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="MultiPlayerWin"  Text="MultiPlayer" 	>
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 				
 				<Button Type="3" Name="OptionsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow=""  Close="" Text="Options" >		
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam=""  Text="Options" >		
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
 				<Button Type="3" Name="ExitBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Text="Exit" >
+				Visible="1" HasFrame="1" ClickEvent="Exit" ClickEventParam="" Text="Exit" >
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 	</Window>
@@ -40,25 +38,25 @@
 				
 				<Button Type="3" Name="ContinueBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="LoadMostRecent" TargetWindow="" Text="Continue" > 
+				Visible="1" HasFrame="1" ClickEvent="LoadMostRecent" ClickEventParam="" Text="Continue" > 
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
 				<Button Type="3" Name="NewGameBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="CharacterCreation" TargetWindow="" Text="New Game" > 
+				Visible="1" HasFrame="1" ClickEvent="CharacterCreation" ClickEventParam="" Text="New Game" > 
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
 				<Button Type="3" Name="LoadBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.616" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow=""  Close=""Text="Load"  >					
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam=""  Close=""Text="Load"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />					
 				</Button>
 				
 				<Button Type="3" Name="SinglePlayerBackBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.5" PositionY="0.85" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Close="SinglePlayerWin" Text="Back"  >					
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="StartWin" Text="Back"  >					
 					<Rect Left="0" Right="256" Top="0" Bottom="64" />				
 				</Button>
 	</Window>
@@ -70,12 +68,12 @@
 
 				<TextInput Type="2" Name="PlayerNameInput" Background="./Assets/UI/FrontEnd/UITextInput.dds" Orientation="1"
 				Cursor="./Assets/UI/FrontEnd/Cursor.dds" PositionX="0.5" PositionY="0.05" Width="0.1" Height="0.04"
-				Visible="1" HasFrame="1" ClickEvent="SetInput" TargetWindow="PlayerNameInput" /> -->	
+				Visible="1" HasFrame="1" ClickEvent="SetInput" ClickEventParam="PlayerNameInput" /> -->	
 				
 				<Button Type="3" Name="BrawlerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.15" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectBrawler" MouseEnterEvent="Open" Open="BrawlerDetails" 
-				MouseExitEvent="Close" Close="BrawlerDetails" Text="Brawler" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectBrawler" MouseEnterEvent="Open" MouseEnterParam="BrawlerDetails" 
+				MouseExitEvent="Close" MouseExitParam="BrawlerDetails" Text="Brawler" /> 
 				
 				<Button Type="3" Name="BrawlerDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.25" Width="0.20" Height="0.15"
@@ -85,8 +83,8 @@
 				
 				<Button Type="3" Name="ArcherSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.35" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectArcher" MouseEnterEvent="Open" Open="ArcherDetails" 
-				MouseExitEvent="Close" Close="ArcherDetails"  Text="Archer" />
+				Visible="1" HasFrame="1" ClickEvent="SelectArcher" MouseEnterEvent="Open" MouseEnterParam="ArcherDetails" 
+				MouseExitEvent="Close" MouseExitParam="ArcherDetails"  Text="Archer" />
 
 				<Button Type="3" Name="ArcherDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.45" Width="0.20" Height="0.15"
@@ -98,8 +96,8 @@
 				
 				<Button Type="3" Name="MarksmanSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectMarksman" MouseEnterEvent="Open" Open="MarksmanDetails" 
-				MouseExitEvent="Close" Close="MarksmanDetails"  Text="Marksman" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectMarksman" MouseEnterEvent="Open" MouseEnterParam="MarksmanDetails" 
+				MouseExitEvent="Close" MouseExitParam="MarksmanDetails"  Text="Marksman" /> 
 				
 				<Button Type="3" Name="MarksmanDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.65" Width="0.20" Height="0.15"
@@ -108,8 +106,8 @@
 				
 				<Button Type="3" Name="RocketeerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.75" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectRocketeer" MouseEnterEvent="Open" Open="RocketeerDetails" 
-				MouseExitEvent="Close" Close="RocketeerDetails"  Text="Rocketeer" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectRocketeer" MouseEnterEvent="Open" MouseEnterParam="RocketeerDetails" 
+				MouseExitEvent="Close" MouseExitParam="RocketeerDetails"  Text="Rocketeer" /> 
 				
 				<Button Type="3" Name="RocketeerDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.85" Width="0.20" Height="0.15"
@@ -118,8 +116,8 @@
 				
 				<Button Type="3" Name="SwordsmanSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.15" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectSwordsman" MouseEnterEvent="Open" Open="SwordsmanDetails" 
-				MouseExitEvent="Close" Close="SwordsmanDetails"  Text="Swordsman" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectSwordsman" MouseEnterEvent="Open" MouseEnterParam="SwordsmanDetails" 
+				MouseExitEvent="Close" MouseExitParam="SwordsmanDetails"  Text="Swordsman" /> 
 				
 				<Button Type="3" Name="SwordsmanDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.25" Width="0.20" Height="0.15"
@@ -129,8 +127,8 @@
 				
 				<Button Type="3" Name="PriestSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.35" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectPreist" MouseEnterEvent="Open" Open="PriestDetails" 
-				MouseExitEvent="Close" Close="PriestDetails"  Text="Priest" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectPreist" MouseEnterEvent="Open" MouseEnterParam="PriestDetails" 
+				MouseExitEvent="Close" MouseExitParam="PriestDetails"  Text="Priest" /> 
 				
 				<Button Type="3" Name="PriestDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.45" Width="0.20" Height="0.15"
@@ -140,8 +138,8 @@
 				
 				<Button Type="3" Name="OccultistSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectOccultist" MouseEnterEvent="Open" Open="OccultistDetails" 
-				MouseExitEvent="Close" Close="OccultistDetails"  Text="Occultist" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectOccultist" MouseEnterEvent="Open" MouseEnterParam="OccultistDetails" 
+				MouseExitEvent="Close" MouseExitParam="OccultistDetails"  Text="Occultist" /> 
 				
 				<Button Type="3" Name="OccultistDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.65" Width="0.20" Height="0.15"
@@ -150,8 +148,8 @@
 				
 				<Button Type="3" Name="MedicSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.75" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectMedic" MouseEnterEvent="Open" Open="MedicDetails" 
-				MouseExitEvent="Close" Close="MedicDetails"    Text="Medic" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectMedic" MouseEnterEvent="Open" MouseEnterParam="MedicDetails" 
+				MouseExitEvent="Close" MouseExitParam="MedicDetails"    Text="Medic" /> 
 				
 				<Button Type="3" Name="MedicDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.85" Width="0.20" Height="0.15"
@@ -188,7 +186,7 @@
 				
 				<Button Type="3" Name="BackBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.383" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="StartWin" Close="MultiPlayerWin" Text="Back" 	/>
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="StartWin" Text="Back" 	/>
 	</Window>	
 	
 </Windows>

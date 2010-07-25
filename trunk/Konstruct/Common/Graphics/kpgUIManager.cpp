@@ -17,6 +17,7 @@ kpgUIManager::kpgUIManager(void)
 	m_plWindowList = new kpuLinkedList();
 	m_lCurrentWindow = kpuLinkedList();
 	m_pWinMouseOver = 0;
+	 m_pWinMouseLastOver = 0;
 	m_pCurrentInput = 0;
 	m_mUIRenderMatrix.Orthographic(kpgRenderer::GetInstance()->GetScreenWidth(), kpgRenderer::GetInstance()->GetScreenHeight(), 0.0f, 1.0f);
 
@@ -158,16 +159,18 @@ void kpgUIManager::CloseUIWindow(u32 uHash)
 	kpgUIWindow* pWindow = 0;
 	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
 
-	while( pIter && !pWindow )
+	while( pIter )
 	{
-		pWindow = ((kpgUIWindow*)pIter->GetPointer())->GetChild(uHash);
+		pWindow = (kpgUIWindow*)pIter->GetPointer();
 
-		if( pWindow )
+		if( pWindow->GetHashCode() == uHash )
 		{
 			pWindow->SetVisible(false);
-			//remove the window from the list
+
+			//remove the window from the list			
 			pIter->SetPointer(0);
 			delete pIter;
+			
 			break;
 		}
 
@@ -225,6 +228,7 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
 	kpgUIWindow* pWindow = 0;
 	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
+	m_pWinMouseOver = 0;
 
 	while( pIter )
 	{
@@ -233,121 +237,56 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 		u32 uResult = pWindow->HandleInputEvent(type, button);
 
 		if( uResult != IE_NOT_HANDLED)
+		{
+			m_pWinMouseLastOver = m_pWinMouseOver;
 			return uResult;
+		}
 
 		pIter = pIter->Next();
 	}
 
-	//	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
+	//check for mouse exit/enter events
+	if( type == eIET_MouseMove )
+	{
+		//mouse exit check
+		if( m_pWinMouseLastOver )
+		{
+			if( m_pWinMouseLastOver != m_pWinMouseOver )
+			{
+				//Get mouse exit event
+				switch( m_pWinMouseLastOver->MouseExitEvent() )
+				{
+				case CE_CLOSE:
+					{
+						CloseUIWindow(m_pWinMouseLastOver->MouseExitParam());							
+						break;
+					}						
+				}	
+			}
+		}		
 
-	//	kpPoint ptMouse = g_pInputManager->GetMouseLoc();
-	//	kpgUIWindow::eHitLocation eHit;
+		//Mouse Enter event
+		if( m_pWinMouseOver )
+		{
+			if( m_pWinMouseLastOver != m_pWinMouseOver)
+			{
+				//Get mouse enter event
+				switch( m_pWinMouseOver->MouseEnterEvent() )
+				{
+				case CE_OPEN:
+					{
+						OpenUIWindow(m_pWinMouseOver->MouseEnterParam());
+						break;
+					}						
+				}	
+			}
+		}
 
-	//	//Get window
-	//	kpgUIWindow* pWindow = m_lCurrentWindow->HitTest((float)ptMouse.m_iX, (float)ptMouse.m_iY, kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
-	//
+		m_pWinMouseLastOver = m_pWinMouseOver;
+		return 0;
+	}
 
-	//	// TODO: Handle this event
-	//	switch(type)
-	//	{
-	//	case eIET_ButtonClick:
-	//		{		
-	//			if( button == KPIM_BUTTON_0 )
-	//			{	
-
-	//				if( pWindow )
-	//				{
-	//					//Get the click event
-	//					switch( pWindow->ClickEvent() )
-	//					{
-	//					case CE_NEW_WINDOW:
-	//						{
-	//							//Change to a new window
-	//							NewWindow(pWindow->ClickEffectedWindow());
-	//							return 0;
-	//						}	
-	//					case CE_SCROLL_UP:
-	//						{
-	//							kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
-
-	//							if( pList )
-	//								pList->ScrollUp();
-	//							return 0;
-	//						}
-	//					case CE_SCROLL_DOWN:
-	//						{
-	//							kpgUIList* pList = (kpgUIList*)GetUIWindow(pWindow->ClickEffectedWindow());
-
-	//							if( pList )
-	//								pList->ScrollDown();
-	//							return 0;
-	//						}
-	//					case CE_CLOSE:
-	//						{
-	//							CloseUIWindow(m_pWinMouseOver->CloseTarget());
-	//							break;
-	//						}
-	//					case CE_SELECT_CELL:
-	//						{
-	//							kpgUIList* pList = (kpgUIList*)pWindow;
-
-	//							if( pList )
-	//								pList->SelectCell((float)ptMouse.m_iX, (float)ptMouse.m_iY);
-	//							return 0;
-	//						}
-	//					default:
-	//						return pWindow->ClickEvent();
-	//					}	
-	//				}
-	//				
-	//			}
-	//			break;
-	//		}	
-	//	case eIET_MouseMove:
-	//		{
-	//			if( m_pWinMouseOver )
-	//			{
-	//				if( m_pWinMouseOver != pWindow )
-	//				{
-	//					//Get mouse exit event
-	//					switch( m_pWinMouseOver->MouseExitEvent() )
-	//					{
-	//					case CE_CLOSE:
-	//						{
-	//							CloseUIWindow(m_pWinMouseOver->CloseTarget());
-	//							break;
-	//						}						
-	//					}	
-	//				}
-	//			}
-
-	//			m_pWinMouseOver = pWindow;
-
-	//			if( m_pWinMouseOver )
-	//			{
-	//				//Get mouse enter event
-	//				switch( m_pWinMouseOver->MouseEnterEvent() )
-	//				{
-	//				case CE_OPEN:
-	//					{
-	//						OpenUIWindow(m_pWinMouseOver->ShowTarget());
-	//						break;
-	//					}						
-	//				}	
-	//			}
-
-	//			
-	//			
-	//		}
-	//	case eIET_ButtonUp:
-	//		{
-	//			if( pWindow  && pWindow->IsVisible() && pWindow->HasFrame() )
-	//				return 0;
-	//			break;
-	//		}
-	//	}
-	//
-	//}
+	m_pWinMouseLastOver = m_pWinMouseOver;
 	
 	
 	return IE_NOT_HANDLED;

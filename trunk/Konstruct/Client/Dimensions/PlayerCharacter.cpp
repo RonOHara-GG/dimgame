@@ -106,7 +106,8 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 	m_iCurrentHealth = m_iMaxHealth = 100;
 
 	PlayerClass* pClass = new PlayerClass(eClass, 100.0f);
-	m_aClasses[0] = pClass;
+	m_aClasses[eClass] = pClass;
+	m_iClassCount++;
 
 	m_pWeaponSkills = new kpuLinkedList();
 	m_plPlayerPets = new kpuLinkedList();
@@ -190,6 +191,7 @@ bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass, float fExpPercent)
 		return false;
 	
 	m_aClasses[ePlayerClass] = new PlayerClass(ePlayerClass, fExpPercent);	
+	m_iClassCount++;
 
 	return true;
 
@@ -224,7 +226,7 @@ float PlayerCharacter::RemoveClass(ePlayerClass ePlayerClass)
 	float fExpSplit = m_aClasses[ePlayerClass]->GetExpSplit();
 
 	delete m_aClasses[ePlayerClass];
-
+	m_iClassCount--;
 	return fExpSplit;
 }
 
