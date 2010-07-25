@@ -98,11 +98,11 @@ public:
 	//Events and targets
 	virtual u32  ClickEvent(float fX, float fY);
 
-	virtual u32	 MouseEnterEvent()		{ return m_uEnterEvent; }
-	virtual u32	 ShowTarget()			{ return m_uShowTarget; }
+	virtual u32	 MouseEnterEvent()		{ return m_uMouseEnterEvent; }
+	virtual u32	 MouseEnterParam()			{ return m_uMouseEnterParam; }
 
-	virtual u32	 MouseExitEvent()		{ return m_uExitEvent; }
-	virtual u32	 CloseTarget()			{ return m_uCloseTarget; }
+	virtual u32	 MouseExitEvent()		{ return m_uMouseExitEvent; }
+	virtual u32	 MouseExitParam()			{ return m_uMouseExitParam; }
 
 	virtual u32 MouseDrag(const kpuVector &vDelta, const kpuVector &vPos);
 
@@ -134,13 +134,13 @@ protected:
 
 	//Events and their targets
 	u32					m_uClickEvent;
-	u32					m_uTargetHash;
+	u32					m_uClickParam;
 
-	u32					m_uEnterEvent;
-	u32					m_uShowTarget;
+	u32					m_uMouseEnterEvent;
+	u32					m_uMouseEnterParam;
 
-	u32					m_uExitEvent;
-	u32					m_uCloseTarget;
+	u32					m_uMouseExitEvent;
+	u32					m_uMouseExitParam;
 
 	u32					m_uDragEvent;
 

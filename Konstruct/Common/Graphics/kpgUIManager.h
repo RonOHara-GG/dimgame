@@ -27,6 +27,7 @@ public:
 	void CloseAll();
 	void SetWinMouseOver(kpgUIWindow* pWindow) { m_pWinMouseOver = pWindow; }
 	kpgUIWindow* WinMouseOver() { return m_pWinMouseOver; }
+	kpgUIWindow* WindMouseLastOver() { return m_pWinMouseLastOver; }
 	
 
 	void SetDataSource(char* pszName, char* pData);
@@ -37,6 +38,7 @@ protected:
 	kpuMatrix							m_mUIRenderMatrix;
 	kpuLinkedList						m_lCurrentWindow;
 	kpgUIWindow*						m_pWinMouseOver;
+	kpgUIWindow*						m_pWinMouseLastOver;
 	kpuLinkedList*						m_plWindowList;	
 
 	kpgUITextInput*						m_pCurrentInput;

@@ -31,6 +31,8 @@ kpgUIWindow::kpgUIWindow(kpgUIManager* pManager)
 
 	m_uDragEvent = IE_NOT_HANDLED;
 	m_uClickEvent = IE_NOT_HANDLED;
+	m_uMouseEnterEvent = IE_NOT_HANDLED;
+	m_uMouseExitEvent = IE_NOT_HANDLED;
 
 }
 
@@ -229,29 +231,29 @@ void kpgUIWindow::Load(TiXmlElement* pElement)
 		if( pClickEvent )
 			m_uClickEvent = StringHash(pClickEvent);
 
-		const char* pTargetWindow = pElement->Attribute("TargetWindow");
+		const char* pTargetWindow = pElement->Attribute("ClickEventParam");
 		if( pTargetWindow )
-			m_uTargetHash = StringHash(pTargetWindow);
+			m_uClickParam = StringHash(pTargetWindow);
 
 		const char* pEnterEvent = pElement->Attribute("MouseEnterEvent");
 		if( pEnterEvent )
-			m_uEnterEvent = StringHash(pEnterEvent);
+			m_uMouseEnterEvent = StringHash(pEnterEvent);
 
 		const char* pDragEvent = pElement->Attribute("MouseDragEvent");
 		if( pDragEvent )
 			m_uDragEvent = StringHash(pDragEvent);
 
-		const char* pShowWindow = pElement->Attribute("Open");
-		if( pShowWindow )
-			m_uShowTarget = StringHash(pShowWindow);
+		const char* pMouseEnterParam = pElement->Attribute("MouseEnterParam");
+		if( pMouseEnterParam )
+			m_uMouseEnterParam = StringHash(pMouseEnterParam);
 
 		const char* pExitEvent = pElement->Attribute("MouseExitEvent");
 		if( pExitEvent )
-			m_uExitEvent = StringHash(pExitEvent);
+			m_uMouseExitEvent = StringHash(pExitEvent);
 
-		const char* pCloseWindow = pElement->Attribute("Close");
-		if( pCloseWindow )
-			m_uCloseTarget = StringHash(pCloseWindow);
+		const char* pMouseExitParam = pElement->Attribute("MouseExitParam");
+		if( pMouseExitParam )
+			m_uMouseExitParam = StringHash(pMouseExitParam);
 
 		const char* pDataSource = pElement->Attribute("DataSource");
 		if( pDataSource )		
@@ -872,6 +874,9 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 	//Get window
 	kpgUIWindow* pWindow = HitTest(vMousePos.GetX(), vMousePos.GetY(), kpRect(0.0f, pRenderer->GetScreenWidth(), 0.0f, pRenderer->GetScreenHeight()), &eHit);
 
+	if( pWindow )
+		m_pUIManager->SetWinMouseOver(pWindow);
+
 	// TODO: Handle this event
 	switch(type)
 	{
@@ -892,43 +897,6 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 			}
 			break;
 		}	
-	case eIET_MouseMove:
-		{
-			kpgUIWindow* pWinMouseOver = m_pUIManager->WinMouseOver();
-
-			if( pWinMouseOver )
-			{
-				if( pWinMouseOver != pWindow )
-				{
-					//Get mouse exit event
-					switch( pWinMouseOver->MouseExitEvent() )
-					{
-					case CE_CLOSE:
-						{
-							m_pUIManager->CloseUIWindow(pWinMouseOver->CloseTarget());
-							break;
-						}						
-					}	
-				}
-			}
-
-			pWinMouseOver = pWindow;
-			m_pUIManager->SetWinMouseOver(pWinMouseOver);
-
-			if( pWinMouseOver )
-			{
-				//Get mouse enter event
-				switch( pWinMouseOver->MouseEnterEvent() )
-				{
-				case CE_OPEN:
-					{
-						m_pUIManager->OpenUIWindow(pWinMouseOver->ShowTarget());
-						break;
-					}						
-				}	
-			}
-			break;			
-		}
 	case eIET_MouseDrag:
 		{
 			if( pWindow )
@@ -973,13 +941,13 @@ u32 kpgUIWindow::ClickEvent(float fX, float fY)
 	case CE_NEW_WINDOW:
 		{
 			//Change to a new window
-			m_pUIManager->OpenUIWindow(m_uTargetHash);
-			m_pUIManager->CloseUIWindow(m_uCloseTarget);
+			m_pUIManager->CloseAll();
+			m_pUIManager->OpenUIWindow(m_uClickParam);			
 			return 0;
 		}	
 	case CE_SCROLL_UP:
 		{
-			kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uTargetHash);
+			kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uClickParam);
 
 			if( pList )
 				pList->ScrollUp();
@@ -987,7 +955,7 @@ u32 kpgUIWindow::ClickEvent(float fX, float fY)
 		}
 	case CE_SCROLL_DOWN:
 		{
-			kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uTargetHash);
+			kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uClickParam);
 
 			if( pList )
 				pList->ScrollDown();
@@ -995,7 +963,7 @@ u32 kpgUIWindow::ClickEvent(float fX, float fY)
 		}
 	case CE_CLOSE:
 		{
-			m_pUIManager->CloseUIWindow(m_uCloseTarget);
+			m_pUIManager->CloseUIWindow(m_uClickParam);
 			return 0;
 		}
 	default:
@@ -1009,7 +977,7 @@ u32 kpgUIWindow::MouseDrag(const kpuVector &vDelta, const kpuVector &vPos)
 	switch( m_uDragEvent )
 	{
 	case CE_SCROLL:
-		kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uTargetHash);
+		kpgUIList* pList = (kpgUIList*)m_pUIManager->GetUIWindow(m_uClickParam);
 		if( pList )
 			pList->Scroll();
 		return 0;

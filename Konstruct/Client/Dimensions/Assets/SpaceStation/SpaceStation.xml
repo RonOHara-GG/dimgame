@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Level Name="Terra Research Lab" Width="150" Height="130">
-  <Meshes Count="2">
+  <Meshes Count="4">
    <Mesh Name="SpaceStation">
 		<Data>Assets\SpaceStation\Models\SpaceStation.dae</Data>
 	</Mesh> 
@@ -14,14 +14,22 @@
 		<Location>0,0,0</Location>
 		<UniformScale>0.001f</UniformScale>
     </Mesh>
+	<Mesh Name="ClassTerminal">
+		<Data>Assets\SpaceStation\Models\ClassTerminal.dae</Data>
+			<Location>2.5,0,-2.5</Location>
+			<Rotation>0,45,0</Rotation>
+	</Mesh>
   </Meshes>
-  <Npcs Count="1" >
+  <Npcs Count="2" >
 	<Npc Name="Bruce" Model="GearMerchant" Collision="Assets\Player\PlayerCollision.dae" ActionRange="1.0"
 		Type="Merchant" Dialog="Hi, My name is Bruce. I sell armor and weapons to people 
 								like you.  I will also buy your old shit and give you 
 								money for it, hough not as much money as I charge for it." >	
 			<Inventory>Assets\SpaceStation\GearMerchantInventory.xml </Inventory>
 	</Npc>
+	<Npc Name="ClassTerminal" Model="ClassTerminal" Collision="Assets\Player\PlayerCollision.dae" ActionRange="1.0"
+		Type="ClassTrainer" />
+	
   </Npcs>
 	
   <!-- <Terrain>Assets\SpaceStation\SpaceStationTerrain.xml</Terrain> -->

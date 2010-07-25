@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "LoadStructures.h"
 #include "MerchantNpc.h"
+#include "ClassTrainer.h"
 
 static const u32 s_uHash_Name =			0x7c898026;
 static const u32 s_uHash_Meshes =		0xc2e0bf8a;
@@ -29,6 +30,7 @@ static const u32 s_uHash_Count =		0xcfa484e;
 static const u32 s_uHash_true =			0x7c9e9fe5;
 static const u32 s_uHash_Npcs =			0x7c89beb9;
 static const u32 s_uHash_Merchcant =	0xfb608e17;
+static const u32 s_uHash_ClassTrainer = 0xbc09d370;
 
 Level::Level(void)
 {
@@ -255,7 +257,11 @@ void Level::LoadNpcs(TiXmlElement* pElement)
 			//Create new merchant
 			pNpc = new MerchantNpc();
 			pNpc->Load(pChild, FindModelByName(uModel));
-			break;			
+			break;	
+		case s_uHash_ClassTrainer:
+			pNpc = new ClassTrainer();
+			pNpc->Load(pChild, FindModelByName(uModel));
+			break;
 		}
 		
 		m_paNpcs->Add(pNpc);	

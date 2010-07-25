@@ -36,29 +36,135 @@
 		</Icons>
 	</List>
 	
+	<Window Type="0" Name="ClassTraining" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.35" Height="0.65"
+				Visible="0" HasFrame="1" >		
+			
+		<Text Type="1" Name="Brawler" Orientation="1" PositionX="0.125" PositionY="0.10"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Brawler" />
+				
+		<Text Type="1" Name="Archer" Orientation="1" PositionX="0.125" PositionY="0.20"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Archer" />
+				
+		<Text Type="1" Name="Marksman" Orientation="1" PositionX="0.125" PositionY="0.30"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Marksman" />
+				
+		<Text Type="1" Name="Medic" Orientation="1" PositionX="0.125" PositionY="0.40"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Medic" />
+				
+		<Text Type="1" Name="Occultist" Orientation="1" PositionX="0.125" PositionY="0.50"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Occultist" />
+				
+		<Text Type="1" Name="Swordsman" Orientation="1" PositionX="0.125" PositionY="0.60"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Swordsman" />
+				
+		<Text Type="1" Name="Priest" Orientation="1" PositionX="0.125" PositionY="0.70"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Priest" />
+				
+		<Text Type="1" Name="Rockteer" Orientation="1" PositionX="0.125" PositionY="0.80"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Rocketeer" />
+				
+		<Button Type="3" Name="TrainBrawler" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.10" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="Train"  ClickEventParam="Brawler" Text="Train"/>
+			
+		<Button Type="3" Name="TrainArcher" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.20" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainArcher"  Text="Train"/>
+			
+		<Button Type="3" Name="TrainMarksman" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.30" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainMarksman" Text="Train"/>
+			
+		<Button Type="3" Name="TrainMedic" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.40" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainMedic"  Text="Train"/>
+			
+		<Button Type="3" Name="TrainOccultist" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.50" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainOccultist" Text="Train"/>
+			
+		<Button Type="3" Name="TrainSwordsman" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.60" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainSwordman" Text="Train"/>
+			
+		<Button Type="3" Name="TrainPriest" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.70" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainPriest"  Text="Train"/>
+			
+		<Button Type="3" Name="TrainRocketeer" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.275" PositionY="0.80" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="TrainRocketeer"  Text="Train"/>
+			
+		<Slider Type="5" Name="BrawlerExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.10" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="BrawlerExpChange"  />
+			
+		<Slider Type="5" Name="ArcherExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.20" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="ArcherExpChange"  />
+			
+		<Slider Type="5" Name="MarksmanExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.30" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="MarksmanExpChange"  />
+			
+		<Slider Type="5" Name="MedicExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.40" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="MedicExpChange"  />
+			
+		<Slider Type="5" Name="OccultistExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.50" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="OccultistExpChange"  />
+			
+		<Slider Type="5" Name="SwordsmanExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.60" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="SwordsmanExpChange"  />
+			
+		<Slider Type="5" Name="PreistExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.70" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="PriestExpChange"  />
+			
+		<Slider Type="5" Name="RocketeerExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+			PositionX="0.65" PositionY="0.80" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
+			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
+			MouseDragEvent="RocketeerExpChange"  />
+			
+		<Button Type="3" Name="ExitClassTraining" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.95" Width="0.20" Height="0.075"	Visible="1" HasFrame="1" 
+			ClickEvent="LeaveTrainer" Text="Exit"/>
+			
+	</Window>
+	
 	<List Type="4" Name="MerchantList" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 		PositionX="0.5" PositionY="0.5" Width="0.60" Height="0.50" Visible="0" HasFrame="1"
 		ListWidth="0.8" ListHeight="0.8" Columns="3" Rows="20" DataSource="ItemList" 
 		ScrollVertical="ScrollBar" ScrollDelta="0.25" RowHeight="0.25" ColumnWidth="0.25 0.50 0.25"
 		ClickEvent="SelectCell">		
 		
-		<Window Type="5" Name="ScrollBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+		<Slider Type="5" Name="ScrollBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.95" PositionY="0.5" Width="0.05" Height="0.8" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="0" SlideDirection="0" SliderWidth="1.0f" SliderHeight="1.0f"
-			MouseDragEvent="Scroll" TargetWindow="MerchantList" />
+			MouseDragEvent="Scroll" ClickEventParam="MerchantList" />
 											
 		 <!--	<Window Type="0" Name="ScrollBar"  Background="./Assets/UI/GamePlay/Textures/ScrollBar.png" Orientation="0" 
 				PositionX="0.0" PositionY="0.0" Width="1.0" Height="1.0" Visible="1" HasFrame="1"
-				MouseDragEvent="ScrollDelta" TargetWindow="MerchantList"/>					
+				MouseDragEvent="ScrollDelta" ClickEventParam="MerchantList"/>					
 		</Window> -->
 		
 		<Button Type="3" Name="ScrollUpBtn" Background="./Assets/UI/GamePlay/Textures/UpArrow.png"  Orientation="1" 
 			PositionX="0.95" PositionY="0.07" Width="0.05" Height="0.072"
-			Visible="1" HasFrame="1" ClickEvent="ScrollUp" TargetWindow="MerchantList"/> 
+			Visible="1" HasFrame="1" ClickEvent="ScrollUp" ClickEventParam="MerchantList"/> 
 				
 		<Button Type="3" Name="ScrollDownBtn" Background="./Assets/UI/GamePlay/Textures/DownArrow.png"  Orientation="1" 
 			PositionX="0.95" PositionY="0.93" Width="0.05" Height="0.072"
-			Visible="1" HasFrame="1" ClickEvent="ScrollDown" TargetWindow="MerchantList"/>
+			Visible="1" HasFrame="1" ClickEvent="ScrollDown" ClickEventParam="MerchantList"/>
 		
 		<Button Type="3" Name="BuyItemsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 			PositionX="0.25" PositionY="0.9" Width="0.25" Height="0.10"
@@ -66,7 +172,7 @@
 			
 		<Button Type="3" Name="LeaveShopBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 			PositionX="0.75" PositionY="0.9" Width="0.25" Height="0.10"
-			Visible="1" HasFrame="1" ClickEvent="Close" Close="MerchantList" Text="Leave Store"/> 
+			Visible="1" HasFrame="1" ClickEvent="Close" ClickEventParam="MerchantList" Text="Leave Store"/> 
 			
 		<Icons Count="5" Size="0.50 0.8">
 			<Icon>.\Assets\UI\GamePlay\Textures\Gun.png </Icon>
@@ -83,15 +189,15 @@
 				
 				<Button Type="3" Name="SaveBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds"  Orientation="1" 
 				PositionX="0.5" PositionY="0.15" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Save Game" />				
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="" Text="Save Game" />				
 				
 				<Button Type="3" Name="LoadBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.30" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Load Game" 	/>
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="" Text="Load Game" 	/>
 				
 				<Button Type="3" Name="OptionsBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.45" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="" Text="Options" />		
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="" Text="Options" />		
 				
 				<Button Type="3" Name="QuitBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.60" Width="0.5" Height="0.125"
@@ -99,11 +205,11 @@
 				
 				<Button Type="3" Name="ExitBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.75" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="Exit" TargetWindow="" Text="Exit Dimensions" />	
+				Visible="1" HasFrame="1" ClickEvent="Exit" ClickEventParam="" Text="Exit Dimensions" />	
 
 				<Button Type="3" Name="CancelBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 				PositionX="0.5" PositionY="0.90" Width="0.5" Height="0.125"
-				Visible="1" HasFrame="1" ClickEvent="NewWindow" TargetWindow="MainHUD" Text="Cancel" />	
+				Visible="1" HasFrame="1" ClickEvent="NewWindow" ClickEventParam="MainHUD" Text="Cancel" />	
 	</Window>
 	
 	<Window Type="0" Name="MerchantDialogWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
