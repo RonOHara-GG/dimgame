@@ -223,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpuXmlParser.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -330,6 +334,10 @@
 			</File>
 			<File
 				RelativePath=".\kpuVector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpuXmlParser.h"
 				>
 			</File>
 			<File
