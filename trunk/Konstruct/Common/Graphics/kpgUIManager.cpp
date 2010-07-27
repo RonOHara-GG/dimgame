@@ -8,6 +8,7 @@
 #include "kpgUIList.h"
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuFileManager.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 
 static const u32 s_uHash_StartUp_Window =	0xe10340e1;
@@ -70,7 +71,7 @@ void kpgUIManager::Draw(kpgRenderer* pRenderer)
 
 bool kpgUIManager::LoadWindows(const char *szFile)
 {
-	TiXmlDocument doc;
+	/*TiXmlDocument doc;
 	char szFileName[2048];
 	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
 
@@ -89,8 +90,30 @@ bool kpgUIManager::LoadWindows(const char *szFile)
 					m_lCurrentWindow.AddTail(pWindow);
 			}
 		}		
-	}
+	}*/
+
+	kpuXmlParser parser;
 	
+	if( parser.LoadFile(szFile) )
+	{
+		parser.FirstChildElement();
+
+		while( parser.HasElement() )
+		{
+			kpgUIWindow* pWindow = kpgUIWindow::Load(&parser, this);
+
+			if( pWindow )
+			{
+				pWindow->Load(&parser);
+				m_plWindowList->AddTail(pWindow);
+
+				if( pWindow->IsVisible() )
+					m_lCurrentWindow.AddTail(pWindow);
+			}
+
+			parser.NextSiblingElement();
+		}
+	}
 
 	return false;
 }

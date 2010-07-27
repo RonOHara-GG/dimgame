@@ -19,7 +19,7 @@ kpgUISlider::~kpgUISlider(void)
 
 void kpgUISlider::Load(TiXmlElement *pNode)
 {
-	kpgUIWindow::Load(pNode);
+	//kpgUIWindow::Load(pNode);
 
 	//load slider texture
 	const char* szSlider = pNode->Attribute("Slider");

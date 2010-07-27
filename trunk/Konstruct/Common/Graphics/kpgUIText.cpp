@@ -4,6 +4,7 @@
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgTexture.h"
 #include "Common/Graphics/kpgUIManager.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 kpgUIText::kpgUIText(kpgUIManager* pManager):kpgUIWindow(pManager)
 {
@@ -45,10 +46,10 @@ TiXmlElement* kpgUIText::Save(TiXmlNode* pParent)
 	return pElement;
 }
 
-void kpgUIText::Load(TiXmlElement* pNode)
+void kpgUIText::Load(kpuXmlParser* pParser)
 {
 	// Load the base class
-	kpgUIWindow::Load(pNode);
+	/*kpgUIWindow::Load(pNode);
 
 	const char* pText = pNode->Attribute("Text");
 	if( pText )
@@ -72,6 +73,17 @@ void kpgUIText::Load(TiXmlElement* pNode)
 	const char* pHeight = pNode->Attribute("TextHeight");
 	if( pHeight )
 		m_fTextHeight = (float)atof(pHeight);
+
+	CalculateTextSize();*/
+
+	kpgUIWindow::Load(pParser);
+
+	if( pParser->HasAttribute("Text") )
+		m_szText = _strdup(pParser->GetAttribute("Text"));
+
+	m_pFont = new kpgFont();
+	m_pFont->LoadDefaultFont();	
+	
 
 	CalculateTextSize();
 }

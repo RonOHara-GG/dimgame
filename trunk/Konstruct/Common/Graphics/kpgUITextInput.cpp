@@ -39,7 +39,7 @@ void kpgUITextInput::LoadDefaults()
 
 void kpgUITextInput::Load(TiXmlElement* pElement)
 {
-	kpgUIWindow::Load(pElement);
+	//kpgUIWindow::Load(pElement);
 
 	const char* pCursor = pElement->Attribute("Curosr");
 	if( pCursor )

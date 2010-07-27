@@ -1,6 +1,7 @@
 #pragma once
 #include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuMap.h"
+#include "Common/Utility/kpuLinkedList.h"
 
 class kpuXmlParser
 {
@@ -11,29 +12,50 @@ public:
 	bool			LoadFile(const char* szFile);
 
 	//Iterating
+	bool			HasElement() { return m_pCurrentElement != 0; }
 	bool			HasNextSibling() { return m_pCurrentElement->NextSiblingElement() != 0; }
 	bool			HasChild() { return m_pCurrentElement->FirstChildElement() != 0; }
-	bool			HasParent() { return m_pCurrentElement->Parent() != 0; }
+	bool			HasParent() { return m_plParentList->Last()->GetPointer() != 0; }
 
 	void			FirstElement()	{ m_pCurrentElement = m_XmlDoc.FirstChildElement(); }
 	void			NextSiblingElement() { m_pCurrentElement = m_pCurrentElement->NextSiblingElement(); }
-	void			FirstChildElement() { m_pCurrentElement = m_pCurrentElement->FirstChildElement(); }
-	void			Parent() { m_pCurrentElement = (TiXmlElement*)m_pCurrentElement->Parent(); }
+	void			FirstChildElement();
+	void			Parent();
 
 	//Attribute accessors
+	bool			HasAttribute(const char* pszName);
 	float			GetAttributeAsFloat(const char* pszName);
 	int				GetAttributeAsInt(const char* pszName);
+	bool			GetAttributeAsBool(const char* pszName);
 	const char*		GetAttribute(const char* pszName);
 
 	//Node Value accessors
-	float			GetNodeValueAsFloat(const char* pszName);
-	int				GetNodeValueAsInt(const char* pszName);
-	const char*		GetNodeValue(const char* pszName);
+	float			GetValueAsFloat();
+	int				GetValueAsInt();
+	const char*		GetValue();
 
 private:
+	bool						IsInt(const char* szData);
 	TiXmlDocument				m_XmlDoc;
 	TiXmlElement*				m_pCurrentElement;
+	kpuLinkedList*				m_plParentList;
 	
-	kpuMap<const char*, const char*>*	m_pDefineMap;
+	kpuMap<char*, char*>*	m_pDefineMap;
 
 };
+
+inline void kpuXmlParser::Parent()
+{
+	m_pCurrentElement = (TiXmlElement*)m_plParentList->Last()->GetPointer();
+
+	//get rid of end of list
+	delete m_plParentList->Last();
+}
+
+inline void kpuXmlParser::FirstChildElement()
+{ 
+	m_plParentList->AddTail(m_pCurrentElement);
+	m_pCurrentElement = m_pCurrentElement->FirstChildElement(); 
+}
+
+

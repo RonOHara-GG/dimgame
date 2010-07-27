@@ -37,7 +37,7 @@ kpgUIList::~kpgUIList(void)
 
 void kpgUIList::Load(TiXmlElement *pNode)
 {
-	kpgUIWindow::Load(pNode);
+	//kpgUIWindow::Load(pNode);
 
 	//Get column and rows
 	const char* szRows = pNode->Attribute("Rows");	 

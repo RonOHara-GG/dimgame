@@ -8,6 +8,7 @@ class kpgRenderer;
 class kpgTexture;
 class kpgUIManager;
 class kpuPhysicalObject;
+class kpuXmlParser;
 enum eInputEventType;
 
 class kpgUIWindow
@@ -49,9 +50,9 @@ public:
 	kpgUIWindow(kpgUIManager* pManager);
 	~kpgUIWindow(void);
 
-	static kpgUIWindow* Load(TiXmlNode* pNode, kpgUIManager* pManager);
+	static kpgUIWindow* Load(kpuXmlParser* pParser, kpgUIManager* pManager);
 	virtual TiXmlElement* Save(TiXmlNode* pParent);
-	virtual void Load(TiXmlElement* pNode);
+	virtual void Load(kpuXmlParser* pParser);
 
 	void LoadDefaults();
 
