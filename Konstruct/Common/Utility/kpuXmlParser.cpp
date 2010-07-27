@@ -4,11 +4,13 @@
 
 kpuXmlParser::kpuXmlParser(void)
 {
-	m_pDefineMap = new kpuMap<const char*, const char*>();
+	m_pDefineMap = new kpuMap<char*, char*>();
+	m_plParentList = 0;
 }
 
 kpuXmlParser::~kpuXmlParser(void)
 {
+	delete m_plParentList;
 }
 
 bool kpuXmlParser::LoadFile(const char *szFile)
@@ -23,8 +25,8 @@ bool kpuXmlParser::LoadFile(const char *szFile)
 
 		while( pElement )
 		{
-			const char* szKey = pElement->Attribute("Name");
-			const char* szVal = pElement->Attribute("Value");
+			char* szKey = (char*)pElement->Attribute("Name");
+			char* szVal = (char*)pElement->Attribute("Value");
 
 			m_pDefineMap->Add(szKey, szVal);
 
@@ -32,10 +34,16 @@ bool kpuXmlParser::LoadFile(const char *szFile)
 		}
 
 		FirstElement();
+		m_plParentList = new kpuLinkedList();
 		return true;
 	}
 
 	return false;
+}
+
+bool kpuXmlParser::HasAttribute(const char* pszName)
+{
+	return m_pCurrentElement->Attribute(pszName) != 0;
 }
 
 float kpuXmlParser::GetAttributeAsFloat(const char* pszName)
@@ -43,9 +51,24 @@ float kpuXmlParser::GetAttributeAsFloat(const char* pszName)
 	return (float)atof(GetAttribute(pszName));
 }
 
+bool kpuXmlParser::GetAttributeAsBool(const char* pszName)
+{
+	return GetAttributeAsInt(pszName) != 0;
+}
+
 int kpuXmlParser::GetAttributeAsInt(const char *pszName)
 {
-	return atoi(GetAttribute(pszName));
+	const char* szVal = GetAttribute(pszName);
+
+	if( szVal )
+	{
+		if( IsInt(szVal) )
+			return atoi(szVal);
+
+		return StringHash(szVal);
+	}
+
+	return 0;
 }
 
 const char* kpuXmlParser::GetAttribute(const char *pszName)
@@ -55,10 +78,10 @@ const char* kpuXmlParser::GetAttribute(const char *pszName)
 	if( szVal )
 	{
 		//see if it is in the map
-		const char* szMapped = *(*m_pDefineMap)[szVal];
+		char** szMapped = (*m_pDefineMap)[(char*)szVal];
 
 		if( szMapped )
-			return szMapped;
+			return *szMapped;
 
 		return szVal;
 	}
@@ -66,33 +89,53 @@ const char* kpuXmlParser::GetAttribute(const char *pszName)
 	return 0;
 }
 
-const char* kpuXmlParser::GetNodeValue(const char *pszName)
+const char* kpuXmlParser::GetValue()
 {
-	TiXmlNode* pNode = m_pCurrentElement->FirstChild(pszName);
+	const char* szVal = m_pCurrentElement->Value();
+	
+	//see if it is in the map
+	char** szMapped = (*m_pDefineMap)[(char*)szVal];
 
-	if( pNode )
+	if( szMapped )
+		return *szMapped;
+
+	return szVal;
+}
+
+float kpuXmlParser::GetValueAsFloat()
+{
+	return (float)atof(GetValue());	
+}
+
+int	kpuXmlParser::GetValueAsInt()
+{
+	const char* szVal = GetValue();
+
+	if( IsInt(szVal) )
+		return atoi(szVal);
+
+	return StringHash(szVal);
+}
+
+bool kpuXmlParser::IsInt(const char *szData)
+{
+	//check to make sure it already isn't an int
+	int iLen = strlen(szData);
+
+	for(int i = 0; i < iLen; i++)
 	{
-		const char* szVal = pNode->Value();
-		
-		//see if it is in the map
-		const char* szMapped = *(*m_pDefineMap)[szVal];
-
-		if( szMapped )
-			return szMapped;
-
-		return szVal;
-		
+		if( szData[i] - '0' >= 9 )
+		{
+			//check for negative
+			if( i == 0 )
+			{
+				if( szData[i] == '-' )
+					continue;
+			}
+			return false;
+		}
 	}
 
-	return 0;
+	return true;
 }
 
-float kpuXmlParser::GetNodeValueAsFloat(const char* pszName)
-{
-	return (float)atof(GetNodeValue(pszName));
-}
-
-int	kpuXmlParser::GetNodeValueAsInt(const char *pszName)
-{
-	return atoi(GetNodeValue(pszName));
-}

@@ -14,7 +14,7 @@ public:
 	void SetFont(kpgFont* pFont);
 
 	virtual TiXmlElement* Save(TiXmlNode* pParent);
-	virtual void Load(TiXmlElement* pNode);
+	virtual void Load(kpuXmlParser* pParser);
 
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 

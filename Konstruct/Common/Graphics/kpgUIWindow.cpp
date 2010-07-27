@@ -10,6 +10,7 @@
 #include "Common/Graphics/kpgUIManager.h"
 #include "common/input/kpiInputManager.h"
 #include "Common/Utility/kpuPhysicalObject.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 const float kMinimumWindowWidth = 0.05f;
 const float kMinimumWindowHeight = 0.05f;
@@ -61,9 +62,9 @@ void kpgUIWindow::Destroy()
 	m_pParent = 0;
 }
 
-kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode, kpgUIManager* pManager)
+kpgUIWindow* kpgUIWindow::Load(kpuXmlParser* pParser, kpgUIManager* pManager)
 {
-	kpgUIWindow* pWindow = 0;
+	/*kpgUIWindow* pWindow = 0;
 	TiXmlElement* pElement = static_cast<TiXmlElement*>(pNode);
 	if( pElement )
 	{
@@ -100,6 +101,41 @@ kpgUIWindow* kpgUIWindow::Load(TiXmlNode* pNode, kpgUIManager* pManager)
 				pWindow->Load(pElement);
 			}
 		}
+	}
+
+	return pWindow;*/
+
+	kpgUIWindow* pWindow = 0;
+	if( pParser->HasElement() )
+	{
+		switch( pParser->GetAttributeAsInt("Type") )
+		{
+			case eWT_GenericWindow:
+				pWindow = new kpgUIWindow(pManager);
+				break;
+			case eWT_Text:
+				pWindow = new kpgUIText(pManager);
+				break;
+			case eWT_TextInput:
+				pWindow = new kpgUITextInput(pManager);
+				break;
+			case eWT_Button:
+				pWindow = new kpgUIButton(pManager);
+				break;
+			case eWT_List:
+				pWindow = new kpgUIList(pManager);
+				break;
+			case eWT_Slider:
+				pWindow = new kpgUISlider(pManager);
+				break;
+			default:
+				assert(0);
+				break;
+		}
+		if( pWindow )
+		{
+			pWindow->Load(pParser);
+		}		
 	}
 
 	return pWindow;
@@ -152,131 +188,221 @@ TiXmlElement* kpgUIWindow::Save(TiXmlNode* pParent)
 	return pElement;
 }
 
-void kpgUIWindow::Load(TiXmlElement* pElement)
+void kpgUIWindow::Load(kpuXmlParser* pParser)
 {
 	Destroy();
 
-	if( pElement )
-	{
-		const char* pName = pElement->Attribute("Name");
-		if( pName )
-		{
-			m_szName = 
-			_strdup(pName);
+	//if( pElement )
+	//{
+	//	const char* pName = pElement->Attribute("Name");
+	//	if( pName )
+	//	{
+	//		m_szName = 
+	//		_strdup(pName);
 
+	//		m_uHash = StringHash(m_szName);
+	//	}
+
+	//	const char* pBackground = pElement->Attribute("Background");
+	//	if( pBackground )
+	//	{
+	//		m_pBackground = new kpgTexture();
+	//		m_pBackground->Load(pBackground);
+	//	}
+
+	//	const char* pBorder = pElement->Attribute("Border");
+	//	if( pBorder )
+	//	{
+	//		m_pBorder = new kpgTexture();
+	//		m_pBorder->Load(pBorder);
+	//	}
+	//	else
+	//		m_pBorder = 0;
+
+	//	const char* pCorner = pElement->Attribute("Corner");
+	//	if( pCorner )
+	//	{
+	//		m_pCorner = new kpgTexture();
+	//		m_pCorner->Load(pCorner);
+	//	}
+	//	else
+	//		m_pCorner = 0;
+
+	//	const char* pOrientation = pElement->Attribute("Orientation");
+	//	if( pOrientation )
+	//		m_eOrientation = (eWindowOrientation)atoi(pOrientation);
+
+	//	const char* pPositionX = pElement->Attribute("PositionX");
+	//	if( pPositionX )
+	//		m_fPosition[0] = (float)atof(pPositionX);
+
+	//	const char* pPositionY = pElement->Attribute("PositionY");
+	//	if( pPositionY )
+	//		m_fPosition[1] = (float)atof(pPositionY);
+
+	//	const char* pWidth = pElement->Attribute("Width");
+	//	if( pWidth )
+	//		m_fWidth = (float)atof(pWidth);
+
+	//	const char* pHeight = pElement->Attribute("Height");
+	//	if( pHeight )
+	//		m_fHeight = (float)atof(pHeight);
+
+	//	const char* pVisible = pElement->Attribute("Visible");
+	//	if( pVisible )
+	//	{
+	//		int nVisible = atoi(pVisible);
+	//		m_bVisible = (nVisible != 0);
+	//	}
+
+	//	const char* pHasFrame = pElement->Attribute("HasFrame");
+	//	if( pHasFrame )
+	//	{
+	//		int nHasFrame = atoi(pHasFrame);
+	//		m_bHasFrame = (nHasFrame != 0);
+	//	}
+
+	//	//Get window input events
+	//	const char* pClickEvent = pElement->Attribute("ClickEvent");
+	//	if( pClickEvent )
+	//		m_uClickEvent = StringHash(pClickEvent);
+
+	//	const char* pTargetWindow = pElement->Attribute("ClickEventParam");
+	//	if( pTargetWindow )
+	//		m_uClickParam = StringHash(pTargetWindow);
+
+	//	const char* pEnterEvent = pElement->Attribute("MouseEnterEvent");
+	//	if( pEnterEvent )
+	//		m_uMouseEnterEvent = StringHash(pEnterEvent);
+
+	//	const char* pDragEvent = pElement->Attribute("MouseDragEvent");
+	//	if( pDragEvent )
+	//		m_uDragEvent = StringHash(pDragEvent);
+
+	//	const char* pMouseEnterParam = pElement->Attribute("MouseEnterParam");
+	//	if( pMouseEnterParam )
+	//		m_uMouseEnterParam = StringHash(pMouseEnterParam);
+
+	//	const char* pExitEvent = pElement->Attribute("MouseExitEvent");
+	//	if( pExitEvent )
+	//		m_uMouseExitEvent = StringHash(pExitEvent);
+
+	//	const char* pMouseExitParam = pElement->Attribute("MouseExitParam");
+	//	if( pMouseExitParam )
+	//		m_uMouseExitParam = StringHash(pMouseExitParam);
+
+	//	const char* pDataSource = pElement->Attribute("DataSource");
+	//	if( pDataSource )		
+	//		m_pDataSource = _strdup(pDataSource);		
+
+	//	// Get the rectangle
+	//	for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())
+	//	{
+	//		if( !strcmp(pChild->Value(), "Rect") )
+	//		{
+	//			m_rRect.m_fLeft = (float)atof(pChild->Attribute("Left"));
+	//			m_rRect.m_fRight = (float)atof(pChild->Attribute("Right"));
+	//			m_rRect.m_fTop = (float)atof(pChild->Attribute("Top"));
+	//			m_rRect.m_fBottom = (float)atof(pChild->Attribute("Bottom"));
+	//		}
+	//		else
+	//		{	// Child Window
+	//			kpgUIWindow* pWindow = kpgUIWindow::Load((TiXmlNode*)pChild, m_pUIManager);
+	//			if( pWindow )
+	//			{
+	//				AddChildWindow(pWindow, kpgRenderer::GetInstance());
+	//			}
+	//		}
+	//	}
+
+	//		
+	//}
+
+	if( pParser->HasElement() )
+	{
+		if( pParser->HasAttribute("Name") )
+		{
+			m_szName = _strdup(pParser->GetAttribute("Name"));
 			m_uHash = StringHash(m_szName);
 		}
 
-		const char* pBackground = pElement->Attribute("Background");
-		if( pBackground )
+		if(  pParser->HasAttribute("Background") )
 		{
 			m_pBackground = new kpgTexture();
-			m_pBackground->Load(pBackground);
+			m_pBackground->Load( pParser->GetAttribute("Background"));
 		}
 
-		const char* pBorder = pElement->Attribute("Border");
-		if( pBorder )
+		if( pParser->HasAttribute("Border") )
 		{
 			m_pBorder = new kpgTexture();
-			m_pBorder->Load(pBorder);
+			m_pBorder->Load(pParser->GetAttribute("Border"));
 		}
 		else
 			m_pBorder = 0;
 
-		const char* pCorner = pElement->Attribute("Corner");
-		if( pCorner )
+		if( pParser->HasAttribute("Corner") )
 		{
 			m_pCorner = new kpgTexture();
-			m_pCorner->Load(pCorner);
+			m_pCorner->Load(pParser->GetAttribute("Corner"));
 		}
 		else
 			m_pCorner = 0;
 
-		const char* pOrientation = pElement->Attribute("Orientation");
-		if( pOrientation )
-			m_eOrientation = (eWindowOrientation)atoi(pOrientation);
+		m_eOrientation = (eWindowOrientation)pParser->GetAttributeAsInt("Orientation");
 
-		const char* pPositionX = pElement->Attribute("PositionX");
-		if( pPositionX )
-			m_fPosition[0] = (float)atof(pPositionX);
+		m_fPosition[0] = pParser->GetAttributeAsFloat("PositionX");
+		m_fPosition[1] = pParser->GetAttributeAsFloat("PositionY");
 
-		const char* pPositionY = pElement->Attribute("PositionY");
-		if( pPositionY )
-			m_fPosition[1] = (float)atof(pPositionY);
+		m_fWidth = pParser->GetAttributeAsFloat("Width");
+		m_fHeight = pParser->GetAttributeAsFloat("Height");
 
-		const char* pWidth = pElement->Attribute("Width");
-		if( pWidth )
-			m_fWidth = (float)atof(pWidth);
+		m_bVisible = pParser->GetAttributeAsBool("Visible");
 
-		const char* pHeight = pElement->Attribute("Height");
-		if( pHeight )
-			m_fHeight = (float)atof(pHeight);
-
-		const char* pVisible = pElement->Attribute("Visible");
-		if( pVisible )
-		{
-			int nVisible = atoi(pVisible);
-			m_bVisible = (nVisible != 0);
-		}
-
-		const char* pHasFrame = pElement->Attribute("HasFrame");
-		if( pHasFrame )
-		{
-			int nHasFrame = atoi(pHasFrame);
-			m_bHasFrame = (nHasFrame != 0);
-		}
+		m_bHasFrame = pParser->GetAttributeAsBool("HasFrame");		
 
 		//Get window input events
-		const char* pClickEvent = pElement->Attribute("ClickEvent");
-		if( pClickEvent )
-			m_uClickEvent = StringHash(pClickEvent);
+		m_uClickEvent = pParser->GetAttributeAsInt("ClickEvent");
+		m_uClickParam = pParser->GetAttributeAsInt("ClickEventParam");
 
-		const char* pTargetWindow = pElement->Attribute("ClickEventParam");
-		if( pTargetWindow )
-			m_uClickParam = StringHash(pTargetWindow);
+		m_uMouseEnterEvent = pParser->GetAttributeAsInt("MouseEnterEvent");
 
-		const char* pEnterEvent = pElement->Attribute("MouseEnterEvent");
-		if( pEnterEvent )
-			m_uMouseEnterEvent = StringHash(pEnterEvent);
+		m_uDragEvent = pParser->GetAttributeAsInt("MouseDragEvent");
 
-		const char* pDragEvent = pElement->Attribute("MouseDragEvent");
-		if( pDragEvent )
-			m_uDragEvent = StringHash(pDragEvent);
+		m_uMouseEnterParam = pParser->GetAttributeAsInt("MouseEnterParam");
 
-		const char* pMouseEnterParam = pElement->Attribute("MouseEnterParam");
-		if( pMouseEnterParam )
-			m_uMouseEnterParam = StringHash(pMouseEnterParam);
+		m_uMouseExitEvent = pParser->GetAttributeAsInt("MouseExitEvent");
+		m_uMouseExitParam = pParser->GetAttributeAsInt("MouseExitParam");
 
-		const char* pExitEvent = pElement->Attribute("MouseExitEvent");
-		if( pExitEvent )
-			m_uMouseExitEvent = StringHash(pExitEvent);
-
-		const char* pMouseExitParam = pElement->Attribute("MouseExitParam");
-		if( pMouseExitParam )
-			m_uMouseExitParam = StringHash(pMouseExitParam);
-
-		const char* pDataSource = pElement->Attribute("DataSource");
-		if( pDataSource )		
-			m_pDataSource = _strdup(pDataSource);		
+		if( pParser->HasAttribute("DataSource") )		
+			m_pDataSource = _strdup(pParser->GetAttribute("DataSource"));		
 
 		// Get the rectangle
-		for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild; pChild = pChild->NextSiblingElement())
+		if( pParser->HasChild() )
 		{
-			if( !strcmp(pChild->Value(), "Rect") )
-			{
-				m_rRect.m_fLeft = (float)atof(pChild->Attribute("Left"));
-				m_rRect.m_fRight = (float)atof(pChild->Attribute("Right"));
-				m_rRect.m_fTop = (float)atof(pChild->Attribute("Top"));
-				m_rRect.m_fBottom = (float)atof(pChild->Attribute("Bottom"));
-			}
-			else
-			{	// Child Window
-				kpgUIWindow* pWindow = kpgUIWindow::Load((TiXmlNode*)pChild, m_pUIManager);
-				if( pWindow )
+			pParser->FirstChildElement();
+
+			while( pParser->HasElement() )
+			{			
+				if( !strcmp(pParser->GetValue(), "Rect") )
 				{
-					AddChildWindow(pWindow, kpgRenderer::GetInstance());
+					m_rRect.m_fLeft = pParser->GetAttributeAsFloat("Left");
+					m_rRect.m_fRight = pParser->GetAttributeAsFloat("Right");
+					m_rRect.m_fTop = pParser->GetAttributeAsFloat("Top");
+					m_rRect.m_fBottom = pParser->GetAttributeAsFloat("Bottom");
 				}
+				else
+				{	// Child Window
+					kpgUIWindow* pWindow = kpgUIWindow::Load(pParser, m_pUIManager);
+					if( pWindow )
+					{
+						AddChildWindow(pWindow, kpgRenderer::GetInstance());
+					}
+				}
+
+				pParser->NextSiblingElement();
 			}
+
+			pParser->Parent();
 		}
 
 			
