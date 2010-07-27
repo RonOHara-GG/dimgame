@@ -82,7 +82,23 @@ void kpgUIText::Load(kpuXmlParser* pParser)
 		m_szText = _strdup(pParser->GetAttribute("Text"));
 
 	m_pFont = new kpgFont();
-	m_pFont->LoadDefaultFont();	
+	m_pFont->Load(pParser);
+
+	const char* pLeftMargin = pParser->GetAttribute("LeftMargin");
+	if( pLeftMargin )
+		m_fLeftMargin = (float)atof(pLeftMargin);
+	
+	const char* pTopMargin = pParser->GetAttribute("TopMargin");
+	if( pTopMargin )
+		m_fTopMargin = (float)atof(pTopMargin);
+
+	const char* pWidth = pParser->GetAttribute("TextWidth");
+	if( pWidth )
+		m_fTextWidth = (float)atof(pWidth);
+
+	const char* pHeight = pParser->GetAttribute("TextHeight");
+	if( pHeight )
+		m_fTextHeight = (float)atof(pHeight);
 	
 
 	CalculateTextSize();

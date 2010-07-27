@@ -7,6 +7,7 @@ class kpuLinkedList;
 class kpgGeometry;
 class kpgGeometryInstance;
 class TiXmlElement;
+class kpuXmlParser;
 
 class kpgModel: public kpuPhysicalObject
 {
@@ -53,15 +54,15 @@ public:
 	void		SetMatrix(const kpuMatrix mMatrix);
 
 private:
-	kpgTexture* LoadImage(TiXmlElement* pLibrary);
-	void LoadGeometryLibrary(TiXmlElement* pLibrary, kpgTexture* pTexture);
-	void LoadVisualSceneLibrary(TiXmlElement* pLibrary);
-	kpgGeometry* LoadMesh(TiXmlElement* pMeshElement);
-	sSource* LoadSource(TiXmlElement* pSourceElement);
-	void LoadVertices(TiXmlElement* pVerticesElement, kpuLinkedList& sources);
-	int* LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
-	int* LoadPolygons(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount);
-	kpgGeometryInstance* LoadInstance(TiXmlElement* pInstElement);
+	kpgTexture* LoadImage(kpuXmlParser* pParser);
+	void LoadGeometryLibrary(kpuXmlParser* pParser, kpgTexture* pTexture);
+	void LoadVisualSceneLibrary(kpuXmlParser* pParser);
+	kpgGeometry* LoadMesh(kpuXmlParser* pParser);
+	sSource* LoadSource(kpuXmlParser* pParser);
+	void LoadVertices(kpuXmlParser* pParser, kpuLinkedList& sources);
+	int* LoadTriangles(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
+	int* LoadPolygons(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
+	kpgGeometryInstance* LoadInstance(kpuXmlParser* pParser);
 	
 
 

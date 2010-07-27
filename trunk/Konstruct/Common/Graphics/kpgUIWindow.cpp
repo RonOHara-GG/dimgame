@@ -106,7 +106,7 @@ kpgUIWindow* kpgUIWindow::Load(kpuXmlParser* pParser, kpgUIManager* pManager)
 	return pWindow;*/
 
 	kpgUIWindow* pWindow = 0;
-	if( pParser->HasElement() )
+	if( pParser->HasElement() && pParser->HasAttribute("Type") )
 	{
 		switch( pParser->GetAttributeAsInt("Type") )
 		{
@@ -320,30 +320,34 @@ void kpgUIWindow::Load(kpuXmlParser* pParser)
 
 	if( pParser->HasElement() )
 	{
-		if( pParser->HasAttribute("Name") )
+		const char* szName = pParser->GetAttribute("Name");
+		if( szName )
 		{
-			m_szName = _strdup(pParser->GetAttribute("Name"));
+			m_szName = _strdup(szName);
 			m_uHash = StringHash(m_szName);
 		}
 
-		if(  pParser->HasAttribute("Background") )
+		const char* szBg = pParser->GetAttribute("Background");
+		if( szBg )
 		{
 			m_pBackground = new kpgTexture();
-			m_pBackground->Load( pParser->GetAttribute("Background"));
+			m_pBackground->Load( szBg);
 		}
 
-		if( pParser->HasAttribute("Border") )
+		const char* pBorder = pParser->GetAttribute("Border");
+		if( pBorder )
 		{
 			m_pBorder = new kpgTexture();
-			m_pBorder->Load(pParser->GetAttribute("Border"));
+			m_pBorder->Load(pBorder);
 		}
 		else
 			m_pBorder = 0;
 
-		if( pParser->HasAttribute("Corner") )
+		const char* pCorner = pParser->GetAttribute("Corner");
+		if( pCorner )
 		{
 			m_pCorner = new kpgTexture();
-			m_pCorner->Load(pParser->GetAttribute("Corner"));
+			m_pCorner->Load(pCorner);
 		}
 		else
 			m_pCorner = 0;

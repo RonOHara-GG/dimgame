@@ -7,6 +7,7 @@
 #include <d3dx9core.h>
 
 class kpgTexture;
+class kpuXmlParser;
 
 class kpgFontData
 {
@@ -52,7 +53,7 @@ public:
 	void LoadDefaultFont();
 
 	void Save(TiXmlNode* pParent);
-	void Load(TiXmlElement* pParent);
+	void Load(kpuXmlParser* pParser);
 
 	void CalcRectangle(kpRect& rRect, const char* szText)	{ if( m_pData ) m_pData->CalcRectangle(rRect, szText); }
 

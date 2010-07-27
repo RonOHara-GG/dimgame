@@ -8,7 +8,7 @@ public:
 	kpgUISlider(kpgUIManager* pManager);
 	virtual ~kpgUISlider(void);
 
-	virtual void Load(TiXmlElement* pNode);
+	virtual void Load(kpuXmlParser* pParser);
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
 	virtual u32 MouseDrag(const kpuVector &vDelta, const kpuVector &vPos);

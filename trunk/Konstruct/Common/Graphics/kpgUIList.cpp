@@ -4,6 +4,7 @@
 #include "kpgTexture.h"
 #include "kpgRenderer.h"
 #include "Common/Graphics/kpgFont.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 #define DEFAULT_SCROLL_DELTA 0.2f
 
@@ -35,25 +36,157 @@ kpgUIList::~kpgUIList(void)
 	delete m_paIcons;
 }
 
-void kpgUIList::Load(TiXmlElement *pNode)
+void kpgUIList::Load(kpuXmlParser* pParser)
 {
 	//kpgUIWindow::Load(pNode);
 
-	//Get column and rows
-	const char* szRows = pNode->Attribute("Rows");	 
-	if( szRows )	
-		m_iRows = atoi(szRows);
+	////Get column and rows
+	//const char* szRows = pNode->Attribute("Rows");	 
+	//if( szRows )	
+	//	m_iRows = atoi(szRows);
 
-	const char* szColumns = pNode->Attribute("Columns");	 
-	if( szColumns )	
-		m_iColumns = atoi(szColumns);
+	//const char* szColumns = pNode->Attribute("Columns");	 
+	//if( szColumns )	
+	//	m_iColumns = atoi(szColumns);
+
+	//m_paColumnWidths = new kpuFixedArray<float>(m_iColumns);
+	//m_paRowHeights = new kpuFixedArray<float>(m_iRows);	
+
+	////get column and row sizes
+	//char* szRowHeight = _strdup(pNode->Attribute("RowHeight"));	 
+	//if( szRows )	
+	//{	
+	//	char* szRowData = szRowHeight;
+
+	//	int i;
+	//	for(i = 0; *szRowData; i++)
+	//	{
+	//		char* pData = szRowData;
+	//		
+	//		while(*szRowData && *szRowData != ' ' )	szRowData++;
+	//		if( *szRowData == ' ' ) szRowData++;
+
+	//		float fHeight = (float)atof(pData);
+	//		m_paRowHeights->Add( fHeight );	
+	//		m_fContentHeight += fHeight;
+	//	}
+
+	//	free(szRowHeight);
+
+	//	 //fill the rest of the column widths in the same pattern
+	//	for(int j = i; j < m_iRows; j++)
+	//	{
+	//		float fHeight = m_paRowHeights->GetElement(j % i);
+	//		m_paRowHeights->Add(fHeight);
+	//		m_fContentHeight += fHeight;
+	//	}
+	//	
+	//}
+
+	//char* szColumnWidth = _strdup(pNode->Attribute("ColumnWidth"));	 
+	//if( szColumnWidth )	
+	//{
+	//	char* szColumnData = szColumnWidth;
+
+	//	int i;
+	//	for(i = 0; *szColumnData; i++)
+	//	{
+	//		char* szData = szColumnData;
+
+	//		while(*szColumnData && *szColumnData != ' ' ) szColumnData++;
+	//		
+	//		if( *szColumnData == ' ' ) szColumnData++;			
+
+	//		m_paColumnWidths->Add( (float)atof(szData) );			
+	//	}
+
+	//	free(szColumnWidth);
+
+	//	 //fill the rest of the column widths in the same pattern
+ //       for(int j = i++; j < m_iColumns; j++)
+ //       {
+	//		m_paColumnWidths->Add(m_paColumnWidths->GetElement(j % i));
+ //       }
+	//	
+	//}	
+
+	////Get the display height and width of the list
+	//const char* szDisplayWidth = pNode->Attribute("ListWidth");
+	//if( szDisplayWidth )
+	//	m_fListDimensions[0] = (float)atof(szDisplayWidth);
+
+	//const char* szDisplayHeight = pNode->Attribute("ListHeight");
+	//if( szDisplayHeight )
+	//	m_fListDimensions[1] = (float)atof(szDisplayHeight);
+
+
+	////see if this window has a scroll bar
+	//const char* pScroll = pNode->Attribute("ScrollVertical");
+	//if( pScroll )
+	//{
+	//	u32 uHash = StringHash(pScroll);
+	//	m_pScrollBar = (kpgUISlider*)GetChild(uHash);		
+	//	
+	//	pScroll = pNode->Attribute("ScrollDelta");
+	//	if( pScroll )
+	//		m_fScrollDelta = (float)atof(pScroll);		
+	//	
+	//	CalculateScrollHeight();
+	//}	
+
+	//TiXmlElement* pChild = pNode->FirstChildElement("Icons");
+
+	//if( pChild )
+	//{
+	//	int iCount = atoi(pChild->Attribute("Count"));
+	//	m_paIcons = new kpuFixedArray<kpgTexture*>(iCount);
+
+	//	//Get the size of the icons
+	//	char* szIconSize = _strdup(pChild->Attribute("Size"));	 
+	//	if( szIconSize )	
+	//	{
+	//		char* szIconData = szIconSize;
+
+	//		for(int i = 0; i < 2; i++)
+	//		{
+	//			char* szData = szIconData;
+
+	//			while(*szIconData && *szIconData != ' ' ) szIconData++;
+	//			
+	//			if( *szIconData == ' ' ) szIconData++;			
+
+	//			m_fIconSize[i] = (float)atof(szData);			
+	//		}
+
+	//		free(szIconSize);
+	//		
+	//	}	
+
+	//	for(TiXmlElement* pIcon = pChild->FirstChildElement(); pIcon != 0 ; pIcon = pIcon->NextSiblingElement() )
+	//	{
+	//		kpgTexture* texture = new kpgTexture();
+	//		const char* pszFile = pIcon->FirstChild()->Value();
+	//		texture->Load(pszFile);
+
+	//		m_paIcons->Add(texture);
+	//	}
+	//	
+	//}
+
+	//m_pFont = new kpgFont();
+	//m_pFont->Load(pNode);
+	kpgUIWindow::Load(pParser);
+
+	//Get column and rows
+	m_iRows = pParser->GetAttributeAsInt("Rows");
+	m_iColumns = pParser->GetAttributeAsInt("Columns");
 
 	m_paColumnWidths = new kpuFixedArray<float>(m_iColumns);
 	m_paRowHeights = new kpuFixedArray<float>(m_iRows);	
 
 	//get column and row sizes
-	char* szRowHeight = _strdup(pNode->Attribute("RowHeight"));	 
-	if( szRows )	
+	char* szRowHeight = _strdup( pParser->GetAttribute("RowHeight"));	 
+	if( szRowHeight )	
 	{	
 		char* szRowData = szRowHeight;
 
@@ -82,7 +215,7 @@ void kpgUIList::Load(TiXmlElement *pNode)
 		
 	}
 
-	char* szColumnWidth = _strdup(pNode->Attribute("ColumnWidth"));	 
+	char* szColumnWidth = _strdup(pParser->GetAttribute("ColumnWidth"));	 
 	if( szColumnWidth )	
 	{
 		char* szColumnData = szColumnWidth;
@@ -110,70 +243,54 @@ void kpgUIList::Load(TiXmlElement *pNode)
 	}	
 
 	//Get the display height and width of the list
-	const char* szDisplayWidth = pNode->Attribute("ListWidth");
-	if( szDisplayWidth )
-		m_fListDimensions[0] = (float)atof(szDisplayWidth);
-
-	const char* szDisplayHeight = pNode->Attribute("ListHeight");
-	if( szDisplayHeight )
-		m_fListDimensions[1] = (float)atof(szDisplayHeight);
-
+	m_fListDimensions[0] = pParser->GetAttributeAsFloat("ListWidth");
+	m_fListDimensions[1] = pParser->GetAttributeAsFloat("ListHeight");
 
 	//see if this window has a scroll bar
-	const char* pScroll = pNode->Attribute("ScrollVertical");
+	const char* pScroll = pParser->GetAttribute("ScrollVertical");
 	if( pScroll )
 	{
 		u32 uHash = StringHash(pScroll);
 		m_pScrollBar = (kpgUISlider*)GetChild(uHash);		
 		
-		pScroll = pNode->Attribute("ScrollDelta");
+		pScroll = pParser->GetAttribute("ScrollDelta");
 		if( pScroll )
 			m_fScrollDelta = (float)atof(pScroll);		
 		
 		CalculateScrollHeight();
 	}	
 
-	TiXmlElement* pChild = pNode->FirstChildElement("Icons");
+	pParser->FirstChildElement("Icons");
 
-	if( pChild )
+	if( pParser->HasElement() )
 	{
-		int iCount = atoi(pChild->Attribute("Count"));
+		int iCount = pParser->GetAttributeAsInt("Count");
 		m_paIcons = new kpuFixedArray<kpgTexture*>(iCount);
 
 		//Get the size of the icons
-		char* szIconSize = _strdup(pChild->Attribute("Size"));	 
-		if( szIconSize )	
-		{
-			char* szIconData = szIconSize;
+		m_fIconSize[0] = pParser->GetAttributeAsFloat("Width");
+		m_fIconSize[1] = pParser->GetAttributeAsFloat("Height");		
 
-			for(int i = 0; i < 2; i++)
-			{
-				char* szData = szIconData;
+		pParser->FirstChildElement();
 
-				while(*szIconData && *szIconData != ' ' ) szIconData++;
-				
-				if( *szIconData == ' ' ) szIconData++;			
-
-				m_fIconSize[i] = (float)atof(szData);			
-			}
-
-			free(szIconSize);
-			
-		}	
-
-		for(TiXmlElement* pIcon = pChild->FirstChildElement(); pIcon != 0 ; pIcon = pIcon->NextSiblingElement() )
+		while( pParser->HasElement() )
 		{
 			kpgTexture* texture = new kpgTexture();
-			const char* pszFile = pIcon->FirstChild()->Value();
+			const char* pszFile = pParser->GetChildValue();
 			texture->Load(pszFile);
 
 			m_paIcons->Add(texture);
+
+			pParser->NextSiblingElement();
 		}
-		
+
+		pParser->Parent();			
 	}
 
+	pParser->Parent();	
+
 	m_pFont = new kpgFont();
-	m_pFont->Load(pNode);
+	m_pFont->Load(pParser);
 	
 }
 
@@ -203,6 +320,7 @@ void kpgUIList::GetDataSource()
 			m_fViewOffset[1] = 0.0f;
 		}
 	}
+	
 
 }
 

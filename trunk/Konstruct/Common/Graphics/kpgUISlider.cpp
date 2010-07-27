@@ -3,6 +3,7 @@
 #include "kpgTexture.h"
 #include "kpgRenderer.h"
 #include "kpgUIManager.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 kpgUISlider::kpgUISlider(kpgUIManager* pManager) : kpgUIWindow(pManager)
 {
@@ -17,12 +18,50 @@ kpgUISlider::~kpgUISlider(void)
 	delete m_pSliderTexture;
 }
 
-void kpgUISlider::Load(TiXmlElement *pNode)
+void kpgUISlider::Load(kpuXmlParser* pParser)
 {
 	//kpgUIWindow::Load(pNode);
 
+	////load slider texture
+	//const char* szSlider = pNode->Attribute("Slider");
+	//if( szSlider )
+	//{
+	//	m_pSliderTexture = new kpgTexture();
+	//	m_pSliderTexture->Load(szSlider);
+	//	szSlider = 0;
+	//}
+
+	////get its orientation
+	//szSlider = pNode->Attribute("SliderOrientation");
+	//if( szSlider )
+	//{
+	//	m_eSliderOrientation = (eWindowOrientation)atoi(szSlider);
+	//	szSlider = 0;
+	//}
+
+	//szSlider = pNode->Attribute("SlideDirection");
+	//{
+	//	m_eSlideDirection = (eSlideDirection)atoi(szSlider);
+	//	szSlider = 0;
+	//}
+
+	//szSlider = pNode->Attribute("SliderHeight");
+	//if( szSlider )
+	//{
+	//	m_fSliderHeight = (float)atof(szSlider);
+	//	szSlider = 0;
+	//}
+
+	//szSlider = pNode->Attribute("SliderWidth");
+	//if( szSlider )
+	//{
+	//	m_fSliderWidth = (float)atof(szSlider);
+	//	szSlider = 0;
+	//}
+	kpgUIWindow::Load(pParser);
+
 	//load slider texture
-	const char* szSlider = pNode->Attribute("Slider");
+	const char* szSlider = pParser->GetAttribute("Slider");
 	if( szSlider )
 	{
 		m_pSliderTexture = new kpgTexture();
@@ -31,35 +70,11 @@ void kpgUISlider::Load(TiXmlElement *pNode)
 	}
 
 	//get its orientation
-	szSlider = pNode->Attribute("SliderOrientation");
-	if( szSlider )
-	{
-		m_eSliderOrientation = (eWindowOrientation)atoi(szSlider);
-		szSlider = 0;
-	}
+	m_eSliderOrientation = (eWindowOrientation) pParser->GetAttributeAsInt("SliderOrientation");	
+	m_eSlideDirection = (eSlideDirection)pParser->GetAttributeAsInt("SlideDirection");
 
-	szSlider = pNode->Attribute("SlideDirection");
-	{
-		m_eSlideDirection = (eSlideDirection)atoi(szSlider);
-		szSlider = 0;
-	}
-
-	szSlider = pNode->Attribute("SliderHeight");
-	if( szSlider )
-	{
-		m_fSliderHeight = (float)atof(szSlider);
-		szSlider = 0;
-	}
-
-	szSlider = pNode->Attribute("SliderWidth");
-	if( szSlider )
-	{
-		m_fSliderWidth = (float)atof(szSlider);
-		szSlider = 0;
-	}
-
-
-
+	m_fSliderHeight = pParser->GetAttributeAsFloat("SliderHeight");
+	m_fSliderWidth = pParser->GetAttributeAsFloat("SliderWidth");
 }
 
 void kpgUISlider::Draw(kpgRenderer *pRenderer, const kpRect &rParent)

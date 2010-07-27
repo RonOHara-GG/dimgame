@@ -1,7 +1,7 @@
 #pragma once
 
+#include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuVector.h"
-#include "External/Tinyxml/tinyxml.h"
 #include "Common/Utility/kpuLinkedList.h"
 
 class kpgRenderer;
