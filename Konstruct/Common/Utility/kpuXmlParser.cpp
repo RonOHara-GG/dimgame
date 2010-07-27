@@ -117,6 +117,34 @@ int	kpuXmlParser::GetValueAsInt()
 	return StringHash(szVal);
 }
 
+const char* kpuXmlParser::GetChildValue()
+{
+	const char* szVal = m_pCurrentElement->FirstChild()->Value();
+	
+	//see if it is in the map
+	char** szMapped = (*m_pDefineMap)[(char*)szVal];
+
+	if( szMapped )
+		return *szMapped;
+
+	return szVal;
+}
+
+float kpuXmlParser::GetChildValueAsFloat()
+{
+	return (float)atof(GetChildValue());	
+}
+
+int	kpuXmlParser::GetChildValueAsInt()
+{
+	const char* szVal = GetChildValue();
+
+	if( IsInt(szVal) )
+		return atoi(szVal);
+
+	return StringHash(szVal);
+}
+
 bool kpuXmlParser::IsInt(const char *szData)
 {
 	//check to make sure it already isn't an int
@@ -124,7 +152,7 @@ bool kpuXmlParser::IsInt(const char *szData)
 
 	for(int i = 0; i < iLen; i++)
 	{
-		if( szData[i] - '0' >= 9 )
+		if( szData[i] - '0' > 9 )
 		{
 			//check for negative
 			if( i == 0 )

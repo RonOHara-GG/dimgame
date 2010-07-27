@@ -13,7 +13,7 @@ public:
 	kpgUIList(kpgUIManager* pManager);
 	virtual ~kpgUIList(void);
 
-	virtual void Load(TiXmlElement* pNode);
+	virtual void Load(kpuXmlParser* pParser);
 	virtual void Draw(kpgRenderer* pRenderer, const kpRect& rParent);
 
 	void ScrollUp();

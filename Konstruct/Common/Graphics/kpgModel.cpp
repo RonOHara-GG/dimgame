@@ -10,6 +10,7 @@
 #include "Common/Graphics/kpgIndexBuffer.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuLinkedList.h"
+#include "Common/Utility/kpuXmlParser.h"
 #include "External/tinyxml/tinyxml.h"
 #include <d3dx9tex.h>
 
@@ -65,6 +66,109 @@ kpgModel::~kpgModel(void)
 
 bool kpgModel::Load(const char* cszFileName)
 {
+	//bool bRet = false;
+	//// Load the level list
+	//char szFileName[512];
+	//kpuFileManager::GetFullFilePath(cszFileName, szFileName, sizeof(szFileName));
+
+	////Set root directory to model directory
+	//char szOldRoot[512];
+	//memcpy(szOldRoot, kpuFileManager::GetRoot(), sizeof(szOldRoot));
+	//char* pszRoot = kpuFileManager::GetDirectory(szFileName);
+	//kpuFileManager::SetRootPath(pszRoot);	
+
+	////Texture
+	//kpgTexture* pTexture = 0;
+
+	//TiXmlDocument doc;
+	//if( doc.LoadFile(szFileName) )
+	//{
+	//	// Find the COLLADA tag
+	//	for( TiXmlElement* pChild = doc.FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+	//	{
+	//		if( !_strnicmp(pChild->Value(), "COLLADA", 7) )
+	//		{
+	//			bRet = true;
+
+	//			// Parse libraries
+	//			for( TiXmlElement* pEChild = pChild->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
+	//			{
+	//				u32 uHash = StringHash(pEChild->Value());
+	//				switch( uHash )
+	//				{
+	//					case s_uHash_library_images:
+	//						 pTexture = LoadImage(pEChild);
+	//						break;
+	//					case s_uHash_library_geometries:
+	//						LoadGeometryLibrary(pEChild, pTexture);
+	//						break;
+	//					case s_uHash_library_visual_scenes:
+	//						LoadVisualSceneLibrary(pEChild);
+	//						break;
+	//					default:
+	//						break;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	DWORD dwErr = GetLastError();
+	//	Printf("Failed to load file: %s\n", szFileName);
+	//}
+
+	//kpuVector vMin, vMax;
+
+	//if( m_aInstances.GetNumElements() > 0 )
+	//{
+
+	//	//Create bounding volumes for this model
+	//	kpgVertexBuffer* vb = m_aInstances[0]->GetGeometry()->GetVertexBuffer();
+	//	vb->Lock();		
+	//	
+	//	vMax = vb->GetPosition(0);
+	//	vMin = vMax;		
+
+	//	for(int i = 0; i < m_aInstances.GetNumElements(); i++)
+	//	{
+	//		vb = m_aInstances[i]->GetGeometry()->GetVertexBuffer();
+	//		vb->Lock();
+
+	//		for(int j = 0; j < vb->GetVertexCount(); j++)
+	//		{
+	//			kpuVector vNext = vb->GetPosition(j);
+
+	//			if( vNext.GetX() > vMax.GetX() )
+	//				vMax.SetX(vNext.GetX());
+	//			if( vNext.GetY() > vMax.GetY() )
+	//				vMax.SetY(vNext.GetY());
+	//			if( vNext.GetZ() > vMax.GetZ() )
+	//				vMax.SetZ(vNext.GetZ());
+
+	//			if( vNext.GetX() < vMin.GetX() )
+	//				vMin.SetX(vNext.GetX());
+	//			if( vNext.GetY() < vMin.GetY() )
+	//				vMin.SetY(vNext.GetY());
+	//			if( vNext.GetZ() < vMin.GetZ() )
+	//				vMin.SetZ(vNext.GetZ());
+	//		}
+	//		vb->Unlock();
+	//	}
+
+	//}
+
+	//vMax.SetW(1);
+	//vMin.SetW(1);
+
+	//Init(vMin, vMax);	
+
+	////reset root directory
+	//kpuFileManager::SetRootPath(szOldRoot);
+	//free(pszRoot);
+
+	//return bRet;
+
 	bool bRet = false;
 	// Load the level list
 	char szFileName[512];
@@ -79,35 +183,39 @@ bool kpgModel::Load(const char* cszFileName)
 	//Texture
 	kpgTexture* pTexture = 0;
 
-	TiXmlDocument doc;
-	if( doc.LoadFile(szFileName) )
+	kpuXmlParser* pParser = new kpuXmlParser();
+	if( pParser->LoadFile(szFileName) )
 	{
 		// Find the COLLADA tag
-		for( TiXmlElement* pChild = doc.FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+		for( ;pParser->HasElement(); pParser->NextSiblingElement())
 		{
-			if( !_strnicmp(pChild->Value(), "COLLADA", 7) )
+			if( !_strnicmp(pParser->GetValue(), "COLLADA", 7) )
 			{
 				bRet = true;
 
 				// Parse libraries
-				for( TiXmlElement* pEChild = pChild->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
+				pParser->FirstChildElement();
+				while( pParser->HasElement() )					
 				{
-					u32 uHash = StringHash(pEChild->Value());
-					switch( uHash )
+					switch( (u32)pParser->GetValueAsInt() )
 					{
 						case s_uHash_library_images:
-							 pTexture = LoadImage(pEChild);
+							 pTexture = LoadImage(pParser);
 							break;
 						case s_uHash_library_geometries:
-							LoadGeometryLibrary(pEChild, pTexture);
+							LoadGeometryLibrary(pParser, pTexture);
 							break;
 						case s_uHash_library_visual_scenes:
-							LoadVisualSceneLibrary(pEChild);
+							LoadVisualSceneLibrary(pParser);
 							break;
 						default:
 							break;
 					}
+
+					pParser->NextSiblingElement();
 				}
+
+				pParser->Parent();
 			}
 		}
 	}
@@ -166,40 +274,46 @@ bool kpgModel::Load(const char* cszFileName)
 	kpuFileManager::SetRootPath(szOldRoot);
 	free(pszRoot);
 
+	delete pParser;
 	return bRet;
 }
 
-void kpgModel::LoadGeometryLibrary(TiXmlElement* pLibrary, kpgTexture* pTexture)
+void kpgModel::LoadGeometryLibrary(kpuXmlParser* pParser, kpgTexture* pTexture)
 {
 	kpuLinkedList lGeometries;
 	int iGeometryCount = 0;
 
+	pParser->FirstChildElement();
 	// Go through all the child elements
-	for( TiXmlElement* pEGeometry = pLibrary->FirstChildElement(); pEGeometry != 0; pEGeometry = pEGeometry->NextSiblingElement() )
+	while( pParser->HasElement() )
 	{
 		// Make sure this is a geometry element
-		u32 uHash = StringHash(pEGeometry->Value());
-		if( uHash == s_uHash_geometry )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_geometry )
 		{
-			// Load the mesh data
-			for( TiXmlElement* pMesh = pEGeometry->FirstChildElement(); pMesh != 0; pMesh = pMesh->NextSiblingElement() )
+			pParser->FirstChildElement();
+
+			while( pParser->HasElement() )
 			{
-				uHash = StringHash(pMesh->Value());
-				switch( uHash )
+				// Load the mesh data			
+				switch( (u32)pParser->GetValueAsInt() )
 				{					
 					case s_uHash_mesh:
 						{
-							kpgGeometry* pGeometry = LoadMesh(pMesh);
+							kpgGeometry* pGeometry = LoadMesh(pParser);
 							if( pGeometry )
 							{
 								//uHash = StringHash(pEGeometry->Attribute("id"));
 								//static const u32 test = StringHash("pPlaneShape17");
 								//if( uHash == test )
 								//	pGeometry->SetName(pEGeometry->Attribute("id"));
-								pGeometry->SetName(pEGeometry->Attribute("id"));
+								pParser->Parent();
+
+								pGeometry->SetName(pParser->GetAttribute("id"));
 								pGeometry->SetTexture(pTexture);
 								lGeometries.AddTail(pGeometry);
 								iGeometryCount++;
+
+								pParser->FirstChildElement();
 							}
 						}
 						break;
@@ -210,12 +324,20 @@ void kpgModel::LoadGeometryLibrary(TiXmlElement* pLibrary, kpgTexture* pTexture)
 					case s_uHash_spline:
 						// Not Supported Yet
 					default:
-						Printf("kpgModel::LoadGeometryLibrary Unsupported Mesh Type: %s\n", pMesh->Value());
+						Printf("kpgModel::LoadGeometryLibrary Unsupported Mesh Type: %s\n", pParser->GetValue());
 						break;
 				}
+
+				pParser->NextSiblingElement();
 			}
+
+			pParser->Parent();
 		}
+
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	// Convert linked list into fixed array for speed later
 	m_aGeometries.SetSize(iGeometryCount);
@@ -227,32 +349,43 @@ void kpgModel::LoadGeometryLibrary(TiXmlElement* pLibrary, kpgTexture* pTexture)
 		m_aGeometries[iIndex++] = pGeometry;
 		delete pIter;
 	}
+
+	
 }
 
-void kpgModel::LoadVisualSceneLibrary(TiXmlElement* pLibrary)
+void kpgModel::LoadVisualSceneLibrary(kpuXmlParser* pParser)
 {
 	kpuLinkedList lInstances;
 	int iInstanceCount = 0;
-	for( TiXmlElement* pElement = pLibrary->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
+	pParser->FirstChildElement();
+
+	while( pParser->HasElement() )
 	{
-		u32 uHash = StringHash(pElement->Value());
-		if( uHash == s_uHash_visual_scene )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_visual_scene )
 		{
-			for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+			pParser->FirstChildElement();
+			while( pParser->HasElement() )
 			{
-				uHash = StringHash(pChild->Value());
-				if( uHash == s_uHash_node )
+				if( (u32)pParser->GetValueAsInt() == s_uHash_node )
 				{
-					kpgGeometryInstance* pInstance = LoadInstance(pChild);
+					kpgGeometryInstance* pInstance = LoadInstance(pParser);
 					if( pInstance )
 					{
 						lInstances.AddTail(pInstance);
 						iInstanceCount++;
 					}
 				}
+
+				pParser->NextSiblingElement();
 			}
+
+			pParser->Parent();
 		}
+
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	// Convert linked list into fixed array for speed later
 	m_aInstances.SetSize(iInstanceCount);
@@ -266,40 +399,42 @@ void kpgModel::LoadVisualSceneLibrary(TiXmlElement* pLibrary)
 	}
 }
 
-kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
+kpgGeometry* kpgModel::LoadMesh(kpuXmlParser* pParser)
 {
 	kpgGeometry* pGeometry = 0;
 	kpuLinkedList sources;
 	int* pIndexArray = 0;
 	int iIndexCount;
 
-	for( TiXmlElement* pChild = pMeshElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
-		const char* sz = pChild->Value();
-		u32 uHash = StringHash(sz);
-		switch( uHash )
+		switch( (u32)pParser->GetValueAsInt() )
 		{
 			case s_uHash_source:
 				{
-					sSource* pSource = LoadSource(pChild);
+					sSource* pSource = LoadSource(pParser);
 					if( pSource )
 						sources.AddTail(pSource);
 				}
 				break;
 			case s_uHash_vertices:
-				LoadVertices(pChild, sources);
+				LoadVertices(pParser, sources);
 				break;
 			case s_uHash_polygons:
-				pIndexArray = LoadPolygons(pChild, sources, iIndexCount);
+				pIndexArray = LoadPolygons(pParser, sources, iIndexCount);
 				break;
 			case s_uHash_triangles:
-				pIndexArray = LoadTriangles(pChild, sources, iIndexCount);
+				pIndexArray = LoadTriangles(pParser, sources, iIndexCount);
 				break;
 			default:
-				Printf("kpgModel::LoadMesh Unsupported Mesh Element: %s\n", pChild->Value());
+				Printf("kpgModel::LoadMesh Unsupported Mesh Element: %s\n", pParser->GetValue());
 				break;
 		}
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	if( pIndexArray )
 	{
@@ -379,12 +514,12 @@ kpgGeometry* kpgModel::LoadMesh(TiXmlElement* pMeshElement)
 	return pGeometry;
 }
 
-kpgModel::sSource* kpgModel::LoadSource(TiXmlElement* pSourceElement)
+kpgModel::sSource* kpgModel::LoadSource(kpuXmlParser* pParser)
 {
 	sSource* pSource = new sSource();
 
 	// Get the ID
-	const char* pszID = pSourceElement->Attribute("id");
+	const char* pszID = pParser->GetAttribute("id");
 	if( !pszID )
 	{
 		delete pSource;
@@ -393,12 +528,12 @@ kpgModel::sSource* kpgModel::LoadSource(TiXmlElement* pSourceElement)
 	pSource->uID = StringHash(pszID);
 
 	// Find the float array
-	for( TiXmlElement* pChild = pSourceElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
-		u32 uHash = StringHash(pChild->Value());
-		if( uHash == s_uHash_float_array )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_float_array )
 		{
-			const char* pszCount = pChild->Attribute("count");
+			const char* pszCount = pParser->GetAttribute("count");
 			if( !pszCount )
 			{
 				delete pSource;
@@ -407,7 +542,7 @@ kpgModel::sSource* kpgModel::LoadSource(TiXmlElement* pSourceElement)
 			int iCount = atoi(pszCount);
 			pSource->aFloats.SetSize(iCount);
 
-			char* pszFloats = _strdup(pChild->FirstChild()->Value());
+			char* pszFloats = _strdup(pParser->GetChildValue());
 			char* pFloatPtr = pszFloats;
 			for( int i = 0; i < iCount; i++ )
 			{
@@ -424,21 +559,25 @@ kpgModel::sSource* kpgModel::LoadSource(TiXmlElement* pSourceElement)
 
 			break;
 		}
+
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	return pSource;
 }
 
-void kpgModel::LoadVertices(TiXmlElement* pVerticesElement, kpuLinkedList& sources)
+void kpgModel::LoadVertices(kpuXmlParser* pParser, kpuLinkedList& sources)
 {	
-	for( TiXmlElement* pInput = pVerticesElement->FirstChildElement(); pInput != 0; pInput = pInput->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
-		u32 uHash = StringHash(pInput->Value());
-		if( uHash == s_uHash_input )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_input )
 		{
-			const char* pszSource = pInput->Attribute("source");
+			const char* pszSource = pParser->GetAttribute("source");
 			const char* ppSource = pszSource + 1;
-			uHash = StringHash(ppSource);
+			u32 uHash = StringHash(ppSource);
 			kpuLinkedList* pSourceNode = sources.Next();
 			sSource* pTheSource = 0;
 			while( pSourceNode )
@@ -454,9 +593,7 @@ void kpgModel::LoadVertices(TiXmlElement* pVerticesElement, kpuLinkedList& sourc
 
 			if( pTheSource )
 			{
-				const char* pszSemantic = pInput->Attribute("semantic");
-				uHash = StringHash(pszSemantic);
-				switch( uHash )
+				switch( (u32)pParser->GetAttributeAsInt("semantic") )
 				{
 					case s_uHash_POSITION:
 						pTheSource->eSemantic = eVS_Position;
@@ -465,44 +602,46 @@ void kpgModel::LoadVertices(TiXmlElement* pVerticesElement, kpuLinkedList& sourc
 						pTheSource->eSemantic = eVS_Normal;
 						break;
 					default:
-						Printf("kpgModel::LoadVertices Unsupported semantic: %s\n", pszSemantic);
+						Printf("kpgModel::LoadVertices Unsupported semantic: %s\n", pParser->GetAttribute("semantic") );
 						break;
 				}
 			}
 			else
 				Printf("kpgModel::LoadVertices unknown source: %s\n", pszSource);
-		}		
+		}	
+
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 }
 
-int* kpgModel::LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sources, int& iOutIndexCount)
+int* kpgModel::LoadTriangles(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount)
 {	
 	int iVertexOffset = -1;
 	int iTexCoordOffset = -1;
 	int iNormCoordOffset = -1;
 	int iIndicies = 0;
-	iOutIndexCount = atoi(pTrianglesElement->Attribute("count")) * 3;
+	iOutIndexCount = pParser->GetAttributeAsInt("count") * 3;
 	int* pIndexArray = new int[iOutIndexCount];
 	sSource* pTextureSource;
 	sSource* pNormalSource = 0;
-	for( TiXmlElement* pElement = pTrianglesElement->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
-		u32 uHash = StringHash(pElement->Value());
-		if( uHash == s_uHash_input )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_input )
 		{
-			const char* pszSemantic = pElement->Attribute("semantic");
-			uHash = StringHash(pszSemantic);
-			switch( uHash )
+			switch( (u32)pParser->GetAttributeAsInt("semantic") )
 			{
 				case s_uHash_VERTEX:
-					iVertexOffset = atoi(pElement->Attribute("offset"));
+					iVertexOffset = pParser->GetAttributeAsInt("offset");
 					iIndicies++;
 					break;
 				case s_uHash_TEXCOORD:
 					{
-						iTexCoordOffset = atoi(pElement->Attribute("offset"));
+						iTexCoordOffset = pParser->GetAttributeAsInt("offset");
 						iIndicies++;
-						u32 uTexCoordSourceID = StringHash(pElement->Attribute("source") + 1);
+						u32 uTexCoordSourceID = StringHash(pParser->GetAttribute("source") + 1);
 						kpuLinkedList* pSourceNode = sources.Next();
 						while( pSourceNode )
 						{
@@ -520,8 +659,8 @@ int* kpgModel::LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sou
 				case s_uHash_NORMAL:
 					{
 						iIndicies++;
-						iNormCoordOffset = atoi(pElement->Attribute("offset"));
-						u32 uNormalSourceID = StringHash(pElement->Attribute("source") + 1);
+						iNormCoordOffset = pParser->GetAttributeAsInt("offset");
+						u32 uNormalSourceID = StringHash(pParser->GetAttribute("source") + 1);
 						kpuLinkedList* pSourceNode = sources.Next();
 						while( pSourceNode )
 						{
@@ -538,16 +677,16 @@ int* kpgModel::LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sou
 					break;
 					}
 				default:
-					Printf("kpgModel::LoadTriangles Unsupported semantic: %s\n", pszSemantic);
+					Printf("kpgModel::LoadTriangles Unsupported semantic: %s\n", pParser->GetAttribute("semantic"));
 					break;
 			}
 		}
-		else if( pElement->Value()[0] == 'p' && pElement->Value()[1] == 0 )
+		else if( pParser->GetValue()[0] == 'p' && pParser->GetValue()[1] == 0 )
 		{
 			kpuFixedArray<float> aTemp(pTextureSource->aFloats.GetNumElements());
 			memcpy(&aTemp[0], &pTextureSource->aFloats[0], sizeof(float) * aTemp.GetNumElements());
 
-			char* pszIndices = _strdup(pElement->FirstChild()->Value());
+			char* pszIndices = _strdup(pParser->GetChildValue());
 			char* pIndexPtr = pszIndices;
 			for( int i = 0; i < iOutIndexCount; i++ )
 			{
@@ -571,38 +710,39 @@ int* kpgModel::LoadTriangles(TiXmlElement* pTrianglesElement, kpuLinkedList& sou
 			free(pszIndices);
 		}
 		else
-			Printf("kpgModel::LoadTriangles unknown element tag: %s\n", pElement->Value());
+			Printf("kpgModel::LoadTriangles unknown element tag: %s\n", pParser->GetValue());
+
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	return pIndexArray;
 }
 
-int* kpgModel::LoadPolygons(TiXmlElement* pPolygonsElement, kpuLinkedList& sources, int& iOutIndexCount)
+int* kpgModel::LoadPolygons(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount)
 {
 	int iVertexOffset = -1;
 	int iTexCoordOffset = -1;
 	int iNormalOffset = -1;
-	iOutIndexCount = atoi(pPolygonsElement->Attribute("count")) * 3;
+	iOutIndexCount = pParser->GetAttributeAsInt("count") * 3;
 	int* pIndexArray = new int[iOutIndexCount];
 	sSource* pTextureSource;
 	sSource* pNormalSource;
-
-	for( TiXmlElement* pElement = pPolygonsElement->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
-		u32 uHash = StringHash(pElement->Value());
-		if( uHash == s_uHash_input )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_input )
 		{
-			const char* pszSemantic = pElement->Attribute("semantic");
-			uHash = StringHash(pszSemantic);
-			switch( uHash )
+			switch( (u32)pParser->GetAttributeAsInt("semantic") )
 			{
 				case s_uHash_VERTEX:
-					iVertexOffset = atoi(pElement->Attribute("offset"));
+					iVertexOffset = pParser->GetAttributeAsInt("offset");
 					break;
 				case s_uHash_TEXCOORD:
 					{
-						iTexCoordOffset = atoi(pElement->Attribute("offset"));
-						u32 uTexCoordSourceID = StringHash(pElement->Attribute("source") + 1);
+						iTexCoordOffset = pParser->GetAttributeAsInt("offset");
+						u32 uTexCoordSourceID = StringHash(pParser->GetAttribute("source") + 1);
 						kpuLinkedList* pSourceNode = sources.Next();
 						while( pSourceNode )
 						{
@@ -619,8 +759,8 @@ int* kpgModel::LoadPolygons(TiXmlElement* pPolygonsElement, kpuLinkedList& sourc
 					break;
 				case s_uHash_NORMAL:
 					{
-						iNormalOffset = atoi(pElement->Attribute("offset"));
-						u32 uNormalSourceID = StringHash(pElement->Attribute("source") + 1);
+						iNormalOffset = pParser->GetAttributeAsInt("offset");
+						u32 uNormalSourceID = StringHash(pParser->GetAttribute("source") + 1);
 						kpuLinkedList* pSourceNode = sources.Next();
 						while( pSourceNode )
 						{
@@ -637,16 +777,16 @@ int* kpgModel::LoadPolygons(TiXmlElement* pPolygonsElement, kpuLinkedList& sourc
 					}
 					break;
 				default:
-					Printf("kpgModel::LoadPolygons Unsupported semantic: %s\n", pszSemantic);
+					Printf("kpgModel::LoadPolygons Unsupported semantic: %s\n", pParser->GetAttribute("semantic"));
 					break;
 			}
 		}
-		else if( pElement->Value()[0] == 'p' && pElement->Value()[1] == 0 )
+		else if( pParser->GetValue()[0] == 'p' && pParser->GetValue()[1] == 0 )
 		{
 			kpuFixedArray<float> aTemp(pTextureSource->aFloats.GetNumElements());
 			memcpy(&aTemp[0], &pTextureSource->aFloats[0], sizeof(float) * aTemp.GetNumElements());			
 			
-			char* pszIndices = _strdup(pElement->FirstChild()->Value());
+			char* pszIndices = _strdup(pParser->GetChildValue());
 			char* pIndexPtr = pszIndices;
 
 			for( int i = 0; i < 3; i++ )
@@ -671,45 +811,56 @@ int* kpgModel::LoadPolygons(TiXmlElement* pPolygonsElement, kpuLinkedList& sourc
 			
 		}
 		else
-			Printf("kpgModel::LoadPolygons unknown element tag: %s\n", pElement->Value());
+			Printf("kpgModel::LoadPolygons unknown element tag: %s\n", pParser->GetValue());
+
+		pParser->NextSiblingElement();
 	}
+	pParser->Parent();
 
 	return pIndexArray;
 }
 
-kpgTexture*  kpgModel::LoadImage(TiXmlElement* pLibrary)
+kpgTexture*  kpgModel::LoadImage(kpuXmlParser* pParser)
 {
+	kpgTexture* texture = 0;
+
 	// Go through all the child elements
-	for( TiXmlElement* pEGeometry = pLibrary->FirstChildElement(); pEGeometry != 0; pEGeometry = pEGeometry->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
 		// Make sure this is a geometry element
-		u32 uHash = StringHash(pEGeometry->Value());
-		if( uHash == s_uHash_image )
+		if( (u32)pParser->GetValueAsInt() == s_uHash_image )
 		{
-			char* pszFilename = (char*)pEGeometry->FirstChildElement()->FirstChild()->Value();			
+			pParser->FirstChildElement();
+			char* pszFilename = (char*)pParser->GetChildValue();			
 
-			kpgTexture* texture = new kpgTexture();
+			texture = new kpgTexture();
 			texture->Load(pszFilename);
-			return texture;
+
+			pParser->Parent();
 		}
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 	
-	return 0;
+	return texture;
 }
-kpgGeometryInstance* kpgModel::LoadInstance(TiXmlElement* pInstElement)
+kpgGeometryInstance* kpgModel::LoadInstance(kpuXmlParser* pParser)
 {
 	kpgGeometryInstance* pInst = 0;
 	kpuMatrix mInst;
 	mInst.Identity();
 
-	for( TiXmlElement* pElement = pInstElement->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
+	pParser->FirstChildElement();
+
+	while( pParser->HasElement() )
 	{
-		u32 uHash = StringHash(pElement->Value());
-		switch( uHash )
+		switch( (u32)pParser->GetValueAsInt() )
 		{
 			case s_uHash_translate:
 				{
-					char* pszTranslation = _strdup(pElement->FirstChild()->Value());
+					char* pszTranslation = _strdup(pParser->GetChildValue());
 					char* pPtr = pszTranslation;
 					kpuVector vTranslation;
 					float* pVec = (float*)&vTranslation;
@@ -729,7 +880,7 @@ kpgGeometryInstance* kpgModel::LoadInstance(TiXmlElement* pInstElement)
 				break;
 			case s_uHash_rotate:
 				{
-					char* pszRotation = _strdup(pElement->FirstChild()->Value());
+					char* pszRotation = _strdup(pParser->GetChildValue());
 					char* pPtr = pszRotation;
 					kpuVector vRotation;
 					float* pVec = (float*)&vRotation;
@@ -745,8 +896,7 @@ kpgGeometryInstance* kpgModel::LoadInstance(TiXmlElement* pInstElement)
 					free(pszRotation);
 					pVec[3] *= DEG_TO_RAD;
 
-					uHash = StringHash(pElement->Attribute("sid"));
-					switch( uHash )
+					switch( (u32)pParser->GetAttributeAsInt("sid") )
 					{
 						case s_uHash_rotateX:
 							mInst.SetA(vRotation);
@@ -762,7 +912,7 @@ kpgGeometryInstance* kpgModel::LoadInstance(TiXmlElement* pInstElement)
 				break;
 			case s_uHash_instance_geometry:
 				{
-					uHash = StringHash(pElement->Attribute("url") + 1);
+					u32 uHash = StringHash(pParser->GetAttribute("url") + 1);
 					for( int i = 0; i < m_aGeometries.GetNumElements(); i++ )
 					{
 						if( m_aGeometries[i]->GetName() == uHash )
@@ -780,10 +930,14 @@ kpgGeometryInstance* kpgModel::LoadInstance(TiXmlElement* pInstElement)
 				}
 				break;
 			default:
-				Printf("kpgModel::LoadInstance Unsupported instance property: %s\n", pElement->Value());
+				Printf("kpgModel::LoadInstance Unsupported instance property: %s\n", pParser->GetValue());
 				break;
 		}
+
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	return pInst;
 }

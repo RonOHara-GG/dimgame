@@ -27,7 +27,7 @@
 		PositionX="0.5" PositionY="0.5" Width="0.28125" Height="0.50" Visible="0" HasFrame="1"
 		ListWidth="1.0" ListHeight="1.0" Columns="5" Rows="5"  RowHeight="0.20" ColumnWidth="0.20"
 		DataSource="InventoryIcons" >
-		<Icons Count="5" Size="0.85 0.8">
+		<Icons Count="5" Width="0.85" Height="0.8">
 			<Icon>.\Assets\UI\GamePlay\Textures\Gun.png </Icon>
 			<Icon>.\Assets\UI\GamePlay\Textures\Dog.png </Icon>
 			<Icon>.\Assets\UI\GamePlay\Textures\Bow.png </Icon>
@@ -174,7 +174,7 @@
 			PositionX="0.75" PositionY="0.9" Width="0.25" Height="0.10"
 			Visible="1" HasFrame="1" ClickEvent="Close" ClickEventParam="MerchantList" Text="Leave Store"/> 
 			
-		<Icons Count="5" Size="0.50 0.8">
+		<Icons Count="5" Width="0.50" Height="0.8">
 			<Icon>.\Assets\UI\GamePlay\Textures\Gun.png </Icon>
 			<Icon>.\Assets\UI\GamePlay\Textures\Dog.png </Icon>
 			<Icon>.\Assets\UI\GamePlay\Textures\Bow.png </Icon>

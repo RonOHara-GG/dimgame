@@ -2,6 +2,7 @@
 #include "Common/Graphics/kpgFont.h"
 #include "Common/Graphics/kpgTexture.h"
 #include "Common/Utility/kpuFileManager.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 kpgFontData* kpgFontData::sm_pDefaultFont;
 kpuLinkedList kpgFontData::sm_lFontList;
@@ -169,9 +170,9 @@ void kpgFont::Save(TiXmlNode* pParent)
 	}
 }
 
-void kpgFont::Load(TiXmlElement* pParent)
+void kpgFont::Load(kpuXmlParser* pParser)
 {
-	TiXmlElement* pChild = pParent->FirstChildElement();
+	/*TiXmlElement* pChild = pParent->FirstChildElement();
 	if( pChild && !strcmp(pChild->Value(), "Font") )
 	{
 		const char* pFace = pChild->Attribute("face");
@@ -186,5 +187,23 @@ void kpgFont::Load(TiXmlElement* pParent)
 	else
 	{
 		LoadDefaultFont();
+	}*/
+	pParser->FirstChildElement();
+
+	if( pParser->HasElement() && !strcmp(pParser->GetValue(), "Font") )
+	{
+		const char* pFace = pParser->GetAttribute("face");
+		int iHeight = pParser->GetAttributeAsInt("height");
+		int iWidth = pParser->GetAttributeAsInt("width");
+		int iWeight = pParser->GetAttributeAsInt("weight");	
+		bool bItalic = pParser->GetAttributeAsBool("italic");
+
+		m_pData = kpgFontData::LoadFont(kpgRenderer::GetInstance(), pFace, iHeight, iWidth, iWeight, bItalic);
 	}
+	else
+	{
+		LoadDefaultFont();
+	}
+
+	pParser->Parent();
 }

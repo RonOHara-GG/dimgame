@@ -20,6 +20,7 @@ public:
 	void			FirstElement()	{ m_pCurrentElement = m_XmlDoc.FirstChildElement(); }
 	void			NextSiblingElement() { m_pCurrentElement = m_pCurrentElement->NextSiblingElement(); }
 	void			FirstChildElement();
+	void			FirstChildElement(const char* szName);
 	void			Parent();
 
 	//Attribute accessors
@@ -33,6 +34,11 @@ public:
 	float			GetValueAsFloat();
 	int				GetValueAsInt();
 	const char*		GetValue();
+
+	//Get Child Node Value
+	float			GetChildValueAsFloat();
+	int				GetChildValueAsInt();
+	const char*		GetChildValue();
 
 private:
 	bool						IsInt(const char* szData);
@@ -58,4 +64,9 @@ inline void kpuXmlParser::FirstChildElement()
 	m_pCurrentElement = m_pCurrentElement->FirstChildElement(); 
 }
 
+inline void kpuXmlParser::FirstChildElement(const char* szName)
+{
+	m_plParentList->AddTail(m_pCurrentElement);
+	m_pCurrentElement = m_pCurrentElement->FirstChildElement(szName);
+}
 

@@ -4,6 +4,7 @@
 #include "Common/Graphics/kpgTexture.h"
 #include "Common/Input/kpiInputManager.h"
 #include "Common/Graphics/kpgFont.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 const float kBlinkSpeed = 0.75f;
 
@@ -37,11 +38,11 @@ void kpgUITextInput::LoadDefaults()
 	m_pCursor->Load("ScreenLayouts\\System\\Images\\DefaultCursor.dds");
 }
 
-void kpgUITextInput::Load(TiXmlElement* pElement)
+void kpgUITextInput::Load(kpuXmlParser* pParser)
 {
 	//kpgUIWindow::Load(pElement);
 
-	const char* pCursor = pElement->Attribute("Curosr");
+	const char* pCursor = pParser->GetAttribute("Curosr");
 	if( pCursor )
 	{
 		m_pCursor = new kpgTexture();
@@ -49,7 +50,7 @@ void kpgUITextInput::Load(TiXmlElement* pElement)
 	}
 
 	m_pFont = new kpgFont();
-	m_pFont->Load(pElement);
+	m_pFont->Load(pParser);
 }
 
 

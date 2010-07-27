@@ -11,7 +11,7 @@ public:
 	virtual ~kpgUITextInput(void);
 
 	void LoadDefaults();
-	void Load(TiXmlElement* pElement);
+	void Load(kpuXmlParser* pParser);
 	void SetPasswordMode(bool bPasswordMode = true);
 	void SetText(const char* szText);
 
