@@ -371,6 +371,7 @@ void kpgUIWindow::Load(kpuXmlParser* pParser)
 		m_uMouseEnterEvent = pParser->GetAttributeAsInt("MouseEnterEvent");
 
 		m_uDragEvent = pParser->GetAttributeAsInt("MouseDragEvent");
+		m_uDragParam = pParser->GetAttributeAsInt("DragParam");
 
 		m_uMouseEnterParam = pParser->GetAttributeAsInt("MouseEnterParam");
 
@@ -1007,6 +1008,9 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 	if( pWindow )
 		m_pUIManager->SetWinMouseOver(pWindow);
 
+	u32 uEvent = IE_NOT_HANDLED;
+	u32 uParam = 0;
+
 	// TODO: Handle this event
 	switch(type)
 	{
@@ -1014,16 +1018,13 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 		{		
 			if( button == KPIM_BUTTON_0 )
 			{
-				if( pWindow )
-				{	//Get the click event
-					u32 uEvent = pWindow->ClickEvent(vMousePos.GetX(), vMousePos.GetY());
-						
-					//see if context can handle it
-					if( uEvent != 0 && m_pContextObj )	
-						return m_pContextObj->HandleEvent(uEvent);
+				if( pWindow )		
+				{
+					//Get the click event
+					uEvent = pWindow->ClickEvent(vMousePos.GetX(), vMousePos.GetY());
+					uParam = m_uClickParam;
+				}
 
-					return uEvent;										
-				}				
 			}
 			break;
 		}	
@@ -1032,7 +1033,8 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 			if( pWindow )
 			{
 				kpPoint pDelta = g_pInputManager->GetMouseDelta();
-				return pWindow->MouseDrag(kpuVector(pDelta.m_iX, pDelta.m_iY, 0.0f, 0.0f), vMousePos);	
+				uEvent = pWindow->MouseDrag(kpuVector(pDelta.m_iX, pDelta.m_iY, 0.0f, 0.0f), vMousePos);
+				uParam = m_uDragParam;
 
 			}
 			break;
@@ -1040,12 +1042,16 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 	case eIET_ButtonUp:
 		{
 			if( pWindow  )
-				return 0;
+				uEvent = 0;
 			break;
 		}
 	}	
-	
-	return IE_NOT_HANDLED;
+
+	//see if context can handle it
+	if( uEvent != 0 && m_pContextObj )	
+		return m_pContextObj->HandleEvent(uEvent, uParam);
+
+	return uEvent;
 }
 
 void kpgUIWindow::Open(kpuPhysicalObject* pContext)
@@ -1113,5 +1119,5 @@ u32 kpgUIWindow::MouseDrag(const kpuVector &vDelta, const kpuVector &vPos)
 		return 0;
 	}
 
-	return IE_NOT_HANDLED;
+	return m_uDragEvent;
 }

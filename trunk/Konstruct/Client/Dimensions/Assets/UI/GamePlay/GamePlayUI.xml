@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Windows>			
+<Windows>		
+	<Define Name="Cl_Brawler" 		Value="0" />
+	<Define Name="Cl_Swordsman" 	Value="1" />
+	<Define Name="Cl_Archer" 		Value="2" />
+	<Define Name="Cl_Marksman" 	Value="3" />
+	<Define Name="Cl_Rocketeer" 	Value="4" />
+	<Define Name="Cl_Medic" 		Value="5" />
+	<Define Name="Cl_Priest" 		Value="6" />
+	<Define Name="Cl_Occultist" 	Value="7" />
+	
 	<Button Type="3" Name="LeftSkillBtn" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.025" PositionY="0.96" Width="0.05" Height="0.078"	Visible="1" HasFrame="1" 
 			MouseDownEvent="Open" Open="SkillSelectWin" />
@@ -66,75 +75,75 @@
 				
 		<Button Type="3" Name="TrainBrawler" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.10" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="Train"  ClickEventParam="Brawler" Text="Train"/>
+			ClickEvent="Train"  ClickEventParam="CL_Brawler" Text="Train"/>
 			
 		<Button Type="3" Name="TrainArcher" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.20" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainArcher"  Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Archer" Text="Train"/>
 			
 		<Button Type="3" Name="TrainMarksman" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.30" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainMarksman" Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Marksman" Text="Train"/>
 			
 		<Button Type="3" Name="TrainMedic" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.40" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainMedic"  Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Medic"  Text="Train"/>
 			
 		<Button Type="3" Name="TrainOccultist" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.50" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainOccultist" Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Occultist" Text="Train"/>
 			
 		<Button Type="3" Name="TrainSwordsman" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.60" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainSwordman" Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Swordsman" Text="Train"/>
 			
 		<Button Type="3" Name="TrainPriest" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.70" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainPriest"  Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Priest"  Text="Train"/>
 			
 		<Button Type="3" Name="TrainRocketeer" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.275" PositionY="0.80" Width="0.15" Height="0.075"	Visible="1" HasFrame="1" 
-			ClickEvent="TrainRocketeer"  Text="Train"/>
+			ClickEvent="Train" ClickEventParam="CL_Rocketeer"  Text="Train"/>
 			
 		<Slider Type="5" Name="BrawlerExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.10" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="BrawlerExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Brawler" />
 			
 		<Slider Type="5" Name="ArcherExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.20" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="ArcherExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Archer" />
 			
 		<Slider Type="5" Name="MarksmanExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.30" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="MarksmanExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Marksman" />
 			
 		<Slider Type="5" Name="MedicExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.40" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="MedicExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Medic" />
 			
 		<Slider Type="5" Name="OccultistExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.50" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="OccultistExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Occultist" />
 			
 		<Slider Type="5" Name="SwordsmanExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.60" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="SwordsmanExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Swordsman" />
 			
 		<Slider Type="5" Name="PreistExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.70" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="PriestExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Priest" />
 			
 		<Slider Type="5" Name="RocketeerExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.80" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
-			MouseDragEvent="RocketeerExpChange"  />
+			MouseDragEvent="AdjustExp" DragParam="CL_Rocketeer" />
 			
 		<Button Type="3" Name="ExitClassTraining" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1" 
 			PositionX="0.5" PositionY="0.95" Width="0.20" Height="0.075"	Visible="1" HasFrame="1" 

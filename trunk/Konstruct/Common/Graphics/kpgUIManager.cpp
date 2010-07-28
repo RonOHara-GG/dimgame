@@ -2,12 +2,10 @@
 #include "kpgUIManager.h"
 #include "kpgRenderer.h"
 #include "Common\Input\kpiInputManager.h"
-#include "External/tinyxml/tinyxml.h"
 #include "kpgUIWindow.h"
 #include "kpgUITextInput.h"
 #include "kpgUIList.h"
 #include "Common/Utility/kpuLinkedList.h"
-#include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuXmlParser.h"
 
 

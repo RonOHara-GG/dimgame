@@ -17,7 +17,7 @@ public:
 	void BuySelectedItem(); //buys selected item from player
 	void SellSelectedItem(); // sells selected item to player
 
-	u32 HandleEvent(u32 uEvent);
+	u32 HandleEvent(u32 uEvent, u32 uParam);
 
 protected:
 	void SetListData();

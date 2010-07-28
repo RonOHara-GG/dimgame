@@ -233,7 +233,7 @@ void MerchantNpc::BuySelectedItem()
 	}
 }
 
-u32 MerchantNpc::HandleEvent(u32 uEvent)
+u32 MerchantNpc::HandleEvent(u32 uEvent, u32 uParam)
 {
 	if( uEvent == 0 )
 		return 0;

@@ -107,7 +107,7 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 
 	PlayerClass* pClass = new PlayerClass(eClass, 100.0f);
 	m_aClasses[eClass] = pClass;
-	m_iClassCount++;
+	m_iClassCount = 1;
 
 	m_pWeaponSkills = new kpuLinkedList();
 	m_plPlayerPets = new kpuLinkedList();
