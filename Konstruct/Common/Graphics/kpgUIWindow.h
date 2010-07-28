@@ -10,6 +10,7 @@ class kpgUIManager;
 class kpuPhysicalObject;
 class kpuXmlParser;
 enum eInputEventType;
+struct EventParam;
 
 class kpgUIWindow
 {
@@ -98,6 +99,8 @@ public:
 
 	//Events and targets
 	virtual u32  ClickEvent(float fX, float fY);
+	virtual	u32	 GetClickParam()	{ return m_uClickParam; }
+	virtual u32  GetDragParam()		{ return m_uDragParam; }
 
 	virtual u32	 MouseEnterEvent()		{ return m_uMouseEnterEvent; }
 	virtual u32	 MouseEnterParam()			{ return m_uMouseEnterParam; }
@@ -107,7 +110,7 @@ public:
 
 	virtual u32 MouseDrag(const kpuVector &vDelta, const kpuVector &vPos);
 
-	u32 HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
+	EventParam HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
 
 protected:
 	void Destroy();

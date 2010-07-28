@@ -12,6 +12,8 @@ kpuXmlParser::~kpuXmlParser(void)
 {
 	if( m_plParentList )
 		delete m_plParentList;
+
+	delete m_pDefineMap;
 }
 
 bool kpuXmlParser::LoadFile(const char *szFile)

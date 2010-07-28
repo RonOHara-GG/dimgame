@@ -994,7 +994,7 @@ void kpgUIWindow::Move(float fDeltaX, float fDeltaY)
 	m_fPosition[0] += fDeltaX;
 	m_fPosition[1] += fDeltaY;
 }
-u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
+EventParam kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 {	
 	kpgRenderer* pRenderer = kpgRenderer::GetInstance();
 
@@ -1022,7 +1022,7 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 				{
 					//Get the click event
 					uEvent = pWindow->ClickEvent(vMousePos.GetX(), vMousePos.GetY());
-					uParam = m_uClickParam;
+					uParam = pWindow->GetClickParam();
 				}
 
 			}
@@ -1034,7 +1034,7 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 			{
 				kpPoint pDelta = g_pInputManager->GetMouseDelta();
 				uEvent = pWindow->MouseDrag(kpuVector(pDelta.m_iX, pDelta.m_iY, 0.0f, 0.0f), vMousePos);
-				uParam = m_uDragParam;
+				uParam = pWindow->GetDragParam();
 
 			}
 			break;
@@ -1049,9 +1049,9 @@ u32 kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 
 	//see if context can handle it
 	if( uEvent != 0 && m_pContextObj )	
-		return m_pContextObj->HandleEvent(uEvent, uParam);
+		uEvent = m_pContextObj->HandleEvent(uEvent, uParam);
 
-	return uEvent;
+	return EventParam(uEvent, uParam);
 }
 
 void kpgUIWindow::Open(kpuPhysicalObject* pContext)

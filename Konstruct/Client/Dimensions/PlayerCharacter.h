@@ -37,7 +37,7 @@ class PlayerCharacter:public Actor
 {
 public:
 	PlayerCharacter(void);
-	PlayerCharacter(kpgModel* pModel, ePlayerClass eClass);
+	PlayerCharacter(kpgModel* pModel, u32 uClassFlags);
 	PlayerCharacter(PlayerLoadStructure& playerData);
 	~PlayerCharacter(void);
 
@@ -46,7 +46,7 @@ public:
 
 	void GainExp(int iExp); //Distributes exp over player's classes
 
-	bool	AddNewClass(ePlayerClass ePlayerClass, float fExpPercent); //Adds a new class to the player, returns false if the class could not be added
+	bool	AddNewClass(ePlayerClass ePlayerClass); //Adds a new class to the player, returns false if the class could not be added
 	float	RemoveClass(ePlayerClass ePlayerClass); //Removes a class from the player and returns the amount of exp that class was getting
 	bool	HasClass(ePlayerClass eClass) { return m_aClasses[eClass] != 0; }
 	void	AdjustExpSplit(ePlayerClass eClass, float fExp);

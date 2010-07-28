@@ -42,6 +42,9 @@ GameState_FrontEnd::GameState_FrontEnd(void)
 	pRenderer->SetCullMode(kpgRenderer::eCM_None);
     pRenderer->GetDevice()->SetRenderState( D3DRS_LIGHTING, FALSE );
 	m_mCharacterView.LookAt(kpuVector(0.0f, 0.9f, 4.0f, 0.0f), kpuVector(0.0f, 0.9f, 0.0f, 0.0f), kpuv_OneY);
+
+	m_uClassFlags = 0;
+
 }
 
 GameState_FrontEnd::~GameState_FrontEnd(void)
@@ -319,17 +322,17 @@ void GameState_FrontEnd::LoadAllPlayerModels(const char* szFile)
 
 bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)
 {
-	u32 uResult = m_pUIManager->HandleInputEvent(type, button);
+	EventParam result = m_pUIManager->HandleInputEvent(type, button);
 
-	if( uResult == 0 )
+	if( result.m_uEvent == 0 )
 		return true;
 
 	//try and handle result
-	switch( uResult )
+	switch( result.m_uEvent )
 	{
 	case CE_ENTER_GAME:
 		{
-			m_pPlayer = new PlayerCharacter((kpgModel*)m_plCurrentModel->GetPointer(), m_eStartClass);
+			m_pPlayer = new PlayerCharacter((kpgModel*)m_plCurrentModel->GetPointer(), m_uClassFlags);
 			ChangeGameState(new GameState_SpaceStation(m_pPlayer));
 			return true;
 		}
@@ -355,46 +358,16 @@ bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)
 			PreviousCharacterModel();
 			return true;
 		}
-	case CE_SELECT_ARCHER:
+	case CE_SELECT_CLASS:
 		{
-			m_eStartClass = eCL_Archer;
+			u32 uFlag = 1 << result.m_uParam;
+			if( ( m_uClassFlags & uFlag ) != 0 )
+				m_uClassFlags &= ~uFlag;
+			else
+				m_uClassFlags |= uFlag;
+
 			break;
 		}
-	case CE_SELECT_BRAWLER:
-		{
-			m_eStartClass = eCL_Brawler;
-			break;
-		}
-	case CE_SELECT_MEDIC:
-	{
-		m_eStartClass = eCL_Medic;
-		break;
-	}
-	case CE_SELECT_PRIEST:
-	{
-		m_eStartClass = eCL_Priest;
-		break;
-	}
-	case CE_SELECT_ROCKETEER:
-	{
-		m_eStartClass = eCL_Rocketeer;
-		break;
-	}
-	case CE_SELECT_MARKSMAN:
-	{
-		m_eStartClass = eCL_Marksman;
-		break;
-	}
-	case CE_SELECT_OCCULTIST:
-	{
-		m_eStartClass = eCL_Occultist;
-		break;
-	}
-	case CE_SELECT_SWORDSMAN:
-	{
-		m_eStartClass = eCL_Swordsman;
-		break;
-	}
 	case CE_EXIT:
 		{
 			Terminate();
