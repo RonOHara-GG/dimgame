@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "Common/Graphics/kpgFont.h"
 #include "Common/Graphics/kpgTexture.h"
-#include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuXmlParser.h"
 
 kpgFontData* kpgFontData::sm_pDefaultFont;

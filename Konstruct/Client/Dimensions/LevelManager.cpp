@@ -1,8 +1,7 @@
 #include "StdAfx.h"
 #include "LevelManager.h"
 #include "Level.h"
-#include "External/tinyxml/tinyxml.h"
-#include "Common/Utility/kpuFileManager.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 static LevelManager* g_pLevelManager = 0;
 
@@ -18,31 +17,34 @@ LevelManager::LevelManager(void)
 	}
 
 	// Load the level list
-	char szFileName[2048];
-	kpuFileManager::GetFullFilePath("Assets/Levels.xml", szFileName, sizeof(szFileName));
-	TiXmlDocument doc;
-	if( doc.LoadFile(szFileName) )
+	kpuXmlParser* pParser = new kpuXmlParser();
+	if(pParser->LoadFile("Assets/Levels.xml") )
 	{
-		for( TiXmlNode* pChild =  doc.FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
-		{
-			if( !_strnicmp(pChild->Value(), "LevelList", 9) )
+		while( pParser->HasElement() )
+		{		
+			if( !_strnicmp(pParser->GetValue(), "LevelList", 9) )
 			{
-				for( TiXmlNode* pCChild = pChild->FirstChildElement(); pCChild != 0; pCChild = pCChild->NextSiblingElement() )
-				{
-					if( !_strnicmp(pCChild->Value(), "Level", 5) )
-					{						
-						TiXmlElement* pElement = (TiXmlElement*)pCChild;
-						int iID = atoi(pElement->Attribute("ID"));
+				pParser->FirstChildElement();
+				while( pParser->HasElement() )
+				{				
+					if( !_strnicmp(pParser->GetValue(), "Level", 5) )
+					{					
+						int iID = pParser->GetAttributeAsInt("ID");
 
 						if( m_aLevelFileNames[iID] )
 							free(m_aLevelFileNames[iID]);
-						m_aLevelFileNames[iID] = _strdup(pElement->Attribute("File"));
+						m_aLevelFileNames[iID] = _strdup(pParser->GetAttribute("File"));
 					}
+					pParser->NextSiblingElement();
 				}
+				pParser->Parent();
 				break;
 			}
-		}
+			pParser->NextSiblingElement();
+		}		
 	}
+
+	delete pParser;
 }
 
 LevelManager::~LevelManager(void)

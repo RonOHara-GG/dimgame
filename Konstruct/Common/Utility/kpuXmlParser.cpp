@@ -10,7 +10,8 @@ kpuXmlParser::kpuXmlParser(void)
 
 kpuXmlParser::~kpuXmlParser(void)
 {
-	delete m_plParentList;
+	if( m_plParentList )
+		delete m_plParentList;
 }
 
 bool kpuXmlParser::LoadFile(const char *szFile)
@@ -22,6 +23,10 @@ bool kpuXmlParser::LoadFile(const char *szFile)
 	{
 		//if file loaded check for any defines
 		TiXmlElement* pElement = m_XmlDoc.FirstChildElement("Define");
+
+		//if no defines found at top level check next level down
+		if( !pElement )
+			pElement = m_XmlDoc.FirstChildElement()->FirstChildElement("Define");
 
 		while( pElement )
 		{

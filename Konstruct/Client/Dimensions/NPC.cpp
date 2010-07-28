@@ -2,7 +2,6 @@
 #include "Npc.h"
 #include "AIControl.h"
 #include "Common/Utility/kpuXmlParser.h"
-#include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 
 Npc::Npc(void):Actor()
