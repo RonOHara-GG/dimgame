@@ -2,13 +2,13 @@
 #include "GameState.h"
 #include "Common/Utility/kpuArrayList.h"
 #include "Common/Utility/kpuMatrix.h"
+#include "PlayerClass.h"
 
 class Level;
 class Actor;
 class PlayerCharacter;
 class kpgModel;
 enum eInputEventType;
-enum ePlayerClass;
 
 #define NUM_PLANETS				12
 #define PLANET_EARTH			3
@@ -67,7 +67,8 @@ protected:
 	kpuLinkedList			m_lPlayerModels;
 	kpuLinkedList*			m_plCurrentModel;
 
-	ePlayerClass			m_eStartClass;
+	u32						m_uClassFlags;
+
 };
 
 //Front End specific click events
@@ -78,12 +79,4 @@ protected:
 #define CE_LOAD_MOST_RECENT				0x34d4e6c9	//Load most recent save
 #define CE_NEXT_PLAYER_MODEL			0xBa1a75a2
 #define CE_PREVIOUS_PLAYER_MODEL		0x99124100
-#define CE_SELECT_BRAWLER				0x57994854
-#define CE_SELECT_ARCHER				0x5d6a831a
-#define CE_SELECT_MEDIC					0xf422d727
-#define CE_SELECT_PRIEST				0x806b23dc
-#define CE_SELECT_ROCKETEER				0xa38e3509
-#define CE_SELECT_SWORDSMAN				0x2615bf23
-#define CE_SELECT_OCCULTIST				0x4ad53c1f
-#define CE_SELECT_MARKSMAN				0x7bcaf33f
-
+#define CE_SELECT_CLASS					0xf371ad5b

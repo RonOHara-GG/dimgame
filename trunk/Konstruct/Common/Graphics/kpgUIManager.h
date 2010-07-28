@@ -9,16 +9,25 @@ class kpuLinkedList;
 class kpuPhysicalObject;
 enum eInputEventType;
 
+struct EventParam
+{
+	u32	m_uEvent;
+	u32 m_uParam;
+
+	EventParam(u32 uEvent, u32 uParam) { m_uEvent = uEvent; m_uParam = uParam; }
+};
+
 class kpgUIManager
 {
 public:
 	kpgUIManager(void);
 	~kpgUIManager(void);
+	
 
 	void Update();
 	void Draw(kpgRenderer* pRenderer);
 
-	u32 HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
+	EventParam HandleInputEvent(eInputEventType type, u32 button); //return unhandled event, 0 if events are handled
 
 	bool LoadWindows(const char* szFile);	
 	void ToggleUIWindow(u32 uHash);

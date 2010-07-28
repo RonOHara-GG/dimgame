@@ -40,6 +40,8 @@ kpgUIManager::~kpgUIManager(void)
 
 		delete m_plWindowList;
 	}
+
+	delete m_pDataSourceMap;
 }
 
 void kpgUIManager::Update()
@@ -245,7 +247,7 @@ char** kpgUIManager::GetDataSource(char* pszName)
 	return (*m_pDataSourceMap)[pszName];
 }
 
-u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
+EventParam kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 {	
 	kpgUIWindow* pWindow = 0;
 	kpuLinkedList*	pIter = m_lCurrentWindow.Next();
@@ -255,12 +257,12 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 	{
 		pWindow = ((kpgUIWindow*)pIter->GetPointer());
 
-		u32 uResult = pWindow->HandleInputEvent(type, button);
+		EventParam result = pWindow->HandleInputEvent(type, button);
 
-		if( uResult != IE_NOT_HANDLED)
+		if( result.m_uEvent != IE_NOT_HANDLED)
 		{
 			m_pWinMouseLastOver = m_pWinMouseOver;
-			return uResult;
+			return EventParam(result.m_uEvent, result.m_uParam);
 		}
 
 		pIter = pIter->Next();
@@ -304,11 +306,11 @@ u32 kpgUIManager::HandleInputEvent(eInputEventType type, u32 button)
 		}
 
 		m_pWinMouseLastOver = m_pWinMouseOver;
-		return 0;
+		return EventParam(0, 0);
 	}
 
 	m_pWinMouseLastOver = m_pWinMouseOver;
 	
 	
-	return IE_NOT_HANDLED;
+	return EventParam(IE_NOT_HANDLED, 0);
 }

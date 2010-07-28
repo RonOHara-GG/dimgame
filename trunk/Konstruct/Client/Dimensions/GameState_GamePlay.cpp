@@ -202,9 +202,9 @@ bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 {
 	if( m_pUIManager )
 	{
-		u32 uResult = m_pUIManager->HandleInputEvent(type, button);
+		EventParam result = m_pUIManager->HandleInputEvent(type, button);
 
-		if( uResult == 0 )
+		if( result.m_uEvent == 0 )
 			return true;
 
 		//try and handle game specific result

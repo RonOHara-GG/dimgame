@@ -8,12 +8,12 @@
 //sliders for exp
 static const u32 s_uHash_Brawler_ExpBar  =		0x647b38b6;
 static const u32 s_uHash_Archer_ExpBar  =		0x337043fc;
-static const u32 s_uHash_Marksman_ExpBar  =		0x768781c9;
-static const u32 s_uHash_Rocketeer_ExpBar  =	0x250371d3;
-static const u32 s_uHash_Swordsman_ExpBar  =	0x27ba53e1;
-static const u32 s_uHash_Occultist_ExpBar  =	0x4ce3f12b;
-static const u32 s_uHash_Medic_ExpBar  =		0x520aee3e;
-static const u32 s_uHash_Priest_ExpBar  =		0x829570c1;
+static const u32 s_uHash_Marksman_ExpBar  =		0x27ba53e1;
+static const u32 s_uHash_Rocketeer_ExpBar  =	0x4ce3f12b;
+static const u32 s_uHash_Swordsman_ExpBar  =	0xed526c5;
+static const u32 s_uHash_Occultist_ExpBar  =	0x829570c1;
+static const u32 s_uHash_Medic_ExpBar  =		0x768781c9;
+static const u32 s_uHash_Priest_ExpBar  =		0x520aee3e;
 
 static const u32 s_uHash_ClassTraining =		0x3d445257;
 
@@ -42,7 +42,6 @@ bool ClassTrainer::Update(float fGameTime)
 
 			//close open dialog/ windows
 			g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_ClassTraining);
-			//g_pGameState->GetUIManager()->CloseUIWindow();		
 		}
 	}
 
@@ -65,19 +64,15 @@ void ClassTrainer::Interact(PlayerCharacter *pPlayer)
 		kpgUIManager* pUIManager = g_pGameState->GetUIManager();
 		pUIManager->OpenUIWindow(s_uHash_ClassTraining, this);
 
+		UpdateClassExpSliders();		
+
 	}
 }
 
 void ClassTrainer::SetDataSource()
 {
 	kpgUIManager* pUIManager = g_pGameState->GetUIManager();
-	
 
-	for(int i = 0; i < NUM_OF_CLASSES; i++)
-	{
-		//set each class's current exp value and 
-
-	}
 
 }
 
@@ -110,86 +105,22 @@ u32 ClassTrainer::HandleEvent(u32 uEvent, u32 uParam)
 void ClassTrainer::TrainClass(ePlayerClass eClass)
 {
 	if( m_pTrainee->HasClass(eClass) )	
-	{	//remove the class
-		float fFree = m_pTrainee->RemoveClass(eClass);
+		m_pTrainee->RemoveClass(eClass);
+	else	
+		m_pTrainee->AddNewClass(eClass);	
 
-		//split up free exp among remaining classes
-		for(int i = 0; i < NUM_OF_CLASSES; i++)
-		{
-			if( m_pTrainee->HasClass((ePlayerClass)i) )			
-				m_pTrainee->AdjustExpSplit((ePlayerClass)i, fFree / m_pTrainee->ClassCount());			
-		}
-	}
-	else
-	{
-		float fExp = 0.05f;
-
-		//remove 5% split by each class
-		for(int i = 0; i < NUM_OF_CLASSES; i++)
-		{
-			if( m_pTrainee->HasClass((ePlayerClass)i) )			
-				m_pTrainee->AdjustExpSplit((ePlayerClass)i, -fExp / m_pTrainee->ClassCount());			
-		}
-
-		m_pTrainee->AddNewClass(eClass, 0.05f);
-	}
-		
-}
-		
-bool ClassTrainer::CheckExpSplit()
-{
-	//make sure there is no class is below 5%
-
-	for(int i = 0; i < NUM_OF_CLASSES; i++)
-	{
-		if( m_pTrainee->HasClass((ePlayerClass)i) )
-		{
-			//check to make sure it has over 5% exp
-			float fExp = m_pTrainee->GetExpSplit((ePlayerClass)i);
-
-			if( fExp < 0.05f )
-				return false;
-		}
-	}
-
-	return true;
+	UpdateClassExpSliders();
 }
 
 void ClassTrainer::AdjustExp(ePlayerClass eClass)
 {
 	//Get exp delta
-	float fExpDelta = 0.0f;
 	float fCurrent = m_pTrainee->GetExpSplit(eClass);
 
 	kpgUIManager* pUIManager = g_pGameState->GetUIManager();
-	switch( eClass )
-	{
-	case eCL_Brawler:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Brawler_ExpBar))->GetSliderPos() - fCurrent;
-		break;
-	case eCL_Archer:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Archer_ExpBar))->GetSliderPos() - fCurrent;	
-		break;
-	case eCL_Swordsman:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Swordsman_ExpBar))->GetSliderPos() - fCurrent;
-		break;
-	case eCL_Marksman:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Marksman_ExpBar))->GetSliderPos() - fCurrent;
-		break;
-	case eCL_Priest:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Priest_ExpBar))->GetSliderPos() - fCurrent;
-		((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Priest_ExpBar))->MoveSlider(fExpDelta);
-		break;
-	case eCL_Medic:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Medic_ExpBar))->GetSliderPos() - fCurrent;
-		break;
-	case eCL_Rocketeer:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Rocketeer_ExpBar))->GetSliderPos() - fCurrent;
-		break;
-	case eCL_Occultist:
-		fExpDelta = ((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Occultist_ExpBar))->GetSliderPos() - fCurrent;
-		break;
-	}
+	kpgUISlider* pSlider = GetClassSlider(eClass);
+	float fExpDelta = pSlider->GetSliderPos() - fCurrent;
+
 
 	m_pTrainee->AdjustExpSplit(eClass, fExpDelta);
 
@@ -201,35 +132,53 @@ void ClassTrainer::AdjustExp(ePlayerClass eClass)
 		if( m_pTrainee->HasClass((ePlayerClass)i) && i != eClass )
 		{
 			m_pTrainee->AdjustExpSplit((ePlayerClass)i, fExpDelta);
-
-			switch( i )
-			{
-			case eCL_Brawler:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Brawler_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Archer:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Archer_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Swordsman:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Swordsman_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Marksman:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Marksman_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Priest:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Priest_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Medic:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Medic_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Rocketeer:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Rocketeer_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			case eCL_Occultist:
-				((kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Occultist_ExpBar))->MoveSlider(fExpDelta);
-				break;
-			}
-
+			kpgUISlider* pSlider = GetClassSlider((ePlayerClass)i);
+			pSlider->MoveSlider(fExpDelta);
 		}
+	}
+}
+
+kpgUISlider* ClassTrainer::GetClassSlider(ePlayerClass eClass)
+{
+	kpgUIManager* pUIManager = g_pGameState->GetUIManager();
+
+	switch( eClass )
+	{
+	case eCL_Brawler:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Brawler_ExpBar);
+	case eCL_Archer:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Archer_ExpBar);		
+	case eCL_Swordsman:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Swordsman_ExpBar);		
+	case eCL_Marksman:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Marksman_ExpBar);		
+	case eCL_Priest:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Priest_ExpBar);		
+	case eCL_Medic:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Medic_ExpBar);		
+	case eCL_Rocketeer:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Rocketeer_ExpBar);		
+	case eCL_Occultist:
+		return (kpgUISlider*)pUIManager->GetUIWindow(s_uHash_Occultist_ExpBar);		
+	}
+	return 0;
+}
+
+void ClassTrainer::UpdateClassExpSliders()
+{
+	//Set the sliders based on experince split
+	for(int i = 0; i < NUM_OF_CLASSES; i++)
+	{
+		kpgUISlider* pSlider = GetClassSlider((ePlayerClass)i);
+
+		if( m_pTrainee->HasClass((ePlayerClass)i)  )
+		{
+			float fExpDelta = m_pTrainee->GetExpSplit((ePlayerClass)i);
+			pSlider->SetSliderPos(m_pTrainee->GetExpSplit((ePlayerClass)i));
+			pSlider->SetVisible(true);
+		}
+		else
+			pSlider->SetVisible(false);
+
 	}
 }

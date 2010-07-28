@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Windows>		
-	<Define Name="Cl_Brawler" 		Value="0" />
-	<Define Name="Cl_Swordsman" 	Value="1" />
-	<Define Name="Cl_Archer" 		Value="2" />
-	<Define Name="Cl_Marksman" 	Value="3" />
-	<Define Name="Cl_Rocketeer" 	Value="4" />
-	<Define Name="Cl_Medic" 		Value="5" />
-	<Define Name="Cl_Priest" 		Value="6" />
-	<Define Name="Cl_Occultist" 	Value="7" />
+	<Define Name="CL_Brawler" 		Value="0" />
+	<Define Name="CL_Swordsman" 	Value="1" />
+	<Define Name="CL_Archer" 		Value="2" />
+	<Define Name="CL_Marksman" 		Value="3" />
+	<Define Name="CL_Rocketeer" 	Value="4" />
+	<Define Name="CL_Medic" 		Value="5" />
+	<Define Name="CL_Priest" 		Value="6" />
+	<Define Name="CL_Occultist" 	Value="7" />
 	
 	<Button Type="3" Name="LeftSkillBtn" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.025" PositionY="0.96" Width="0.05" Height="0.078"	Visible="1" HasFrame="1" 
@@ -135,7 +135,7 @@
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
 			MouseDragEvent="AdjustExp" DragParam="CL_Swordsman" />
 			
-		<Slider Type="5" Name="PreistExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
+		<Slider Type="5" Name="PriestExpBar" Background="./Assets/UI/GamePlay/Textures/ScrollBarBackground.png" Orientation="1" 
 			PositionX="0.65" PositionY="0.70" Width="0.50" Height="0.03" Visible="1" HasFrame="1" 
 			Slider="./Assets/UI/GamePlay/Textures/ScrollBar.png" SliderOrientation="1" SlideDirection="1" SliderWidth="0.07f" SliderHeight="1.0f"
 			MouseDragEvent="AdjustExp" DragParam="CL_Priest" />

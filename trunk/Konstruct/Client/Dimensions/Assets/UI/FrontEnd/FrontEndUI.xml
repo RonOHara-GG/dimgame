@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Windows>
+	<Define Name="CL_Brawler" 		Value="0" />
+	<Define Name="CL_Swordsman" 	Value="1" />
+	<Define Name="CL_Archer" 		Value="2" />
+	<Define Name="CL_Marksman" 		Value="3" />
+	<Define Name="CL_Rocketeer" 	Value="4" />
+	<Define Name="CL_Medic" 		Value="5" />
+	<Define Name="CL_Priest" 		Value="6" />
+	<Define Name="CL_Occultist" 	Value="7" />
+	
 	<Window Type="0" Name="StartWin" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
 			PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
 				Visible="1" HasFrame="0" >
@@ -72,8 +81,8 @@
 				
 				<Button Type="3" Name="BrawlerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.15" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectBrawler" MouseEnterEvent="Open" MouseEnterParam="BrawlerDetails" 
-				MouseExitEvent="Close" MouseExitParam="BrawlerDetails" Text="Brawler" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Brawler" MouseEnterEvent="Open" 
+				MouseEnterParam="BrawlerDetails" MouseExitEvent="Close" MouseExitParam="BrawlerDetails" Text="Brawler" /> 
 				
 				<Button Type="3" Name="BrawlerDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.25" Width="0.20" Height="0.15"
@@ -83,8 +92,8 @@
 				
 				<Button Type="3" Name="ArcherSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.35" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectArcher" MouseEnterEvent="Open" MouseEnterParam="ArcherDetails" 
-				MouseExitEvent="Close" MouseExitParam="ArcherDetails"  Text="Archer" />
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Archer" MouseEnterEvent="Open" 
+				MouseEnterParam="ArcherDetails" MouseExitEvent="Close" MouseExitParam="ArcherDetails"  Text="Archer" />
 
 				<Button Type="3" Name="ArcherDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.45" Width="0.20" Height="0.15"
@@ -96,8 +105,8 @@
 				
 				<Button Type="3" Name="MarksmanSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectMarksman" MouseEnterEvent="Open" MouseEnterParam="MarksmanDetails" 
-				MouseExitEvent="Close" MouseExitParam="MarksmanDetails"  Text="Marksman" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Marksman" MouseEnterEvent="Open" 
+				MouseEnterParam="MarksmanDetails" MouseExitEvent="Close" MouseExitParam="MarksmanDetails"  Text="Marksman" /> 
 				
 				<Button Type="3" Name="MarksmanDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.65" Width="0.20" Height="0.15"
@@ -106,8 +115,8 @@
 				
 				<Button Type="3" Name="RocketeerSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.75" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectRocketeer" MouseEnterEvent="Open" MouseEnterParam="RocketeerDetails" 
-				MouseExitEvent="Close" MouseExitParam="RocketeerDetails"  Text="Rocketeer" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Rocketeer" MouseEnterEvent="Open" 
+				MouseEnterParam="RocketeerDetails" MouseExitEvent="Close" MouseExitParam="RocketeerDetails"  Text="Rocketeer" /> 
 				
 				<Button Type="3" Name="RocketeerDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.20" PositionY="0.85" Width="0.20" Height="0.15"
@@ -116,8 +125,8 @@
 				
 				<Button Type="3" Name="SwordsmanSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.15" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectSwordsman" MouseEnterEvent="Open" MouseEnterParam="SwordsmanDetails" 
-				MouseExitEvent="Close" MouseExitParam="SwordsmanDetails"  Text="Swordsman" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Swordsman" MouseEnterEvent="Open" 
+				MouseEnterParam="SwordsmanDetails" MouseExitEvent="Close" MouseExitParam="SwordsmanDetails"  Text="Swordsman" /> 
 				
 				<Button Type="3" Name="SwordsmanDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.25" Width="0.20" Height="0.15"
@@ -127,8 +136,8 @@
 				
 				<Button Type="3" Name="PriestSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.35" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectPreist" MouseEnterEvent="Open" MouseEnterParam="PriestDetails" 
-				MouseExitEvent="Close" MouseExitParam="PriestDetails"  Text="Priest" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Priest" MouseEnterEvent="Open" 
+				MouseEnterParam="PriestDetails" MouseExitEvent="Close" MouseExitParam="PriestDetails"  Text="Priest" /> 
 				
 				<Button Type="3" Name="PriestDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.45" Width="0.20" Height="0.15"
@@ -138,8 +147,8 @@
 				
 				<Button Type="3" Name="OccultistSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.55" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectOccultist" MouseEnterEvent="Open" MouseEnterParam="OccultistDetails" 
-				MouseExitEvent="Close" MouseExitParam="OccultistDetails"  Text="Occultist" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Occultist" MouseEnterEvent="Open" 
+				MouseEnterParam="OccultistDetails" MouseExitEvent="Close" MouseExitParam="OccultistDetails"  Text="Occultist" /> 
 				
 				<Button Type="3" Name="OccultistDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.65" Width="0.20" Height="0.15"
@@ -148,8 +157,8 @@
 				
 				<Button Type="3" Name="MedicSelectBtn" Background="./Assets/UI/FrontEnd/ButtonBase.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.75" Width="0.10" Height="0.05"
-				Visible="1" HasFrame="1" ClickEvent="SelectMedic" MouseEnterEvent="Open" MouseEnterParam="MedicDetails" 
-				MouseExitEvent="Close" MouseExitParam="MedicDetails"    Text="Medic" /> 
+				Visible="1" HasFrame="1" ClickEvent="SelectClass" ClickEventParam="CL_Medic" MouseEnterEvent="Open" 
+				MouseEnterParam="MedicDetails" MouseExitEvent="Close" MouseExitParam="MedicDetails"    Text="Medic" /> 
 				
 				<Button Type="3" Name="MedicDetails" Background="./Assets/UI/FrontEnd/DisplayBox.dds" Orientation="1"
 				PositionX="0.80" PositionY="0.85" Width="0.20" Height="0.15"
@@ -171,11 +180,6 @@
 				<Button Type="3" Name="PrevModelBtn" Background="./Assets/UI/FrontEnd/RightArrow.dds" Orientation="1"
 				PositionX="0.60" PositionY="0.80" Width="0.05" Height="0.06"
 				Visible="1" HasFrame="1" ClickEvent="PreviousPlayerModel"  />
-						
-				
-
-				
-				
 	</Window>
 	<Window Type="0" Name="MultiPlayerWin" Orientation="1" PositionX="0.5" PositionY="0.5" Width="0.25" Height="0.355"
 				Visible="0" HasFrame="0" >

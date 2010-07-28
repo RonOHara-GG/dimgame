@@ -72,7 +72,7 @@ PlayerCharacter::PlayerCharacter(PlayerLoadStructure &playerData)
 
 }
 
-PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
+PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 {
 	m_pModel = pModel;
 
@@ -104,10 +104,14 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, ePlayerClass eClass)
 
 	SetFlag(ATTACKABLE);
 	m_iCurrentHealth = m_iMaxHealth = 100;
+	m_iClassCount = 0;
 
-	PlayerClass* pClass = new PlayerClass(eClass, 100.0f);
-	m_aClasses[eClass] = pClass;
-	m_iClassCount = 1;
+	for(int i = 0; i < NUM_OF_CLASSES; i++)
+	{
+		u32 uFlag = 1 << i;
+		if( ( uClassFlags & uFlag ) != 0 )
+			AddNewClass((ePlayerClass)i);
+	}
 
 	m_pWeaponSkills = new kpuLinkedList();
 	m_plPlayerPets = new kpuLinkedList();
@@ -171,27 +175,31 @@ PlayerCharacter::~PlayerCharacter(void)
 	free(m_pInventoryList);
 }
 
-bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass, float fExpPercent)
+bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass)
 {	
 	if(m_aClasses[ePlayerClass])
 		return false;
+	
+	m_iClassCount++;
 
 	//check exp split
-	float fTotal = fExpPercent;
+	float fSplit = 1.0f / m_iClassCount;
+	float fTotal = 1.0f;
 
 	for(int i = 0; i < NUMBER_OF_CLASSES; i++)
 	{
 		if(m_aClasses[i])
 		{
-			fTotal += m_aClasses[i]->GetExpSplit();
+			float fCurrent = m_aClasses[i]->GetExpSplit();
+			fCurrent -= fSplit * fCurrent;
+			fTotal -= fCurrent;
+
+			m_aClasses[i]->SetExpSplit(fCurrent);
 		}
 	}
 
-	if(fTotal != 1.0f)
-		return false;
+	m_aClasses[ePlayerClass] = new PlayerClass(ePlayerClass, fTotal);	
 	
-	m_aClasses[ePlayerClass] = new PlayerClass(ePlayerClass, fExpPercent);	
-	m_iClassCount++;
 
 	return true;
 
@@ -223,11 +231,31 @@ void PlayerCharacter::RemovePet(PlayerPet* pPet)
 	
 float PlayerCharacter::RemoveClass(ePlayerClass ePlayerClass)
 {
-	float fExpSplit = m_aClasses[ePlayerClass]->GetExpSplit();
+	if( HasClass(ePlayerClass) )
+	{
+		float fExpSplit = m_aClasses[ePlayerClass]->GetExpSplit();
+		delete m_aClasses[ePlayerClass];
+		m_aClasses[ePlayerClass] = 0;
 
-	delete m_aClasses[ePlayerClass];
-	m_iClassCount--;
-	return fExpSplit;
+		m_iClassCount--;
+		float fSplit = fExpSplit / m_iClassCount;
+
+		//split the freed exp over the remaining classes
+		for(int i = 0; i < NUMBER_OF_CLASSES; i++)
+		{
+			if(m_aClasses[i])
+			{
+				float fCurrent = m_aClasses[i]->GetExpSplit();
+				fCurrent += fSplit;
+
+				m_aClasses[i]->SetExpSplit(fCurrent);
+			}
+		}
+
+		return fExpSplit;
+	}
+
+	return 0.0f;	
 }
 
 void PlayerCharacter::AdjustExpSplit(ePlayerClass eClass, float fExp)
