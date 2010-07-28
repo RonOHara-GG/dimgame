@@ -1,55 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
  <Modules Count="7">	
+	<Define Name="Top" Value="0" />
+	<Define Name="Right" Value="1" />
+	<Define Name="Bottom" Value="2" />
+	<Define Name="Left" Value="3" />
 	<!-- The doors are stored as followed: start tile of door, # of tiles door spaces.
 		If the side has no holes in the wall on one side store it as 0 0 if it has no walls
 		store it as - 1 0 -->
 	 <Data File="Assets/Modules/TestRoom3.dae" Collision="Assets/Modules/TestRoom3Collision.dae"
-	 Width="32" Height="3" Lenght="32" Static="false">	
+	 Width="32" Height="3" Lenght="32" Static="0">	
 			<Door Side="Top">14 2</Door>		
 			<Door Side="Right">16 2</Door>		
 			<Door Side="Bottom">15 2</Door>		
 			<Door Side="Left">14 2</Door>		
 	  </Data>
 	  <Data File="Assets/Modules/SquareRoom_8X8.dae" Collision="Assets/Modules/SquareRoom_8X8Collision.dae"
-	  Width="8" Height="3" Lenght="8" Static="false">		
+	  Width="8" Height="3" Lenght="8" Static="0">		
 			<Door Side="Top">0 0</Door>		
 			<Door Side="Right">0 0</Door>		
 			<Door Side="Bottom">3 2</Door>		
 			<Door Side="Left">0 0</Door>		
 		</Data>		
 		<Data File="Assets/Modules/TestRoom2.dae" Collision="Assets/Modules/TestRoom2Collision.dae"
-		Width="32" Height="3" Lenght="32" Static="false">		
+		Width="32" Height="3" Lenght="32" Static="0">		
 			<Door Side="Top">14 2</Door>		
 			<Door Side="Right">16 2</Door>		
 			<Door Side="Bottom">15 2</Door>		
 		<Door Side="Left">0 0</Door>		
 		</Data>		
 		<Data File="Assets/Modules/LongRoom_16X8.dae" Collision="Assets/Modules/LongRoom_16X8Collision.dae"
-		Width="16" Height="3" Lenght="8" Static="false">		
+		Width="16" Height="3" Lenght="8" Static="0">		
 			<Door Side="Top">0 0</Door>		
 			<Door Side="Right">3 2</Door>		
 			<Door Side="Bottom">0 0</Door>		
 			<Door Side="Left">3 2</Door>		
 		</Data>		
 		<Data File="Assets/Modules/LoneTile_2X2.dae" Collision="Assets/Modules/NoCollision.dae"
-		Width="2" Height="0" Lenght="2 Static="false"">		
+		Width="2" Height="0" Lenght="2 Static="0"">		
 			<Door Side="Top">-1 0</Door>		
 			<Door Side="Right">-1 0</Door>		
 			<Door Side="Bottom">-1 0</Door>		
 			<Door Side="Left">-1 0</Door>		
 		</Data>		
 		<Data File="Assets/Modules/Empty_4X4.dae" Collision="Assets/Modules/NoCollision.dae"
-		Width="4" Height="0" Lenght="4" Static="false">		
+		Width="4" Height="0" Lenght="4" Static="0">		
 			<Door Side="Top">-1 0</Door>		
 			<Door Side="Right">-1 0</Door>		
 			<Door Side="Bottom">-1 0</Door>		
 			<Door Side="Left">-1 0</Door>		
 		</Data>
 		<Data File="Assets/Modules/Empty_8X8.dae" Collision="Assets/Modules/NoCollision.dae"
-		Width="8" Height="0" Lenght="8" Static="false">		
+		Width="8" Height="0" Lenght="8" Static="0">		
 			<Door Side="Top">-1 0</Door>	
 			<Door Side="Right">-1 0</Door>	
 			<Door Side="Bottom">-1 0</Door>
 			<Door Side="Left">-1 0</Door>	
 		</Data>
 </Modules> 
+

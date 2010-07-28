@@ -4,7 +4,6 @@
 #include "Common/Graphics/kpgUIManager.h"
 #include "Common/Graphics/kpgUIList.h"
 #include "PlayerCharacter.h"
-#include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuXmlParser.h"
 
 #define SELL_BACK_RATIO 2

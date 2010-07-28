@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "Level.h"
-#include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgLight.h"

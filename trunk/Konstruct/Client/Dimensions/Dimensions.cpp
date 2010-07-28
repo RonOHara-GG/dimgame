@@ -8,7 +8,6 @@
 #include "GameState_FrontEnd.h"
 #include "GameState_GamePlay.h"
 #include "LoadStructures.h"
-#include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFixedArray.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Utility/kpuCameraController.h"
@@ -21,6 +20,7 @@
 #include "Common/Graphics/kpgGeometryInstance.h"
 #include "Common/Graphics/kpgLight.h"
 #include "Common/Procedural/kppPlane.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 #include <math.h>
 #include <d3dx9math.h>
@@ -156,78 +156,75 @@ kpuFixedArray<EnemyLoadStructure*>* g_paEnemyTypes;
 
 void LoadEnemyList()
 {
-	char szFileName[2048];
-	TiXmlDocument doc;
-
-	kpuFileManager::GetFullFilePath("/Assets/EnemyData/EnemyMasterList.xml", szFileName, sizeof(szFileName));
 	//Load all enemy types and generate them
-	if(doc.LoadFile(szFileName))
+	kpuXmlParser* pParser = new kpuXmlParser();
+	if( pParser->LoadFile("/Assets/EnemyData/EnemyMasterList.xml") )
 	{
-		for(TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement())
-		{
-			int iCount = atoi(pElement->Attribute("Count"));
+		while( pParser->HasElement() )
+		{		
+			int iCount = pParser->GetAttributeAsInt("Count");
 
-			//kpuFixedArray<EnemyLoadStructure>* paEnemyTypes = new kpuFixedArray<EnemyLoadStructure>(iCount);
 			g_paEnemyTypes = new kpuFixedArray<EnemyLoadStructure*>(iCount);
 
-			for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement())
+			pParser->FirstChildElement();
+
+			while( pParser->HasElement() )
 			{
-				const char* szFilename = pChild->FirstChild()->Value();
+				LoadEnemyType(pParser->GetChildValue());
+				pParser->NextSiblingElement();
+			}	
 
-				LoadEnemyType(szFilename);
-			}		
-
+			pParser->Parent();
+			pParser->NextSiblingElement();
 		}
+
 	}
+
+	delete pParser;
 }
 
 void LoadEnemyType(const char* pszFile)
-{
-	char szFilename[2048];
-
-	kpuFileManager::GetFullFilePath(pszFile, szFilename, sizeof(szFilename) );
-
-	TiXmlDocument doc;
-
-	if( doc.LoadFile(szFilename) )
+{	
+	kpuXmlParser* pParser = new kpuXmlParser();
+	if( pParser->LoadFile(pszFile) )
 	{
-		TiXmlElement* pElement = doc.FirstChildElement();
 
 		EnemyLoadStructure*	enemyType = new EnemyLoadStructure();
 
-		enemyType->pszName = (char*)pElement->Attribute("Name");
-		enemyType->iLevel = atoi(pElement->Attribute("Level"));
-		enemyType->iHealth = atoi(pElement->Attribute("Health"));
-		enemyType->fSpeed = (float)atof(pElement->Attribute("Speed"));
+		enemyType->pszName = (char*)pParser->GetAttribute("Name");
+		enemyType->iLevel = pParser->GetAttributeAsInt("Level");
+		enemyType->iHealth = pParser->GetAttributeAsInt("Health");
+		enemyType->fSpeed = pParser->GetAttributeAsFloat("Speed");
 		enemyType->pModel = new kpgModel();
-		enemyType->pModel->Load(pElement->Attribute("Model"));
+		enemyType->pModel->Load(pParser->GetAttribute("Model"));
 		enemyType->pCollision = new kpgModel();
-		enemyType->pCollision->Load(pElement->Attribute("Collision"));
-		enemyType->iDamage = (int)atoi(pElement->Attribute("Damage"));
-		enemyType->fAggroRange = (float)atof(pElement->Attribute("Aggro"));
-		enemyType->fAttackRange = (float)atof(pElement->Attribute("AtkRange"));
-		enemyType->fAttackSpeed = (float)atof(pElement->Attribute("AtkSpeed"));
-		enemyType->iDamageType = atoi(pElement->Attribute("DamageType"));
+		enemyType->pCollision->Load(pParser->GetAttribute("Collision"));
+		enemyType->iDamage = pParser->GetAttributeAsInt("Damage");
+		enemyType->fAggroRange = pParser->GetAttributeAsFloat("Aggro");
+		enemyType->fAttackRange = pParser->GetAttributeAsFloat("AtkRange");
+		enemyType->fAttackSpeed = pParser->GetAttributeAsFloat("AtkSpeed");
+		enemyType->iDamageType = pParser->GetAttributeAsInt("DamageType");
 
 		//goto resits
-		TiXmlElement* pResits = pElement->FirstChildElement();
+		pParser->FirstChildElement();
 
-		enemyType->iCrushRes = atoi(pResits->Attribute("Crushing"));
-		enemyType->iPierceRes = atoi(pResits->Attribute("Piercing"));
-		enemyType->iSlashRes = atoi(pResits->Attribute("Slashing"));	
-		enemyType->iMentalRes = atoi(pResits->Attribute("Mental"));
-		enemyType->iHeatRes = atoi(pResits->Attribute("Heat"));
-		enemyType->iColdRes = atoi(pResits->Attribute("Cold"));
-		enemyType->iAcidRes = atoi(pResits->Attribute("Acid"));
-		enemyType->iViralRes = atoi(pResits->Attribute("Viral"));
-		enemyType->iHolyRes = atoi(pResits->Attribute("Holy"));
-		enemyType->iWaterRes = atoi(pResits->Attribute("Water"));
-		enemyType->iDeathRes = atoi(pResits->Attribute("Death"));
-		enemyType->iElectRes = atoi(pResits->Attribute("Electric"));
+		enemyType->iCrushRes = pParser->GetAttributeAsInt("Crushing");
+		enemyType->iPierceRes = pParser->GetAttributeAsInt("Piercing");
+		enemyType->iSlashRes = pParser->GetAttributeAsInt("Slashing");	
+		enemyType->iMentalRes = pParser->GetAttributeAsInt("Mental");
+		enemyType->iHeatRes = pParser->GetAttributeAsInt("Heat");
+		enemyType->iColdRes = pParser->GetAttributeAsInt("Cold");
+		enemyType->iAcidRes = pParser->GetAttributeAsInt("Acid");
+		enemyType->iViralRes = pParser->GetAttributeAsInt("Viral");
+		enemyType->iHolyRes = pParser->GetAttributeAsInt("Holy");
+		enemyType->iWaterRes = pParser->GetAttributeAsInt("Water");
+		enemyType->iDeathRes = pParser->GetAttributeAsInt("Death");
+		enemyType->iElectRes = pParser->GetAttributeAsInt("Electric");
 
 		g_paEnemyTypes->Add(enemyType);
 	}
 
+	delete pParser;
 }
 
 void InputEvent(eInputEventType type, u32 button)
