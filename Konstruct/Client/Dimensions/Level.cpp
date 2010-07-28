@@ -1,11 +1,11 @@
 #include "StdAfx.h"
 #include "Level.h"
-#include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Graphics/kpgLight.h"
 #include "Common/Utility/kpuQuadTree.h"
+#include "Common/Utility/kpuXmlParser.h"
 #include "TerrainModel.h"
 #include "Grid.h"
 #include "Enemy.h"
@@ -78,22 +78,19 @@ bool Level::Load(const char* pszLevelFile)
 	kpuArrayList<TerrainModule*>* paModules = new kpuArrayList<TerrainModule*>();
 
 	bool bRet = false;
-
-	char szFileName[2048];
-	kpuFileManager::GetFullFilePath(pszLevelFile, szFileName, sizeof(szFileName));
 	
-	TiXmlDocument doc;
+	kpuXmlParser* pParser = new kpuXmlParser();
 
-	if( doc.LoadFile(szFileName) )
+	if( pParser->LoadFile(pszLevelFile) )
 	{
-		for( TiXmlElement* pChild = doc.FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+		while( pParser->HasElement() )
 		{
-			if( !_strnicmp(pChild->Value(), "Level", 5) )
+			if( !_strnicmp(pParser->GetValue(), "Level", 5) )
 			{
 				// Read the attributes
-				strcpy_s(m_szName, sizeof(m_szName), pChild->Attribute("Name"));
-				int iWidth = atoi(pChild->Attribute("Width"));
-				int iHeight = atoi(pChild->Attribute("Height"));
+				strcpy_s(m_szName, sizeof(m_szName), pParser->GetAttribute("Name"));
+				int iWidth = pParser->GetAttributeAsInt("Width");
+				int iHeight = pParser->GetAttributeAsInt("Height");
 				assert(!m_pLevelGrid);
 				m_pLevelGrid = new Grid(iWidth, iHeight);
 
@@ -104,48 +101,61 @@ bool Level::Load(const char* pszLevelFile)
 				m_pQuadTree = new kpuQuadTree(kpuVector( (iWidth + 1) * -0.5f, 0.0f, ( iHeight + 1) * -0.5f, 0.0f), iWidth + 1.0f, iHeight + 1.0f);
 
 				// Read Elements
-                for( TiXmlElement* pElement = pChild->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
-                {
-					u32 uHash = StringHash(pElement->Value());
+				pParser->FirstChildElement();
+
+				while( pParser->HasElement() )
+				{
+					u32 uHash = (u32)pParser->GetValueAsInt();
 					if( uHash == s_uHash_Meshes )
 					{
-						int iMeshCount = atoi(pElement->Attribute("Count"));
+						int iMeshCount = pParser->GetAttributeAsInt("Count");
 						if( m_paModels )
 							delete m_paModels;
 						m_paModels = new kpuFixedArray<kpgModel*>(iMeshCount);
 
-						for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
-						{
-							uHash = StringHash(pEChild->Value());
-							if( uHash == s_uHash_Mesh )
+						pParser->FirstChildElement();
+
+						while( pParser->HasElement() )
+						{						
+							if( (u32)pParser->GetValueAsInt() == s_uHash_Mesh )
 							{
 								kpgModel* pModel = new kpgModel();
-								pModel->SetName(StringHash(pEChild->Attribute("Name")));
+								pModel->SetName((u32)pParser->GetAttributeAsInt("Name"));
 
 								bool bLoaded = false;
-								for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
+								pParser->FirstChildElement();
+								while( pParser->HasElement() )
 								{
-									uHash = StringHash(pEChild2->Value());
-									if( uHash == s_uHash_Data && m_paModels )
+									switch( (u32)pParser->GetValueAsInt() )
 									{
-										bLoaded = pModel->Load(pEChild2->FirstChild()->Value());
+									case s_uHash_Data:
+										if( m_paModels )
+											bLoaded = pModel->Load(pParser->GetChildValue());
+										break;
+									case s_uHash_Location:
+										{
+											kpuVector vLoc = ParseCSVVector((char*)pParser->GetChildValue());
+											pModel->SetPosition(vLoc);
+											break;
+										}
+									case s_uHash_UniformScale:
+										{
+											float fScale = pParser->GetChildValueAsFloat();
+											pModel->SetScale(fScale, fScale, fScale);
+											break;
+										}
+									case s_uHash_Rotation:
+										{
+											kpuVector vRot = ParseCSVVector((char*)pParser->GetChildValue());
+											pModel->Rotate(vRot.GetX() * DEG_TO_RAD, vRot.GetY()* DEG_TO_RAD, vRot.GetZ()* DEG_TO_RAD);
+											break;
+										}
 									}
-									else if( uHash == s_uHash_Location )
-									{
-										kpuVector vLoc = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
-										pModel->SetPosition(vLoc);
-									}
-									else if( uHash == s_uHash_UniformScale )
-									{
-										float fScale = (float)atof(pEChild2->FirstChild()->Value());
-										pModel->SetScale(fScale, fScale, fScale);
-									}
-									else if( uHash == s_uHash_Rotation )
-									{
-										kpuVector vRot = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
-										pModel->Rotate(vRot.GetX() * DEG_TO_RAD, vRot.GetY()* DEG_TO_RAD, vRot.GetZ()* DEG_TO_RAD);
-									}
+
+									pParser->NextSiblingElement();
 								}
+
+								pParser->Parent();
 
 								if( bLoaded )
 								{
@@ -155,44 +165,56 @@ bool Level::Load(const char* pszLevelFile)
 								else
 									delete pModel;
 							}
+							pParser->NextSiblingElement();
 						}
+						pParser->Parent();
 					}
 					else if( uHash == s_uHash_Lights )
 					{
-						int iLightCount = atoi(pElement->Attribute("Count"));
+						int iLightCount = pParser->GetAttributeAsInt("Count");
 						assert(!m_paLights);
 						m_paLights = new kpuFixedArray<kpgLight*>(iLightCount);
-
-						for( TiXmlElement* pEChild = pElement->FirstChildElement(); pEChild != 0; pEChild = pEChild->NextSiblingElement() )
+						
+						pParser->FirstChildElement();
+						while( pParser->HasElement() )
 						{
-							uHash = StringHash(pEChild->Value());
-							if( uHash == s_uHash_PointLight )
+							switch( pParser->GetValueAsInt() )
 							{
+							case s_uHash_PointLight:
 								kpgLight* pLight = new kpgLight(kpgLight::eLT_Point);
 
-								for( TiXmlElement* pEChild2 = pEChild->FirstChildElement(); pEChild2 != 0; pEChild2 = pEChild2->NextSiblingElement() )
+								pParser->FirstChildElement();
+								while( pParser->HasElement() )
 								{
-									uHash = StringHash(pEChild2->Value());
+									uHash = pParser->GetValueAsInt();
 									if( uHash == s_uHash_Location )
 									{
-										kpuVector vLoc = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
+										kpuVector vLoc = ParseCSVVector((char*)pParser->GetChildValue());
 										pLight->SetPosition(vLoc);
 									}
 									else if( uHash == s_uHash_Radius )
 									{
-										float fRadius = (float)atof(pEChild2->FirstChild()->Value());
+										float fRadius = pParser->GetChildValueAsFloat();
 										pLight->SetRange(fRadius);
 									}
 									else if( uHash == s_uHash_Color )
 									{
-										kpuVector vColor = ParseCSVVector((char*)pEChild2->FirstChild()->Value());
+										kpuVector vColor = ParseCSVVector((char*)pParser->GetChildValue());
 										pLight->SetColor(vColor);
 									}
+
+									pParser->NextSiblingElement();
 								}
 
+								pParser->Parent();
+
 								m_paLights->Add(pLight);
-							}
+								break;
+							}							
+
+							pParser->NextSiblingElement();
 						}
+						pParser->Parent();
 					}
                     else if( uHash == s_uHash_Terrain )
                     {
@@ -201,7 +223,7 @@ bool Level::Load(const char* pszLevelFile)
 
                         m_pTerrain = new TerrainModel();
 
-						if ( !m_pTerrain->LoadTerrain(pElement->FirstChild()->Value(), iWidth, iHeight) )
+						if ( !m_pTerrain->LoadTerrain(pParser->GetChildValue(), iWidth, iHeight) )
 						{
 							bRet = false;
 							break;
@@ -219,48 +241,48 @@ bool Level::Load(const char* pszLevelFile)
 					}
 					else if( uHash == s_uHash_Npcs )
 					{
-						LoadNpcs(pElement);
+						LoadNpcs(pParser);
 					}
+					pParser->NextSiblingElement();
 				}
+				pParser->Parent();
 			}
+
+			pParser->NextSiblingElement();
 		}
 	}
 
+	delete pParser;
 	return bRet;
 }
 
-void Level::LoadNpcs(TiXmlElement* pElement)
+void Level::LoadNpcs(kpuXmlParser* pParser)
 {
 	if( m_paNpcs )
 		delete m_paNpcs;
 
-	m_paNpcs = new kpuFixedArray<Npc*>(atoi(pElement->Attribute("Count")));
+	m_paNpcs = new kpuFixedArray<Npc*>(pParser->GetAttributeAsInt("Count"));
 
-	for( TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+	pParser->FirstChildElement();
+	while( pParser->HasElement() )
 	{
 		Npc* pNpc = 0;
 
-		//Get Npc function
-		const char* szType = pChild->Attribute("Type");		
-		u32 uHashType = StringHash(szType);
+		//Get Npc function	
+		u32 uHashType = (u32)pParser->GetAttributeAsInt("Type");
 
-		kpgModel* pModel = 0;
-		const char* szModel = pChild->Attribute("Model");
-		u32 uModel = 0;
-		if( szModel )
-			uModel = StringHash(szModel);
-		
+		u32 uModel = (u32)pParser->GetAttributeAsInt("Model");		
 
 		switch(uHashType)
 		{
 		case s_uHash_Merchcant:						
 			//Create new merchant
 			pNpc = new MerchantNpc();
-			pNpc->Load(pChild, FindModelByName(uModel));
+			pNpc->Load(pParser, FindModelByName(uModel));
 			break;	
 		case s_uHash_ClassTrainer:
 			pNpc = new ClassTrainer();
-			pNpc->Load(pChild, FindModelByName(uModel));
+			pNpc->Load(pParser, FindModelByName(uModel));
 			break;
 		}
 		
@@ -272,7 +294,10 @@ void Level::LoadNpcs(TiXmlElement* pElement)
 		m_pLevelGrid->AddActor(pNpc);
 		m_pQuadTree->Add(pNpc);
 		
+		pParser->NextSiblingElement();
 	}
+
+	pParser->Parent();
 
 	
 }

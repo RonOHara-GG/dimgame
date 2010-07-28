@@ -2,7 +2,7 @@
 #include "actor.h"
 
 class AIControl;
-class TiXmlElement;
+class kpuXmlParser;
 
 class Npc :
 	public Actor
@@ -11,7 +11,7 @@ public:
 	Npc(void);
 	virtual ~Npc(void);
 
-	virtual void	Load(TiXmlElement* pElement, kpgModel* pModel);
+	virtual void	Load(kpuXmlParser* pParser, kpgModel* pModel);
 
 	virtual bool	Update(float fGameTime);
 	virtual void	Interact(PlayerCharacter* pPlayer) { }
