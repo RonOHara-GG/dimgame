@@ -144,6 +144,7 @@ protected:
 	u32					m_uMouseExitParam;
 
 	u32					m_uDragEvent;
+	u32					m_uDragParam;
 
 	//window name
 	u32					m_uHash;

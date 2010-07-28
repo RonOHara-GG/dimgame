@@ -24,10 +24,6 @@ public:
 
 	void			SetAI(AIControl* pAI);
 
-	
-	
-
-
 protected:
 	AIControl*			m_pAIBehavior;
 

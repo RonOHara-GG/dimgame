@@ -19,9 +19,6 @@ enum ePlayerClass
 class PlayerClass
 {
 public:
-
-	
-
 	PlayerClass(ePlayerClass ePlayerClass, float fExpPercent);
 	~PlayerClass(void);
 
