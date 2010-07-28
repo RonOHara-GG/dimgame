@@ -4,8 +4,8 @@
 #include "Common/Graphics/kpgUIManager.h"
 #include "Common/Graphics/kpgUIList.h"
 #include "PlayerCharacter.h"
-#include "External/tinyxml/tinyxml.h"
 #include "Common/Utility/kpuFileManager.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 #define SELL_BACK_RATIO 2
 static const u32 s_uHash_MerchantWindow = 0xb6c33c53;
@@ -135,18 +135,14 @@ void MerchantNpc::FillInventory()
 
 void MerchantNpc::LoadItems(const char* szFile)
 {
-	TiXmlDocument doc;
-	char szFileName[2048];
-	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
-
-	if( doc.LoadFile(szFileName) )
-	{
-		TiXmlElement* pStart = doc.FirstChildElement();
-		
+	kpuXmlParser* pParser = new kpuXmlParser();
+	if( pParser->LoadFile(szFile) )
+	{		
 		int i = 0;
-		for(TiXmlElement* pElement = pStart->FirstChildElement(); pElement != 0 && i < m_paBasicItems->GetNumElements(); pElement = pElement->NextSiblingElement() )
+		pParser->FirstChildElement();
+		while( pParser->HasElement() && i < m_paBasicItems->GetNumElements())
 		{
-			char* szSaleDisplay = (char*)pElement->Attribute("SaleDisplay");
+			char* szSaleDisplay = (char*)pParser->GetAttribute("SaleDisplay");
 			if( szSaleDisplay )
 			{
 				//seperate into 3 components icon, description, cost
@@ -168,10 +164,15 @@ void MerchantNpc::LoadItems(const char* szFile)
 
 
 			i++;
+			pParser->NextSiblingElement();
 		}
+
+		pParser->Parent();
 
 		m_paBasicItems[i] = 0;
 	}
+
+	delete pParser;
 
 }
 void MerchantNpc::SellSelectedItem()
@@ -276,46 +277,49 @@ u32 MerchantNpc::HandleEvent(u32 uEvent)
 	return IE_NOT_HANDLED;
 }
 
-void MerchantNpc::Load(TiXmlElement *pElement, kpgModel* pModel)
+void MerchantNpc::Load(kpuXmlParser* pParser, kpgModel* pModel)
 {
-	Npc::Load(pElement, pModel);
+	Npc::Load(pParser, pModel);
 
 	//Get dialog
-	char* szDialog = (char*)pElement->Attribute("Dialog");
+	char* szDialog = (char*)pParser->GetAttribute("Dialog");
 
 	if( szDialog )
 		m_pszDialog = _strdup(szDialog);
 
 	//load inventory list
-	char szFileName[2048];
-	kpuFileManager::GetFullFilePath(pElement->FirstChildElement()->FirstChild()->Value(), szFileName, sizeof(szFileName));
-	
-	TiXmlDocument doc;
-	if( doc.LoadFile(szFileName) )
+	pParser->FirstChildElement();
+	kpuXmlParser* pInvParser = new kpuXmlParser();
+	if( pInvParser->LoadFile(pParser->GetChildValue()) )
 	{
 		int iSize = 0;
-		pElement = doc.FirstChildElement();
 
-		iSize = atoi(pElement->Attribute("Count"));
+		iSize = pInvParser->GetAttributeAsInt("Count");
 
 		if( m_paBasicItems )
 			delete m_paBasicItems;
 
 		m_paBasicItems = new kpuFixedArray<Item*>(iSize);
 
-		for(TiXmlElement* pChild = pElement->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement() )
+		pInvParser->FirstChildElement();
+		while( pInvParser->HasElement() )
 		{
-			u32 uHash = StringHash(pChild->Value());
-
-			switch(uHash)
+			switch((u32)pInvParser->GetValueAsInt())
 			{
 			case s_uHash_Static:
 				break;
 			case s_uHash_Dynamic:
 				break;
 			}
+
+			pInvParser->NextSiblingElement();
 		}
+
+		pInvParser->Parent();
 	}
+
+	pParser->Parent();
+	delete pInvParser;
 
 	m_pItemData = (char***)malloc(m_paBasicItems->GetNumElements() * sizeof(char*));
 

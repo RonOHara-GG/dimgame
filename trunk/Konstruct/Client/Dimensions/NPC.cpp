@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Npc.h"
 #include "AIControl.h"
-#include "External/tinyxml/tinyxml.h"
+#include "Common/Utility/kpuXmlParser.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Graphics/kpgModel.h"
 
@@ -37,15 +37,15 @@ bool Npc::Update(float fGameTime)
 	return true;
 }
 
-void Npc::Load(TiXmlElement *pElement, kpgModel* pModel)
+void Npc::Load(kpuXmlParser* pParser, kpgModel* pModel)
 {
 	
-	m_pszName = _strdup(pElement->Attribute("Name"));
+	m_pszName = _strdup(pParser->GetAttribute("Name"));
 	
 	m_pModel = pModel;
 
 	//Get collision model
-	const char* szModel = pElement->Attribute("Collision");
+	const char* szModel = pParser->GetAttribute("Collision");
 	kpgModel* pCollisionModel = 0;
 
 	if( szModel )	
@@ -56,7 +56,7 @@ void Npc::Load(TiXmlElement *pElement, kpgModel* pModel)
 		delete pCollisionModel;		
 	}
 
-	m_fActionRange = (float)atof(pElement->Attribute("ActionRange"));
+	m_fActionRange = pParser->GetAttributeAsFloat("ActionRange");
 }
 
 

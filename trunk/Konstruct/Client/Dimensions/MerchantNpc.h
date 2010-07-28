@@ -10,7 +10,7 @@ public:
 	MerchantNpc();
 	~MerchantNpc(void);
 	
-	void Load(TiXmlElement* pElement, kpgModel* pModel);
+	void Load(kpuXmlParser* pParser, kpgModel* pModel);
 	void Interact(PlayerCharacter* pPlayer);
 	bool Update(float fGameTime);
 

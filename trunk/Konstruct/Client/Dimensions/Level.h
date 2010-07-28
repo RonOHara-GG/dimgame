@@ -12,7 +12,7 @@ class kpgRenderer;
 class kpuQuadTree;
 class Grid;
 class Actor;
-class TiXmlElement;
+class kpuXmlParser;
 class Npc;
 
 class Level
@@ -23,7 +23,6 @@ public:
 
 	bool Load(const char* pszLevelFile);
 	void GenerateEnemies(kpuArrayList<Actor*> *pActors);
-	//void LoadEnemyList(kpuArrayList<Enemy*>* paEnemies);
 
 	Grid*		GetGrid() const { return m_pLevelGrid; }
 	
@@ -34,7 +33,7 @@ public:
 	void Draw(kpgRenderer* pRenderer);
 
 protected:
-	void	LoadNpcs(TiXmlElement* pElement);
+	void	LoadNpcs(kpuXmlParser* pParser);
 	
 	Grid*							m_pLevelGrid; //The tile grid of the current level
 	kpuQuadTree*					m_pQuadTree;

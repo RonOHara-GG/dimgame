@@ -11,7 +11,6 @@
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuXmlParser.h"
-#include "External/tinyxml/tinyxml.h"
 #include <d3dx9tex.h>
 
 static const u32 s_uHash_library_images =		0x5a2a2cef;
