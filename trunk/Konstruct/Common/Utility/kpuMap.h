@@ -28,14 +28,14 @@ public:
 	{
 		for( int i = 0; i < NUM_BUCKETS; i++ )
 		{
-			kpuLinkedList* pIter = m_aBuckets[i].First();
+			kpuLinkedList* pIter = m_aBuckets[i].Next();
 			while( pIter )
 			{
 				sKeyVal* pKeyVal = (sKeyVal*)pIter->GetPointer();
 				delete pKeyVal;
 				delete pIter;
 
-				pIter = m_aBuckets[i].First();
+				pIter = m_aBuckets[i].Next();
 			}
 		}
 	}
