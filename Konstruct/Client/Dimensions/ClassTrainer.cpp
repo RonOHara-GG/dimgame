@@ -116,23 +116,59 @@ void ClassTrainer::AdjustExp(ePlayerClass eClass)
 
 	kpgUIManager* pUIManager = g_pGameState->GetUIManager();
 	kpgUISlider* pSlider = GetClassSlider(eClass);
-	float fExpDelta = pSlider->GetSliderPos() - fCurrent;
+	float fSlider = pSlider->GetSliderPos();
 
-
-	m_pTrainee->AdjustExpSplit(eClass, fExpDelta);
-
-	//subtract the delta from the remainging classes
-	fExpDelta /= -m_pTrainee->ClassCount();
-
-	for(int i = 0; i < NUM_OF_CLASSES; i++)
+	if( fSlider >= 0.05f )
 	{
-		if( m_pTrainee->HasClass((ePlayerClass)i) && i != eClass )
+		float fExpDelta = pSlider->GetSliderPos() - fCurrent;
+		float fExpOrig = fExpDelta;
+
+		//subtract the delta from the remainging classes
+		int iClassCount = m_pTrainee->ClassCount();		
+
+		//Loop through and distrubte the exp change over all availble classes
+		while( iClassCount > 0 && fExpDelta != 0.0f )
 		{
-			m_pTrainee->AdjustExpSplit((ePlayerClass)i, fExpDelta);
-			kpgUISlider* pSlider = GetClassSlider((ePlayerClass)i);
-			pSlider->MoveSlider(fExpDelta);
+			int iNewCount = 0;
+			float fExpPerClass = fExpDelta / -iClassCount;
+
+			for(int i = 0; i < NUM_OF_CLASSES; i++)
+			{
+				if( m_pTrainee->HasClass((ePlayerClass)i) && i != eClass )
+				{				
+					float fStartExp = m_pTrainee->GetExpSplit((ePlayerClass)i);
+								
+					m_pTrainee->AdjustExpSplit((ePlayerClass)i, fExpPerClass);
+
+					kpgUISlider* pSlider2 = GetClassSlider((ePlayerClass)i);
+					float fExp = m_pTrainee->GetExpSplit((ePlayerClass)i);
+					pSlider2->SetSliderPos(fExp);
+
+					//take away from the pool of exp
+					fExpDelta += fExp - fStartExp;
+
+					//if the remaining exp is very small just don't distrubte it
+					if( ( fExpDelta < 0.0f && fExpDelta > -0.00001f ) || ( fExpDelta > 0.0f && fExpDelta < 0.00001f ) )
+					{
+						fExpDelta = 0.0f;
+						break;
+					}
+
+					//keep track of classes above the 5% mark
+					if( fExp > 0.05f )
+						iNewCount++;					
+				}
+			}
+
+			iClassCount = iNewCount;
 		}
+
+		m_pTrainee->AdjustExpSplit(eClass, fExpOrig - fExpDelta);
+		pSlider->SetSliderPos(m_pTrainee->GetExpSplit(eClass));
 	}
+	else	
+		pSlider->SetSliderPos(0.05f);		
+	
 }
 
 kpgUISlider* ClassTrainer::GetClassSlider(ePlayerClass eClass)

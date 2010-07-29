@@ -79,6 +79,6 @@ void PlayerClass::SetExpSplit(float fExpSplit)
 
 	if( m_fExpSplit > 1.0f )
 		m_fExpSplit = 1.0f;
-	else if( m_fExpSplit < 0.0f )
-		m_fExpSplit = 0.0f;
+	else if( m_fExpSplit < 0.05f )
+		m_fExpSplit = 0.05f;
 }
