@@ -89,13 +89,10 @@ u32 ClassTrainer::HandleEvent(u32 uEvent, u32 uParam)
 	case ADJUST_EXP:
 		AdjustExp((ePlayerClass)uParam);
 		return 0;
-	case LEAVE_TRAINER:
-		if( CheckExpSplit() )
-		{
+	case LEAVE_TRAINER:		
 			//close window and leave
 			m_pTrainee = 0;
-			g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_ClassTraining);	
-		}
+			g_pGameState->GetUIManager()->CloseUIWindow(s_uHash_ClassTraining);			
 		return 0;		
 	}
 
