@@ -51,6 +51,7 @@ public:
 	bool	HasClass(ePlayerClass eClass) { return m_aClasses[eClass] != 0; }
 	void	AdjustExpSplit(ePlayerClass eClass, float fExp);
 	float	GetExpSplit(ePlayerClass eClass);
+	void	SetExpSplit(ePlayerClass eClass, float fExp) { m_aClasses[eClass]->SetExpSplit(fExp); }
 	int		ClassCount() { return m_iClassCount; }
 
 	bool UseDefaultAttack(Actor* pTarget, Grid* pGrid);

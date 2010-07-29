@@ -192,9 +192,13 @@ bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass)
 		{
 			float fCurrent = m_aClasses[i]->GetExpSplit();
 			fCurrent -= fSplit * fCurrent;
-			fTotal -= fCurrent;
 
+			if( fCurrent < 0.05f )
+				fCurrent = 0.05f;
+			
+			fTotal -= fCurrent;
 			m_aClasses[i]->SetExpSplit(fCurrent);
+
 		}
 	}
 
