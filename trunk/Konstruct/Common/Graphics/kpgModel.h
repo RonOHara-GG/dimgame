@@ -1,5 +1,6 @@
 #pragma once
 #include "Common/Utility/kpuFixedArray.h"
+#include "Common/Utility/kpuMap.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Utility/kpuPhysicalObject.h"
 
@@ -18,6 +19,8 @@ class kpgModel: public kpuPhysicalObject
 		eVS_Position,
 		eVS_Normal,
 		eVS_TexCoord,
+		eVS_Weight,
+
 	} eVertexSemantic;
 
 	typedef struct _sSource
@@ -25,7 +28,20 @@ class kpgModel: public kpuPhysicalObject
 		u32						uID;
 		eVertexSemantic			eSemantic;
 		kpuFixedArray<float>	aFloats;
+		kpuFixedArray<u32>		aHashes;
+
 	} sSource;
+
+
+	typedef struct _sAnimation
+	{
+		sSource*					pSource;
+		u32							uJoint;
+		kpuFixedArray<float>		aTimes;
+		kpuFixedArray<kpuMatrix>	aMatricies;
+	}sAnimationData;
+
+
 
 public:
 	kpgModel(void);
@@ -63,6 +79,11 @@ private:
 	int* LoadTriangles(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
 	int* LoadPolygons(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(kpuXmlParser* pParser);
+
+	//void LoadAnimationLibrary(kpuXmlParser* pParser);
+	void LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>* paVertexBoneIndices, kpuFixedArray<kpuVector>*	paVertexWeights);
+	void LoadBoneIndicesWeights(kpuFixedArray<u32>* paBoneIndices, kpuFixedArray<kpuVector>* paWeights, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts);
+	void LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources);
 	
 
 
@@ -70,6 +91,8 @@ protected:
 	u32									m_iNameHash;
 	kpuFixedArray<kpgGeometry*>			m_aGeometries;
 	kpuFixedArray<kpgGeometryInstance*>	m_aInstances;
+	kpuMap<u32, int>*					m_pBoneIndicieMap;
+	kpuFixedArray<kpuMatrix>			m_aBoneMatricies;
 
 	
 };
