@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Brett</author>
+      <authoring_tool>OpenCOLLADA2009</authoring_tool>
+      <comments>
+			ColladaMaya export options: 
+			bakeTransforms=1;relativePaths=0;copyTextures=0;exportTriangles=0;exportCgfxFileReferences=0;
+			isSampling=0;curveConstrainSampling=0;removeStaticCurves=0;exportPolygonMeshes=0;exportLights=0;
+			exportCameras=0;exportJointsAndSkin=0;exportAnimations=1;exportInvisibleNodes=0;exportDefaultCameras=0;
+			exportTexCoords=0;exportNormals=0;exportNormalsPerVertex=0;exportVertexColors=0;exportVertexColorsPerVertex=0;
+			exportTexTangents=0;exportTangents=0;exportReferencedMaterials=0;exportMaterialsOnly=0;
+			exportXRefs=0;dereferenceXRefs=1;exportCameraAsLookat=0;cameraXFov=0;cameraYFov=1;doublePrecision=0
+		</comments>
+      <source_data>file:///C:/Projects/Dimensions/Konstruct/Client/Dimensions/Assets/Player/PlayerWalking.mb</source_data>
+    </contributor>
+    <created>2010-08-03T15:27:45</created>
+    <modified>2010-08-03T15:27:45</modified>
+    <unit name="centimeter" meter="0.01"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="lambert1" name="lambert1">
+      <instance_effect url="#lambert1-fx"/>
+    </material>
+    <material id="blinn2" name="blinn2">
+      <instance_effect url="#blinn2-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="blinn2-fx">
+      <profile_COMMON>
+        <newparam sid="TextureFBXASC032file6-surface">
+          <surface type="2D">
+            <init_from>TextureFBXASC032file6</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="TextureFBXASC032file6-sampler">
+          <sampler2D>
+            <source>TextureFBXASC032file6-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color>0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color>0.59 0.59 0.59 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="TextureFBXASC032file6-sampler" texcoord="TEX0">
+                <extra>
+                  <technique profile="OpenCOLLADAMaya">
+                    <blend_mode>NONE</blend_mode>
+                    <coverageU>1</coverageU>
+                    <coverageV>1</coverageV>
+                    <fast>0</fast>
+                    <mirrorU>0</mirrorU>
+                    <mirrorV>0</mirrorV>
+                    <noiseU>0</noiseU>
+                    <noiseV>0</noiseV>
+                    <offsetU>0</offsetU>
+                    <offsetV>0</offsetV>
+                    <repeatU>1</repeatU>
+                    <repeatV>1</repeatV>
+                    <rotateFrame>0</rotateFrame>
+                    <rotateUV>0</rotateUV>
+                    <stagger>0</stagger>
+                    <translateFrameU>0</translateFrameU>
+                    <translateFrameV>0</translateFrameV>
+                    <wrapU>1</wrapU>
+                    <wrapV>1</wrapV>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color>0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float>1.245731</float>
+            </shininess>
+            <reflective>
+              <color>0 0 0 1</color>
+            </reflective>
+            <reflectivity>
+              <float>0</float>
+            </reflectivity>
+            <transparent opaque="RGB_ZERO">
+              <color>0 0 0 1</color>
+            </transparent>
+            <transparency>
+              <float>1</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="lambert1-fx">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color>0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color>0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color>0.4 0.4 0.4 1</color>
+            </diffuse>
+            <transparent opaque="RGB_ZERO">
+              <color>0 0 0 1</color>
+            </transparent>
+            <transparency>
+              <float>1</float>
+            </transparency>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="TextureFBXASC032file6" name="TextureFBXASC032file6">
+      <init_from>file:///C:/Documents%20and%20Settings/Brett/My%20Documents/Visual%20Studio%202008/Dimensions/Konstruct/Client/Dimensions/Assets/Player/Swat_Texture_1024.jpg</init_from>
+      <extra>
+        <technique profile="OpenCOLLADAMaya">
+          <dgnode_type>kFile</dgnode_type>
+          <image_sequence>0</image_sequence>
+          <originalMayaNodeId>TextureFBXASC032file6</originalMayaNodeId>
+        </technique>
+      </extra>
+    </image>
+  </library_images>
+  <library_visual_scenes>
+    <visual_scene id="VisualSceneNode" name="PlayerWalking">
+      <node id="solder_mesh" name="solder_mesh" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>solder_mesh</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="LKneeIK" name="LKneeIK" type="NODE">
+        <matrix sid="transform">0 0 1 0.00387177 0.9924745 -0.1224512 0 0.0095005 0.1224512 0.9924745 0 0.02030076 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LKneeIK</originalMayaNodeId>
+            <visibility>1</visibility>
+          </technique>
+        </extra>
+      </node>
+      <node id="LAnkleIK" name="LAnkleIK" type="NODE">
+        <matrix sid="transform">0.9959961 0.08939672 2.16908e-4 0.05778444 0.08939699 -0.9959931 -0.002416636 0.009420689 0 0.002426351 -0.9999971 0.00387177 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LAnkleIK</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="LToeIK" name="LToeIK" type="NODE">
+        <matrix sid="transform">0.9990314 0 0.04400335 0.0151585 0 -1 0 0.05368512 0.04400335 0 -0.9990314 9.753e-4 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LToeIK</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="SpineCurve" name="SpineCurve" type="NODE">
+        <matrix sid="transform">0 0.9701425 0.2425356 -0.8332417 0 0.2425356 -0.9701425 -0.2679922 -1 0 0 0 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>SpineCurve</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="SpineIK" name="SpineIK" type="NODE">
+        <matrix sid="transform">0 0 -1 -0.009065559 0.9795404 0.2012475 0 1.586186 0.2012475 -0.9795404 0 -0.02067784 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>SpineIK</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="LArmIK" name="LArmIK" type="NODE">
+        <matrix sid="transform">0.241223 0.9581537 0.1541201 0.2631458 -0.9667133 0.2232805 0.1249446 0.9593002 0.08530416 -0.1791295 0.9801203 0.05572191 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LArmIK</originalMayaNodeId>
+            <visibility>1</visibility>
+          </technique>
+        </extra>
+      </node>
+      <node id="RArmIK" name="RArmIK" type="NODE">
+        <matrix sid="transform">0.2966883 0.9514078 0.08245738 -0.3132309 0.9507893 -0.2862101 -0.1186737 0.9674254 -0.08930696 0.1136087 -0.9895036 0.05779689 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>RArmIK</originalMayaNodeId>
+            <visibility>1</visibility>
+          </technique>
+        </extra>
+      </node>
+      <node id="LKneeIK1" name="LKneeIK1" type="NODE">
+        <matrix sid="transform">0 0 1 -0.003872 0.9924745 -0.1224512 0 -0.0095 0.1224512 0.9924745 0 -0.02030077 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LKneeIK1</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="RKneeIK" name="RKneeIK" type="NODE">
+        <matrix sid="transform">0 0 1 -0.003872 0.9924744 -0.1224526 0 -0.009500075 0.1224526 0.9924744 0 -0.02030077 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>RKneeIK</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="LAnkleIK1" name="LAnkleIK1" type="NODE">
+        <matrix sid="transform">0.9959961 0.08939698 0 -0.05778443 0.08939698 -0.9959961 0 -0.009420742 0 0 -1 -0.003872 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LAnkleIK1</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="RAnkleIK" name="RAnkleIK" type="NODE">
+        <matrix sid="transform">0.9959958 0.08939964 0 -0.05778458 0.08939964 -0.9959958 0 -0.009420446 0 0 -1 -0.003872 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>RAnkleIK</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="LToeIK1" name="LToeIK1" type="NODE">
+        <matrix sid="transform">0.9990314 0 0.04400335 -0.015158 0 -1 0 -0.0536851 0.04400335 0 -0.9990314 -9.75e-4 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>LToeIK1</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="RToeIK" name="RToeIK" type="NODE">
+        <matrix sid="transform">0.9990314 0 0.04400337 -0.01515833 0 -1 0 -0.05368475 0.04400337 0 -0.9990314 -9.75e-4 0 0 0 1</matrix>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>RToeIK</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <library_animations>
+    <animation id="LKneeIK.visibility_LKneeIK">
+      <source id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-input" name="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-input">
+        <float_array id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-input-array" count="1">2.5 </float_array>
+        <technique_common>
+          <accessor source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-input-array" count="1" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-output" name="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-output">
+        <float_array id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-output-array" count="1">1 </float_array>
+        <technique_common>
+          <accessor source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-output-array" count="1" stride="1">
+            <param type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-interpolation" name="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-interpolation">
+        <Name_array id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-interpolation-array" count="1">STEP </Name_array>
+        <technique_common>
+          <accessor source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-interpolation-array" count="1" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-sampler">
+        <input semantic="INPUT" source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-input"/>
+        <input semantic="OUTPUT" source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-output"/>
+        <input semantic="INTERPOLATION" source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-interpolation"/>
+      </sampler>
+      <channel source="#LKneeIK.visibility_LKneeIK_LKneeIK.visibility_LKneeIK-sampler" target="LKneeIK/visibility"/>
+    </animation>
+    <animation id="SpineIK.matrix_SpineIK">
+      <source id="SpineIK.matrix_SpineIK_transform-input" name="SpineIK.matrix_SpineIK_transform-input">
+        <float_array id="SpineIK.matrix_SpineIK_transform-input-array" count="60">0.04166662 0.08333331 0.125 0.1666666 0.2083333 0.25 0.2916666 0.3333333 0.375 0.4166666 0.4583333 0.5 0.5416667 0.5833333 0.625 0.6666667 0.7083333 0.75 0.7916667 0.8333333 0.875 0.9166667 0.9583333 1 1.041667 1.083333 1.125 1.166667 1.208333 1.25 1.291667 1.333333 1.375 1.416667 1.458333 1.5 1.541667 1.583333 1.625 1.666667 1.708333 1.75 1.791667 1.833333 1.875 1.916667 1.958333 2 2.041667 2.083333 2.125 2.166667 2.208333 2.25 2.291667 2.333333 2.375 2.416667 2.458333 2.5 </float_array>
+        <technique_common>
+          <accessor source="#SpineIK.matrix_SpineIK_transform-input-array" count="60" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="SpineIK.matrix_SpineIK_transform-output" name="SpineIK.matrix_SpineIK_transform-output">
+        <float_array id="SpineIK.matrix_SpineIK_transform-output-array" count="960">0 0 -1 0.001364707 0.9795404 0.2012474 0 1.564051 0.2012474 -0.9795404 0 -0.02077329 0 0 0 1 0 0 -1 0.001395285 0.9795404 0.2012474 0 1.558731 0.2012474 -0.9795404 0 -0.02083164 0 0 0 1 0 0 -1 0.001480877 0.9795404 0.2012474 0 1.552769 0.2012474 -0.9795404 0 -0.02099508 0 0 0 1 0 0 -1 0.001612305 0.9795404 0.2012474 0 1.546341 0.2012474 -0.9795404 0 -0.02124595 0 0 0 1 0 0 -1 0.00178045 0.9795404 0.2012474 0 1.53962 0.2012474 -0.9795404 0 -0.02156692 0 0 0 1 0 0 -1 0.001976072 0.9795404 0.2012474 0 1.532783 0.2012474 -0.9795404 0 -0.02194041 0 0 0 1 0 0 -1 0.002190053 0.9795404 0.2012474 0 1.526004 0.2012474 -0.9795404 0 -0.02234888 0 0 0 1 0 0 -1 0.002413213 0.9795404 0.2012474 0 1.519459 0.2012474 -0.9795404 0 -0.02277487 0 0 0 1 0 0 -1 0.002636373 0.9795404 0.2012474 0 1.513322 0.2012474 -0.9795404 0 -0.02320086 0 0 0 1 0 0 -1 0.002850353 0.9795404 0.2012474 0 1.507769 0.2012474 -0.9795404 0 -0.02360939 0 0 0 1 0 0 -1 0.003045976 0.9795404 0.2012474 0 1.502975 0.2012474 -0.9795404 0 -0.02398288 0 0 0 1 0 0 -1 0.00321412 0.9795404 0.2012474 0 1.499115 0.2012474 -0.9795404 0 -0.02430379 0 0 0 1 0 0 -1 0.003345549 0.9795404 0.2012474 0 1.496364 0.2012474 -0.9795404 0 -0.02455472 0 0 0 1 0 0 -1 0.003431141 0.9795404 0.2012474 0 1.494897 0.2012474 -0.9795404 0 -0.0247181 0 0 0 1 0 0 -1 0.003461718 0.9795404 0.2012474 0 1.49489 0.2012474 -0.9795404 0 -0.02477645 0 0 0 1 0 0 -1 0.003318965 0.9795404 0.2012474 0 1.496616 0.2012474 -0.9795404 0 -0.02472978 0 0 0 1 0 0 -1 0.002915501 0.9795404 0.2012474 0 1.500065 0.2012474 -0.9795404 0 -0.02459776 0 0 0 1 0 0 -1 0.00228852 0.9795404 0.2012474 0 1.504982 0.2012474 -0.9795404 0 -0.02439266 0 0 0 1 0 0 -1 0.001475393 0.9795404 0.2012474 0 1.511115 0.2012474 -0.9795404 0 -0.02412658 0 0 0 1 0 0 -1 5.13269e-4 0.9795404 0.2012474 0 1.518211 0.2012474 -0.9795404 0 -0.02381181 0 0 0 1 0 0 -1 -5.60601e-4 0.9795404 0.2012474 0 1.526017 0.2012474 -0.9795404 0 -0.02346044 0 0 0 1 0 0 -1 -0.001708924 0.9795404 0.2012474 0 1.53428 0.2012474 -0.9795404 0 -0.02308475 0 0 0 1 0 0 -1 -0.00289452 0.9795404 0.2012474 0 1.542747 0.2012474 -0.9795404 0 -0.02269685 0 0 0 1 0 0 -1 -0.004080116 0.9795404 0.2012474 0 1.551166 0.2012474 -0.9795404 0 -0.02230894 0 0 0 1 0 0 -1 -0.005228519 0.9795404 0.2012474 0 1.559283 0.2012474 -0.9795404 0 -0.02193319 0 0 0 1 0 0 -1 -0.006302356 0.9795404 0.2012474 0 1.566845 0.2012474 -0.9795404 0 -0.02158188 0 0 0 1 0 0 -1 -0.007264494 0.9795404 0.2012474 0 1.573599 0.2012474 -0.9795404 0 -0.02126705 0 0 0 1 0 0 -1 -0.008077681 0.9795404 0.2012474 0 1.579293 0.2012474 -0.9795404 0 -0.02100104 0 0 0 1 0 0 -1 -0.008704602 0.9795404 0.2012474 0 1.583673 0.2012474 -0.9795404 0 -0.02079588 0 0 0 1 0 0 -1 -0.009108066 0.9795404 0.2012474 0 1.586486 0.2012474 -0.9795404 0 -0.02066391 0 0 0 1 0 0 -1 -0.009250819 0.9795404 0.2012474 0 1.58748 0.2012474 -0.9795404 0 -0.02061718 0 0 0 1 0 0 -1 -0.009065508 0.9795404 0.2012474 0 1.586186 0.2012474 -0.9795404 0 -0.0206778 0 0 0 1 0 0 -1 -0.00854665 0.9795404 0.2012474 0 1.582557 0.2012474 -0.9795404 0 -0.02084755 0 0 0 1 0 0 -1 -0.007749795 0.9795404 0.2012474 0 1.576972 0.2012474 -0.9795404 0 -0.02110832 0 0 0 1 0 0 -1 -0.006730556 0.9795404 0.2012474 0 1.56981 0.2012474 -0.9795404 0 -0.02144175 0 0 0 1 0 0 -1 -0.005544543 0.9795404 0.2012474 0 1.56145 0.2012474 -0.9795404 0 -0.02182978 0 0 0 1 0 0 -1 -0.004247307 0.9795404 0.2012474 0 1.552272 0.2012474 -0.9795404 0 -0.02225422 0 0 0 1 0 0 -1 -0.00289452 0.9795404 0.2012474 0 1.542655 0.2012474 -0.9795404 0 -0.02269685 0 0 0 1 0 0 -1 -0.001541733 0.9795404 0.2012474 0 1.532978 0.2012474 -0.9795404 0 -0.02313941 0 0 0 1 0 0 -1 -2.44552e-4 0.9795404 0.2012474 0 1.52362 0.2012474 -0.9795404 0 -0.02356386 0 0 0 1 0 0 -1 9.41468e-4 0.9795404 0.2012474 0 1.51496 0.2012474 -0.9795404 0 -0.02395188 0 0 0 1 0 0 -1 0.001960694 0.9795404 0.2012474 0 1.507378 0.2012474 -0.9795404 0 -0.02428537 0 0 0 1 0 0 -1 0.002757549 0.9795404 0.2012474 0 1.501253 0.2012474 -0.9795404 0 -0.02454608 0 0 0 1 0 0 -1 0.003276407 0.9795404 0.2012474 0 1.496964 0.2012474 -0.9795404 0 -0.02471584 0 0 0 1 0 0 -1 0.003461718 0.9795404 0.2012474 0 1.49489 0.2012474 -0.9795404 0 -0.02477645 0 0 0 1 0 0 -1 0.003351151 0.9795404 0.2012474 0 1.494745 0.2012474 -0.9795404 0 -0.02467602 0 0 0 1 0 0 -1 0.003039956 0.9795404 0.2012474 0 1.495893 0.2012474 -0.9795404 0 -0.02439326 0 0 0 1 0 0 -1 0.002559065 0.9795404 0.2012474 0 1.498191 0.2012474 -0.9795404 0 -0.02395623 0 0 0 1 0 0 -1 0.001939356 0.9795404 0.2012474 0 1.501495 0.2012474 -0.9795404 0 -0.02339309 0 0 0 1 0 0 -1 0.001211583 0.9795404 0.2012474 0 1.50566 0.2012474 -0.9795404 0 -0.02273178 0 0 0 1 0 0 -1 4.06679e-4 0.9795404 0.2012474 0 1.510545 0.2012474 -0.9795404 0 -0.02200031 0 0 0 1 0 0 -1 -4.44526e-4 0.9795404 0.2012474 0 1.516004 0.2012474 -0.9795404 0 -0.02122682 0 0 0 1 0 0 -1 -0.001311123 0.9795404 0.2012474 0 1.521894 0.2012474 -0.9795404 0 -0.02043932 0 0 0 1 0 0 -1 -0.002162337 0.9795404 0.2012474 0 1.528072 0.2012474 -0.9795404 0 -0.01966583 0 0 0 1 0 0 -1 -0.002967238 0.9795404 0.2012474 0 1.534393 0.2012474 -0.9795404 0 -0.01893442 0 0 0 1 0 0 -1 -0.003695011 0.9795404 0.2012474 0 1.540715 0.2012474 -0.9795404 0 -0.01827311 0 0 0 1 0 0 -1 -0.00431478 0.9795404 0.2012474 0 1.546893 0.2012474 -0.9795404 0 -0.01770991 0 0 0 1 0 0 -1 -0.00479567 0.9795404 0.2012474 0 1.552783 0.2012474 -0.9795404 0 -0.01727294 0 0 0 1 0 0 -1 -0.005106806 0.9795404 0.2012474 0 1.558242 0.2012474 -0.9795404 0 -0.01699018 0 0 0 1 0 0 -1 -0.005217432 0.9795404 0.2012474 0 1.563126 0.2012474 -0.9795404 0 -0.01688969 0 0 0 1 </float_array>
+        <technique_common>
+          <accessor source="#SpineIK.matrix_SpineIK_transform-output-array" count="60" stride="16">
+            <param name="TRANSFORM" type="float4x4"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="SpineIK.matrix_SpineIK_transform-interpolation" name="SpineIK.matrix_SpineIK_transform-interpolation">
+        <Name_array id="SpineIK.matrix_SpineIK_transform-interpolation-array" count="60">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR </Name_array>
+        <technique_common>
+          <accessor source="#SpineIK.matrix_SpineIK_transform-interpolation-array" count="60" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="SpineIK.matrix_SpineIK_transform-sampler">
+        <input semantic="INPUT" source="#SpineIK.matrix_SpineIK_transform-input"/>
+        <input semantic="OUTPUT" source="#SpineIK.matrix_SpineIK_transform-output"/>
+        <input semantic="INTERPOLATION" source="#SpineIK.matrix_SpineIK_transform-interpolation"/>
+      </sampler>
+      <channel source="#SpineIK.matrix_SpineIK_transform-sampler" target="SpineIK/transform"/>
+    </animation>
+    <animation id="LArmIK.matrix_LArmIK">
+      <source id="LArmIK.matrix_LArmIK_transform-input" name="LArmIK.matrix_LArmIK_transform-input">
+        <float_array id="LArmIK.matrix_LArmIK_transform-input-array" count="60">0.04166662 0.08333331 0.125 0.1666666 0.2083333 0.25 0.2916666 0.3333333 0.375 0.4166666 0.4583333 0.5 0.5416667 0.5833333 0.625 0.6666667 0.7083333 0.75 0.7916667 0.8333333 0.875 0.9166667 0.9583333 1 1.041667 1.083333 1.125 1.166667 1.208333 1.25 1.291667 1.333333 1.375 1.416667 1.458333 1.5 1.541667 1.583333 1.625 1.666667 1.708333 1.75 1.791667 1.833333 1.875 1.916667 1.958333 2 2.041667 2.083333 2.125 2.166667 2.208333 2.25 2.291667 2.333333 2.375 2.416667 2.458333 2.5 </float_array>
+        <technique_common>
+          <accessor source="#LArmIK.matrix_LArmIK_transform-input-array" count="60" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="LArmIK.matrix_LArmIK_transform-output" name="LArmIK.matrix_LArmIK_transform-output">
+        <float_array id="LArmIK.matrix_LArmIK_transform-output-array" count="960">0.2816231 0.9550769 0.09228479 0.2967881 -0.8986783 0.2288374 0.3741802 0.9747039 0.3362526 -0.1883121 0.9227528 0.1978685 0 0 0 1 0.2794592 0.9560754 0.08844453 0.2963393 -0.8943098 0.2256624 0.386376 0.9738268 0.3494459 -0.1870731 0.9180911 0.1984451 0 0 0 1 0.2760134 0.9574 0.08486372 0.2950828 -0.8903671 0.2214305 0.3977624 0.9713711 0.3620263 -0.1853476 0.9135553 0.2000598 0 0 0 1 0.271543 0.9589594 0.0816164 0.2931532 -0.8868507 0.2163776 0.4082604 0.9675999 0.3738452 -0.1832419 0.9092097 0.2025395 0 0 0 1 0.2663009 0.960667 0.07875794 0.290685 -0.8837679 0.2107329 0.4177871 0.9627763 0.3847573 -0.1808608 0.9051249 0.2057111 0 0 0 1 0.260535 0.9624426 0.07632642 0.2878129 -0.8811335 0.2047203 0.426255 0.9571632 0.3946204 -0.1783081 0.9013773 0.2094018 0 0 0 1 0.254488 0.9642141 0.07434421 0.2846716 -0.8789708 0.1985595 0.4335717 0.951024 0.4032942 -0.1756852 0.898047 0.2134385 0 0 0 1 0.2483974 0.9659171 0.07282042 0.2813956 -0.8773103 0.1924666 0.4396398 0.9446216 0.4106401 -0.1730915 0.8952173 0.2176482 0 0 0 1 0.2424959 0.9674953 0.07175314 0.2781197 -0.8761888 0.1866554 0.4443568 0.9382193 0.41652 -0.170624 0.8929718 0.2218579 0 0 0 1 0.2370118 0.9688991 0.07113301 0.2749784 -0.8756465 0.1813381 0.4476155 0.9320801 0.4207951 -0.1683775 0.8913924 0.2258945 0 0 0 1 0.2321699 0.9700844 0.07094687 0.2721063 -0.8757245 0.1767271 0.4493041 0.9264671 0.4233246 -0.1664448 0.8905574 0.2295852 0 0 0 1 0.2281931 0.9710103 0.07118189 0.2696381 -0.87646 0.1730358 0.4493066 0.9216434 0.4239643 -0.1649168 0.8905373 0.2327569 0 0 0 1 0.2253031 0.9716372 0.07183092 0.2677085 -0.8778824 0.1704804 0.4475031 0.9178722 0.4225649 -0.1638829 0.8913929 0.2352365 0 0 0 1 0.2237234 0.9719228 0.07289755 0.266452 -0.8800065 0.1692811 0.4437707 0.9154165 0.4189707 -0.1634322 0.8931705 0.2368512 0 0 0 1 0.2236797 0.9718188 0.07440263 0.2660032 -0.8828271 0.1696647 0.4379843 0.9145395 0.4130178 -0.1636528 0.8958985 0.2374278 0 0 0 1 0.2245829 0.9714478 0.07649582 0.2659661 -0.8865638 0.1711152 0.4297956 0.9150561 0.4044345 -0.1643431 0.89968 0.2361398 0 0 0 1 0.2256639 0.9709758 0.0792573 0.2658612 -0.8913198 0.1729419 0.4190944 0.9165164 0.3932236 -0.1652181 0.9044767 0.2324422 0 0 0 1 0.2268804 0.9704118 0.08262073 0.2656983 -0.896889 0.1751147 0.4061096 0.9187853 0.3796255 -0.1662399 0.9100818 0.2265841 0 0 0 1 0.2281891 0.969765 0.08651906 0.265487 -0.9030613 0.1776034 0.3910719 0.9217281 0.3638817 -0.1673704 0.9162845 0.2188152 0 0 0 1 0.2295477 0.9690448 0.09088426 0.265237 -0.9096299 0.1803767 0.3742161 0.9252102 0.3462387 -0.1685715 0.9228772 0.2093847 0 0 0 1 0.2309166 0.9682609 0.09564709 0.2649579 -0.9163957 0.1834022 0.3557843 0.9290966 0.3269501 -0.1698071 0.9296607 0.198542 0 0 0 1 0.2322598 0.9674231 0.1007369 0.2646595 -0.9231733 0.186646 0.3360275 0.9332526 0.3062786 -0.1710433 0.9364495 0.1865367 0 0 0 1 0.2335465 0.9665416 0.1060819 0.2643514 -0.9297944 0.1900721 0.3152062 0.9375433 0.2844967 -0.1722497 0.9430757 0.173618 0 0 0 1 0.2347519 0.9656267 0.111609 0.2640433 -0.9361125 0.193643 0.2935912 0.9418341 0.2618872 -0.1733996 0.9493933 0.1600353 0 0 0 1 0.2358577 0.964689 0.1172441 0.2637448 -0.9420048 0.1973192 0.2714628 0.9459901 0.2387427 -0.1744711 0.955281 0.1460382 0 0 0 1 0.2368527 0.9637392 0.122913 0.2634658 -0.9473748 0.2010599 0.2491101 0.9498765 0.2153643 -0.175447 0.9606438 0.1318758 0 0 0 1 0.2377325 0.9627879 0.1285406 0.2632157 -0.9521533 0.2048228 0.2268296 0.9533585 0.1920608 -0.1763151 0.9654148 0.1177977 0 0 0 1 0.2385004 0.9618459 0.1340524 0.2630044 -0.9562987 0.2085647 0.2049233 0.9563014 0.1691461 -0.1770684 0.9695547 0.1040533 0 0 0 1 0.2391659 0.9609237 0.1393743 0.2628415 -0.9597963 0.2122415 0.1836973 0.9585704 0.1469381 -0.177705 0.973052 0.09089189 0 0 0 1 0.2397452 0.9600321 0.1444324 0.2627366 -0.9626564 0.2158089 0.1634596 0.9600306 0.1257566 -0.1782274 0.9759202 0.07856297 0 0 0 1 0.2402597 0.9591811 0.149154 0.2626996 -0.9649124 0.2192224 0.1445187 0.9605473 0.1059218 -0.1786426 0.978196 0.06731587 0 0 0 1 0.241223 0.9581537 0.15412 0.2631458 -0.9667133 0.2232805 0.1249446 0.9593002 0.08530414 -0.1791294 0.9801203 0.05572187 0 0 0 1 0.2429982 0.9567617 0.1598714 0.2643951 -0.9680399 0.2286413 0.1030623 0.9558101 0.06205284 -0.1798059 0.981743 0.04248511 0 0 0 1 0.2453906 0.9550589 0.1662703 0.2663137 -0.9687213 0.2350482 0.07957029 0.9504531 0.03691273 -0.1805954 0.9828646 0.02805393 0 0 0 1 0.2482162 0.9531014 0.1731658 0.2687678 -0.9686462 0.2422401 0.05517429 0.9436057 0.01063895 -0.1814315 0.9833461 0.0128768 0 0 0 1 0.2513053 0.95095 0.1803876 0.2716235 -0.9677755 0.2499506 0.03058159 0.9356442 -0.01600635 -0.18226 0.9831201 -0.002597749 0 0 0 1 0.2545055 0.9486726 0.1877425 0.2747468 -0.9661476 0.2579083 0.0064947 0.926945 -0.04225897 -0.1830399 0.9821968 -0.01792138 0 0 0 1 0.2576842 0.9463448 0.1950138 0.2780041 -0.9638785 0.2658371 -0.01639521 0.9178844 -0.06735742 -0.1837448 0.9806635 -0.0326457 0 0 0 1 0.2607296 0.9440507 0.2019615 0.2812613 -0.9611562 0.2734576 -0.03741264 0.9088388 -0.09054732 -0.1843619 0.9786787 -0.04632216 0 0 0 1 0.2635495 0.9418823 0.2083255 0.2843847 -0.9582285 0.2804876 -0.05590116 0.9001844 -0.1110851 -0.1848906 0.9764607 -0.05850237 0 0 0 1 0.2660684 0.9399385 0.2138298 0.2872403 -0.9553861 0.2866439 -0.07122296 0.8922978 -0.1282382 -0.1853398 0.9742711 -0.06873786 0 0 0 1 0.2682213 0.9383237 0.2181878 0.2896944 -0.9529408 0.2916426 -0.08275485 0.8855552 -0.1412837 -0.1857234 0.9723917 -0.07658016 0 0 0 1 0.2699455 0.9371448 0.2211087 0.2916131 -0.9511983 0.2952001 -0.08988142 0.8803329 -0.1495032 -0.1860552 0.9710985 -0.08158093 0 0 0 1 0.2711687 0.9365082 0.2223057 0.2928624 -0.9504262 0.2970336 -0.09198427 0.8770074 -0.1521763 -0.1863418 0.9706282 -0.08329159 0 0 0 1 0.2717959 0.9365164 0.221504 0.2933086 -0.9508172 0.2968616 -0.08842957 0.8759549 -0.1485718 -0.1865751 0.9711417 -0.08126384 0 0 0 1 0.2723773 0.9369612 0.2188933 0.2932239 -0.9521611 0.2952318 -0.0789138 0.8769166 -0.1385634 -0.1869273 0.9725525 -0.07545387 0 0 0 1 0.2734588 0.937567 0.2149148 0.2929856 -0.9539976 0.2929125 -0.06396031 0.8792786 -0.1229183 -0.1875377 0.9745361 -0.06636017 0 0 0 1 0.2749009 0.9383296 0.2096832 0.2926173 -0.956022 0.2899519 -0.0441578 0.8828855 -0.1022326 -0.1883227 0.9767717 -0.05434763 0 0 0 1 0.2765544 0.9392455 0.2033116 0.2921427 -0.9578998 0.2863982 -0.02010154 0.8875816 -0.07710838 -0.189193 0.9789077 -0.03978115 0 0 0 1 0.2782675 0.9403103 0.1959175 0.2915853 -0.9592954 0.2823023 0.007599949 0.8932113 -0.04816162 -0.1900576 0.9805909 -0.02302557 0 0 0 1 0.2798933 0.9415177 0.1876274 0.2909688 -0.9598973 0.2777201 0.03832304 0.899619 -0.01602602 -0.1908295 0.9814924 -0.004445612 0 0 0 1 0.2812952 0.9428585 0.1785804 0.2903169 -0.9594401 0.2727137 0.07142734 0.9066491 0.01864457 -0.1914293 0.9813293 0.01559364 0 0 0 1 0.2823532 0.9443197 0.1689289 0.2896533 -0.9577223 0.2673519 0.1062589 0.914146 0.05517894 -0.1917895 0.9798837 0.03672748 0 0 0 1 0.2829688 0.9458851 0.1588397 0.2890014 -0.95462 0.2617099 0.1421566 0.9219541 0.09289389 -0.1918575 0.9770166 0.05859106 0 0 0 1 0.2830694 0.9475346 0.1484922 0.2883849 -0.9500971 0.2558681 0.1784576 0.9299179 0.1311002 -0.1915979 0.9726783 0.0808196 0 0 0 1 0.2826114 0.9492448 0.1380763 0.2878276 -0.9442096 0.2499104 0.2145066 0.9378815 0.1691126 -0.1909949 0.9669136 0.1030479 0 0 0 1 0.2815817 0.95099 0.1277883 0.2873529 -0.9371067 0.2439224 0.2496656 0.9456897 0.2062591 -0.1900525 0.9598631 0.1249116 0 0 0 1 0.2799977 0.9527422 0.1178284 0.2869846 -0.929027 0.2379891 0.2833196 0.9531866 0.2418887 -0.1887946 0.9517597 0.1460455 0 0 0 1 0.2779057 0.9544731 0.1083955 0.2867463 -0.9202906 0.232193 0.3148835 0.9602167 0.2753791 -0.1872633 0.9429203 0.1660847 0 0 0 1 0.2753773 0.956154 0.09968411 0.2866616 -0.9112873 0.2266119 0.3438059 0.9666244 0.3061418 -0.1855172 0.9337347 0.1846647 0 0 0 1 </float_array>
+        <technique_common>
+          <accessor source="#LArmIK.matrix_LArmIK_transform-output-array" count="60" stride="16">
+            <param name="TRANSFORM" type="float4x4"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="LArmIK.matrix_LArmIK_transform-interpolation" name="LArmIK.matrix_LArmIK_transform-interpolation">
+        <Name_array id="LArmIK.matrix_LArmIK_transform-interpolation-array" count="60">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR </Name_array>
+        <technique_common>
+          <accessor source="#LArmIK.matrix_LArmIK_transform-interpolation-array" count="60" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="LArmIK.matrix_LArmIK_transform-sampler">
+        <input semantic="INPUT" source="#LArmIK.matrix_LArmIK_transform-input"/>
+        <input semantic="OUTPUT" source="#LArmIK.matrix_LArmIK_transform-output"/>
+        <input semantic="INTERPOLATION" source="#LArmIK.matrix_LArmIK_transform-interpolation"/>
+      </sampler>
+      <channel source="#LArmIK.matrix_LArmIK_transform-sampler" target="LArmIK/transform"/>
+    </animation>
+    <animation id="LArmIK.visibility_LArmIK">
+      <source id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-input" name="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-input">
+        <float_array id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-input-array" count="4">0.04166662 0.625 1.291667 2.5 </float_array>
+        <technique_common>
+          <accessor source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-input-array" count="4" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-output" name="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-output">
+        <float_array id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-output-array" count="4">1 1 1 1 </float_array>
+        <technique_common>
+          <accessor source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-output-array" count="4" stride="1">
+            <param type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-interpolation" name="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-interpolation">
+        <Name_array id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-interpolation-array" count="4">STEP STEP STEP STEP </Name_array>
+        <technique_common>
+          <accessor source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-interpolation-array" count="4" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-sampler">
+        <input semantic="INPUT" source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-input"/>
+        <input semantic="OUTPUT" source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-output"/>
+        <input semantic="INTERPOLATION" source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-interpolation"/>
+      </sampler>
+      <channel source="#LArmIK.visibility_LArmIK_LArmIK.visibility_LArmIK-sampler" target="LArmIK/visibility"/>
+    </animation>
+    <animation id="RArmIK.matrix_RArmIK">
+      <source id="RArmIK.matrix_RArmIK_transform-input" name="RArmIK.matrix_RArmIK_transform-input">
+        <float_array id="RArmIK.matrix_RArmIK_transform-input-array" count="60">0.04166662 0.08333331 0.125 0.1666666 0.2083333 0.25 0.2916666 0.3333333 0.375 0.4166666 0.4583333 0.5 0.5416667 0.5833333 0.625 0.6666667 0.7083333 0.75 0.7916667 0.8333333 0.875 0.9166667 0.9583333 1 1.041667 1.083333 1.125 1.166667 1.208333 1.25 1.291667 1.333333 1.375 1.416667 1.458333 1.5 1.541667 1.583333 1.625 1.666667 1.708333 1.75 1.791667 1.833333 1.875 1.916667 1.958333 2 2.041667 2.083333 2.125 2.166667 2.208333 2.25 2.291667 2.333333 2.375 2.416667 2.458333 2.5 </float_array>
+        <technique_common>
+          <accessor source="#RArmIK.matrix_RArmIK_transform-input-array" count="60" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="RArmIK.matrix_RArmIK_transform-output" name="RArmIK.matrix_RArmIK_transform-output">
+        <float_array id="RArmIK.matrix_RArmIK_transform-output-array" count="960">0.3171278 0.9391772 0.1318184 -0.3142057 0.9457615 -0.3235085 0.0296207 0.947983 0.07046347 0.1152752 -0.9908312 -0.03293615 0 0 0 1 0.3222197 0.9366669 0.1372213 -0.3170023 0.9426037 -0.3308612 0.04504531 0.9442209 0.08759367 0.1148309 -0.9895157 -0.04276078 0 0 0 1 0.3271887 0.9341067 0.1428012 -0.319799 0.939141 -0.3381833 0.06038397 0.9404587 0.104698 0.1143535 -0.9879077 -0.05258542 0 0 0 1 0.328572 0.933557 0.1432189 -0.3204336 0.9384866 -0.3397662 0.06165921 0.9342567 0.1062234 0.1141495 -0.9877684 -0.05373692 0 0 0 1 0.3299532 0.9330049 0.1436408 -0.3210682 0.9378279 -0.3413477 0.06293314 0.9280546 0.1077484 0.1139454 -0.9876268 -0.05488836 0 0 0 1 0.3386816 0.9269976 0.1611531 -0.3258258 0.9269888 -0.3580876 0.1116469 0.9273681 0.1612033 0.1115743 -0.980594 -0.08559656 0 0 0 1 0.3349061 0.9264859 0.1716442 -0.3234705 0.9225533 -0.3594715 0.1402699 0.9231067 0.1916593 0.1113736 -0.9751219 -0.1032884 0 0 0 1 0.3447203 0.9225173 0.173579 -0.3288168 0.9177895 -0.3700442 0.1439779 0.9192646 0.197054 0.1096768 -0.9742385 -0.1067758 0 0 0 1 0.3481609 0.9197713 0.1811205 -0.3305462 0.9117245 -0.3771713 0.1627892 0.9165695 0.2180423 0.1084551 -0.9698944 -0.1191123 0 0 0 1 0.3297463 0.9227467 0.199514 -0.3198822 0.9036762 -0.369665 0.2161417 0.9155839 0.2731974 0.1090241 -0.9557599 -0.1508203 0 0 0 1 0.3349861 0.9172366 0.2155488 -0.3226601 0.8879056 -0.3838541 0.2535343 0.9197392 0.3152902 0.1064565 -0.9430054 -0.1750807 0 0 0 1 0.3235465 0.9237489 0.2049527 -0.3160001 0.9009143 -0.3669602 0.2317191 0.9084972 0.2892597 0.1096729 -0.9509472 -0.1606299 0 0 0 1 0.3311523 0.9124571 0.2403335 -0.320185 0.8617659 -0.3962054 0.3168292 0.927962 0.3843144 0.1021925 -0.9175288 -0.2148227 0 0 0 1 0.3410708 0.9053361 0.253056 -0.325728 0.8445639 -0.4133242 0.340404 0.9362571 0.4127742 0.09762006 -0.905587 -0.2311365 0 0 0 1 0.3571336 0.9111109 0.2057488 -0.3348115 0.8905729 -0.3985698 0.2191396 0.9101404 0.2816658 0.1049721 -0.9537532 -0.156793 0 0 0 1 0.3588415 0.9184883 0.1661689 -0.3359246 0.9170141 -0.3801207 0.1208028 0.8968624 0.1741203 0.1090302 -0.9786698 -0.09571623 0 0 0 1 0.3606304 0.9204737 0.1505785 -0.3373433 0.9234137 -0.3750882 0.08133846 0.8966789 0.1313501 0.1097131 -0.9852463 -0.07131296 0 0 0 1 0.3634511 0.9207662 0.1417493 -0.3396058 0.925414 -0.3743528 0.05889761 0.901225 0.1072952 0.1097704 -0.9881489 -0.05740875 0 0 0 1 0.3660664 0.9210627 0.1328114 -0.3418682 0.926864 -0.3736253 0.03643137 0.905771 0.08317732 0.1097618 -0.9904716 -0.04350453 0 0 0 1 0.3681717 0.9201467 0.1333401 -0.3440251 0.9258725 -0.3759406 0.03780144 0.9134297 0.08491086 0.1095385 -0.9903492 -0.04417353 0 0 0 1 0.3597502 0.9247997 0.1237956 -0.340259 0.9313051 -0.3640108 0.01292341 0.9186107 0.05701452 0.1106422 -0.9922236 -0.02796667 0 0 0 1 0.3509832 0.9293252 0.1147411 -0.336493 0.9359303 -0.3519749 -0.01217263 0.9237917 0.02907359 0.1116621 -0.9933208 -0.01175981 0 0 0 1 0.3476461 0.9308536 0.1124896 -0.3357849 0.937389 -0.3477443 -0.01938527 0.9314312 0.02107274 0.1121857 -0.9934638 -0.006831526 0 0 0 1 0.3456691 0.931773 0.1109591 -0.3349603 0.9382188 -0.3452193 -0.02385759 0.9335184 0.01607531 0.1123507 -0.9935386 -0.003884255 0 0 0 1 0.3405222 0.9341165 0.1071026 -0.3328337 0.9402311 -0.3386898 -0.03542268 0.938901 0.00318557 0.1127634 -0.9936168 0.003716588 0 0 0 1 0.3333761 0.9372555 0.1020425 -0.3299259 0.9426833 -0.3297211 -0.05130416 0.9462609 -0.01443952 0.1132974 -0.9934562 0.01410967 0 0 0 1 0.3254548 0.9405884 0.09681224 -0.3267577 0.9449591 -0.3198972 -0.06868857 0.9542799 -0.0336377 0.1138386 -0.9929296 0.02543342 0 0 0 1 0.3180683 0.9435667 0.09227424 -0.3238499 0.9466817 -0.3108343 -0.08470964 0.9616398 -0.05124717 0.1142978 -0.9921239 0.0358265 0 0 0 1 0.3125998 0.9456954 0.08911573 -0.3217233 0.9477186 -0.3041787 -0.09646147 0.9670225 -0.06411606 0.1146105 -0.9913393 0.0434274 0 0 0 1 0.310465 0.9465095 0.08792769 -0.3208987 0.9480697 -0.3015919 -0.1010255 0.9691096 -0.06910324 0.1147264 -0.9909907 0.04637467 0 0 0 1 0.2959238 0.9515606 0.08343577 -0.3127882 0.9512981 -0.2856863 -0.1158248 0.9682714 -0.08637791 0.1136476 -0.9897591 0.05622458 0 0 0 1 0.2966883 0.9514078 0.08245736 -0.3132309 0.9507893 -0.2862101 -0.1186737 0.9674255 -0.08930695 0.1136087 -0.9895036 0.05779683 0 0 0 1 0.2988623 0.9509626 0.07969641 -0.3144705 0.9493056 -0.287731 -0.1266084 0.9650567 -0.09746879 0.1134948 -0.9887461 0.06218034 0 0 0 1 0.3022502 0.9502427 0.07538992 -0.3163743 0.9468697 -0.2901733 -0.1386983 0.961419 -0.1099209 0.113306 -0.987461 0.06887495 0 0 0 1 0.3066452 0.9492641 0.06975895 -0.3188093 0.9434851 -0.2934613 -0.1540014 0.9567661 -0.1257164 0.1130403 -0.985605 0.07738053 0 0 0 1 0.3118426 0.948041 0.06302791 -0.3216427 0.9391726 -0.2975189 -0.1715732 0.9513518 -0.1439065 0.112698 -0.9831532 0.087197 0 0 0 1 0.3176491 0.9465863 0.05543881 -0.3247418 0.9339981 -0.3022693 -0.1904755 0.9454299 -0.163544 0.1122841 -0.9801253 0.09782427 0 0 0 1 0.3238931 0.9449124 0.04726248 -0.3279737 0.9280905 -0.3076341 -0.2097842 0.9392542 -0.1836881 0.1118115 -0.9766048 0.1087622 0 0 0 1 0.3304313 0.943032 0.0388053 -0.3312056 0.9216508 -0.3135328 -0.2285979 0.9330785 -0.2034084 0.1113008 -0.9727472 0.1195108 0 0 0 1 0.3371537 0.9409583 0.03041279 -0.3343046 0.9149519 -0.319883 -0.2460447 0.9271567 -0.2217893 0.1107811 -0.9687812 0.1295699 0 0 0 1 0.3439857 0.938706 0.02247017 -0.3371381 0.9083296 -0.3265998 -0.2612853 0.9217424 -0.2379313 0.1102887 -0.965 0.1384394 0 0 0 1 0.3508846 0.9362921 0.01540058 -0.3395731 0.9021663 -0.3335967 -0.2735127 0.9170895 -0.2509502 0.1098653 -0.9617451 0.1456192 0 0 0 1 0.3578327 0.9337357 0.009661793 -0.3414768 0.8968672 -0.3407862 -0.281947 0.9134517 -0.2599713 0.1095551 -0.9593814 0.1506092 0 0 0 1 0.3648238 0.9310589 0.005741178 -0.3427165 0.892829 -0.3480814 -0.2858247 0.911083 -0.2641212 0.1094016 -0.9582647 0.1529093 0 0 0 1 0.3718439 0.928286 0.004150629 -0.3431591 0.8904035 -0.3553978 -0.2843838 0.910237 -0.2625143 0.1094421 -0.9587016 0.1520195 0 0 0 1 0.3791415 0.9253273 0.004598975 -0.3430789 0.8893197 -0.3630056 -0.2780959 0.9099847 -0.2556602 0.1095277 -0.9605423 0.1482259 0 0 0 1 0.3869369 0.9220838 0.006422758 -0.342853 0.8889796 -0.371177 -0.2682217 0.9092746 -0.2449389 0.1094946 -0.9633358 0.1423055 0 0 0 1 0.3951419 0.9185701 0.009583532 -0.3425039 0.8891669 -0.3798313 -0.2551674 0.9081773 -0.230749 0.1093487 -0.9668494 0.1344949 0 0 0 1 0.4036557 0.9148033 0.01403284 -0.3420539 0.8896542 -0.3888874 -0.2393364 0.906763 -0.2134886 0.1090939 -0.9708353 0.1250301 0 0 0 1 0.4123702 0.9108031 0.01970928 -0.3415255 0.8902163 -0.3982642 -0.2211347 0.9051023 -0.1935606 0.1087349 -0.9750441 0.1141476 0 0 0 1 0.421175 0.9065911 0.02653616 -0.3409411 0.8906413 -0.4078827 -0.200972 0.9032656 -0.1713758 0.1082786 -0.9792375 0.1020836 0 0 0 1 0.4299622 0.9021906 0.03441917 -0.3403231 0.8907406 -0.4176664 -0.179265 0.9013232 -0.1473555 0.1077358 -0.9831985 0.08907431 0 0 0 1 0.4386314 0.897626 0.04324549 -0.3396939 0.8903567 -0.4275424 -0.1564367 0.8993456 -0.1219323 0.107122 -0.9867408 0.0753563 0 0 0 1 0.4470936 0.8929225 0.05288332 -0.3390759 0.8893693 -0.4374426 -0.1329145 0.8974032 -0.09554892 0.106458 -0.9897156 0.06116563 0 0 0 1 0.4552758 0.8881059 0.06318163 -0.3384916 0.8876994 -0.4473037 -0.1091297 0.8955665 -0.06865739 0.1057704 -0.9920175 0.04673862 0 0 0 1 0.4631233 0.8832016 0.07397133 -0.3379632 0.8853116 -0.4570676 -0.08551377 0.8939058 -0.04171597 0.1050911 -0.9935873 0.03231167 0 0 0 1 0.4706032 0.8782348 0.08506637 -0.3375132 0.8822143 -0.4666823 -0.06249457 0.8924915 -0.01518595 0.1044569 -0.9944134 0.018121 0 0 0 1 0.4777046 0.8732304 0.09626531 -0.3371641 0.8784582 -0.4761003 -0.04049444 0.8913942 0.01047092 0.1039094 -0.9945316 0.004402875 0 0 0 1 0.48444 0.8682126 0.1073532 -0.3369382 0.8741322 -0.4852791 -0.01992642 0.8906841 0.03479588 0.1034941 -0.9940212 -0.008606195 0 0 0 1 0.4908437 0.8632056 0.1181035 -0.3368579 0.869359 -0.4941797 -0.001191735 0.8904318 0.05733555 0.1032593 -0.9930006 -0.02067023 0 0 0 1 </float_array>
+        <technique_common>
+          <accessor source="#RArmIK.matrix_RArmIK_transform-output-array" count="60" stride="16">
+            <param name="TRANSFORM" type="float4x4"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="RArmIK.matrix_RArmIK_transform-interpolation" name="RArmIK.matrix_RArmIK_transform-interpolation">
+        <Name_array id="RArmIK.matrix_RArmIK_transform-interpolation-array" count="60">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR </Name_array>
+        <technique_common>
+          <accessor source="#RArmIK.matrix_RArmIK_transform-interpolation-array" count="60" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="RArmIK.matrix_RArmIK_transform-sampler">
+        <input semantic="INPUT" source="#RArmIK.matrix_RArmIK_transform-input"/>
+        <input semantic="OUTPUT" source="#RArmIK.matrix_RArmIK_transform-output"/>
+        <input semantic="INTERPOLATION" source="#RArmIK.matrix_RArmIK_transform-interpolation"/>
+      </sampler>
+      <channel source="#RArmIK.matrix_RArmIK_transform-sampler" target="RArmIK/transform"/>
+    </animation>
+    <animation id="RArmIK.visibility_RArmIK">
+      <source id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-input" name="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-input">
+        <float_array id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-input-array" count="4">0.04166662 0.625 1.291667 2.5 </float_array>
+        <technique_common>
+          <accessor source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-input-array" count="4" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-output" name="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-output">
+        <float_array id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-output-array" count="4">1 1 1 1 </float_array>
+        <technique_common>
+          <accessor source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-output-array" count="4" stride="1">
+            <param type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-interpolation" name="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-interpolation">
+        <Name_array id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-interpolation-array" count="4">STEP STEP STEP STEP </Name_array>
+        <technique_common>
+          <accessor source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-interpolation-array" count="4" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-sampler">
+        <input semantic="INPUT" source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-input"/>
+        <input semantic="OUTPUT" source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-output"/>
+        <input semantic="INTERPOLATION" source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-interpolation"/>
+      </sampler>
+      <channel source="#RArmIK.visibility_RArmIK_RArmIK.visibility_RArmIK-sampler" target="RArmIK/visibility"/>
+    </animation>
+  </library_animations>
+  <scene>
+    <instance_visual_scene url="#VisualSceneNode"/>
+  </scene>
+</COLLADA>
