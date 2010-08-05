@@ -63,6 +63,7 @@ kpgModel::kpgModel(void)
 {
 	m_pBoneIndicieMap = new kpuMap<u32, int>();
 	m_pControllerList = 0;
+	m_pShader = 0;
 }
 
 kpgModel::~kpgModel(void)
@@ -82,6 +83,9 @@ kpgModel::~kpgModel(void)
 	}
 
 	delete m_pBoneIndicieMap;
+
+	if( m_pShader )
+		delete m_pShader;
 }
 
 bool kpgModel::Load(const char* cszFileName)
@@ -1044,6 +1048,9 @@ kpgGeometryInstance* kpgModel::LoadInstance(kpuXmlParser* pParser)
 
 void kpgModel::Draw(kpgRenderer* pRenderer)
 {
+	if( m_pShader )
+		m_pShader->SetSkinningMatricies(&m_aBoneMatricies);
+
 	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
 	{
 		pRenderer->DrawInstancedGeometry(m_aInstances[i]);
@@ -1381,6 +1388,9 @@ void kpgModel::LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources)
 						kpuVector v3(source->aFloats[i + 12], source->aFloats[i + 13], source->aFloats[i + 14], source->aFloats[i + 15]);
 
 						m_aBoneMatricies.Add(kpuMatrix(v,v1,v2,v3));
+						//kpuMatrix m;
+						//m.Identity();
+						//m_aBoneMatricies.Add(m);
 					}
 
 					//delete this node its usefullness is gone
@@ -1445,20 +1455,13 @@ void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeight
 	free(pszArray);
 }
 
-void kpgModel::SetShader(kpgShader* pShader)
-{
-	pShader->SetSkinningMatricies(&m_aBoneMatricies);
-	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
-	{		
-		m_aInstances[i]->GetGeometry()->SetShader(pShader);
-	}
-
-}
-
 void kpgModel::SetShader(const char *pszShaderFile)
 {
-	kpgShader* pShader = new kpgShader();
-	pShader->LoadFromFile(kpgRenderer::GetInstance(),pszShaderFile);
+	m_pShader = new kpgShader();
+	m_pShader->LoadFromFile(kpgRenderer::GetInstance(),pszShaderFile);
 
-	SetShader(pShader);
+	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
+	{		
+		m_aInstances[i]->GetGeometry()->SetShader(m_pShader);
+	}
 }
