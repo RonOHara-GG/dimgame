@@ -341,21 +341,6 @@
 			Name="Shaders"
 			>
 			<File
-				RelativePath=".\Shaders\AnimatedShader.fx"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Compiling Effect $(InputName)"
-						CommandLine=" fxc /T fx_2_0 /Fo$(InputDir)$(InputName).fxo $(InputPath)"
-						AdditionalDependencies="ShaderGlobals.fxh;Lighting.fxh;DefaultTexture.fxh;Skinning.fxh"
-						Outputs="$(InputDir)$(InputName).fxo"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\Shaders\DefaultShader.fx"
 				>
 				<FileConfiguration

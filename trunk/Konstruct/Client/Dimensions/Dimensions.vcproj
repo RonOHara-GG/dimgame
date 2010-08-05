@@ -1093,9 +1093,28 @@
 				Name="Shaders"
 				>
 				<File
-					RelativePath=".\Assets\Shaders\AnimatedShader.fxo"
+					RelativePath=".\Assets\Shaders\AnimatedShader.fx"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Compiling Effect $(InputName)"
+							CommandLine="fxc /Tfx_2_0 /Fo$(InputDir)$(InputName).fxb $(InputPath)"
+							AdditionalDependencies="ShaderGlobals.fxh;Lighting.fxh;DefaultTexture.fxh;Skinning.fxh"
+							Outputs="$(InputDir)$(InputName).fxb"
+						/>
+					</FileConfiguration>
 				</File>
+				<Filter
+					Name="Compiled"
+					>
+					<File
+						RelativePath=".\Assets\Shaders\AnimatedShader.fxb"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<File
