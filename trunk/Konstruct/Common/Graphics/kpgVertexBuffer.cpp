@@ -169,3 +169,47 @@ const kpuVector& kpgVertexBuffer::GetUV(int nVertIndex, int nSetIndex) const
 
 	return kpuv_Zero;
 }
+
+void kpgVertexBuffer::SetBoneIndex(int nVertIndex, u32 uBoneIndex, int nSetIndex)
+{
+	if( m_bLocked )
+	{
+		u32* pBoneIndex = (u32*)(m_pLockPointer + (nVertIndex * m_pVertexFormat->GetStride()) + m_pVertexFormat->GetOffset(kpgVertexFormat::eVCT_BoneIndex, nSetIndex));
+		*pBoneIndex = uBoneIndex;		
+	}
+}
+
+const u32 kpgVertexBuffer::GetBoneIndex(int nVertIndex, int nSetIndex)
+{
+	if( m_bLocked )
+	{
+		u32* pBoneIndex = (u32*)(m_pLockPointer + (nVertIndex * m_pVertexFormat->GetStride()) + m_pVertexFormat->GetOffset(kpgVertexFormat::eVCT_BoneIndex, nSetIndex));
+		return *pBoneIndex;	
+	}
+
+	return 0;
+}
+
+void kpgVertexBuffer::SetSkinWeight(int nVertIndex, const kpuVector& vSkinWeight, int nSetIndex)
+{
+	if( m_bLocked )
+	{
+		kpuVector* pVertexPointer = (kpuVector*)(m_pLockPointer + (nVertIndex * m_pVertexFormat->GetStride()) + m_pVertexFormat->GetOffset(kpgVertexFormat::eVCT_SkinWeight, nSetIndex));
+		pVertexPointer->SetX(vSkinWeight.GetX());
+		pVertexPointer->SetY(vSkinWeight.GetY());
+		pVertexPointer->SetZ(vSkinWeight.GetZ());
+		pVertexPointer->SetW(vSkinWeight.GetW());
+
+	}
+}
+
+const kpuVector& kpgVertexBuffer::GetSkinWeight(int nVertIndex, int nSetIndex)
+{
+	if( m_bLocked )
+	{
+		kpuVector* pVertexPointer = (kpuVector*)(m_pLockPointer + (nVertIndex * m_pVertexFormat->GetStride()) + m_pVertexFormat->GetOffset(kpgVertexFormat::eVCT_SkinWeight, nSetIndex));
+		return *pVertexPointer;
+	}
+
+	return kpuv_Zero;
+}

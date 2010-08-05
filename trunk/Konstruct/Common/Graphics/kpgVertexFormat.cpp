@@ -84,6 +84,44 @@ kpgVertexFormat::kpgVertexFormat(u32 unFormatFlags, kpgRenderer* pRenderer)
 		}
 	}
 
+	// Calc bone index flags
+	for( int i = 0; i < 4; i++ )
+	{
+		if( unFormatFlags & (eVF_BoneIndex0 << i) )
+		{
+			m_nOffsets[eVCT_BoneIndex][i] = nOffset;
+
+			elements[nCurElement].Stream = 0;		// Only supporting single stream for now
+			elements[nCurElement].Offset = nOffset;
+			elements[nCurElement].Type = D3DDECLTYPE_UBYTE4;
+			elements[nCurElement].Method = D3DDECLMETHOD_DEFAULT;
+			elements[nCurElement].Usage = D3DDECLUSAGE_BLENDINDICES;
+			elements[nCurElement].UsageIndex = i;
+
+			nOffset += 4;
+			nCurElement++;
+		}
+	}
+
+	// calc skin weight flags
+	for( int i = 0; i < 4; i++ )
+	{
+		if( unFormatFlags & (eVF_SkinWeight0 << i) )
+		{
+			m_nOffsets[eVCT_SkinWeight][i] = nOffset;
+
+			elements[nCurElement].Stream = 0;		// Only supporting single stream for now
+			elements[nCurElement].Offset = nOffset;
+			elements[nCurElement].Type = D3DDECLTYPE_FLOAT3;
+			elements[nCurElement].Method = D3DDECLMETHOD_DEFAULT;
+			elements[nCurElement].Usage = D3DDECLUSAGE_BLENDWEIGHT;
+			elements[nCurElement].UsageIndex = i;
+
+			nOffset += 16;
+			nCurElement++;
+		}
+	}
+
 	elements[nCurElement].Stream = 0xFF;
 	elements[nCurElement].Offset = 0;
 	elements[nCurElement].Type = D3DDECLTYPE_UNUSED;

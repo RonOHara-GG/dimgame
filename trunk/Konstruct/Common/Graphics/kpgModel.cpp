@@ -57,10 +57,12 @@ static const u32 s_uHash_skin =					0x7c9df43a;
 static const u32 s_uHash_WEIGHT =				0xd7d9ad8d;
 static const u32 s_uHash_controller =			0xbf67c809;
 static const u32 s_uHash_library_controllers =  0xcdb8c8f0;
+static const u32 s_uHash_instance_controller =  0xe72d317d;
 
 kpgModel::kpgModel(void)
 {
 	m_pBoneIndicieMap = new kpuMap<u32, int>();
+	m_pControllerList = 0;
 }
 
 kpgModel::~kpgModel(void)
@@ -200,10 +202,8 @@ bool kpgModel::Load(const char* cszFileName)
 
 	//Texture
 	kpgTexture* pTexture = 0;
-
-	//skeleton vertex data
-	kpuFixedArray<u32> paBoneIndices;
-	kpuFixedArray<kpuVector> paVertexWeights;
+	m_pControllerList = new kpuLinkedList();
+	
 
 	kpuXmlParser* pParser = new kpuXmlParser();
 	if( pParser->LoadFile(szFileName) )
@@ -231,7 +231,7 @@ bool kpgModel::Load(const char* cszFileName)
 							LoadVisualSceneLibrary(pParser);
 							break;
 						case s_uHash_library_controllers:
-							LoadLibraryControllers(pParser, &paBoneIndices, &paVertexWeights);
+							LoadLibraryControllers(pParser);
 							break;
 						default:
 							break;
@@ -256,7 +256,8 @@ bool kpgModel::Load(const char* cszFileName)
 	{
 		//Create bounding volumes for this model
 		kpgVertexBuffer* vb = m_aInstances[0]->GetGeometry()->GetVertexBuffer();
-		vb->Lock();		
+		vb->Lock();	
+		
 		
 		vMax = vb->GetPosition(0);
 		vMin = vMax;		
@@ -299,6 +300,17 @@ bool kpgModel::Load(const char* cszFileName)
 	free(pszRoot);
 
 	delete pParser;
+
+	//clear out controllers
+	kpuLinkedList* pNext = m_pControllerList->Next();
+	while( pNext )
+	{
+		delete pNext;
+		pNext = m_pControllerList->Next();
+	}
+	delete m_pControllerList;
+	m_pControllerList = 0;
+
 	return bRet;
 }
 
@@ -493,14 +505,15 @@ kpgGeometry* kpgModel::LoadMesh(kpuXmlParser* pParser)
 
 		int iVertCount = pPositions->aFloats.GetNumElements() / 3;
 		pGeometry = new kpgGeometry();
-		pGeometry->CreateVertexBuffer(iVertCount, kpgRenderer::ePT_TriList, eVF_Position0 | eVF_Normal0 | eVF_TexCoord0, kpgRenderer::GetInstance());
+		pGeometry->CreateVertexBuffer(iVertCount, kpgRenderer::ePT_TriList, eVF_Position0 | eVF_Normal0 | eVF_TexCoord0 | eVF_BoneIndex0 | eVF_SkinWeight0, kpgRenderer::GetInstance());
 		pGeometry->CreateIndexBuffer(iIndexCount);
 
 		kpgVertexBuffer* pVertexBuffer = pGeometry->GetVertexBuffer();
 
 		m_aCollisionPrimatives.Add(new kpuBoundingBox(CalculateBoundingBox(pPositions->aFloats)));
 
-		pVertexBuffer->Lock();
+		pVertexBuffer->Lock();		
+
 		for( int i = 0; i < iVertCount; i++ )
 		{
 			int iIndex = i * 3;
@@ -512,6 +525,29 @@ kpgGeometry* kpgModel::LoadMesh(kpuXmlParser* pParser)
 			pVertexBuffer->SetPosition(i, vPos);
 			pVertexBuffer->SetNormal(i, vNrm);
 			pVertexBuffer->SetUV(i, vUV);
+		}
+
+		//get geometry id
+		pParser->Parent();
+		u32 uHash = pParser->GetAttributeAsInt("id");
+		pParser->FirstChildElement();
+
+		//assign bones
+		kpuLinkedList* pNext = m_pControllerList->Next();
+		while( pNext )
+		{
+			sController* pController = (sController*)pNext->GetPointer();
+			if( pController->uGeometryID == uHash )
+			{
+				for(int i = 0; i < pController->aBoneIndices.GetNumElements(); i++)
+				{
+					pVertexBuffer->SetBoneIndex(i, pController->aBoneIndices[i]);
+					pVertexBuffer->SetSkinWeight(i, pController->aVertexWeights[i]);
+				}
+
+				break;
+			}
+			pNext = pNext->Next();
 		}
 
 		pVertexBuffer->Unlock();
@@ -960,6 +996,37 @@ kpgGeometryInstance* kpgModel::LoadInstance(kpuXmlParser* pParser)
 							break;
 						}
 					}
+				}			
+				break;
+			case s_uHash_instance_controller:
+				{
+					u32 uHash = StringHash(pParser->GetAttribute("url") + 1);
+					kpuLinkedList* pNext = m_pControllerList->Next();
+					while( pNext )
+					{
+						sController* pController = (sController*)pNext->GetPointer();
+						if( pController->uID == uHash )
+						{
+							for( int i = 0; i < m_aGeometries.GetNumElements(); i++ )
+							{
+								if( m_aGeometries[i]->GetName() == pController->uGeometryID )
+								{
+									pInst = new kpgGeometryInstance(m_aGeometries[i]);
+									{
+										kpuMatrix mTemp = mInst;
+										mInst.SetAxisRotation(mTemp.GetA().GetW(), mTemp.GetB().GetW(), mTemp.GetC().GetW());
+										mInst.SetD(mTemp.GetD());
+									}
+									pInst->SetMatrix(mInst);
+									break;
+								}
+							}
+
+							break;
+						}
+						pNext = pNext->Next();
+					}
+
 				}
 				break;
 			default:
@@ -1162,11 +1229,11 @@ void kpgModel::SetGeometryInstance(kpgGeometryInstance* pInst, const kpuMatrix& 
 //
 //}
 
-void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>* paVertexBoneIndices, kpuFixedArray<kpuVector>*	paVertexWeights)
+void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser)
 {
 	kpuLinkedList	sources;
 	char*			pVertexInfluenceCount = 0;
-	sSource*		pWeightSource = 0;
+	sSource*		pWeightSource = 0;	
 
 	pParser->FirstChildElement();
 
@@ -1175,10 +1242,14 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>*
 		//make sure it is a controler
 		if( pParser->GetValueAsInt() == s_uHash_controller )
 		{
+			sController* pController = new sController();
+			pController->uID = pParser->GetAttributeAsInt("id");
+
 			pParser->FirstChildElement();
 
 			if( pParser->GetValueAsInt() == s_uHash_skin )
-			{
+			{				
+				pController->uGeometryID = StringHash(pParser->GetAttribute("source") + 1);
 				pParser->FirstChildElement();
 
 				while( pParser->HasElement() )
@@ -1197,8 +1268,8 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>*
 					case s_uHash_vertex_weights:
 						{
 							int iVCount = pParser->GetAttributeAsInt("count");
-							paVertexBoneIndices->SetSize(iVCount);
-							paVertexWeights->SetSize(iVCount);
+							pController->aBoneIndices.SetSize(iVCount);
+							pController->aVertexWeights.SetSize(iVCount);
 
 							pParser->FirstChildElement();
 							while( pParser->HasElement() )
@@ -1227,7 +1298,7 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>*
 									pVertexInfluenceCount = (char*)pParser->GetChildValue();									
 									break;
 								case s_uHash_v:
-									LoadBoneIndicesWeights(paVertexBoneIndices, paVertexWeights, pWeightSource, pParser, pVertexInfluenceCount);								
+									LoadBoneIndicesWeights(pController, pWeightSource, pParser, pVertexInfluenceCount);								
 									break;
 								}
 
@@ -1245,6 +1316,8 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>*
 				pParser->Parent();
 			}
 			pParser->Parent();
+
+			m_pControllerList->AddTail(pController);
 		}
 		pParser->NextSiblingElement();
 	}
@@ -1298,6 +1371,7 @@ void kpgModel::LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources)
 				sSource* source = (sSource*)pNext->GetPointer();
 				if( source->uID = (u32)pParser->GetAttributeAsInt("source") )
 				{
+					m_aBoneMatricies.SetSize(source->aFloats.GetNumElements() / 16 );
 					//found the bone matricies
 					for(int i = 0; i < source->aFloats.GetNumElements(); i+= 16)
 					{
@@ -1325,22 +1399,22 @@ void kpgModel::LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources)
 	pParser->Parent();
 }
 
-void kpgModel::LoadBoneIndicesWeights(kpuFixedArray<u32>* paBoneIndices, kpuFixedArray<kpuVector>* paWeights, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts)
+void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts)
 {
 	//get the bones indicies
 	char* pszArray = _strdup((char*)pParser->GetChildValue());
 	char* pDataPtr = pszArray;
 	char* pCurrentVert = (char*)pszIndexCounts;
 	float fWeights[4];
-	u32 uBoneIndex = 0;
-	for(int i = 0; i < paBoneIndices->GetNumElements(); i++ )
+	u32 uBoneIndicies[4];
+	for(int i = 0; i < pController->aBoneIndices.GetNumElements(); i++ )
 	{
 		//get the count for this vertex
 		int iCount = atoi(pCurrentVert);
 		while( *pCurrentVert && *pCurrentVert != ' ' ) pCurrentVert++;
 		pCurrentVert++;
 		
-		uBoneIndex = 0;		
+		uBoneIndicies[0] = uBoneIndicies[1] = uBoneIndicies[2] = uBoneIndicies[3] = 0;		
 		fWeights[0] = fWeights[1] = fWeights[2] = fWeights[3] = 0.0f;
 		for( int j = 0; j < iCount; j++ )
 		{
@@ -1350,12 +1424,8 @@ void kpgModel::LoadBoneIndicesWeights(kpuFixedArray<u32>* paBoneIndices, kpuFixe
 			*pDataPtr = 0;
 
 			//make index zero based
-			int iBoneIndex = atoi(pStart) - 1;	
+			uBoneIndicies[j] = atoi(pStart) - 1;
 			
-			//((unsigned char*)uBoneIndex)[j] |= iBoneIndex;
-			u32 uNextBone = iBoneIndex;
-			uBoneIndex |= uNextBone << (8 * j);
-
 			pDataPtr++;			
 			
 			pStart = pDataPtr;
@@ -1366,14 +1436,29 @@ void kpgModel::LoadBoneIndicesWeights(kpuFixedArray<u32>* paBoneIndices, kpuFixe
 			int iWeightIndex = atoi(pStart) - 1;
 			fWeights[j] = pWeightSource->aFloats[iWeightIndex];
 
-			if( j > 3 )
-				getchar();
-			
 			pDataPtr++;
 		}			
 
-		paBoneIndices->Add(uBoneIndex);
-		paWeights->Add(kpuVector(fWeights[0], fWeights[1], fWeights[2], fWeights[3]));
+		pController->aBoneIndices.Add( (uBoneIndicies[0]<< 24) | (uBoneIndicies[1] << 16) | (uBoneIndicies[2] << 8) | uBoneIndicies[1] );
+		pController->aVertexWeights.Add(kpuVector(fWeights[0], fWeights[1], fWeights[2], fWeights[3]));
 	}
 	free(pszArray);
+}
+
+void kpgModel::SetShader(kpgShader* pShader)
+{
+	pShader->SetSkinningMatricies(&m_aBoneMatricies);
+	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
+	{		
+		m_aInstances[i]->GetGeometry()->SetShader(pShader);
+	}
+
+}
+
+void kpgModel::SetShader(const char *pszShaderFile)
+{
+	kpgShader* pShader = new kpgShader();
+	pShader->LoadFromFile(kpgRenderer::GetInstance(),pszShaderFile);
+
+	SetShader(pShader);
 }

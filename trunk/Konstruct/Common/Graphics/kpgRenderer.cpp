@@ -208,7 +208,7 @@ void kpgRenderer::BeginImmediate(ePrimitiveType eType, int nVertexCount, bool bB
 	{
 		// No vertex buffer allocated, create one
 		kpgVertexBuffer* pVB = new kpgVertexBuffer();
-		if( pVB->Create(nVertexCount, eType, eVF_Position0 | eVF_Normal0 | eVF_TexCoord0, this) )
+		if( pVB->Create(nVertexCount, eType, eVF_Position0 | eVF_Normal0 | eVF_TexCoord0 , this) )
 		{
 			m_pImmediateBuffer = pVB;
 		}

@@ -12,6 +12,7 @@
 #include "Common\graphics\kpgRenderer.h"
 #include "Common\Utility\kpuCameraController.h"
 #include "Common\Utility\kpuFileManager.h"
+#include "Common\Utility\kpuXmlParser.h"
 #include "Common\Graphics\kpgModel.h"
 #include "PlayerClass.h"
 
@@ -116,32 +117,34 @@ void GameState_FrontEnd::Update(float fDeltaTime)
 
 void GameState_FrontEnd::SetupOrbitalData(const char* szFile)
 {
-	TiXmlDocument doc;
-	char szFileName[2048];
-	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
+	kpuXmlParser* pParser = new kpuXmlParser();
 
-	bool bLoaded = doc.LoadFile(szFileName);
+	bool bLoaded = pParser->LoadFile(szFile);
 	assert(bLoaded);
 	
 	int iPlanet = 0;
-	for( TiXmlElement* pElement = doc.FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
-	{
-		u32 iTag = StringHash(pElement->Value());
+	while(pParser->HasElement() )
+	{	
+		u32 iTag = pParser->GetValueAsInt();
 		if( iTag == s_uHash_Planet )
 		{
 			// Find this planet in the level			
-			u32 iName = StringHash(pElement->Attribute("Name"));
+			u32 iName = pParser->GetAttributeAsInt("Name");
 			m_aPlanets[iPlanet].m_pModel = m_pCurrentLevel->FindModelByName(iName);
 
-			m_aPlanets[iPlanet].m_fRotationalPeriod = (float)atof(pElement->Attribute("RotationPeriod"));
-			m_aPlanets[iPlanet].m_fOrbitalPeriod = (float)atof(pElement->Attribute("OrbitalPeriod"));			
-			m_aPlanets[iPlanet].m_bOrbitReverse = StringHash(pElement->Attribute("OrbitReverse")) == s_uHash_true;
+			m_aPlanets[iPlanet].m_fRotationalPeriod = pParser->GetAttributeAsFloat("RotationPeriod");
+			m_aPlanets[iPlanet].m_fOrbitalPeriod = pParser->GetAttributeAsFloat("OrbitalPeriod");			
+			m_aPlanets[iPlanet].m_bOrbitReverse = pParser->GetAttributeAsInt("OrbitReverse") == s_uHash_true;
 			
 			// Find the orbit body too
-			iName = StringHash(pElement->Attribute("Orbits"));
+			iName = pParser->GetAttributeAsInt("Orbits");
 			m_aPlanets[iPlanet++].m_pOrbit = m_pCurrentLevel->FindModelByName(iName);
 		}
+
+		pParser->NextSiblingElement();
 	}
+
+
 
 	// Setup orbital axes
 	for( int i = 1; i < NUM_PLANETS; i++ )		// Skip the sun at index 0
@@ -157,6 +160,7 @@ void GameState_FrontEnd::SetupOrbitalData(const char* szFile)
 		}
 	}
 
+	delete pParser;
 }
 
 void GameState_FrontEnd::Orbit(int iPlanet, float fDeltaTime)
@@ -303,21 +307,33 @@ void GameState_FrontEnd::PreviousCharacterModel()
 
 void GameState_FrontEnd::LoadAllPlayerModels(const char* szFile)
 {
-	TiXmlDocument doc;
-	char szFileName[2048];
-	kpuFileManager::GetFullFilePath(szFile, szFileName, sizeof(szFileName));
+	kpuXmlParser* pParser = new kpuXmlParser();
 
-	if( doc.LoadFile(szFileName) )
+	if( pParser->LoadFile(szFile) )
 	{
-		for(TiXmlElement* pElement = doc.FirstChildElement()->FirstChildElement(); pElement != 0; pElement = pElement->NextSiblingElement() )
-		{
+		pParser->FirstChildElement();
+		while( pParser->HasElement() )
+		{		
 			kpgModel* pModel = new kpgModel();
-			pModel->Load(pElement->Attribute("File"));
-			m_lPlayerModels.AddTail(pModel);
+			pModel->Load(pParser->GetAttribute("File"));
+			m_lPlayerModels.AddTail(pModel);	
+
+			//get the shader if there is one
+			pParser->FirstChildElement();
+
+			if(pParser->HasElement() )
+				pModel->SetShader(pParser->GetChildValue());
+
+			pParser->Parent();
+		
+			pParser->NextSiblingElement();
 		}
+		pParser->Parent();
 
 		m_plCurrentModel = m_lPlayerModels.Next();
 	}
+
+	delete pParser;
 }
 
 bool GameState_FrontEnd::HandleInputEvent(eInputEventType type, u32 button)

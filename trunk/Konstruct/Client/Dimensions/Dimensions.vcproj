@@ -1089,6 +1089,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Shaders"
+				>
+				<File
+					RelativePath=".\Assets\Shaders\AnimatedShader.fxo"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

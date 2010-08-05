@@ -2,7 +2,7 @@
 <Level Name="Terra Research Lab" Width="150" Height="130">
   <Meshes Count="4">
    <Mesh Name="SpaceStation">
-		<Data>Assets\SpaceStation\Models\SpaceStation.dae</Data>
+		<Data>Assets\SpaceStation\Models\SpaceStation.dae</Data>		
 	</Mesh> 
 	<Mesh Name="GearMerchant">
 		<Data>Assets\Player\SoldierCamo.dae</Data>

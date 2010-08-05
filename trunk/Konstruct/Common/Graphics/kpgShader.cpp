@@ -3,6 +3,7 @@
 #include "Common\Graphics\kpgRenderer.h"
 #include "Common\Graphics\kpgTexture.h"
 #include "Common\Graphics\kpgLight.h"
+#include "Common\Utility\kpuFileManager.h"
 
 // Include the shader data here
 #include "Common\Graphics\Shaders\DefaultShader.sh"
@@ -40,6 +41,42 @@ kpgShader::~kpgShader(void)
 	}
 }
 
+void kpgShader::LoadFromFile(kpgRenderer* pRenderer, const char* pszFilename)
+{
+	char szFullPath[2048];
+	kpuFileManager::GetFullFilePath(pszFilename, szFullPath, sizeof(szFullPath));
+
+	HRESULT result = D3DXCreateEffectFromFile(pRenderer->GetDevice(), szFullPath, 0, 0, 0, 0, &m_pEffect, 0);
+	if( result != D3D_OK )
+	{
+		assert(0);
+	}
+	else
+	{
+		// Get the default technique
+		m_hDefaultTechnique = m_pEffect->GetTechniqueByName("DefaultTechnique");
+
+		// Get Global Variables
+		m_hWorldViewProj =	m_pEffect->GetParameterBySemantic(NULL, "WORLDVIEWPROJ");
+		m_hWorld =			m_pEffect->GetParameterBySemantic(NULL, "WORLD");		
+		
+		// Get Lighting Variables
+		m_hLightCount =		m_pEffect->GetParameterBySemantic(NULL, "LIGHTCOUNT");
+		m_hLightType =		m_pEffect->GetParameterBySemantic(NULL, "LIGHTTYPE");
+		m_hLightVector =	m_pEffect->GetParameterBySemantic(NULL, "LIGHTVECTOR");
+		m_hLightColor =		m_pEffect->GetParameterBySemantic(NULL, "LIGHTCOLOR");
+		m_hAmbientColor =	m_pEffect->GetParameterBySemantic(NULL, "AMBIENTCOLOR");
+		m_hSkinningMatricies = m_pEffect->GetParameterBySemantic(NULL, "SKINNINGMATRICIES");
+		
+
+		// Get Default Texture Variable
+		m_hDefaultTexture =	m_pEffect->GetParameterBySemantic(NULL, "DEFAULTTEXTURE");
+
+		m_hCurrentTechnique = m_hDefaultTechnique;
+	}	
+
+}
+
 void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, u32 nShaderDataSize )
 {
 	if( D3DXCreateEffect(pRenderer->GetDevice(), pShaderData, nShaderDataSize, 0, 0, 0, 0, &m_pEffect, 0) != D3D_OK )
@@ -61,6 +98,7 @@ void kpgShader::LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, 
 		m_hLightVector =	m_pEffect->GetParameterBySemantic(NULL, "LIGHTVECTOR");
 		m_hLightColor =		m_pEffect->GetParameterBySemantic(NULL, "LIGHTCOLOR");
 		m_hAmbientColor =	m_pEffect->GetParameterBySemantic(NULL, "AMBIENTCOLOR");
+		m_hSkinningMatricies = m_pEffect->GetParameterBySemantic(NULL, "SKINNINGMATRICIES");
 		
 
 		// Get Default Texture Variable
@@ -135,6 +173,12 @@ void kpgShader::SetLights(const kpgLight** pLightArray)
 		m_pEffect->SetFloatArray(m_hLightVector, (const float*)&vVectors[0], 4 * MAX_LIGHTS);
 	if( m_hLightColor)
 		m_pEffect->SetFloatArray(m_hLightColor, (const float*)&vColors[0], 4 * MAX_LIGHTS);
+}
+
+void kpgShader::SetSkinningMatricies(kpuFixedArray<kpuMatrix>* paMatricies)
+{
+	if( m_hSkinningMatricies)	
+		m_pEffect->SetMatrixArray(m_hSkinningMatricies, (D3DXMATRIX*)&(*paMatricies)[0], paMatricies->GetNumElements());
 }
 
 void kpgShader::Bind()
