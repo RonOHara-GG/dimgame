@@ -5,6 +5,7 @@
 #include <d3d9.h>
 
 #define MAX_LIGHTS	4
+#define MAX_BONES	32
 
 typedef struct _kpgQuadUVs
 {

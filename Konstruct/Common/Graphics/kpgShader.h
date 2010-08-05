@@ -2,6 +2,7 @@
 
 #include <d3d9.h>
 #include <d3dx9effect.h>
+#include "Common/Utility/kpuFixedArray.h"
 
 class kpgTexture;
 class kpgRenderer;
@@ -15,6 +16,7 @@ public:
 	kpgShader(void);
 	~kpgShader(void);
 
+	void LoadFromFile(kpgRenderer* pRenderer, const char* pszFilename);
 	void LoadFromMemory(kpgRenderer* pRenderer, const BYTE* pShaderData, u32 nShaderDataSize);
 
 	
@@ -24,6 +26,7 @@ public:
 	void SetMatrixParam(const char* szSemantic, const kpuMatrix& mMatrix);
 	void SetAmbientColor(const kpuVector& vAmbientColor);
 	void SetLights(const kpgLight** pLightArray);
+	void SetSkinningMatricies(kpuFixedArray<kpuMatrix>* paMatricies);
 
 	void Bind();
 	void Unbind();
@@ -49,6 +52,7 @@ protected:
 	//D3DXHANDLE		m_hLightAttenuation
 	D3DXHANDLE		m_hAmbientColor;	
 	D3DXHANDLE		m_hDefaultTexture;
+	D3DXHANDLE		m_hSkinningMatricies;
 	kpgTexture*		m_pDefaultTexture;
 
 };

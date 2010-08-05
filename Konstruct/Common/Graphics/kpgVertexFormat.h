@@ -22,6 +22,14 @@ enum eVertexFormatFlag
 	eVF_TexCoord1	= 0x00002000,
 	eVF_TexCoord2	= 0x00004000,
 	eVF_TexCoord3	= 0x00008000,
+	eVF_BoneIndex0	= 0x00010000,
+	eVF_BoneIndex1	= 0x00020000,
+	eVF_BoneIndex2	= 0x00040000,
+	eVF_BoneIndex3	= 0x00080000,
+	eVF_SkinWeight0	= 0x00100000,
+	eVF_SkinWeight1	= 0x00200000,
+	eVF_SkinWeight2	= 0x00400000,
+	eVF_SkinWeight3	= 0x00800000,
 };
 
 class kpgVertexFormat
@@ -33,6 +41,8 @@ public:
 		eVCT_Normal,
 		eVCT_Color,
 		eVCT_TexCoord,
+		eVCT_BoneIndex,
+		eVCT_SkinWeight,
 
 		eVCT_Last,
 	};

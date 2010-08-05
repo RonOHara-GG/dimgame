@@ -9,6 +9,7 @@ class kpgGeometry;
 class kpgGeometryInstance;
 class TiXmlElement;
 class kpuXmlParser;
+class kpgShader;
 
 class kpgModel: public kpuPhysicalObject
 {
@@ -32,15 +33,13 @@ class kpgModel: public kpuPhysicalObject
 
 	} sSource;
 
-
-	typedef struct _sAnimation
+	typedef struct _sController
 	{
-		sSource*					pSource;
-		u32							uJoint;
-		kpuFixedArray<float>		aTimes;
-		kpuFixedArray<kpuMatrix>	aMatricies;
-	}sAnimationData;
-
+		u32							uID;
+		u32							uGeometryID;
+		kpuFixedArray<u32>			aBoneIndices;
+		kpuFixedArray<kpuVector>	aVertexWeights;
+	}sController;
 
 
 public:
@@ -69,6 +68,9 @@ public:
 	kpuMatrix	GetMatrix();
 	void		SetMatrix(const kpuMatrix mMatrix);
 
+	void		SetShader(kpgShader* pShader);
+	void		SetShader(const char* pszShaderFile);
+
 private:
 	kpgTexture* LoadImage(kpuXmlParser* pParser);
 	void LoadGeometryLibrary(kpuXmlParser* pParser, kpgTexture* pTexture);
@@ -81,8 +83,8 @@ private:
 	kpgGeometryInstance* LoadInstance(kpuXmlParser* pParser);
 
 	//void LoadAnimationLibrary(kpuXmlParser* pParser);
-	void LoadLibraryControllers(kpuXmlParser *pParser, kpuFixedArray<u32>* paVertexBoneIndices, kpuFixedArray<kpuVector>*	paVertexWeights);
-	void LoadBoneIndicesWeights(kpuFixedArray<u32>* paBoneIndices, kpuFixedArray<kpuVector>* paWeights, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts);
+	void LoadLibraryControllers(kpuXmlParser *pParser);
+	void LoadBoneIndicesWeights(sController* pController, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts);
 	void LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources);
 	
 
@@ -92,6 +94,7 @@ protected:
 	kpuFixedArray<kpgGeometry*>			m_aGeometries;
 	kpuFixedArray<kpgGeometryInstance*>	m_aInstances;
 	kpuMap<u32, int>*					m_pBoneIndicieMap;
+	kpuLinkedList*						m_pControllerList;
 	kpuFixedArray<kpuMatrix>			m_aBoneMatricies;
 
 	

@@ -31,6 +31,12 @@ public:
 	void SetUV(int nVertIndex, const kpuVector& vUV, int nSetIndex = 0);
 	const kpuVector& GetUV(int nVertIndex, int nSetIndex = 0) const;
 
+	void SetBoneIndex(int nVertIndex, u32 uBoneIndex, int nSetIndex = 0);
+	const u32 GetBoneIndex(int nVertIndex, int nSetIndex = 0);
+
+	void SetSkinWeight(int nVertIndex, const kpuVector& vSkinWeight, int nSetIndex = 0);
+	const kpuVector& GetSkinWeight(int nVertIndex, int nSetIndex = 0);
+
 protected:
 	kpgVertexFormat*				m_pVertexFormat;
 	int								m_nVertexCount;
