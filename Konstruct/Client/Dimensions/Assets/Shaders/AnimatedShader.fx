@@ -20,20 +20,24 @@ VSOutput DefaultVS(	float3 vPos : POSITION,
 	
 	float4x4 skinMatrix = SkinMatrix(vBlendIndices, vBlendWeights);
 	
-	vPos = mul(float4(vPos.xyz,1),skinMatrix);
-	vNrm = mul(float4(vNrm.xyz,1),skinMatrix);
+	float4 pos = mul(float4(vPos.xyz,1),skinMatrix);
+	float3 nrm = mul(float4(vNrm.xyz,1),skinMatrix);
+	//float4 pos = mul(skinMatrix, float4(vPos.xyz,1));
+	//float3 nrm = mul(skinMatrix, float4(vNrm.xyz,1));
 	
 	// Transform the normal into world space
-	float3 vWorldNrm = mul(normalize(vNrm), (float3x3)g_mWorld);
+	float3 vWorldNrm = mul(normalize(nrm), (float3x3)g_mWorld);
 	
 	// Compute the light color
-	OUT.vColor = VertexLight(vPos.xyz, normalize(vWorldNrm));
+	OUT.vColor = VertexLight(pos.xyz, normalize(vWorldNrm));
 	
 	// Transform the position
-	OUT.vPosition = mul(float4(vPos.xyz, 1), g_mWorldViewProjection);
+	OUT.vPosition = mul(float4(pos.xyz, 1), g_mWorldViewProjection);
 	
 	// Pass through the UV coordinates
 	OUT.vUV = vUV;
+
+	//OUT.vColor = vBlendIndices;
 		
 	return OUT;
 }
@@ -45,6 +49,8 @@ float4 DefaultPS( VSOutput IN ) : COLOR0
 	
 	// Combine with the vertex color
 	return vTexColor * float4(IN.vColor, 1.0f);
+
+	//return float4(IN.vColor, 1.0f);
 	
 }
 

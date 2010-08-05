@@ -112,7 +112,7 @@ kpgVertexFormat::kpgVertexFormat(u32 unFormatFlags, kpgRenderer* pRenderer)
 
 			elements[nCurElement].Stream = 0;		// Only supporting single stream for now
 			elements[nCurElement].Offset = nOffset;
-			elements[nCurElement].Type = D3DDECLTYPE_FLOAT3;
+			elements[nCurElement].Type = D3DDECLTYPE_FLOAT4;
 			elements[nCurElement].Method = D3DDECLMETHOD_DEFAULT;
 			elements[nCurElement].Usage = D3DDECLUSAGE_BLENDWEIGHT;
 			elements[nCurElement].UsageIndex = i;

@@ -68,7 +68,6 @@ public:
 	kpuMatrix	GetMatrix();
 	void		SetMatrix(const kpuMatrix mMatrix);
 
-	void		SetShader(kpgShader* pShader);
 	void		SetShader(const char* pszShaderFile);
 
 private:
@@ -96,6 +95,6 @@ protected:
 	kpuMap<u32, int>*					m_pBoneIndicieMap;
 	kpuLinkedList*						m_pControllerList;
 	kpuFixedArray<kpuMatrix>			m_aBoneMatricies;
-
+	kpgShader*							m_pShader;
 	
 };
