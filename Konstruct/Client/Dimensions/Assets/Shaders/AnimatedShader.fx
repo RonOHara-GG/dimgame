@@ -1,7 +1,7 @@
-#include "../../../../Common/Graphics/Shaders/ShaderGlobals.fxh"
-#include "../../../../Common/Graphics/Shaders/Lighting.fxh"
-#include "../../../../Common/Graphics/Shaders/DefaultTexture.fxh"
-#include "../../../../Common/Graphics/Shaders/Skinning.fxh"
+#include <ShaderGlobals.fxh>
+#include <Lighting.fxh>
+#include <DefaultTexture.fxh>
+#include <Skinning.fxh>
 
 struct VSOutput
 {
