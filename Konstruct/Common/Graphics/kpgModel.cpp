@@ -1423,9 +1423,10 @@ void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeight
 		int iCount = atoi(pCurrentVert);
 		while( *pCurrentVert && *pCurrentVert != ' ' ) pCurrentVert++;
 		pCurrentVert++;
-		
-		uBoneIndicies[0] = uBoneIndicies[1] = uBoneIndicies[2] = uBoneIndicies[3] = 0;		
+
 		fWeights[0] = fWeights[1] = fWeights[2] = fWeights[3] = 0.0f;
+		uBoneIndicies[0] = uBoneIndicies[1] = uBoneIndicies[2] = uBoneIndicies[3] = 0;
+		
 		for( int j = 0; j < iCount; j++ )
 		{
 			//Get bone index
@@ -1434,7 +1435,7 @@ void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeight
 			*pDataPtr = 0;
 
 			//make index zero based
-			uBoneIndicies[j] = atoi(pStart) - 1;
+			uBoneIndicies[j] = atoi(pStart);
 
 			pDataPtr++;			
 			
@@ -1443,7 +1444,7 @@ void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeight
 			*pDataPtr = 0;
 
 			//make zero based
-			int iWeightIndex = atoi(pStart) - 1;
+			int iWeightIndex = atoi(pStart);
 			fWeights[j] = pWeightSource->aFloats[iWeightIndex];
 
 			
