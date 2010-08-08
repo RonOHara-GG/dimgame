@@ -8,6 +8,7 @@
 #include "Common/Graphics/kpgVertexFormat.h"
 #include "Common/Graphics/kpgVertexBuffer.h"
 #include "Common/Graphics/kpgIndexBuffer.h"
+#include "Common/Graphics/kpgShaderManager.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuLinkedList.h"
 #include "Common/Utility/kpuXmlParser.h"
@@ -83,9 +84,6 @@ kpgModel::~kpgModel(void)
 	}
 
 	delete m_pBoneIndicieMap;
-
-	if( m_pShader )
-		delete m_pShader;
 }
 
 bool kpgModel::Load(const char* cszFileName)
@@ -1460,9 +1458,7 @@ void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeight
 
 void kpgModel::SetShader(const char *pszShaderFile)
 {
-	m_pShader = new kpgShader();
-	m_pShader->LoadFromFile(kpgRenderer::GetInstance(),pszShaderFile);
-
+	m_pShader = kpgShaderManager::GetInstance()->LoadShader(pszShaderFile);
 	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
 	{		
 		m_aInstances[i]->GetGeometry()->SetShader(m_pShader);

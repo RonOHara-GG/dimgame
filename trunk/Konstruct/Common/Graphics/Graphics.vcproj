@@ -163,6 +163,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\kpgAnimation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgAnimationInstance.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpgFont.cpp"
 				>
 			</File>
@@ -192,6 +200,10 @@
 			</File>
 			<File
 				RelativePath=".\kpgShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgShaderManager.cpp"
 				>
 			</File>
 			<File
@@ -261,6 +273,14 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\kpgAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgAnimationInstance.h"
+				>
+			</File>
+			<File
 				RelativePath=".\kpgFont.h"
 				>
 			</File>
@@ -290,6 +310,10 @@
 			</File>
 			<File
 				RelativePath=".\kpgShader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgShaderManager.h"
 				>
 			</File>
 			<File
