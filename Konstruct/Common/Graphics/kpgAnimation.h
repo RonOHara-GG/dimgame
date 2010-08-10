@@ -5,16 +5,22 @@
 class kpgAnimation
 {
 public:
-	kpgAnimation(void);
+	kpgAnimation(int iBoneCount, int iFrames);
 	~kpgAnimation(void);
 
-	int					GetFrameCount()				{ return m_paTransformations->GetNumElements(); } //Return the number of frames in the animation
-	float				GetTime(int i)				{ return (*m_paTimes)[i]; }
-	const kpuMatrix&	GetTransformation(int i)	{ return (*m_paTransformations)[i]; }
+	int					BoneCount()					{ return m_aTransformations.GetNumElements() / GetFrameCount(); }
+	int					GetFrameCount()				{ return m_aTransformations.GetNumElements(); } //Return the number of frames in the animation
+	float				GetTime(int i)				{ return m_aTimes[i]; }
+	const kpuMatrix&	GetTransformation(int i)	{ return m_aTransformations[i]; }
+
+	void				SetTime(int i, float fVal)					{ m_aTimes[i] = fVal; }
+	void				SetTransformation(int i, kpuMatrix& mMat)	{ m_aTransformations[i] = mMat; }
 	
 
 protected:
 	u32							m_uName;
-	kpuFixedArray<float>*		m_paTimes;
-	kpuFixedArray<kpuMatrix>*	m_paTransformations;
+	kpuFixedArray<float>		m_aTimes;
+	kpuFixedArray<kpuMatrix>	m_aTransformations;
 };
+
+#define MAX_BONES 32

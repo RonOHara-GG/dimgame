@@ -171,6 +171,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\kpgAnimationManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\kpgFont.cpp"
 				>
 			</File>
@@ -278,6 +282,14 @@
 			</File>
 			<File
 				RelativePath=".\kpgAnimationInstance.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgAnimationManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kpgDAEFileConstants.h"
 				>
 			</File>
 			<File

@@ -1,10 +1,10 @@
 #include "StdAfx.h"
 #include "kpgAnimation.h"
 
-kpgAnimation::kpgAnimation(void)
+kpgAnimation::kpgAnimation(int iBoneCount, int iFrames)
 {
-	m_paTimes = 0;
-	m_paTransformations = 0;
+	m_aTimes.SetSize(iFrames);
+	m_aTransformations.SetSize(iBoneCount);
 }
 
 kpgAnimation::~kpgAnimation(void)

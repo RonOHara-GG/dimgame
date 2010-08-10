@@ -10,6 +10,8 @@ kpgAnimationInstance::kpgAnimationInstance(kpgAnimation* pAnimation)
 	m_iCurrentFrame = 0;
 	m_bPlaying = false;
 	m_iFrameCount = m_pAnimation->GetFrameCount();
+	m_aBoneTransformations.SetSize(MAX_BONES);
+	
 }
 
 kpgAnimationInstance::~kpgAnimationInstance(void)
@@ -43,6 +45,20 @@ void kpgAnimationInstance::Update(float fDeltaTime)
 			m_iCurrentFrame = (m_iCurrentFrame > m_iFrameCount) ? 0 : m_iCurrentFrame;		
 			m_fNextFrame = m_pAnimation->GetTime(m_iCurrentFrame);
 		}
+
+		//get transformation
+		for(int i = 0; i < m_pAnimation->BoneCount(); i++)
+		{			
+			kpuMatrix mCurrent, mNext;
+
+			if( m_iCurrentFrame == 0 )
+				mCurrent.Identity();
+			else
+				mCurrent = m_pAnimation->GetTransformation(MAX_BONES * (m_iCurrentFrame - 1) + i);
+		
+			mNext = m_pAnimation->GetTransformation(MAX_BONES * m_iCurrentFrame + i);
+			
+			m_aBoneTransformations[i] = mCurrent + (mNext - mCurrent) * (m_fElaspedTime / m_fNextFrame);
+		}
 	}
 }
-

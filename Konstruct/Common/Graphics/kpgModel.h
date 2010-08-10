@@ -10,6 +10,8 @@ class kpgGeometryInstance;
 class TiXmlElement;
 class kpuXmlParser;
 class kpgShader;
+class kpgAnimation;
+class kpgAnimationInstance;
 
 class kpgModel: public kpuPhysicalObject
 {
@@ -81,7 +83,7 @@ private:
 	int* LoadPolygons(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
 	kpgGeometryInstance* LoadInstance(kpuXmlParser* pParser);
 
-	//void LoadAnimationLibrary(kpuXmlParser* pParser);
+	
 	void LoadLibraryControllers(kpuXmlParser *pParser);
 	void LoadBoneIndicesWeights(sController* pController, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts);
 	void LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources);
@@ -89,12 +91,13 @@ private:
 
 
 protected:
-	u32									m_iNameHash;
-	kpuFixedArray<kpgGeometry*>			m_aGeometries;
-	kpuFixedArray<kpgGeometryInstance*>	m_aInstances;
-	kpuMap<u32, int>*					m_pBoneIndicieMap;
-	kpuLinkedList*						m_pControllerList;
-	kpuFixedArray<kpuMatrix>			m_aBoneMatricies;
-	kpgShader*							m_pShader;
+	u32									 m_iNameHash;
+	kpuFixedArray<kpgGeometry*>			 m_aGeometries;
+	kpuFixedArray<kpgGeometryInstance*>	 m_aInstances;
+	kpuFixedArray<kpgAnimationInstance*> m_aAnimationInstances;
+	
+	kpuLinkedList*						 m_pControllerList;
+	kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;
+	kpgShader*							 m_pShader;
 	
 };
