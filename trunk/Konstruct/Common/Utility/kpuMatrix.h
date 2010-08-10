@@ -27,7 +27,10 @@ public:
 	void SetRotationAboutAxis(const kpuVector& vAxis, float fRadians);
 	void SetScale(float fScaleX, float fScaleY, float fScaleZ);
 
+	kpuMatrix	operator *(float fVal) const;
 	kpuMatrix	operator *(const kpuMatrix& m) const;
+	kpuMatrix	operator -(const kpuMatrix& m) const;
+	kpuMatrix	operator +(const kpuMatrix& m) const;
 
 	void Zero();
 	void Identity();
@@ -172,6 +175,22 @@ inline void kpuMatrix::SetScale(float fScaleX, float fScaleY, float fScaleZ)
 	m_vD = kpuv_OneW;
 }
 
+inline kpuMatrix kpuMatrix::operator *(float fVal) const
+{
+	kpuMatrix ret;
+
+	kpuVector v = m_vA * fVal;
+	ret.SetA(v);
+	v = m_vB * fVal;
+	ret.SetB(v);
+	v = m_vC * fVal;
+	ret.SetC(v);
+	v = m_vD * fVal;
+	ret.SetD(v);
+
+	return ret;
+}
+
 inline kpuMatrix kpuMatrix::operator *(const kpuMatrix& m) const
 {
 	kpuMatrix ret;
@@ -201,6 +220,70 @@ inline kpuMatrix kpuMatrix::operator *(const kpuMatrix& m) const
 	fY = m_vD.Dot4(trans.m_vB);
 	fZ = m_vD.Dot4(trans.m_vC);
 	fW = m_vD.Dot4(trans.m_vD);
+	ret.SetD(kpuVector(fX, fY, fZ, fW));
+
+	return ret;
+}
+
+inline kpuMatrix kpuMatrix::operator -(const kpuMatrix& m) const
+{
+	kpuMatrix ret;
+
+	float fX, fY, fZ, fW;
+	fX = m_vA.GetX() - m.m_vA.GetX();
+	fY = m_vA.GetY() - m.m_vA.GetY();
+	fZ = m_vA.GetZ() - m.m_vA.GetZ();
+	fW = m_vA.GetW() - m.m_vA.GetW();
+	ret.SetA(kpuVector(fX, fY, fZ, fW));
+
+	fX = m_vB.GetX() - m.m_vB.GetX();
+	fY = m_vB.GetY() - m.m_vB.GetY();
+	fZ = m_vB.GetZ() - m.m_vB.GetZ();
+	fW = m_vB.GetW() - m.m_vB.GetW();
+	ret.SetB(kpuVector(fX, fY, fZ, fW));
+
+	fX = m_vC.GetX() - m.m_vC.GetX();
+	fY = m_vC.GetY() - m.m_vC.GetY();
+	fZ = m_vC.GetZ() - m.m_vC.GetZ();
+	fW = m_vC.GetW() - m.m_vC.GetW();
+	ret.SetC(kpuVector(fX, fY, fZ, fW));
+
+	fX = m_vD.GetX() - m.m_vD.GetX();
+	fY = m_vD.GetY() - m.m_vD.GetY();
+	fZ = m_vD.GetZ() - m.m_vD.GetZ();
+	fW = m_vD.GetW() - m.m_vD.GetW();
+	ret.SetD(kpuVector(fX, fY, fZ, fW));
+
+	return ret;
+}
+
+inline kpuMatrix kpuMatrix::operator +(const kpuMatrix& m) const
+{
+	kpuMatrix ret;
+
+	float fX, fY, fZ, fW;
+	fX = m_vA.GetX() + m.m_vA.GetX();
+	fY = m_vA.GetY() + m.m_vA.GetY();
+	fZ = m_vA.GetZ() + m.m_vA.GetZ();
+	fW = m_vA.GetW() + m.m_vA.GetW();
+	ret.SetA(kpuVector(fX, fY, fZ, fW));
+
+	fX = m_vB.GetX() + m.m_vB.GetX();
+	fY = m_vB.GetY() + m.m_vB.GetY();
+	fZ = m_vB.GetZ() + m.m_vB.GetZ();
+	fW = m_vB.GetW() + m.m_vB.GetW();
+	ret.SetB(kpuVector(fX, fY, fZ, fW));
+
+	fX = m_vC.GetX() + m.m_vC.GetX();
+	fY = m_vC.GetY() + m.m_vC.GetY();
+	fZ = m_vC.GetZ() + m.m_vC.GetZ();
+	fW = m_vC.GetW() + m.m_vC.GetW();
+	ret.SetC(kpuVector(fX, fY, fZ, fW));
+
+	fX = m_vD.GetX() + m.m_vD.GetX();
+	fY = m_vD.GetY() + m.m_vD.GetY();
+	fZ = m_vD.GetZ() + m.m_vD.GetZ();
+	fW = m_vD.GetW() + m.m_vD.GetW();
 	ret.SetD(kpuVector(fX, fY, fZ, fW));
 
 	return ret;
