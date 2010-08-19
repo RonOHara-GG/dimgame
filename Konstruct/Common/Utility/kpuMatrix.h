@@ -31,6 +31,7 @@ public:
 	kpuMatrix	operator *(const kpuMatrix& m) const;
 	kpuMatrix	operator -(const kpuMatrix& m) const;
 	kpuMatrix	operator +(const kpuMatrix& m) const;
+	bool		operator !=(const kpuMatrix& m);
 
 	void Zero();
 	void Identity();
@@ -287,6 +288,20 @@ inline kpuMatrix kpuMatrix::operator +(const kpuMatrix& m) const
 	ret.SetD(kpuVector(fX, fY, fZ, fW));
 
 	return ret;
+}
+
+inline bool kpuMatrix::operator !=(const kpuMatrix& m)
+{
+	if( m_vA != m.m_vA )
+		return true;
+	if( m_vB != m.m_vB )
+		return true;
+	if( m_vC != m.m_vC )
+		return true;
+	if( m_vD != m.m_vD )
+		return true;
+
+	return false;
 }
 
 inline void kpuMatrix::RotateLocal(const kpuMatrix& m)

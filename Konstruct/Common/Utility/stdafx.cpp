@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include <stdio.h>
-#include "kpuVector.h"
+#include "kpuMatrix.h"
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
@@ -76,4 +76,70 @@ kpuVector ParseCSVVector(char* szCSV)
 	vLoc.SetZ((float)atof(szCSV));
 
 	return vLoc;
+}
+
+kpuVector ParseVector4(char* szV)
+{
+	char* szSpace = strchr(szV, ' ');
+	szSpace[0] = 0;
+
+	kpuVector vLoc;
+	vLoc.SetX((float)atof(szV));
+	szV = szSpace + 1;
+	szSpace = strchr(szV, ' ');
+	szSpace[0] = 0;
+
+	vLoc.SetY((float)atof(szV));
+	szV = szSpace + 1;
+	szSpace = strchr(szV, ' ');
+	szSpace[0] = 0;
+
+	vLoc.SetZ((float)atof(szV));
+	szV = szSpace + 1;
+
+	vLoc.SetW((float)atof(szV));
+
+	while( *szV && *szV != ' ') szV++;
+	*szV = 0;	
+
+	return vLoc;
+
+}
+
+kpuMatrix ParseMatrix(char* szM)
+{
+	kpuVector v = ParseVector4(szM);
+
+	//move down 4 floats
+	int i = 0;
+	while( i < 4 )
+	{		
+		if( !(*szM)  )
+			i++;
+		szM++;
+	}
+	kpuVector v1 = ParseVector4(szM);
+
+	//move down 4 floats
+	i = 0;
+	while( i < 4 )
+	{		
+		if( !(*szM)  )
+			i++;
+		szM++;
+	}
+	kpuVector v2 = ParseVector4(szM);
+
+	//move down 4 floats
+	i = 0;
+	while( i < 4 )
+	{		
+		if( !(*szM)  )
+			i++;
+		szM++;
+	}
+	kpuVector v3 = ParseVector4(szM);
+
+	return kpuMatrix(v, v1, v2, v3);
+
 }

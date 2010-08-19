@@ -289,10 +289,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\kpgDAEFileConstants.h"
-				>
-			</File>
-			<File
 				RelativePath=".\kpgFont.h"
 				>
 			</File>

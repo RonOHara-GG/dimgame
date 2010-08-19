@@ -2,17 +2,16 @@
 #include "kpuXmlParser.h"
 #include "Common/Utility/kpuFileManager.h"
 
+
+
 kpuXmlParser::kpuXmlParser(void)
 {
 	m_pDefineMap = new kpuMap<char*, char*>();
-	m_plParentList = 0;
+	
 }
 
 kpuXmlParser::~kpuXmlParser(void)
 {
-	if( m_plParentList )
-		delete m_plParentList;
-
 	delete m_pDefineMap;
 }
 
@@ -41,7 +40,6 @@ bool kpuXmlParser::LoadFile(const char *szFile)
 		}
 
 		FirstElement();
-		m_plParentList = new kpuLinkedList();
 		return true;
 	}
 
@@ -174,3 +172,65 @@ bool kpuXmlParser::IsInt(const char *szData)
 	return true;
 }
 
+sSource* kpuXmlParser::LoadSource()
+{
+	sSource* pSource = new sSource();
+
+	// Get the ID
+	const char* pszID = GetAttribute("id");
+	if( !pszID )
+	{
+		delete pSource;
+		return 0;
+	}
+	pSource->uID = StringHash(pszID);
+
+	// Find the float array
+	FirstChildElement();
+	while( HasElement() )
+	{
+		u32 uName = (u32)GetValueAsInt();
+		if( uName == s_uHash_float_array || uName == s_uHash_Name_array)
+		{
+			const char* pszCount = GetAttribute("count");
+			if( !pszCount )
+			{
+				delete pSource;
+				return 0;
+			}
+			int iCount = atoi(pszCount);
+
+			if( uName == s_uHash_float_array )
+				pSource->aFloats.SetSize(iCount);
+			else
+				pSource->aHashes.SetSize(iCount);
+
+			char* pszArray = _strdup(GetChildValue());
+			char* pDataPtr = pszArray;
+			for( int i = 0; i < iCount; i++ )
+			{
+				char* pStart = pDataPtr;
+				while( *pDataPtr && *pDataPtr != ' ' ) pDataPtr++;
+				*pDataPtr = 0;
+
+				if( uName == s_uHash_float_array )
+					pSource->aFloats[i] = (float)atof(pStart);
+				else
+					pSource->aHashes[i] = StringHash(pStart);
+
+				pDataPtr++;
+			}
+			free(pszArray);
+
+			pSource->eSemantic = eVS_Unknown;
+
+			break;
+		}		
+
+		NextSiblingElement();
+	}
+
+	Parent();
+
+	return pSource;
+}

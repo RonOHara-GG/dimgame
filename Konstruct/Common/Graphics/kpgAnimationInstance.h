@@ -10,17 +10,12 @@ public:
 	kpgAnimationInstance(kpgAnimation* pAnimation);
 	~kpgAnimationInstance(void);
 
-	void Play();
-	void Stop() { m_bPlaying = false; }
-	void Update(float fDeltaTime);
+	bool Update(float fDeltaTime);
+	kpuFixedArray<kpuMatrix>* GetTransformations() { return &m_aBoneTransformations; }
 
 protected:
-	kpgAnimation*				m_pAnimation;
-	int							m_iFrameCount;
-	int							m_iCurrentFrame;
+	kpgAnimation*				m_pAnimation;	
 	float						m_fElaspedTime;
-	float						m_fNextFrame;
-	bool						m_bPlaying;
 	kpuFixedArray<kpuMatrix>	m_aBoneTransformations;
 	
 };

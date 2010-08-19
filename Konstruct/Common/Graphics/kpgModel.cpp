@@ -10,19 +10,51 @@
 #include "Common/Graphics/kpgIndexBuffer.h"
 #include "Common/Graphics/kpgShaderManager.h"
 #include "Common/Graphics/kpgAnimation.h"
-#include "Common/Graphics/kpgDAEFileConstants.h"
 #include "Common/Graphics/kpgAnimationInstance.h"
+#include "Common/Graphics/kpgAnimationManager.h"
 #include "Common/Utility/kpuFileManager.h"
 #include "Common/Utility/kpuLinkedList.h"
-#include "Common/Utility/kpuXmlParser.h"
 
 #include <d3dx9tex.h>
+
+static const u32 s_uHash_library_images =		0x5a2a2cef;
+static const u32 s_uHash_library_geometries =	0x9a15dacd;
+
+static const u32 s_uHash_image =				0xfa87ca8;
+static const u32 s_uHash_geometry =				0xf3c45451;
+static const u32 s_uHash_convex_mesh =			0xb0431924;
+static const u32 s_uHash_mesh =					0x7c9a91b2;
+static const u32 s_uHash_spline =				0x1c4803b0;
+static const u32 s_uHash_vertices =				0xd31fda6a;
+static const u32 s_uHash_triangles =			0x6cb8b6ce;
+static const u32 s_uHash_polygons =				0x3db5dee0;
+static const u32 s_uHash_POSITION =				0xd87309ba;
+static const u32 s_uHash_NORMAL =				0xc3953cee;
+static const u32 s_uHash_VERTEX =				0xd589ab43;
+static const u32 s_uHash_TEXCOORD =				0x92ee91cd;
+static const u32 s_uHash_extra =				0x0f667509;
+static const u32 s_uHash_translate =			0x2396ec73;
+static const u32 s_uHash_rotate =				0x19e50454;
+static const u32 s_uHash_instance_geometry =	0x1c78d0c5;
+static const u32 s_uHash_rotateX =				0x56858f2c;
+static const u32 s_uHash_rotateY =				0x56858f2d;
+static const u32 s_uHash_rotateZ =				0x56858f2e;
+
+static const u32 s_uHash_joints	=				0x735ee7c;
+static const u32 s_uHash_vertex_weights =		0x8160d17d;
+static const u32 s_uHash_vcount =				0x225e1744;
+static const u32 s_uHash_v =					0x2b61b;
+static const u32 s_uHash_INV_BIND_MATRIX =		0x1be47042;
+static const u32 s_uHash_skin =					0x7c9df43a;
+static const u32 s_uHash_WEIGHT =				0xd7d9ad8d;
+static const u32 s_uHash_instance_controller =  0xe72d317d;
 
 
 
 kpgModel::kpgModel(void)
 {
 	m_pControllerList = 0;
+	m_pAnimationInstance = 0;
 	m_pShader = 0;
 }
 
@@ -305,7 +337,7 @@ kpgGeometry* kpgModel::LoadMesh(kpuXmlParser* pParser)
 		{
 			case s_uHash_source:
 				{
-					sSource* pSource = LoadSource(pParser);
+					sSource* pSource = pParser->LoadSource();
 					if( pSource )
 						sources.AddTail(pSource);
 				}
@@ -430,68 +462,7 @@ kpgGeometry* kpgModel::LoadMesh(kpuXmlParser* pParser)
 	return pGeometry;
 }
 
-kpgModel::sSource* kpgModel::LoadSource(kpuXmlParser* pParser)
-{
-	sSource* pSource = new sSource();
 
-	// Get the ID
-	const char* pszID = pParser->GetAttribute("id");
-	if( !pszID )
-	{
-		delete pSource;
-		return 0;
-	}
-	pSource->uID = StringHash(pszID);
-
-	// Find the float array
-	pParser->FirstChildElement();
-	while( pParser->HasElement() )
-	{
-		u32 uName = (u32)pParser->GetValueAsInt();
-		if( uName == s_uHash_float_array || uName == s_uHash_Name_array)
-		{
-			const char* pszCount = pParser->GetAttribute("count");
-			if( !pszCount )
-			{
-				delete pSource;
-				return 0;
-			}
-			int iCount = atoi(pszCount);
-
-			if( uName == s_uHash_float_array )
-				pSource->aFloats.SetSize(iCount);
-			else
-				pSource->aHashes.SetSize(iCount);
-
-			char* pszArray = _strdup(pParser->GetChildValue());
-			char* pDataPtr = pszArray;
-			for( int i = 0; i < iCount; i++ )
-			{
-				char* pStart = pDataPtr;
-				while( *pDataPtr && *pDataPtr != ' ' ) pDataPtr++;
-				*pDataPtr = 0;
-
-				if( uName == s_uHash_float_array )
-					pSource->aFloats[i] = (float)atof(pStart);
-				else
-					pSource->aHashes[i] = StringHash(pStart);
-
-				pDataPtr++;
-			}
-			free(pszArray);
-
-			pSource->eSemantic = eVS_Unknown;
-
-			break;
-		}		
-
-		pParser->NextSiblingElement();
-	}
-
-	pParser->Parent();
-
-	return pSource;
-}
 
 void kpgModel::LoadVertices(kpuXmlParser* pParser, kpuLinkedList& sources)
 {	
@@ -901,7 +872,12 @@ kpgGeometryInstance* kpgModel::LoadInstance(kpuXmlParser* pParser)
 void kpgModel::Draw(kpgRenderer* pRenderer)
 {
 	if( m_pShader )
-		m_pShader->SetSkinningMatricies(&m_aBoneMatricies);
+	{
+		if( m_pAnimationInstance )
+			m_pShader->SetSkinningMatricies(m_pAnimationInstance->GetTransformations());
+		else
+			m_pShader->SetSkinningMatricies(&m_aBoneMatricies);
+	}
 
 	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
 	{
@@ -1114,7 +1090,7 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser)
 					{
 					case s_uHash_source:
 						{
-							sSource* pSource = LoadSource(pParser);
+							sSource* pSource = pParser->LoadSource();
 							sources.AddTail(pSource);
 							break;
 						}
@@ -1140,12 +1116,15 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser)
 										while(pNext)
 										{
 											sSource* source = (sSource*)pNext->GetPointer();
-											if( source->uID = (u32)pParser->GetAttributeAsInt("source") )
+											u32 uAttrib = StringHash(pParser->GetAttribute("source") + 1);
+											if( source->uID == uAttrib )
 											{	
 												source->eSemantic = eVS_Weight;	
 												pWeightSource = source;
 												break;
 											}
+
+											pNext = pNext->Next();
 										}
 									}
 									break;
@@ -1194,14 +1173,15 @@ void kpgModel::LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources)
 	while( pParser->HasElement() )
 	{
 		u32 uSemantic = (u32)pParser->GetAttributeAsInt("semantic");		
-		if( uSemantic = s_uHash_INV_BIND_MATRIX )
+		if( uSemantic == s_uHash_INV_BIND_MATRIX )
 		{
 			//create list of bone matricies
 			kpuLinkedList* pNext = sources->Next();
 			while(pNext)
 			{
 				sSource* source = (sSource*)pNext->GetPointer();
-				if( source->uID = (u32)pParser->GetAttributeAsInt("source") )
+				u32 uAttrib = StringHash(pParser->GetAttribute("source") + 1);
+				if( source->uID == uAttrib )
 				{
 					m_aBoneMatricies.SetSize(source->aFloats.GetNumElements() / 16 );
 					//found the bone matricies
@@ -1291,3 +1271,22 @@ void kpgModel::SetShader(const char *pszShaderFile)
 		m_aInstances[i]->GetGeometry()->SetShader(m_pShader);
 	}
 }
+
+void kpgModel::UpdateAnimations(float fDeltaTime)
+{
+	if( m_pAnimationInstance )
+	{
+		if( !m_pAnimationInstance->Update(fDeltaTime) )
+		{
+			delete m_pAnimationInstance;
+			m_pAnimationInstance = 0;
+		}
+	}
+}
+
+void kpgModel::PlayAnimation(u32 uName)
+{
+	if( !m_pAnimationInstance )		
+		m_pAnimationInstance = kpgAnimationManager::GetInstance()->GetNewAnimation(uName);
+}
+	
