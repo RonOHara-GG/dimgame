@@ -29,7 +29,7 @@ bool kpgAnimationInstance::Update(float fDeltaTime)
 		//see which key we are at
 		for(int j = 0; j < pTimes->GetNumElementsUsed(); j++)
 		{
-			float fNextKey = (*pTimes)[j];
+			fNextKey = (*pTimes)[j];
 			if( m_fElaspedTime <=  fNextKey )
 			{
 				iCurrentKey = j;
