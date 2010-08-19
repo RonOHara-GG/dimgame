@@ -14,6 +14,7 @@
 #include "Common\Utility\kpuFileManager.h"
 #include "Common\Utility\kpuXmlParser.h"
 #include "Common\Graphics\kpgModel.h"
+#include "Common\Graphics\kpgAnimationManager.h"
 #include "PlayerClass.h"
 
 static const u32 s_uHash_Planet =	0xca551fa9;
@@ -113,6 +114,9 @@ void GameState_FrontEnd::Update(float fDeltaTime)
 	m_pCamera->SetLocation(vViewDir);
 	m_pCamera->SetUp(vUp);
 	m_pCamera->Update();
+
+	((kpgModel*)m_plCurrentModel->GetPointer())->PlayAnimation(StringHash("Animation"));
+	((kpgModel*)m_plCurrentModel->GetPointer())->UpdateAnimations(fDeltaTime);
 }
 
 void GameState_FrontEnd::SetupOrbitalData(const char* szFile)
@@ -318,11 +322,18 @@ void GameState_FrontEnd::LoadAllPlayerModels(const char* szFile)
 			pModel->Load(pParser->GetAttribute("File"));
 			m_lPlayerModels.AddTail(pModel);	
 
-			//get the shader if there is one
+			//get the shader and animations
 			pParser->FirstChildElement();
 
-			if(pParser->HasElement() )
-				pModel->SetShader(pParser->GetChildValue());
+			while(pParser->HasElement() )
+			{
+				if( (u32)pParser->GetValueAsInt() == StringHash("Shader") )
+					pModel->SetShader(pParser->GetChildValue());
+				else if( (u32)pParser->GetValueAsInt() == StringHash("Animation") )
+					kpgAnimationManager::GetInstance()->LoadAnimation( pParser->GetChildValue(), pParser->GetValueAsInt());
+
+				pParser->NextSiblingElement();
+			}
 
 			pParser->Parent();
 		

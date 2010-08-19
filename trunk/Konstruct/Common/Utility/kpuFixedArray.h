@@ -80,6 +80,12 @@ public:
 		return -1;
 	}
 
+	int RemoveAt(int i)
+	{
+		m_pElements[i] = 0;
+		m_iNumUsedElements--;
+	}
+
 protected:
 	int		m_iNumElements;
 	int		m_iNumUsedElements;

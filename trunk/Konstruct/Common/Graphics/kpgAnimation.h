@@ -5,22 +5,30 @@
 class kpgAnimation
 {
 public:
-	kpgAnimation(int iBoneCount, int iFrames);
+	kpgAnimation(int iBoneCount);
 	~kpgAnimation(void);
 
-	int					BoneCount()					{ return m_aTransformations.GetNumElements() / GetFrameCount(); }
-	int					GetFrameCount()				{ return m_aTransformations.GetNumElements(); } //Return the number of frames in the animation
-	float				GetTime(int i)				{ return m_aTimes[i]; }
-	const kpuMatrix&	GetTransformation(int i)	{ return m_aTransformations[i]; }
+	typedef struct _sBone
+	{
+		u32							uName;
+		kpuFixedArray<kpuMatrix>	aTransforms;
+		kpuFixedArray<float>		aTimes;
+		int							iParent;
+	}sBone;
 
-	void				SetTime(int i, float fVal)					{ m_aTimes[i] = fVal; }
-	void				SetTransformation(int i, kpuMatrix& mMat)	{ m_aTransformations[i] = mMat; }
+	int							BoneCount()					{ return m_aBoneHierarchy.GetNumElements(); }
+	int							GetBoneParent(int i)		{ return m_aBoneHierarchy[i]->iParent; }
+	kpuFixedArray<float>*		GetTimes(int i)				{ return &m_aBoneHierarchy[i]->aTimes; }
+	kpuFixedArray<kpuMatrix>*	GetTransforms(int i)		{ return &m_aBoneHierarchy[i]->aTransforms; }
+
+	
+	void				AddBone(int iIndex, sBone* pBone) {	m_aBoneHierarchy[iIndex] = pBone; }
 	
 
 protected:
 	u32							m_uName;
-	kpuFixedArray<float>		m_aTimes;
-	kpuFixedArray<kpuMatrix>	m_aTransformations;
+	kpuFixedArray<sBone*>		m_aBoneHierarchy;
+	
 };
 
 #define MAX_BONES 32

@@ -3,37 +3,19 @@
 #include "Common/Utility/kpuMap.h"
 #include "Common/Graphics/kpgRenderer.h"
 #include "Common/Utility/kpuPhysicalObject.h"
+#include "Common/Utility/kpuXmlParser.h"
 
 class kpuLinkedList;
 class kpgGeometry;
 class kpgGeometryInstance;
 class TiXmlElement;
-class kpuXmlParser;
 class kpgShader;
 class kpgAnimation;
 class kpgAnimationInstance;
 
 class kpgModel: public kpuPhysicalObject
 {
-	typedef enum _eVertexSemantic
-	{
-		eVS_Unknown,
-
-		eVS_Position,
-		eVS_Normal,
-		eVS_TexCoord,
-		eVS_Weight,
-
-	} eVertexSemantic;
-
-	typedef struct _sSource
-	{
-		u32						uID;
-		eVertexSemantic			eSemantic;
-		kpuFixedArray<float>	aFloats;
-		kpuFixedArray<u32>		aHashes;
-
-	} sSource;
+	
 
 	typedef struct _sController
 	{
@@ -53,7 +35,7 @@ public:
 
 	bool Load(const char* szFileName);
 
-	void Draw(kpgRenderer* pRenderer = kpgRenderer::GetInstance());
+	void Draw(kpgRenderer* pRenderer = kpgRenderer::GetInstance());	
 
 	int GetInstanceCount()									{ return m_aInstances.GetNumElements(); }
 	kpgGeometryInstance* GetInstance(int iIndex)			{ return m_aInstances[iIndex]; }	
@@ -72,12 +54,16 @@ public:
 
 	void		SetShader(const char* pszShaderFile);
 
+	//animation controls
+	void UpdateAnimations(float fDeltaTime);
+	void PlayAnimation(u32 uName);
+
 private:
 	kpgTexture* LoadImage(kpuXmlParser* pParser);
 	void LoadGeometryLibrary(kpuXmlParser* pParser, kpgTexture* pTexture);
 	void LoadVisualSceneLibrary(kpuXmlParser* pParser);
 	kpgGeometry* LoadMesh(kpuXmlParser* pParser);
-	sSource* LoadSource(kpuXmlParser* pParser);
+	
 	void LoadVertices(kpuXmlParser* pParser, kpuLinkedList& sources);
 	int* LoadTriangles(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
 	int* LoadPolygons(kpuXmlParser* pParser, kpuLinkedList& sources, int& iOutIndexCount);
@@ -94,7 +80,7 @@ protected:
 	u32									 m_iNameHash;
 	kpuFixedArray<kpgGeometry*>			 m_aGeometries;
 	kpuFixedArray<kpgGeometryInstance*>	 m_aInstances;
-	kpuFixedArray<kpgAnimationInstance*> m_aAnimationInstances;
+	kpgAnimationInstance*				 m_pAnimationInstance;
 	
 	kpuLinkedList*						 m_pControllerList;
 	kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;

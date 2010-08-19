@@ -96,6 +96,7 @@ public:
 		return 0;
 	}
 
+
 protected:
 	kpuLinkedList	m_aBuckets[NUM_BUCKETS];
 };

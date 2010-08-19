@@ -11,6 +11,7 @@ typedef __int64				s64;
 typedef unsigned __int64	u64;
 
 class kpuVector;
+class kpuMatrix;
 
 typedef struct _kpRect
 {
@@ -58,3 +59,5 @@ void Printf(const char* pFormat, ...);
 u32 StringHash(const char* InputString);
 u32 StringHash(const char* InputString, const char* IgnoreCharacters);
 kpuVector ParseCSVVector(char* szCSV);
+kpuVector ParseVector4(char* szV);
+kpuMatrix ParseMatrix(char* szM);
