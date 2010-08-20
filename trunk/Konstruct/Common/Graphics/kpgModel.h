@@ -73,7 +73,7 @@ private:
 	void LoadLibraryControllers(kpuXmlParser *pParser);
 	void LoadBoneIndicesWeights(sController* pController, sSource* pWeightSource, kpuXmlParser* pParser, const char* pszIndexCounts);
 	void LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources);
-	
+	void LoadBoneMatricies(kpuXmlParser* pParser, int iParent);	
 
 
 protected:
@@ -84,6 +84,7 @@ protected:
 	
 	kpuLinkedList*						 m_pControllerList;
 	kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;
+	kpuFixedArray<kpuMatrix>			 m_aSkinningMatricies;
 	kpgShader*							 m_pShader;
 	
 };
