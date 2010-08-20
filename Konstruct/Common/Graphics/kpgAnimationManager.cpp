@@ -275,38 +275,34 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 				{
 					//Make matrices and clean up duplicates
 					kpgAnimation::sBone* pBone = new kpgAnimation::sBone();
-					pBone->aTransforms.SetSize(pTransforms->aFloats.GetNumElements() / 16 + 1);
-					pBone->aTimes.SetSize(pTimes->aFloats.GetNumElements() + 1);
-					pBone->aTimes.Add(0.0f);
+					pBone->aTransforms.SetSize(pTransforms->aFloats.GetNumElements() / 16);
+					pBone->aTimes.SetSize(pTimes->aFloats.GetNumElements());
+					//pBone->aTimes.Add(0.0f);
 
-					//get transformation @ t = 0				
-					char* szMatrix = _strdup(pData->pFloats);
-					kpuMatrix matrix = ParseMatrix(szMatrix);			
-					pBone->aTransforms.Add(matrix);
-					free(szMatrix);
-
-					for(int j = 1; j < pBone->aTransforms.GetNumElements(); j++ )
+					////get transformation @ t = 0				
+					//char* szMatrix = _strdup(pData->pFloats);
+					//kpuMatrix matrix = ParseMatrix(szMatrix);			
+					//pBone->aTransforms.Add(matrix);
+					//free(szMatrix);
+					
+					for(int i = 0; i < pTransforms->aFloats.GetNumElements(); i+= 16)
 					{
-						for(int i = 0; i < pTransforms->aFloats.GetNumElements(); i+= 16)
+						kpuVector v(pTransforms->aFloats[i], pTransforms->aFloats[i + 1], pTransforms->aFloats[i + 2], pTransforms->aFloats[i + 3]);
+						kpuVector v1(pTransforms->aFloats[i + 4], pTransforms->aFloats[i + 5], pTransforms->aFloats[i + 6], pTransforms->aFloats[i + 7]);
+						kpuVector v2(pTransforms->aFloats[i + 8], pTransforms->aFloats[i + 9], pTransforms->aFloats[i + 10], pTransforms->aFloats[i + 11]);
+						kpuVector v3(pTransforms->aFloats[i + 12], pTransforms->aFloats[i + 13], pTransforms->aFloats[i + 14], pTransforms->aFloats[i + 15]);
+					
+						kpuMatrix mMatrix(v, v1, v2, v3);
+
+						//see if this matrix is already contained
+						if( i > 0 && pBone->aTransforms[(i / 16) - 1] != mMatrix )
 						{
-							kpuVector v(pTransforms->aFloats[i], pTransforms->aFloats[i + 1], pTransforms->aFloats[i + 2], pTransforms->aFloats[i + 3]);
-							kpuVector v1(pTransforms->aFloats[i + 4], pTransforms->aFloats[i + 5], pTransforms->aFloats[i + 6], pTransforms->aFloats[i + 7]);
-							kpuVector v2(pTransforms->aFloats[i + 8], pTransforms->aFloats[i + 9], pTransforms->aFloats[i + 10], pTransforms->aFloats[i + 11]);
-							kpuVector v3(pTransforms->aFloats[i + 12], pTransforms->aFloats[i + 13], pTransforms->aFloats[i + 14], pTransforms->aFloats[i + 15]);
-						
-							kpuMatrix mMatrix(v, v1, v2, v3);
+							pBone->uName = pTransforms->uID;
+							pBone->aTransforms.Add(mMatrix);
+							pBone->aTimes.Add(pTimes->aFloats[i / 16]);						
+						}				
 
-							//see if this matrix is already contained
-							if(  pBone->aTransforms[j - 1] != mMatrix )
-							{
-								pBone->uName = pTransforms->uID;
-								pBone->aTransforms.Add(mMatrix);
-								pBone->aTimes.Add(pTimes->aFloats[i / 16]);						
-							}				
-
-						}
-						
-					}
+					}					
 
 					transforms.Add(pBone);		
 
@@ -342,15 +338,15 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 		{
 			kpgAnimation::sBone* pBone = new kpgAnimation::sBone();
 			pBone->uName = pData->uName;
-			pBone->aTransforms.SetSize(1);
-			pBone->aTimes.SetSize(1);
-			pBone->aTimes.Add(0.0f);
+			//pBone->aTransforms.SetSize(1);
+			//pBone->aTimes.SetSize(1);
+			//pBone->aTimes.Add(0.0f);
 
-			//get transformation @ t = 0			
-			char* szMatrix = _strdup(pData->pFloats);
-			kpuMatrix matrix = ParseMatrix(szMatrix);			
-			pBone->aTransforms.Add(matrix);
-			free(szMatrix);
+			////get transformation @ t = 0			
+			//char* szMatrix = _strdup(pData->pFloats);
+			//kpuMatrix matrix = ParseMatrix(szMatrix);			
+			//pBone->aTransforms.Add(matrix);
+			//free(szMatrix);
 			transforms.Add(pBone);			
 		}
 
@@ -479,10 +475,11 @@ void kpgAnimationManager::LoadBone(kpuXmlParser *pParser, u32 uParent)
 		while( pParser->HasElement() )
 		{
 			//add the bones transformation or its child bones
-			if( (u32)pParser->GetValueAsInt() == s_uHash_matrix )
+			/*if( (u32)pParser->GetValueAsInt() == s_uHash_matrix )
 				pBone->pFloats = (char*)pParser->GetChildValue();
-			else
+			else*/
 				LoadBone(pParser, pBone->uName);
+			
 
 			pParser->NextSiblingElement();
 		}

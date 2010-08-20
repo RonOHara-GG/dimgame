@@ -178,7 +178,7 @@ void kpgShader::SetLights(const kpgLight** pLightArray)
 void kpgShader::SetSkinningMatricies(kpuFixedArray<kpuMatrix>* paMatricies)
 {
 	if( m_hSkinningMatricies)	
-		m_pEffect->SetMatrixArray(m_hSkinningMatricies, (D3DXMATRIX*)&(*paMatricies)[0], paMatricies->GetNumElements());
+		m_pEffect->SetMatrixArray(m_hSkinningMatricies, (D3DXMATRIX*)&(*paMatricies)[0], paMatricies->GetNumElementsUsed());
 }
 
 void kpgShader::Bind()

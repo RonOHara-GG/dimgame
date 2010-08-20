@@ -26,36 +26,41 @@ bool kpgAnimationInstance::Update(float fDeltaTime)
 
 		int iCurrentKey = -1;
 		float fNextKey = 0.0f;
+		float fPrevKey = 0.0f;
 		//see which key we are at
-		for(int j = 0; j < pTimes->GetNumElementsUsed(); j++)
+		for(int j = 1; j < pTimes->GetNumElementsUsed(); j++)
 		{
 			fNextKey = (*pTimes)[j];
-			if( m_fElaspedTime <=  fNextKey )
+			if( m_fElaspedTime <  fNextKey )
 			{
 				iCurrentKey = j;
 				bFinished = false;
 				break;
 			}
+			fPrevKey = fNextKey;
 		}
 
-
-		kpuMatrix mCurrent, mNext, mParent;
-		mCurrent.Identity();
-		mNext.Identity();
+		kpuMatrix mCurrent, mPrev, mParent;
+		mCurrent = (*m_paOrigBoneMatricies)[i];
+		mPrev.Identity();
 
 		if( iCurrentKey > -1 )
 		{
 			//get all the matricies
-			mCurrent = (*pTransforms)[iCurrentKey++];		
-			mNext = (*pTransforms)[iCurrentKey];			
+			mCurrent = (*pTransforms)[iCurrentKey];		
+			mPrev = (*pTransforms)[iCurrentKey - 1];
+			float fTime = (m_fElaspedTime - fPrevKey) / (fNextKey - fPrevKey);
+
+			mCurrent = mPrev + ( (mCurrent - mPrev) * fTime);
 		}
 
 		int iParent = m_pAnimation->GetBoneParent(i);		
 		mParent.Identity();
+
 		if( iParent > -1 )
-			m_aBoneTransformations[iParent];
+			m_aBoneTransformations[iParent];		
 		
-		m_aBoneTransformations[i] = ( mCurrent + (mNext - mCurrent) * (m_fElaspedTime / fNextKey) ) * mParent;
+		m_aBoneTransformations[i] = mCurrent * mParent;
 	}	
 
 	return !bFinished;
