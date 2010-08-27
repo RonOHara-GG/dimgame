@@ -14,6 +14,7 @@ static const u32 s_uHash_sampler =				0x8260ff59;
 static const u32 s_uHash_channel =				0xc237195e;
 static const u32 s_uHash_transform =			0x2393dd81;
 
+
 kpgAnimationManager* kpgAnimationManager::m_spAnimationManager = 0;
 
 kpgAnimationManager::kpgAnimationManager(void)
@@ -39,7 +40,7 @@ kpgAnimationManager::~kpgAnimationManager(void)
 void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 {
 	kpuXmlParser* pParser = new kpuXmlParser();
-	kpuFixedArray<kpgAnimation::sBone*>* transforms = new kpuFixedArray<kpgAnimation::sBone*>(MAX_BONES);
+	kpuFixedArray<kpgAnimation::sBone*>* bones = new kpuFixedArray<kpgAnimation::sBone*>(MAX_BONES);
 	
 	if( pParser->LoadFile(szFile) )
 	{
@@ -54,11 +55,11 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 					{
 					case s_uHash_library_controllers:
 						//create bone map
-						LoadBoneIndicies(pParser);
+						LoadControllers(pParser);
 						break;
 					case s_uHash_library_animations:
 						//load animations
-						LoadAnimationLibrary(pParser, *transforms);
+						LoadAnimationLibrary(pParser, *bones);
 						break;
 					case s_uHash_library_visual_scenes:
 						//get skeleton tree
@@ -77,12 +78,21 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 	}
 
 	//create animation
-	if( transforms->GetNumElementsUsed() > 0 )
+	CreateAnimation(uName, bones);
+
+	delete m_pBoneIndicieMap;
+	delete pParser;
+}
+
+void kpgAnimationManager::CreateAnimation(u32 uName, kpuFixedArray<kpgAnimation::sBone*>* bones)
+{
+	//Make sure their are bones being animated, if so then create a new animation and add them to it
+	if( bones->GetNumElementsUsed() > 0 )
 	{
-		kpgAnimation* pAnimation = new kpgAnimation(transforms->GetNumElementsUsed());
-		for(int i = 0; i < transforms->GetNumElementsUsed(); i++ )
+		kpgAnimation* pAnimation = new kpgAnimation(bones->GetNumElementsUsed());
+		for(int i = 0; i < bones->GetNumElementsUsed(); i++ )
 		{
-			kpgAnimation::sBone* pBone = (*transforms)[i];
+			kpgAnimation::sBone* pBone = (*bones)[i];
 			sBoneData* sData = (*m_pBoneIndicieMap)[pBone->uName];
 			sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];
 
@@ -91,19 +101,24 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 			else
 				pBone->iParent = -1;
 
+			//put transformation into bone local space
+			for(int i = 0; i < pBone->aTransforms.GetNumElementsUsed(); i++)			
+				 pBone->aTransforms[i] = (*m_paSkinningMatricies)[sData->iIndex] *  pBone->aTransforms[i];
+
 			pAnimation->AddBone(sData->iIndex, pBone);
 		}			
 		m_pAnimations->Add(uName, pAnimation);
 	}
 
-	delete m_pBoneIndicieMap;
-	delete pParser;
+	delete bones;
 }
 
-void kpgAnimationManager::LoadBoneIndicies(kpuXmlParser *pParser)
+void kpgAnimationManager::LoadControllers(kpuXmlParser *pParser)
 {
 	m_plSkeletonSources = new kpuLinkedList();
-	//find the source with the name array
+	m_paSkinningMatricies = new kpuFixedArray<kpuMatrix>();
+	kpuLinkedList sources;
+
 	pParser->FirstChildElement();
 
 	//make sure it is the controllers
@@ -113,24 +128,34 @@ void kpgAnimationManager::LoadBoneIndicies(kpuXmlParser *pParser)
 		pParser->FirstChildElement();
 
 		while(pParser->HasElement() )
-		{		
-			if( (u32)pParser->GetValueAsInt() == s_uHash_source)
+		{			
+			switch( (u32)pParser->GetValueAsInt() )
 			{
-				pParser->FirstChildElement();
-
-				//make sure it is the name array
-				if( (u32)pParser->GetValueAsInt() == s_uHash_Name_array )
+			case s_uHash_source:
 				{
-					pParser->Parent();
-
 					sSource* pSource = pParser->LoadSource();
-					m_plSkeletonSources->AddTail(pSource);
-
-					pParser->FirstChildElement();
-				
-				}	
+					sources.AddTail(pSource);
+					break;
+				}
+			case s_uHash_joints:
+				//load the skeleton and inverse bind matrices
+				pParser->FirstChildElement();
+				while( pParser->HasElement() )
+				{
+					switch( pParser->GetAttributeAsInt("semantic") )
+					{
+					case s_uHash_JOINT:
+						LoadBoneIndicies(pParser, &sources);
+						break;
+					case s_uHash_INV_BIND_MATRIX:
+						LoadInverseBinds(pParser, &sources);
+						break;
+					}
+					pParser->NextSiblingElement();
+				}
 				pParser->Parent();
-			}
+				break;
+			}		
 
 			pParser->NextSiblingElement();
 		}
@@ -140,9 +165,77 @@ void kpgAnimationManager::LoadBoneIndicies(kpuXmlParser *pParser)
 	}
 
 	pParser->Parent();
+
+	//delete all unused sources
+	kpuLinkedList* pNext = sources.Next();
+	while(pNext)
+	{
+		sSource* source = (sSource*)pNext->GetPointer();
+		delete source;
+		delete pNext;
+		pNext = sources.Next();
+	}		
 }
 
-void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedArray<kpgAnimation::sBone*>& transforms)
+void kpgAnimationManager::LoadBoneIndicies(kpuXmlParser* pParser, kpuLinkedList* pSources)
+{	
+	u32 uSourceID = StringHash(pParser->GetAttribute("source") + 1);
+
+	//find the source that contains the name of the joints
+	kpuLinkedList* pNext = pSources->Next();
+	while( pNext )
+	{
+		sSource* source = (sSource*)pNext->GetPointer();
+		if( uSourceID == source->uID )
+		{
+			//found joint array add to skeleton source list and remove from all sources
+			m_plSkeletonSources->AddTail(pNext->GetPointer());
+			delete pNext;
+			break;
+		}
+		pNext = pNext->Next();
+	}
+}
+
+void kpgAnimationManager::LoadInverseBinds(kpuXmlParser* pParser, kpuLinkedList* pSources)
+{
+	u32 uSourceID = StringHash(pParser->GetAttribute("source") + 1);
+
+	//create array of skinning matricies
+	kpuLinkedList* pNext = pSources->Next();
+	while(pNext)
+	{
+		sSource* source = (sSource*)pNext->GetPointer();
+		if( source->uID == uSourceID )
+		{
+			m_paSkinningMatricies->SetSize(source->aFloats.GetNumElements() / 16 );
+			//found the bone matricies
+			for(int i = 0; i < source->aFloats.GetNumElements(); i+= 16)
+			{
+				kpuVector v(source->aFloats[i], source->aFloats[i + 1], source->aFloats[i + 2], source->aFloats[i + 3]);
+				kpuVector v1(source->aFloats[i + 4], source->aFloats[i + 5], source->aFloats[i + 6], source->aFloats[i + 7]);
+				kpuVector v2(source->aFloats[i + 8], source->aFloats[i + 9], source->aFloats[i + 10], source->aFloats[i + 11]);
+				kpuVector v3(source->aFloats[i + 12], source->aFloats[i + 13], source->aFloats[i + 14], source->aFloats[i + 15]);
+
+				kpuMatrix mMatrix(v,v1,v2,v3);
+				//transpose for cpu
+				mMatrix.Transpose();
+				m_paSkinningMatricies->Add(mMatrix);
+			}
+
+			//delete this node its usefullness is gone
+			delete source;
+			kpuLinkedList* pTemp = pNext->Next();
+			delete pNext;
+			break;
+
+			pNext = pTemp;
+		}	
+		pNext = pNext->Next();
+	}
+}
+
+void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedArray<kpgAnimation::sBone*>& bones)
 {
 	bool bSkeletonFound = false;	
 
@@ -201,7 +294,7 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 								}
 							case s_uHash_OUTPUT:
 								{
-									//find the transforms
+									//find the bones
 									kpuLinkedList* pNext = sources.Next();
 
 									while( pNext )
@@ -266,7 +359,7 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 
 			pParser->Parent();
 
-			
+			//if we have transformations for this bone create it
 			if( pTransforms && pTimes )
 			{
 				//get bone data
@@ -277,14 +370,7 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 					kpgAnimation::sBone* pBone = new kpgAnimation::sBone();
 					pBone->aTransforms.SetSize(pTransforms->aFloats.GetNumElements() / 16);
 					pBone->aTimes.SetSize(pTimes->aFloats.GetNumElements());
-					//pBone->aTimes.Add(0.0f);
 
-					////get transformation @ t = 0				
-					//char* szMatrix = _strdup(pData->pFloats);
-					//kpuMatrix matrix = ParseMatrix(szMatrix);			
-					//pBone->aTransforms.Add(matrix);
-					//free(szMatrix);
-					
 					for(int i = 0; i < pTransforms->aFloats.GetNumElements(); i+= 16)
 					{
 						kpuVector v(pTransforms->aFloats[i], pTransforms->aFloats[i + 1], pTransforms->aFloats[i + 2], pTransforms->aFloats[i + 3]);
@@ -293,18 +379,22 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 						kpuVector v3(pTransforms->aFloats[i + 12], pTransforms->aFloats[i + 13], pTransforms->aFloats[i + 14], pTransforms->aFloats[i + 15]);
 					
 						kpuMatrix mMatrix(v, v1, v2, v3);
+						//make matrix column major for cpu
+						mMatrix.Transpose();
+					
+						int iKey = i / 16;						
 
 						//see if this matrix is already contained
-						if( i > 0 && pBone->aTransforms[(i / 16) - 1] != mMatrix )
+						if( iKey == 0 || pBone->aTransforms[pBone->aTransforms.GetNumElementsUsed() - 1] != mMatrix )
 						{
 							pBone->uName = pTransforms->uID;
 							pBone->aTransforms.Add(mMatrix);
-							pBone->aTimes.Add(pTimes->aFloats[i / 16]);						
+							pBone->aTimes.Add(pTimes->aFloats[iKey]);						
 						}				
 
 					}					
 
-					transforms.Add(pBone);		
+					bones.Add(pBone);		
 
 					delete pTransforms;
 					delete pTimes;
@@ -325,9 +415,9 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 		bool bFound = false;
 		sBoneData* pData = (sBoneData*)pNext->GetPointer();
 
-		for(int i = 0; i < transforms.GetNumElementsUsed(); i++)
+		for(int i = 0; i < bones.GetNumElementsUsed(); i++)
 		{
-			if( transforms[i]->uName == pData->uName )
+			if( bones[i]->uName == pData->uName )
 			{
 				bFound = true;				
 				break;
@@ -338,16 +428,7 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 		{
 			kpgAnimation::sBone* pBone = new kpgAnimation::sBone();
 			pBone->uName = pData->uName;
-			//pBone->aTransforms.SetSize(1);
-			//pBone->aTimes.SetSize(1);
-			//pBone->aTimes.Add(0.0f);
-
-			////get transformation @ t = 0			
-			//char* szMatrix = _strdup(pData->pFloats);
-			//kpuMatrix matrix = ParseMatrix(szMatrix);			
-			//pBone->aTransforms.Add(matrix);
-			//free(szMatrix);
-			transforms.Add(pBone);			
+			bones.Add(pBone);			
 		}
 
 		delete pData;
@@ -430,6 +511,7 @@ void kpgAnimationManager::CreateSkeletonMap(u32 uBone)
 	}
 	
 	delete m_plSkeletonSources;
+	m_plSkeletonSources = 0;
 }
 
 kpgAnimationManager* kpgAnimationManager::GetInstance()
@@ -474,13 +556,8 @@ void kpgAnimationManager::LoadBone(kpuXmlParser *pParser, u32 uParent)
 		
 		while( pParser->HasElement() )
 		{
-			//add the bones transformation or its child bones
-			/*if( (u32)pParser->GetValueAsInt() == s_uHash_matrix )
-				pBone->pFloats = (char*)pParser->GetChildValue();
-			else*/
-				LoadBone(pParser, pBone->uName);
-			
-
+			//add the bones transformation or its child bones			
+			LoadBone(pParser, pBone->uName);
 			pParser->NextSiblingElement();
 		}
 		pParser->Parent();		

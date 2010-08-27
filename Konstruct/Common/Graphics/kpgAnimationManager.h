@@ -33,17 +33,23 @@ protected:
 		char* pFloats;
 	}sBoneData;
 
-	void LoadAnimationLibrary(kpuXmlParser* pParser, kpuFixedArray<kpgAnimation::sBone*>& transforms);
+	void LoadAnimationLibrary(kpuXmlParser* pParser, kpuFixedArray<kpgAnimation::sBone*>& bones);
 	void LoadSkeleton(kpuXmlParser* pParser);
 	void LoadBone(kpuXmlParser* pParser, u32 uParent);
-	void LoadBoneIndicies(kpuXmlParser *pParser);
+	void LoadControllers(kpuXmlParser* pParser);
+	void LoadInverseBinds(kpuXmlParser* pParser, kpuLinkedList* pSources);
+	void LoadBoneIndicies(kpuXmlParser* pParser, kpuLinkedList* pSources);
+
+	void CreateAnimation(u32 uName,kpuFixedArray<kpgAnimation::sBone*>* bones);
 	void CreateSkeletonMap(u32 uBone);
 
 protected:
+
 	static kpgAnimationManager* m_spAnimationManager;
 
 	kpuMap<u32, sBoneData>*		m_pBoneIndicieMap;
 	kpuMap<u32, kpgAnimation*>*	m_pAnimations;
 	kpuLinkedList*				m_plSkeletonSources;
 	kpuLinkedList*				m_plBoneHierarchy;
+	kpuFixedArray<kpuMatrix>*	m_paSkinningMatricies;
 };

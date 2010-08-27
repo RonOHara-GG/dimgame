@@ -6,6 +6,7 @@ kpgAnimationInstance::kpgAnimationInstance(kpgAnimation* pAnimation)
 {
 	m_pAnimation = pAnimation;
 	m_fElaspedTime = 0.0f;
+	m_bPlaying = true;
 	m_aBoneTransformations.SetSize(MAX_BONES);	
 }
 
@@ -13,8 +14,11 @@ kpgAnimationInstance::~kpgAnimationInstance(void)
 {
 }
 
-bool kpgAnimationInstance::Update(float fDeltaTime)
+bool kpgAnimationInstance::Update(float fDeltaTime, kpuFixedArray<kpuMatrix>& aOrigMatrix)
 {	
+	if( !m_bPlaying )
+		return false;
+
 	m_fElaspedTime += fDeltaTime;	
 	bool bFinished = true;
 
@@ -24,44 +28,62 @@ bool kpgAnimationInstance::Update(float fDeltaTime)
 		kpuFixedArray<float>* pTimes = m_pAnimation->GetTimes(i);
 		kpuFixedArray<kpuMatrix>* pTransforms = m_pAnimation->GetTransforms(i);
 
-		int iCurrentKey = -1;
-		float fNextKey = 0.0f;
-		float fPrevKey = 0.0f;
-		//see which key we are at
-		for(int j = 1; j < pTimes->GetNumElementsUsed(); j++)
-		{
-			fNextKey = (*pTimes)[j];
-			if( m_fElaspedTime <  fNextKey )
-			{
-				iCurrentKey = j;
-				bFinished = false;
-				break;
-			}
-			fPrevKey = fNextKey;
-		}
-
 		kpuMatrix mCurrent, mPrev, mParent;
-		mCurrent = (*m_paOrigBoneMatricies)[i];
+		mCurrent.Identity();
 		mPrev.Identity();
-
-		if( iCurrentKey > -1 )
-		{
-			//get all the matricies
-			mCurrent = (*pTransforms)[iCurrentKey];		
-			mPrev = (*pTransforms)[iCurrentKey - 1];
-			float fTime = (m_fElaspedTime - fPrevKey) / (fNextKey - fPrevKey);
-
-			mCurrent = mPrev + ( (mCurrent - mPrev) * fTime);
-		}
-
-		int iParent = m_pAnimation->GetBoneParent(i);		
 		mParent.Identity();
 
+		//See if this bone has any transformations
+		if( pTransforms->GetNumElementsUsed() )
+		{
+			int iCurrentKey = 0;
+			float fNextKey = 0.0f;
+			float fPrevKey = 0.0f;
+
+			//see which key we are at
+			for(int j = 0; j < pTimes->GetNumElementsUsed(); j++)
+			{
+				fNextKey = (*pTimes)[j];
+				if( m_fElaspedTime <  fNextKey )
+				{
+					iCurrentKey = j;
+					bFinished = false;
+					break;
+				}
+				fPrevKey = fNextKey;
+			}	
+
+			//if the animation is not finished interpolate to the current matrix
+			if( !bFinished )
+			{
+				mCurrent = (*pTransforms)[iCurrentKey];	
+				if( iCurrentKey > 0 )
+				{
+					//get all the matricies					
+					mPrev = (*pTransforms)[iCurrentKey - 1];
+					float fTime = (m_fElaspedTime - fPrevKey) / (fNextKey - fPrevKey);
+
+					mCurrent = mPrev + ( (mCurrent - mPrev) * fTime);
+				}
+			}
+			else
+			{
+				//last key of animation
+				mCurrent = (*pTransforms)[pTransforms->GetNumElementsUsed() - 1];	
+				m_bPlaying = false;
+			}
+		}
+
+		//try and find the parent matrix
+		int iParent = m_pAnimation->GetBoneParent(i);	
 		if( iParent > -1 )
-			m_aBoneTransformations[iParent];		
+			m_aBoneTransformations[iParent];
 		
-		m_aBoneTransformations[i] = mCurrent * mParent;
+		m_aBoneTransformations[i] = mCurrent * mParent;			
 	}	
 
-	return !bFinished;
+	//m_aBoneTransformations[0] = aOrigMatrix[0];
+	//m_aBoneTransformations[1] = (*pTransforms)[0];
+
+	return true;
 }
