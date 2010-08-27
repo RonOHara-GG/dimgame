@@ -83,7 +83,7 @@ protected:
 	kpgAnimationInstance*				 m_pAnimationInstance;
 	
 	kpuLinkedList*						 m_pControllerList;
-	kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;
+	kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;	
 	kpuFixedArray<kpuMatrix>			 m_aSkinningMatricies;
 	kpgShader*							 m_pShader;
 	

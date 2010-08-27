@@ -8,6 +8,6 @@
 	<Model File="./Assets/Player/RonzPlayer.dae"/>-->
 	<Model File="./Assets/Player/NoAnimation.dae" >
 		<Shader>/Assets/Shaders/AnimatedShader.fxb</Shader>
-		<!--<Animation>Assets/Player/Animations/AnimationTest.dae</Animation>	-->
+		<Animation>Assets/Player/Animations/AnimationTest.dae</Animation>
 	</Model>	
 </PlayerModels>

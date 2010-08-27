@@ -85,6 +85,8 @@ private:
 #define s_uHash_JOINT					0xd66a849
 #define s_uHash_NODE					0x7c892e2b
 #define s_uHash_matrix					0xd3e291a
+#define s_uHash_INV_BIND_MATRIX 		0x1be47042
+#define s_uHash_joints					0x735ee7c
 
 inline void kpuXmlParser::Parent()
 {

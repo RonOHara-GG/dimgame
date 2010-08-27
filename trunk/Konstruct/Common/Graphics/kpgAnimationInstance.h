@@ -9,15 +9,15 @@ class kpgAnimationInstance
 public:
 	kpgAnimationInstance(kpgAnimation* pAnimation);
 	~kpgAnimationInstance(void);
-
-	void SetBoneTransforms(kpuFixedArray<kpuMatrix>* paTransforms) { m_paOrigBoneMatricies = paTransforms; }
-	bool Update(float fDeltaTime);
+	
+	bool Update(float fDeltaTime, kpuFixedArray<kpuMatrix>& aOrigMatrix);
 	kpuFixedArray<kpuMatrix>* GetTransformations() { return &m_aBoneTransformations; }
 
 protected:
 	kpgAnimation*				m_pAnimation;	
 	float						m_fElaspedTime;
+	bool						m_bPlaying;
 	kpuFixedArray<kpuMatrix>	m_aBoneTransformations;
-	kpuFixedArray<kpuMatrix>*	m_paOrigBoneMatricies;
+	
 	
 };

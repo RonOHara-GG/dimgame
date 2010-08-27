@@ -15,8 +15,8 @@
 		</comments>
       <source_data>file:///C:/Projects/Dimensions/Konstruct/Client/Dimensions/Assets/Player/NoAnimation.mb</source_data>
     </contributor>
-    <created>2010-08-19T21:17:49</created>
-    <modified>2010-08-19T21:17:49</modified>
+    <created>2010-08-26T18:41:14</created>
+    <modified>2010-08-26T18:41:14</modified>
     <unit name="centimeter" meter="0.01"/>
     <up_axis>Y_UP</up_axis>
   </asset>
@@ -127,17 +127,17 @@
       <skin source="#pCubeShape1">
         <bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
         <source id="pCubeShape1-skin-joints" name="pCubeShape1-skin-joints">
-          <Name_array id="pCubeShape1-skin-joints-array" count="3">joint1 joint2 joint3</Name_array>
+          <Name_array id="pCubeShape1-skin-joints-array" count="2">joint1 joint2</Name_array>
           <technique_common>
-            <accessor source="#pCubeShape1-skin-joints-array" count="3" stride="1">
+            <accessor source="#pCubeShape1-skin-joints-array" count="2" stride="1">
               <param name="JOINT" type="name"/>
             </accessor>
           </technique_common>
         </source>
         <source id="pCubeShape1-skin-bind_poses" name="pCubeShape1-skin-bind_poses">
-          <float_array id="pCubeShape1-skin-bind_poses-array" count="48">1 0 0 0 0 1 0 -1.5 0 0 1 -0.01551851 0 0 0 1 1 0 0 1.10532e-4 0 1 0 -1.041993 0 0 1 -0.01379736 0 0 0 1 1 0 0 2.37855e-4 0 1 0 -0.5144083 0 0 1 -0.01181376 0 0 0 1</float_array>
+          <float_array id="pCubeShape1-skin-bind_poses-array" count="32">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0 1 0 -1 0 0 1 0 0 0 0 1</float_array>
           <technique_common>
-            <accessor source="#pCubeShape1-skin-bind_poses-array" count="3" stride="16">
+            <accessor source="#pCubeShape1-skin-bind_poses-array" count="2" stride="16">
               <param name="TRANSFORM" type="float4x4"/>
             </accessor>
           </technique_common>
@@ -158,7 +158,7 @@
           <input semantic="JOINT" source="#pCubeShape1-skin-joints" offset="0"/>
           <input semantic="WEIGHT" source="#pCubeShape1-skin-weights" offset="1"/>
           <vcount>1 1 1 1 1 1 1 1 </vcount>
-          <v>2 0 2 0 0 0 0 0 0 0 0 0 2 0 2 0 </v>
+          <v>0 0 0 0 1 0 1 0 1 0 1 0 0 0 0 0 </v>
         </vertex_weights>
         <extra>
           <technique profile="OpenCOLLADAMaya">
@@ -172,7 +172,7 @@
     <geometry id="pCubeShape1" name="pCubeShape1">
       <mesh>
         <source id="pCubeShape1-positions" name="pCubeShape1-positions">
-          <float_array id="pCubeShape1-positions-array" count="24">0 0.5 0.7071068 0.7071068 0.5 0 0 1.5 0.7071068 0.7071068 1.5 0 -0.7071068 1.5 0 0 1.5 -0.7071068 -0.7071068 0.5 0 0 0.5 -0.7071068</float_array>
+          <float_array id="pCubeShape1-positions-array" count="24">0 0 0.7071068 0.7071068 0 0 0 1 0.7071068 0.7071068 1 0 -0.7071068 1 0 0 1 -0.7071068 -0.7071068 0 0 0 0 -0.7071068</float_array>
           <technique_common>
             <accessor source="#pCubeShape1-positions-array" count="8" stride="3">
               <param name="X" type="float"/>
@@ -182,7 +182,7 @@
           </technique_common>
         </source>
         <source id="pCubeShape1-normals" name="pCubeShape1-normals">
-          <float_array id="pCubeShape1-normals-array" count="72">0.7071068 0 0.7071067 0.7071068 0 0.7071067 0.7071068 0 0.7071067 0.7071068 0 0.7071067 0 0.9999999 0 0 0.9999999 0 0 0.9999999 0 0 0.9999999 0 -0.7071068 0 -0.7071067 -0.7071068 0 -0.7071067 -0.7071068 0 -0.7071067 -0.7071068 0 -0.7071067 0 -0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0.7071068 0 -0.7071067 0.7071068 0 -0.7071067 0.7071068 0 -0.7071067 0.7071068 0 -0.7071067 -0.7071068 0 0.7071067 -0.7071068 0 0.7071067 -0.7071068 0 0.7071067 -0.7071068 0 0.7071067</float_array>
+          <float_array id="pCubeShape1-normals-array" count="72">0.7071068 0 0.7071068 0.7071068 0 0.7071068 0.7071068 0 0.7071068 0.7071068 0 0.7071068 0 0.9999999 0 0 0.9999999 0 0 0.9999999 0 0 0.9999999 0 -0.7071068 0 -0.7071068 -0.7071068 0 -0.7071068 -0.7071068 0 -0.7071068 -0.7071068 0 -0.7071068 0 -0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0 -0.9999999 0 0.7071068 0 -0.7071068 0.7071068 0 -0.7071068 0.7071068 0 -0.7071068 0.7071068 0 -0.7071068 -0.7071068 0 0.7071068 -0.7071068 0 0.7071068 -0.7071068 0 0.7071068 -0.7071068 0 0.7071068</float_array>
           <technique_common>
             <accessor source="#pCubeShape1-normals-array" count="24" stride="3">
               <param name="X" type="float"/>
@@ -228,44 +228,11 @@
           </technique>
         </extra>
       </node>
-      <node id="joint1" name="joint1" sid="joint1" type="JOINT">
-        <matrix sid="transform">0.9999996 0 -8.37315e-4 0 0 0.9999861 -0.005267009 1.5 8.37305e-4 0.00526701 0.9999858 0.01551851 0 0 0 1</matrix>
-        <node id="joint2" name="joint2" sid="joint2" type="JOINT">
-          <matrix sid="transform">1 0 0 -0.02397604 0 1 0 -0.5272743 0 0 1 0.7866974 0 0 0 1</matrix>
-          <node id="joint3" name="joint3" sid="joint3" type="JOINT">
-            <matrix sid="transform">1 0 0 -1.27323e-4 0 1 0 -0.5275846 0 0 1 -0.0019836 0 0 0 1</matrix>
-            <extra>
-              <technique profile="OpenCOLLADAMaya">
-                <originalMayaNodeId>joint3</originalMayaNodeId>
-              </technique>
-            </extra>
-          </node>
-          <extra>
-            <technique profile="OpenCOLLADAMaya">
-              <originalMayaNodeId>joint2</originalMayaNodeId>
-            </technique>
-          </extra>
-        </node>
-        <extra>
-          <technique profile="OpenCOLLADAMaya">
-            <originalMayaNodeId>joint1</originalMayaNodeId>
-          </technique>
-        </extra>
-      </node>
-      <node id="ikHandle1" name="ikHandle1" type="NODE">
-        <matrix sid="transform">0.9999996 0 -8.37315e-4 -0.02451675 0 0.9999861 -0.005267009 0.4412063 8.37305e-4 0.00526701 0.9999858 0.7881562 0 0 0 1</matrix>
-        <extra>
-          <technique profile="OpenCOLLADAMaya">
-            <originalMayaNodeId>ikHandle1</originalMayaNodeId>
-          </technique>
-        </extra>
-      </node>
       <node id="pCube1" name="pCube1" type="NODE">
         <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
         <instance_controller url="#pCubeShape1-skin">
           <skeleton>#joint1</skeleton>
           <skeleton>#joint2</skeleton>
-          <skeleton>#joint3</skeleton>
           <bind_material>
             <technique_common>
               <instance_material symbol="file1SG1" target="#file1Material">
@@ -277,6 +244,24 @@
         <extra>
           <technique profile="OpenCOLLADAMaya">
             <originalMayaNodeId>pCube1</originalMayaNodeId>
+          </technique>
+        </extra>
+      </node>
+      <node id="joint1" name="joint1" sid="joint1" type="JOINT">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <node id="joint2" name="joint2" sid="joint2" type="JOINT">
+          <matrix sid="transform">1 0 0 0 0 1 0 1 0 0 1 0 0 0 0 1</matrix>
+          <extra>
+            <technique profile="OpenCOLLADAMaya">
+              <originalMayaNodeId>joint2</originalMayaNodeId>
+              <visibility>1</visibility>
+            </technique>
+          </extra>
+        </node>
+        <extra>
+          <technique profile="OpenCOLLADAMaya">
+            <originalMayaNodeId>joint1</originalMayaNodeId>
+            <visibility>1</visibility>
           </technique>
         </extra>
       </node>
