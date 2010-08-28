@@ -31,6 +31,7 @@ protected:
 		u32 uParent;	
 		u32 uName;
 		char* pFloats;
+		kpuMatrix	mWorld;
 	}sBoneData;
 
 	void LoadAnimationLibrary(kpuXmlParser* pParser, kpuFixedArray<kpgAnimation::sBone*>& bones);
@@ -46,10 +47,11 @@ protected:
 protected:
 
 	static kpgAnimationManager* m_spAnimationManager;
-
-	kpuMap<u32, sBoneData>*		m_pBoneIndicieMap;
 	kpuMap<u32, kpgAnimation*>*	m_pAnimations;
+
+	//Not for runtime
+	kpuMap<u32, sBoneData>*		m_pBoneIndicieMap;	
 	kpuLinkedList*				m_plSkeletonSources;
 	kpuLinkedList*				m_plBoneHierarchy;
-	kpuFixedArray<kpuMatrix>*	m_paSkinningMatricies;
+	kpuFixedArray<kpuMatrix>*	m_paInvBindMatricies;
 };

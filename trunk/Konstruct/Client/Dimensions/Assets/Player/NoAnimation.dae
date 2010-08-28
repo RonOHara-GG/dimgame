@@ -8,15 +8,15 @@
 			ColladaMaya export options: 
 			bakeTransforms=1;relativePaths=1;copyTextures=0;exportTriangles=1;exportCgfxFileReferences=0;
 			isSampling=0;curveConstrainSampling=0;removeStaticCurves=0;exportPolygonMeshes=1;exportLights=0;
-			exportCameras=0;exportJointsAndSkin=1;exportAnimations=0;exportInvisibleNodes=0;exportDefaultCameras=0;
+			exportCameras=1;exportJointsAndSkin=1;exportAnimations=0;exportInvisibleNodes=0;exportDefaultCameras=0;
 			exportTexCoords=1;exportNormals=1;exportNormalsPerVertex=1;exportVertexColors=1;exportVertexColorsPerVertex=0;
 			exportTexTangents=0;exportTangents=0;exportReferencedMaterials=0;exportMaterialsOnly=0;
 			exportXRefs=0;dereferenceXRefs=1;exportCameraAsLookat=0;cameraXFov=0;cameraYFov=1;doublePrecision=0
 		</comments>
       <source_data>file:///C:/Projects/Dimensions/Konstruct/Client/Dimensions/Assets/Player/NoAnimation.mb</source_data>
     </contributor>
-    <created>2010-08-26T18:41:14</created>
-    <modified>2010-08-26T18:41:14</modified>
+    <created>2010-08-28T16:06:44</created>
+    <modified>2010-08-28T16:06:44</modified>
     <unit name="centimeter" meter="0.01"/>
     <up_axis>Y_UP</up_axis>
   </asset>
@@ -248,7 +248,7 @@
         </extra>
       </node>
       <node id="joint1" name="joint1" sid="joint1" type="JOINT">
-        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <matrix sid="transform">1 0 0 0 0 1 0 0.6727096 0 0 1 0 0 0 0 1</matrix>
         <node id="joint2" name="joint2" sid="joint2" type="JOINT">
           <matrix sid="transform">1 0 0 0 0 1 0 1 0 0 1 0 0 0 0 1</matrix>
           <extra>

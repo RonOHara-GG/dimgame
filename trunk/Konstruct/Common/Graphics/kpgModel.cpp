@@ -56,7 +56,6 @@ kpgModel::kpgModel(void)
 	m_pControllerList = 0;
 	m_pAnimationInstance = 0;
 	m_pShader = 0;
-	m_aBoneMatricies.SetSize(MAX_BONES);
 }
 
 kpgModel::~kpgModel(void)
@@ -137,13 +136,8 @@ bool kpgModel::Load(const char* cszFileName)
 	{
 		DWORD dwErr = GetLastError();
 		Printf("Failed to load file: %s\n", szFileName);
-	}
-
-	//transform bones by skinning matricies
-    for(int i = 0; i < m_aBoneMatricies.GetNumElementsUsed(); i++)
-    {
-		m_aBoneMatricies[i] = m_aSkinningMatricies[i] * m_aBoneMatricies[i];
-    }
+	}   
+    
 
 	kpuVector vMin, vMax;
 
@@ -205,6 +199,7 @@ bool kpgModel::Load(const char* cszFileName)
 	}
 	delete m_pControllerList;
 	m_pControllerList = 0;
+
 
 	return bRet;
 }
@@ -301,9 +296,13 @@ void kpgModel::LoadVisualSceneLibrary(kpuXmlParser* pParser)
 				{
 					switch((u32)pParser->GetAttributeAsInt("type"))
 					{
-					case s_uHash_JOINT:
-						LoadBoneMatricies(pParser, -1);
-						break;
+					/*case s_uHash_JOINT:
+						{
+							kpuMatrix m;
+							m.Identity();
+							LoadBoneMatricies(pParser, m);
+							break;
+						}*/
 					case s_uHash_NODE:
 						{
 							kpgGeometryInstance* pInstance = LoadInstance(pParser);
@@ -891,9 +890,7 @@ void kpgModel::Draw(kpgRenderer* pRenderer)
 	if( m_pShader )
 	{
 		if( m_pAnimationInstance )
-			m_pShader->SetSkinningMatricies(m_pAnimationInstance->GetTransformations());
-		else
-			m_pShader->SetSkinningMatricies(&m_aBoneMatricies);
+			m_pShader->SetSkinningMatricies(m_pAnimationInstance->GetTransformations());		
 	}
 
 	for( int i = 0; i < m_aInstances.GetNumElements(); i++ )
@@ -994,9 +991,6 @@ void kpgModel::LoadLibraryControllers(kpuXmlParser *pParser)
 							sources.AddTail(pSource);
 							break;
 						}
-					case s_uHash_joints:
-                        LoadJoints(pParser, &sources);
-                        break;
 					case s_uHash_vertex_weights:
 						{
 							int iVCount = pParser->GetAttributeAsInt("count");
@@ -1105,61 +1099,68 @@ void kpgModel::LoadBoneIndicesWeights(sController* pController, sSource* pWeight
 			int iWeightIndex = atoi(pStart);
 			fWeights[j] = pWeightSource->aFloats[iWeightIndex];			
 
-			pDataPtr++;
-		}			
+			pDataPtr++;			
+		}
 
-		pController->aBoneIndices.Add( (uBoneIndicies[3]<< 24) | (uBoneIndicies[2] << 16) | (uBoneIndicies[1] << 8) | uBoneIndicies[0] );
-		pController->aVertexWeights.Add(kpuVector(fWeights[0], fWeights[1], fWeights[2], fWeights[3]));
+		pController->aBoneIndices.Add( (uBoneIndicies[3] << 24) | (uBoneIndicies[2] << 16) | (uBoneIndicies[1] << 8) | uBoneIndicies[0] );
+		pController->aVertexWeights.Add(kpuVector(fWeights[0], fWeights[1], fWeights[2], fWeights[3]));		
 	}
 	free(pszArray);
 }
 
-void kpgModel::LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources)
-{
-    pParser->FirstChildElement();
-    while( pParser->HasElement() )
-    {
-            u32 uSemantic = (u32)pParser->GetAttributeAsInt("semantic");            
-            if( uSemantic == s_uHash_INV_BIND_MATRIX )
-            {
-                    //create list of bone matricies
-                    kpuLinkedList* pNext = sources->Next();
-                    while(pNext)
-                    {
-                            sSource* source = (sSource*)pNext->GetPointer();
-                            u32 uAttrib = StringHash(pParser->GetAttribute("source") + 1);
-                            if( source->uID == uAttrib )
-                            {
-                                    m_aSkinningMatricies.SetSize(source->aFloats.GetNumElements() / 16 );
-                                    //found the bone matricies
-                                    for(int i = 0; i < source->aFloats.GetNumElements(); i+= 16)
-                                    {
-                                            kpuVector v(source->aFloats[i], source->aFloats[i + 1], source->aFloats[i + 2], source->aFloats[i + 3]);
-                                            kpuVector v1(source->aFloats[i + 4], source->aFloats[i + 5], source->aFloats[i + 6], source->aFloats[i + 7]);
-                                            kpuVector v2(source->aFloats[i + 8], source->aFloats[i + 9], source->aFloats[i + 10], source->aFloats[i + 11]);
-                                            kpuVector v3(source->aFloats[i + 12], source->aFloats[i + 13], source->aFloats[i + 14], source->aFloats[i + 15]);
-
-                                            m_aSkinningMatricies.Add(kpuMatrix(v,v1,v2,v3));
-                                            //kpuMatrix m;
-                                            //m.Identity();
-                                            //m_aBoneMatricies.Add(m);
-                                    }
-
-                                    //delete this node its usefullness is gone
-                                    delete source;
-                                    kpuLinkedList* pTemp = pNext->Next();
-                                    delete pNext;
-
-                                    pNext = pTemp;
-                            }       
-                            pNext = pNext->Next();
-                    }
-            }
-
-            pParser->NextSiblingElement();
-    }
-    pParser->Parent();
-}
+//void kpgModel::LoadJoints(kpuXmlParser* pParser, kpuLinkedList* sources)
+//{
+//    pParser->FirstChildElement();
+//    while( pParser->HasElement() )
+//    {
+//        u32 uSemantic = (u32)pParser->GetAttributeAsInt("semantic");           
+//       
+//        //create list of bone matricies
+//        kpuLinkedList* pNext = sources->Next();
+//        while(pNext)
+//        {
+//            sSource* source = (sSource*)pNext->GetPointer();
+//            u32 uAttrib = StringHash(pParser->GetAttribute("source") + 1);
+//            if( source->uID == uAttrib )
+//            {
+//				switch( uSemantic )
+//				{
+//				case s_uHash_INV_BIND_MATRIX:
+//					 m_paInvBindMatricies->SetSize(source->aFloats.GetNumElements() / 16 );
+//					//found the bone matricies
+//					for(int i = 0; i < source->aFloats.GetNumElements(); i+= 16)
+//					{
+//							kpuVector v(source->aFloats[i], source->aFloats[i + 1], source->aFloats[i + 2], source->aFloats[i + 3]);
+//							kpuVector v1(source->aFloats[i + 4], source->aFloats[i + 5], source->aFloats[i + 6], source->aFloats[i + 7]);
+//							kpuVector v2(source->aFloats[i + 8], source->aFloats[i + 9], source->aFloats[i + 10], source->aFloats[i + 11]);
+//							kpuVector v3(source->aFloats[i + 12], source->aFloats[i + 13], source->aFloats[i + 14], source->aFloats[i + 15]);
+//
+//							kpuMatrix m(v,v1,v2,v3);
+//							m.Transpose();
+//							m_paInvBindMatricies->Add(m);
+//							//kpuMatrix m;
+//							//m.Identity();
+//							//m_aBoneMatricies.Add(m);
+//					}
+//					break;
+//				case s_uHash_JOINT:
+//					m_pBoneIndicieMap = new kpuMap<u32, int>();
+//					for(int i = 0; i < source->aHashes.GetNumElements(); i++)						
+//						m_pBoneIndicieMap->Add(source->aHashes[i], i);
+//					break;
+//				}
+//					
+//                //delete this node its usefullness is gone
+//                delete source;                    
+//                delete pNext;
+//				break;                    
+//            }       
+//            pNext = pNext->Next();
+//		}
+//        pParser->NextSiblingElement();
+//    }
+//    pParser->Parent();
+//}
 
 void kpgModel::SetShader(const char *pszShaderFile)
 {
@@ -1174,7 +1175,7 @@ void kpgModel::UpdateAnimations(float fDeltaTime)
 {
 	if( m_pAnimationInstance )
 	{
-		if( !m_pAnimationInstance->Update(fDeltaTime, m_aBoneMatricies) )
+		if( !m_pAnimationInstance->Update(fDeltaTime) )
 		{
 			delete m_pAnimationInstance;
 			m_pAnimationInstance = 0;
@@ -1188,38 +1189,41 @@ void kpgModel::PlayAnimation(u32 uName)
 		m_pAnimationInstance = kpgAnimationManager::GetInstance()->GetNewAnimation(uName);		
 	
 }
-void kpgModel::LoadBoneMatricies(kpuXmlParser* pParser, int iParent)
-{
-	if( pParser->GetValueAsInt() == s_uHash_node && pParser->GetAttributeAsInt("type") == s_uHash_JOINT )
-	{
-		pParser->FirstChildElement();
-		u32 uName = pParser->GetAttributeAsInt("name");
-		
-		while( pParser->HasElement() )
-		{
-			//add the bones transformation or its child bones
-			if( (u32)pParser->GetValueAsInt() == s_uHash_matrix )
-			{
-				char* pMatrix = _strdup(pParser->GetChildValue());
-
-				kpuMatrix m = ParseMatrix(pMatrix);
-				//transpose for cpu
-				m.Transpose();
-
-				if( iParent > -1 )
-					m = m * m_aBoneMatricies[iParent];
-
-				m_aBoneMatricies.Add(m);			
-				
-				free(pMatrix);
-				iParent = m_aBoneMatricies.GetNumElementsUsed() - 1;
-			}
-			else
-				LoadBoneMatricies(pParser, iParent);			
-
-			pParser->NextSiblingElement();
-		}
-		pParser->Parent();		
-	}
-
-}
+//void kpgModel::LoadBoneMatricies(kpuXmlParser* pParser, kpuMatrix& mParent)
+//{
+//	if( pParser->GetValueAsInt() == s_uHash_node && pParser->GetAttributeAsInt("type") == s_uHash_JOINT )
+//	{
+//		kpuMatrix m;
+//		m.Identity();
+//		
+//		u32 uName = pParser->GetAttributeAsInt("name");
+//		int* iIndex = (*m_pBoneIndicieMap)[uName];
+//		
+//		if( iIndex )
+//		{
+//			pParser->FirstChildElement();
+//			while( pParser->HasElement() )
+//			{			
+//				//add the bones transformation or its child bones
+//				if( (u32)pParser->GetValueAsInt() == s_uHash_matrix )
+//				{
+//					char* pMatrix = _strdup(pParser->GetChildValue());
+//
+//					m = ParseMatrix(pMatrix);
+//					//transpose for cpu
+//					m.Transpose();					
+//					m = m * mParent;	
+//					m_aBoneMatricies.Add(m);			
+//					
+//					free(pMatrix);				
+//				}
+//				else
+//					LoadBoneMatricies(pParser, m);			
+//
+//				pParser->NextSiblingElement();
+//			}
+//			pParser->Parent();	
+//		}
+//			
+//	}
+//}
