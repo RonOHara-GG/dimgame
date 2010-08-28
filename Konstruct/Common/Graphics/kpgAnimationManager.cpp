@@ -69,9 +69,7 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 					pParser->NextSiblingElement();
 				}
 				pParser->Parent();
-
 			}
-
 			pParser->NextSiblingElement();
 		}
 		pParser->Parent();
@@ -80,6 +78,41 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 	//create animation
 	CreateAnimation(uName, bones);
 
+	//clean up data structures for loading animations
+	if(	m_plSkeletonSources )
+	{
+		kpuLinkedList* pNext = m_plSkeletonSources->Next();
+		while( pNext )
+		{
+			delete pNext->GetPointer();
+			delete pNext;
+			pNext = m_plSkeletonSources->Next();
+		}
+	
+		delete m_plSkeletonSources;
+		m_plSkeletonSources = 0;
+	}
+
+	
+	if( m_plBoneHierarchy )
+	{
+		kpuLinkedList* pNext = m_plBoneHierarchy->Next();
+		while( pNext )
+		{
+			delete pNext->GetPointer();
+			delete pNext;
+			pNext = m_plBoneHierarchy->Next();
+		}		
+		delete m_plBoneHierarchy;
+		m_plBoneHierarchy = 0;
+	}
+
+	if(  m_paInvBindMatricies )
+	{
+		delete  m_paInvBindMatricies;
+		 m_paInvBindMatricies = 0;
+	}
+
 	delete m_pBoneIndicieMap;
 	delete pParser;
 }
@@ -87,28 +120,37 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 void kpgAnimationManager::CreateAnimation(u32 uName, kpuFixedArray<kpgAnimation::sBone*>* bones)
 {
 	//Make sure their are bones being animated, if so then create a new animation and add them to it
-	if( bones->GetNumElementsUsed() > 0 )
+	if( m_paInvBindMatricies->GetNumElementsUsed() > 0 )
 	{
-		kpgAnimation* pAnimation = new kpgAnimation(bones->GetNumElementsUsed());
-		for(int i = 0; i < bones->GetNumElementsUsed(); i++ )
+		kpgAnimation* pAnimation = new kpgAnimation(m_paInvBindMatricies->GetNumElementsUsed());
+		for(int i = 0; i < m_paInvBindMatricies->GetNumElementsUsed(); i++ )
 		{
 			kpgAnimation::sBone* pBone = (*bones)[i];
-			sBoneData* sData = (*m_pBoneIndicieMap)[pBone->uName];
-			sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];
+			if( pBone )
+			{
+				sBoneData* sData = (*m_pBoneIndicieMap)[pBone->uName];
+				sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];
 
-			if( sParent )
-				pBone->iParent = sParent->iIndex;	
-			else
-				pBone->iParent = -1;
+				if( sParent )
+				{
+					//sData->mWorld = sData->mWorld * sParent->mWorld;
+					pBone->iParent = sParent->iIndex;					
+				}		
+				else				
+					pBone->iParent = -1;				
 
-			//put transformation into bone local space
-			for(int i = 0; i < pBone->aTransforms.GetNumElementsUsed(); i++)			
-				 pBone->aTransforms[i] = (*m_paSkinningMatricies)[sData->iIndex] *  pBone->aTransforms[i];
+				pBone->mBindPose = sData->mWorld;
+				pBone->mInvBind = (*m_paInvBindMatricies)[i];
 
-			pAnimation->AddBone(sData->iIndex, pBone);
-		}			
+				/*for(int i = 0; i < pBone->aTransforms.GetNumElements(); i++)
+					pBone->aTransforms[i] = (*m_paInvBindMatricies)[i] * pBone->aTransforms[i];*/
+				
+				pAnimation->AddBone(sData->iIndex, pBone);
+			}
+		}	
 		m_pAnimations->Add(uName, pAnimation);
 	}
+			
 
 	delete bones;
 }
@@ -116,7 +158,7 @@ void kpgAnimationManager::CreateAnimation(u32 uName, kpuFixedArray<kpgAnimation:
 void kpgAnimationManager::LoadControllers(kpuXmlParser *pParser)
 {
 	m_plSkeletonSources = new kpuLinkedList();
-	m_paSkinningMatricies = new kpuFixedArray<kpuMatrix>();
+	 m_paInvBindMatricies = new kpuFixedArray<kpuMatrix>();
 	kpuLinkedList sources;
 
 	pParser->FirstChildElement();
@@ -208,7 +250,7 @@ void kpgAnimationManager::LoadInverseBinds(kpuXmlParser* pParser, kpuLinkedList*
 		sSource* source = (sSource*)pNext->GetPointer();
 		if( source->uID == uSourceID )
 		{
-			m_paSkinningMatricies->SetSize(source->aFloats.GetNumElements() / 16 );
+			 m_paInvBindMatricies->SetSize(source->aFloats.GetNumElements() / 16 );
 			//found the bone matricies
 			for(int i = 0; i < source->aFloats.GetNumElements(); i+= 16)
 			{
@@ -220,7 +262,7 @@ void kpgAnimationManager::LoadInverseBinds(kpuXmlParser* pParser, kpuLinkedList*
 				kpuMatrix mMatrix(v,v1,v2,v3);
 				//transpose for cpu
 				mMatrix.Transpose();
-				m_paSkinningMatricies->Add(mMatrix);
+				m_paInvBindMatricies->Add(mMatrix);
 			}
 
 			//delete this node its usefullness is gone
@@ -393,8 +435,7 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 						}				
 
 					}					
-
-					bones.Add(pBone);		
+					bones[pData->iIndex] = pBone;		
 
 					delete pTransforms;
 					delete pTimes;
@@ -414,10 +455,10 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 	{
 		bool bFound = false;
 		sBoneData* pData = (sBoneData*)pNext->GetPointer();
-
-		for(int i = 0; i < bones.GetNumElementsUsed(); i++)
+	
+		for(int i = 0; i < bones.GetNumElements(); i++)
 		{
-			if( bones[i]->uName == pData->uName )
+			if( bones[i] && bones[i]->uName == pData->uName )
 			{
 				bFound = true;				
 				break;
@@ -426,9 +467,14 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 
 		if( !bFound )
 		{
-			kpgAnimation::sBone* pBone = new kpgAnimation::sBone();
-			pBone->uName = pData->uName;
-			bones.Add(pBone);			
+			//make sure it is in map
+			void* p = (*m_pBoneIndicieMap)[pData->uName];
+			if( p )
+			{
+				kpgAnimation::sBone* pBone = new kpgAnimation::sBone();
+				pBone->uName = pData->uName;			
+				bones[pData->iIndex] = pBone;		
+			}
 		}
 
 		delete pData;
@@ -436,7 +482,6 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 
 		pNext = m_plBoneHierarchy->Next();
 	}
-	delete m_plBoneHierarchy;
 
 }
 
@@ -471,47 +516,30 @@ void kpgAnimationManager::CreateSkeletonMap(u32 uBone)
 		//store it in map
 		for(int i = 0; i < pSkeletonSource->aHashes.GetNumElements(); i++)
 		{
-			sBoneData data;
-			data.iIndex = i;
-			m_pBoneIndicieMap->Add(pSkeletonSource->aHashes[i], data);			
-		}
-
-		//add bone hierarchy to map
-		kpuLinkedList* pNext = m_plBoneHierarchy->Next();
-		while( pNext )
-		{
-			//make sure the bone exist in the map
-			sBoneData* pData = (sBoneData*)pNext->GetPointer();
-			sBoneData* pBone = (*m_pBoneIndicieMap)[pData->uName];
-
-			kpuLinkedList* pTemp = pNext->Next();
-
-			if( pBone )
+			//add bone hierarchy to map
+			kpuLinkedList* pNext = m_plBoneHierarchy->Next();
+			while( pNext )
 			{
-				pBone->uParent = pData->uParent;
-				pBone->pFloats = pData->pFloats;
-			}
-			else
-			{
-				delete pData;
-				delete pNext;
-			}
+				//make sure the bone exist in the map
+				sBoneData* pData = (sBoneData*)pNext->GetPointer();
 
-			pNext = pTemp;
+				if( pData->uName == pSkeletonSource->aHashes[i] )	
+				{
+					//Set the world matrix for each bone
+					char* pMatrix = _strdup(pData->pFloats);
+					pData->mWorld = ParseMatrix(pMatrix);
+					pData->mWorld.Transpose();
+					free(pMatrix);
+
+					pData->iIndex = i;
+
+					m_pBoneIndicieMap->Add(pSkeletonSource->aHashes[i], *pData);						
+				}				
+				pNext =  pNext->Next();
+			}
 		}
-	}
-
-	//clean up skeleton sources
-	pNext = m_plSkeletonSources->Next();
-	while( pNext )
-	{
-		delete pNext->GetPointer();
-		delete pNext;
-		pNext = m_plSkeletonSources->Next();
 	}
 	
-	delete m_plSkeletonSources;
-	m_plSkeletonSources = 0;
 }
 
 kpgAnimationManager* kpgAnimationManager::GetInstance()
@@ -556,8 +584,12 @@ void kpgAnimationManager::LoadBone(kpuXmlParser *pParser, u32 uParent)
 		
 		while( pParser->HasElement() )
 		{
-			//add the bones transformation or its child bones			
-			LoadBone(pParser, pBone->uName);
+			//add the bones transformation or its child bones
+			if( pParser->GetValueAsInt() == s_uHash_matrix )			
+				pBone->pFloats = (char*)pParser->GetChildValue();			
+			else
+				LoadBone(pParser, pBone->uName);
+
 			pParser->NextSiblingElement();
 		}
 		pParser->Parent();		

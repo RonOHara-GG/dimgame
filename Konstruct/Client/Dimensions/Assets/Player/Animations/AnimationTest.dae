@@ -15,8 +15,8 @@
 		</comments>
       <source_data>file:///C:/Projects/Dimensions/Konstruct/Client/Dimensions/Assets/Player/Animations/AnimatedCube.mb</source_data>
     </contributor>
-    <created>2010-08-26T18:53:14</created>
-    <modified>2010-08-26T18:53:14</modified>
+    <created>2010-08-27T18:53:42</created>
+    <modified>2010-08-27T18:53:42</modified>
     <unit name="centimeter" meter="0.01"/>
     <up_axis>Y_UP</up_axis>
   </asset>
@@ -198,9 +198,9 @@
         </extra>
       </node>
       <node id="joint1" name="joint1" sid="joint1" type="JOINT">
-        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <matrix sid="transform">1 0 0 5 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
         <node id="joint2" name="joint2" sid="joint2" type="JOINT">
-          <matrix sid="transform">1 0 0 1.728814 0 1 0 1 0 0 1 0 0 0 0 1</matrix>
+          <matrix sid="transform">1 0 0 4 0 1 0 1 0 0 1 0 0 0 0 1</matrix>
           <extra>
             <technique profile="OpenCOLLADAMaya">
               <originalMayaNodeId>joint2</originalMayaNodeId>
@@ -218,6 +218,42 @@
     </visual_scene>
   </library_visual_scenes>
   <library_animations>
+    <animation id="joint1.matrix_joint1">
+      <source id="joint1.matrix_joint1_transform-input" name="joint1.matrix_joint1_transform-input">
+        <float_array id="joint1.matrix_joint1_transform-input-array" count="60">0.01666665 0.0333333 0.04999995 0.06666666 0.08333331 0.1 0.1166666 0.1333333 0.15 0.1666666 0.1833333 0.2 0.2166666 0.2333333 0.25 0.2666667 0.2833333 0.3 0.3166667 0.3333333 0.35 0.3666667 0.3833333 0.4 0.4166666 0.4333333 0.45 0.4666666 0.4833333 0.5 0.5166667 0.5333334 0.55 0.5666667 0.5833333 0.6 0.6166667 0.6333333 0.65 0.6666667 0.6833333 0.7 0.7166666 0.7333334 0.75 0.7666667 0.7833334 0.8 0.8166667 0.8333333 0.85 0.8666667 0.8833333 0.9 0.9166667 0.9333333 0.95 0.9666666 0.9833334 1 </float_array>
+        <technique_common>
+          <accessor source="#joint1.matrix_joint1_transform-input-array" count="60" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+        <technique profile="OpenCOLLADAMaya">
+          <pre_infinity>CONSTANT</pre_infinity>
+          <post_infinity>CONSTANT</post_infinity>
+        </technique>
+      </source>
+      <source id="joint1.matrix_joint1_transform-output" name="joint1.matrix_joint1_transform-output">
+        <float_array id="joint1.matrix_joint1_transform-output-array" count="960">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.08615779 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.1750422 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.2665073 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.3604069 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.4565949 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.5549253 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.655252 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.757429 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.8613101 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0.9667493 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.073601 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.181718 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.290955 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.401166 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.512204 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.623924 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.736181 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.848826 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 1.961715 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.074701 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.187638 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.300381 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.412783 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.524698 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.63598 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.746483 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.856061 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 2.964568 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.071857 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.177783 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.2822 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.384962 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.485921 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.584933 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.681852 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.77653 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.868823 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 3.958584 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.045667 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.129926 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.211215 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.289387 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.364297 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.435799 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.503746 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.567994 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.628395 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.684802 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.737071 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.785056 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.828609 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.867586 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.90184 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.931225 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.955594 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.974802 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.988704 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 4.997151 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 5 0 1 0 0 0 0 1 0 0 0 0 1 </float_array>
+        <technique_common>
+          <accessor source="#joint1.matrix_joint1_transform-output-array" count="60" stride="16">
+            <param name="TRANSFORM" type="float4x4"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="joint1.matrix_joint1_transform-interpolation" name="joint1.matrix_joint1_transform-interpolation">
+        <Name_array id="joint1.matrix_joint1_transform-interpolation-array" count="60">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR </Name_array>
+        <technique_common>
+          <accessor source="#joint1.matrix_joint1_transform-interpolation-array" count="60" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="joint1.matrix_joint1_transform-sampler">
+        <input semantic="INPUT" source="#joint1.matrix_joint1_transform-input"/>
+        <input semantic="OUTPUT" source="#joint1.matrix_joint1_transform-output"/>
+        <input semantic="INTERPOLATION" source="#joint1.matrix_joint1_transform-interpolation"/>
+      </sampler>
+      <channel source="#joint1.matrix_joint1_transform-sampler" target="joint1/transform"/>
+    </animation>
     <animation id="joint1.visibility_joint1">
       <source id="joint1.visibility_joint1_joint1.visibility_joint1-input" name="joint1.visibility_joint1_joint1.visibility_joint1-input">
         <float_array id="joint1.visibility_joint1_joint1.visibility_joint1-input-array" count="3">0.01666665 1 4 </float_array>
@@ -268,7 +304,7 @@
         </technique>
       </source>
       <source id="joint2.matrix_joint2_transform-output" name="joint2.matrix_joint2_transform-output">
-        <float_array id="joint2.matrix_joint2_transform-output-array" count="960">1 0 0 0 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.03389829 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.06779658 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.1016949 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.1355932 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.1694915 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.2033898 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.2372881 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.2711864 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.3050848 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.3389831 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.3728814 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.4067797 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.440678 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.4745762 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.5084746 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.5423729 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.5762712 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.6101695 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.6440678 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.6779661 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.7118644 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.7457627 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.779661 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.8135593 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.8474577 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.8813559 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.9152542 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.9491525 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.9830508 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.016949 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.050848 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.084746 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.118644 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.152542 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.186441 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.220339 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.254237 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.288136 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.322034 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.355932 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.38983 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.423729 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.457627 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.491525 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.525424 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.559322 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.59322 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.627119 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.661017 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.694915 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.728814 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.762712 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.79661 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.830508 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.864407 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.898305 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.932203 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.966102 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2 0 1 0 1 0 0 1 0 0 0 0 1 </float_array>
+        <float_array id="joint2.matrix_joint2_transform-output-array" count="960">1 0 0 0 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.06779658 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.1355932 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.2033898 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.2711864 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.3389831 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.4067797 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.4745763 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.5423729 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.6101695 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.6779661 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.7457627 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.8135594 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.881356 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 0.9491525 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.016949 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.084746 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.152542 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.220339 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.288136 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.355932 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.423729 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.491525 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.559322 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.627119 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.694915 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.762712 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.830508 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.898305 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 1.966102 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.033898 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.101695 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.169492 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.237288 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.305085 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.372881 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.440678 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.508475 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.576271 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.644068 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.711864 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.779661 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.847457 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.915254 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 2.983051 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.050847 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.118644 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.186441 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.254237 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.322034 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.389831 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.457627 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.525424 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.59322 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.661017 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.728814 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.79661 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.864407 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 3.932204 0 1 0 1 0 0 1 0 0 0 0 1 1 0 0 4 0 1 0 1 0 0 1 0 0 0 0 1 </float_array>
         <technique_common>
           <accessor source="#joint2.matrix_joint2_transform-output-array" count="60" stride="16">
             <param name="TRANSFORM" type="float4x4"/>

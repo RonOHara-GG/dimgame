@@ -8,13 +8,14 @@ kpgAnimationInstance::kpgAnimationInstance(kpgAnimation* pAnimation)
 	m_fElaspedTime = 0.0f;
 	m_bPlaying = true;
 	m_aBoneTransformations.SetSize(MAX_BONES);	
+	m_aFinalTransformations.SetSize(MAX_BONES);
 }
 
 kpgAnimationInstance::~kpgAnimationInstance(void)
 {
 }
 
-bool kpgAnimationInstance::Update(float fDeltaTime, kpuFixedArray<kpuMatrix>& aOrigMatrix)
+bool kpgAnimationInstance::Update(float fDeltaTime)
 {	
 	if( !m_bPlaying )
 		return false;
@@ -29,9 +30,9 @@ bool kpgAnimationInstance::Update(float fDeltaTime, kpuFixedArray<kpuMatrix>& aO
 		kpuFixedArray<kpuMatrix>* pTransforms = m_pAnimation->GetTransforms(i);
 
 		kpuMatrix mCurrent, mPrev, mParent;
-		mCurrent.Identity();
+		mCurrent = m_pAnimation->GetBindPose(i);
 		mPrev.Identity();
-		mParent.Identity();
+		mParent.Identity();		
 
 		//See if this bone has any transformations
 		if( pTransforms->GetNumElementsUsed() )
@@ -65,6 +66,7 @@ bool kpgAnimationInstance::Update(float fDeltaTime, kpuFixedArray<kpuMatrix>& aO
 
 					mCurrent = mPrev + ( (mCurrent - mPrev) * fTime);
 				}
+				m_bPlaying = true;
 			}
 			else
 			{
@@ -72,18 +74,16 @@ bool kpgAnimationInstance::Update(float fDeltaTime, kpuFixedArray<kpuMatrix>& aO
 				mCurrent = (*pTransforms)[pTransforms->GetNumElementsUsed() - 1];	
 				m_bPlaying = false;
 			}
-		}
+		}	
 
 		//try and find the parent matrix
 		int iParent = m_pAnimation->GetBoneParent(i);	
 		if( iParent > -1 )
-			m_aBoneTransformations[iParent];
+			mParent = m_aBoneTransformations[iParent];
 		
-		m_aBoneTransformations[i] = mCurrent * mParent;			
+		m_aBoneTransformations[i] = mCurrent * mParent;		
+		m_aFinalTransformations[i] = m_pAnimation->GetInvBind(i) * m_aBoneTransformations[i];
 	}	
-
-	//m_aBoneTransformations[0] = aOrigMatrix[0];
-	//m_aBoneTransformations[1] = (*pTransforms)[0];
 
 	return true;
 }
