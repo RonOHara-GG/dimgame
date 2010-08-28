@@ -370,21 +370,29 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 
 						u32 uTarget = StringHash(pTarget);
 						u32 uMatrix = StringHash(pMatrix);
+						bool bValid = false;
 
 						//make sure this is a transform
-						if( uMatrix == s_uHash_transform )
+						if( uMatrix == s_uHash_transform)
 						{
-							//see if we still need to find the skeleton we are animating
-							if( !bSkeletonFound )
-							{
-								CreateSkeletonMap(uTarget);
-								assert(m_pBoneIndicieMap);
-								bSkeletonFound = true;
-							}
+							//If we still don't know which skeleton look for the skeleton with this bone
+							if( !bSkeletonFound )								
+								bSkeletonFound = CreateSkeletonMap(uTarget);
 
-							pTransforms->uID = uTarget;					
+							//if skeleton found make sure this bone is in it
+							if( bSkeletonFound )
+							{
+								sBoneData* pData = (*m_pBoneIndicieMap)[uTarget];
+								if( pData )
+								{
+									bValid = true;
+									pTransforms->uID = uTarget;	
+								}
+							}
 						}
-						else
+
+						//not a valid bone get rid of it
+						if( !bValid )
 						{
 							delete pTransforms;
 							pTransforms = 0;
@@ -485,7 +493,7 @@ void kpgAnimationManager::LoadAnimationLibrary(kpuXmlParser *pParser, kpuFixedAr
 
 }
 
-void kpgAnimationManager::CreateSkeletonMap(u32 uBone)
+bool kpgAnimationManager::CreateSkeletonMap(u32 uBone)
 {
 	sSource* pSkeletonSource = 0;
 
@@ -537,9 +545,10 @@ void kpgAnimationManager::CreateSkeletonMap(u32 uBone)
 				}				
 				pNext =  pNext->Next();
 			}
-		}
+		}		
+		return true;
 	}
-	
+	return false;	
 }
 
 kpgAnimationManager* kpgAnimationManager::GetInstance()

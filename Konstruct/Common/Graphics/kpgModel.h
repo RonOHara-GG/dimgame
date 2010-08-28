@@ -82,12 +82,11 @@ protected:
 	kpuFixedArray<kpgGeometryInstance*>	 m_aInstances;
 	kpgAnimationInstance*				 m_pAnimationInstance;
 	
-	kpuLinkedList*						 m_pControllerList;
-	//kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;	
+	kpuLinkedList*						 m_pControllerList;	
 	kpgShader*							 m_pShader;
 
 	//Not for runtime
 	/*kpuFixedArray<kpuMatrix>*			 m_paInvBindMatricies;
 	kpuMap<u32,int>*					 m_pBoneIndicieMap;*/
-	
+	//kpuFixedArray<kpuMatrix>			 m_aBoneMatricies;	
 };
