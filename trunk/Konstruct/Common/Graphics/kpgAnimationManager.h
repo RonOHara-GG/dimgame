@@ -42,7 +42,7 @@ protected:
 	void LoadBoneIndicies(kpuXmlParser* pParser, kpuLinkedList* pSources);
 
 	void CreateAnimation(u32 uName,kpuFixedArray<kpgAnimation::sBone*>* bones);
-	void CreateSkeletonMap(u32 uBone);
+	bool CreateSkeletonMap(u32 uBone);
 
 protected:
 
