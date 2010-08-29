@@ -12,10 +12,12 @@ kpgShaderManager::kpgShaderManager(void)
 
 kpgShaderManager::~kpgShaderManager(void)
 {
-	while( m_plShaders->Next() )
+	kpuLinkedList* pNext = m_plShaders->Next();
+	while( pNext )
 	{
-		delete (kpgShader*)m_plShaders->GetPointer();
-		delete m_plShaders;
+		delete pNext->GetPointer();
+		delete pNext;
+		pNext = m_plShaders->Next();
 	}
 
 	delete m_plShaders;

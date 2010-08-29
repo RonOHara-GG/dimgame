@@ -74,9 +74,7 @@ PlayerCharacter::PlayerCharacter(PlayerLoadStructure &playerData)
 
 PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 {
-	m_pModel = new kpgModel();
-	kpgGeometryInstance* pInst = pModel->GetInstance(0);
-	m_pModel->SetGeometryInstance(pInst, pInst->GetMatrix());
+	m_pModel = new kpgModel(*pModel);
 
 	kpgModel* pCollision = new kpgModel();
 
@@ -88,7 +86,7 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 	ZeroMemory(m_aClasses, sizeof(m_aClasses));
 	ZeroMemory(m_paInventory, sizeof(m_paInventory));
 
-	m_fBaseSpeed = 10.0f;
+	m_fBaseSpeed = 0.125f;
 	m_pActiveSkill = 0;
 
 	m_pSkillCombos = new kpuArrayList<SkillCombo*>;
