@@ -19,6 +19,8 @@
 #include "Common/Graphics/kpgTexture.h"
 #include "Common/Graphics/kpgGeometryInstance.h"
 #include "Common/Graphics/kpgLight.h"
+#include "Common/Graphics/kpgAnimationManager.h"
+#include "Common/Graphics/kpgShaderManager.h"
 #include "Common/Procedural/kppPlane.h"
 #include "Common/Utility/kpuXmlParser.h"
 
@@ -143,7 +145,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	}
 
 	// Destroy the renderer
-	delete pRenderer;	
+	delete pRenderer;
+
+	//delete animation manager
+	kpgAnimationManager* pAnimationManager = kpgAnimationManager::GetInstance();
+	delete pAnimationManager;
+
+	//delete shader manager
+	kpgShaderManager* pShaderManager = kpgShaderManager::GetInstance();
+	delete pShaderManager;
 
 	// Kill the window
 	CloseRenderWindow(hWnd);

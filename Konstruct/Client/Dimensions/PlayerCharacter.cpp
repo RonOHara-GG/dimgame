@@ -74,7 +74,9 @@ PlayerCharacter::PlayerCharacter(PlayerLoadStructure &playerData)
 
 PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 {
-	m_pModel = pModel;
+	m_pModel = new kpgModel();
+	kpgGeometryInstance* pInst = pModel->GetInstance(0);
+	m_pModel->SetGeometryInstance(pInst, pInst->GetMatrix());
 
 	kpgModel* pCollision = new kpgModel();
 
@@ -321,6 +323,9 @@ bool PlayerCharacter::Update(float fDeltaTime)
 	}
 
 	UpdateSkills(fDeltaTime);
+
+	m_pModel->PlayAnimation(StringHash("Animation"));
+	m_pModel->UpdateAnimations(fDeltaTime);
 
 	return true;
 }
