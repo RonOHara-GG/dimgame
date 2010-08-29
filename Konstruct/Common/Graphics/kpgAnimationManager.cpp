@@ -114,6 +114,7 @@ void kpgAnimationManager::LoadAnimation(const char *szFile, u32 uName)
 	}
 
 	delete m_pBoneIndicieMap;
+	m_pBoneIndicieMap = 0;
 	delete pParser;
 }
 

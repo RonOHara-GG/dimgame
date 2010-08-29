@@ -58,6 +58,20 @@ kpgModel::kpgModel(void)
 	m_pShader = 0;
 }
 
+kpgModel::kpgModel(kpgModel& pOrig)
+{
+	m_pControllerList = 0;
+	m_pAnimationInstance = 0;
+
+	//make new geometry instance
+	kpgGeometryInstance* pInst = pOrig.GetInstance(0);
+	SetGeometryInstance(pInst, pInst->GetMatrix());
+
+	//set shader
+	m_pShader = pOrig.m_pShader;
+
+}
+
 kpgModel::~kpgModel(void)
 {
 	for( int i = 0; i < m_aGeometries.GetNumElements(); i++ )

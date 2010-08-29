@@ -28,10 +28,10 @@ class kpgModel: public kpuPhysicalObject
 
 public:
 	kpgModel(void);
+	kpgModel(kpgModel& pOrig);
 	virtual ~kpgModel(void);
 
-	void Rotate(float fXRadians, float fYRadians, float fZRadians);
-	
+	void Rotate(float fXRadians, float fYRadians, float fZRadians);	
 
 	bool Load(const char* szFileName);
 
