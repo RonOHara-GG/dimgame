@@ -73,6 +73,9 @@ kpgModel::~kpgModel(void)
 		if( pInstance )
 			delete pInstance;
 	}
+
+	if( m_pAnimationInstance )
+		delete m_pAnimationInstance;
 }
 
 bool kpgModel::Load(const char* cszFileName)

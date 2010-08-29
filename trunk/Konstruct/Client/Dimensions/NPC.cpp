@@ -3,6 +3,7 @@
 #include "AIControl.h"
 #include "Common/Utility/kpuXmlParser.h"
 #include "Common/Graphics/kpgModel.h"
+#include "Common/Graphics/kpgGeometryInstance.h"
 
 Npc::Npc(void):Actor()
 {
@@ -41,7 +42,12 @@ void Npc::Load(kpuXmlParser* pParser, kpgModel* pModel)
 	
 	m_pszName = _strdup(pParser->GetAttribute("Name"));
 	
-	m_pModel = pModel;
+	if( m_pModel)
+		delete m_pModel;
+
+	m_pModel = new kpgModel();
+	kpgGeometryInstance* pInst = pModel->GetInstance(0);
+	m_pModel->SetGeometryInstance(pInst, pInst->GetMatrix());
 
 	//Get collision model
 	const char* szModel = pParser->GetAttribute("Collision");

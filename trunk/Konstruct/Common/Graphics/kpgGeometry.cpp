@@ -15,10 +15,10 @@ kpgGeometry::kpgGeometry(void)
 
 kpgGeometry::~kpgGeometry(void)
 {
-	if( m_pShader != kpgRenderer::GetInstance()->GetDefaultShader() )
-	{
-		delete m_pShader;
-	}
+	//if( m_pShader != kpgRenderer::GetInstance()->GetDefaultShader() )
+	//{
+	//	delete m_pShader;
+	//}
 
 	if( m_pVertexBuffer )
 		delete m_pVertexBuffer;

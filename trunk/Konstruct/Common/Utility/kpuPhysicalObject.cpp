@@ -23,7 +23,6 @@ kpuPhysicalObject::~kpuPhysicalObject(void)
 {
 	if(m_pModel)
 		delete m_pModel;
-
 	/*for(int i = 0; i < m_aCollisionPrimatives.Count(); i++)
 	{
 		delete m_aCollisionPrimatives[i];
