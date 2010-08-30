@@ -3,14 +3,14 @@
 
 #include "SpineCrank.h"
 
-Skill**			PlayerClass::m_paBrawlerSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_BRAWLER_SKILLS);
-Skill**			PlayerClass::m_paSwordsmanSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_SWORDSMAN_SKILLS);
-Skill**			PlayerClass::m_paArcherSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_ARCHER_SKILLS);	
-Skill**			PlayerClass::m_paMarksmanSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_MARKSMAN_SKILLS);		
-Skill**			PlayerClass::m_paRocketeerSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_ROCKETEER_SKILLS);	
-Skill**			PlayerClass::m_paMedicSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_MEDIC_SKILLS);
-Skill**			PlayerClass::m_paPriestSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_PRIEST_SKILLS);		
-Skill**			PlayerClass::m_paOccultistSkills = (Skill**)malloc(sizeof(Skill*) * NUMBER_OF_OCCULTIST_SKILLS);
+Skill**			PlayerClass::m_paBrawlerSkills = (Skill**)calloc(NUMBER_OF_BRAWLER_SKILLS, sizeof(Skill*));
+Skill**			PlayerClass::m_paSwordsmanSkills = (Skill**)calloc(NUMBER_OF_SWORDSMAN_SKILLS, sizeof(Skill*));
+Skill**			PlayerClass::m_paArcherSkills = (Skill**)calloc(NUMBER_OF_ARCHER_SKILLS, sizeof(Skill*));	
+Skill**			PlayerClass::m_paMarksmanSkills = (Skill**)calloc(NUMBER_OF_MARKSMAN_SKILLS, sizeof(Skill*));		
+Skill**			PlayerClass::m_paRocketeerSkills = (Skill**)calloc(NUMBER_OF_ROCKETEER_SKILLS, sizeof(Skill*));	
+Skill**			PlayerClass::m_paMedicSkills = (Skill**)calloc(NUMBER_OF_MEDIC_SKILLS, sizeof(Skill*));
+Skill**			PlayerClass::m_paPriestSkills = (Skill**)calloc(NUMBER_OF_PRIEST_SKILLS, sizeof(Skill*));		
+Skill**			PlayerClass::m_paOccultistSkills = (Skill**)calloc(NUMBER_OF_OCCULTIST_SKILLS, sizeof(Skill*));
 
 PlayerClass::PlayerClass(ePlayerClass eClass, float fExpPercent)
 {
@@ -21,48 +21,56 @@ PlayerClass::PlayerClass(ePlayerClass eClass, float fExpPercent)
 			{
 				m_iNumSkills = NUMBER_OF_BRAWLER_SKILLS;
 				m_paSkills = m_paBrawlerSkills;
+				strcpy(m_szName, "Brawler");
 				break;
 			}
 		case eCL_Archer:
 			{
 				m_iNumSkills = NUMBER_OF_ARCHER_SKILLS;
 				m_paSkills = m_paArcherSkills;
+				strcpy(m_szName, "Archer");
 				break;
 			}
 		case eCL_Medic:
 			{
 				m_iNumSkills = NUMBER_OF_MEDIC_SKILLS;
 				m_paSkills = m_paMedicSkills;
+				strcpy(m_szName, "Medic");
 				break;
 			}
 		case eCL_Marksman:
 			{
 				m_iNumSkills = NUMBER_OF_MARKSMAN_SKILLS;
 				m_paSkills = m_paMarksmanSkills;
+				strcpy(m_szName, "Marksman");
 				break;
 			}
 		case eCL_Rocketeer:
 			{
 				m_iNumSkills = NUMBER_OF_ROCKETEER_SKILLS;
 				m_paSkills = m_paRocketeerSkills;
+				strcpy(m_szName, "Rocketeer");
 				break;
 			}
 		case eCL_Occultist:
 			{
 				m_iNumSkills = NUMBER_OF_OCCULTIST_SKILLS;
 				m_paSkills = m_paOccultistSkills;
+				strcpy(m_szName, "Occultist");
 				break;
 			}
 		case eCL_Priest:
 			{
 				m_iNumSkills = NUMBER_OF_PRIEST_SKILLS;
 				m_paSkills = m_paPriestSkills;
+				strcpy(m_szName,  "Priest");
 				break;
 			}
 		case eCL_Swordsman:
 			{
 				m_iNumSkills = NUMBER_OF_SWORDSMAN_SKILLS;
 				m_paSkills = m_paSwordsmanSkills;
+				strcpy_s(m_szName,  "Swordsman");
 				break;
 			}
 	}
@@ -72,17 +80,16 @@ PlayerClass::PlayerClass(ePlayerClass eClass, float fExpPercent)
 	ClassInit();
 
 	//Skill we are testing
-	Skill* pSkill = new SpineCrank();
+	/*Skill* pSkill = new SpineCrank();
 	m_paSkills[0] = pSkill;	
-	m_paSkills[1] = 0;
+	m_paSkills[1] = 0;*/
 
 
 }
 
 PlayerClass::~PlayerClass(void)
 {
-	if( m_paSkills )
-		delete[] m_paSkills;
+	
 }
 
 void PlayerClass::UpdateSkillTimers(float fDeltaTime)
@@ -100,9 +107,7 @@ void PlayerClass::ClassInit()
 {
 	m_iLevel = 1;
 	m_fCurrentExp = 0.0f;
-	m_fNeededExp = 100.0f;	
-	m_paSkills = (Skill**)malloc(sizeof(Skill*) * m_iNumSkills);
-	memset(m_paSkills, 0, sizeof(sizeof(Skill*) * m_iNumSkills));
+	m_fNeededExp = 1000.0f;	
 }
 
 bool PlayerClass::GainExp(int iExp)

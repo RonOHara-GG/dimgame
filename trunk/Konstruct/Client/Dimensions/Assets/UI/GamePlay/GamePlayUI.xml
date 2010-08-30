@@ -236,5 +236,120 @@
 			<Button Type="3" Name="ExitBtn"  Orientation="1" PositionX="0.5" PositionY="0.96" Width="1.0" Height="0.08"
 			Visible="1" HasFrame="0" ClickEvent="Close" Close="MerchantDialogWin" Text="Leave Store" />
 	</Window>
+
+	<Window Type="0" Name="CharacterWindow" Background="./Assets/UI/FrontEnd/StartWin.dds" Orientation="1" 
+			PositionX="0.5" PositionY="0.5" Width="0.35" Height="0.65"
+				Visible="0" HasFrame="1" >
+				
+		<Text Type="1" Name="Label1" Orientation="1" PositionX="0.15" PositionY="0.10"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Class" />
+				
+		<Text Type="1" Name="Label2" Orientation="1" PositionX="0.35" PositionY="0.10"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Level" />
+				
+		<Text Type="1" Name="Label3" Orientation="1" PositionX="0.60" PositionY="0.10"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Current Exp" />
+				
+		<Text Type="1" Name="Label4" Orientation="1" PositionX="0.85" PositionY="0.10"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="Needed Exp" />
+				
+		<Text Type="1" Name="Class1" Orientation="1" PositionX="0.15" PositionY="0.15"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName1"/>
+				
+		<Text Type="1" Name="Class1Lvl" Orientation="1" PositionX="0.35" PositionY="0.15"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel1"/>
+				
+		<Text Type="1" Name="Class1Exp" Orientation="1" PositionX="0.60" PositionY="0.15"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp1"/>
+				
+		<Text Type="1" Name="Class1ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.15"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed1"/>
+		
+		<Text Type="1" Name="Class2" Orientation="1" PositionX="0.15" PositionY="0.20"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName2"/>
+				
+		<Text Type="1" Name="Class2Lvl" Orientation="1" PositionX="0.35" PositionY="0.20"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel2"/>
+				
+		<Text Type="1" Name="Class2Exp" Orientation="1" PositionX="0.60" PositionY="0.20"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp2"/>
+				
+		<Text Type="1" Name="Class2ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.20"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed2"/>
+		
+		<Text Type="1" Name="Class3" Orientation="1" PositionX="0.15" PositionY="0.25"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName3"/>
+				
+		<Text Type="1" Name="Class3Lvl" Orientation="1" PositionX="0.35" PositionY="0.25"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel3"/>
+				
+		<Text Type="1" Name="Class3Exp" Orientation="1" PositionX="0.60" PositionY="0.25"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp3"/>
+				
+		<Text Type="1" Name="Class3ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.25"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed3"/>
+		
+		<Text Type="1" Name="Class4" Orientation="1" PositionX="0.15" PositionY="0.30"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName4"/>
+				
+		<Text Type="1" Name="Class4Lvl" Orientation="1" PositionX="0.35" PositionY="0.30"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel4"/>
+				
+		<Text Type="1" Name="Class4Exp" Orientation="1" PositionX="0.60" PositionY="0.30"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp4"/>
+				
+		<Text Type="1" Name="Class4ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.30"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed4"/>
+				
+		<Text Type="1" Name="Class5" Orientation="1" PositionX="0.15" PositionY="0.35"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName5"/>
+				
+		<Text Type="1" Name="Class5Lvl" Orientation="1" PositionX="0.35" PositionY="0.35"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel5"/>
+				
+		<Text Type="1" Name="Class5Exp" Orientation="1" PositionX="0.60" PositionY="0.35"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp5"/>
+				
+		<Text Type="1" Name="Class5ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.35"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed5"/>
+				
+		<Text Type="1" Name="Class6" Orientation="1" PositionX="0.15" PositionY="0.40"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName6"/>
+				
+		<Text Type="1" Name="Class6Lvl" Orientation="1" PositionX="0.35" PositionY="0.40"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel6"/>
+				
+		<Text Type="1" Name="Class6Exp" Orientation="1" PositionX="0.60" PositionY="0.40"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp6"/>
+				
+		<Text Type="1" Name="Class6ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.40"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed6"/>
+		
+		<Text Type="1" Name="Class7" Orientation="1" PositionX="0.15" PositionY="0.45"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName7"/>
+				
+		<Text Type="1" Name="Class7Lvl" Orientation="1" PositionX="0.35" PositionY="0.45"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel7"/>
+				
+		<Text Type="1" Name="Class7Exp" Orientation="1" PositionX="0.60" PositionY="0.45"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp7"/>
+				
+		<Text Type="1" Name="Class7ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.45"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed7"/>
+				
+		<Text Type="1" Name="Class8" Orientation="1" PositionX="0.15" PositionY="0.50"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassName8"/>
+				
+		<Text Type="1" Name="Class8Lvl" Orientation="1" PositionX="0.35" PositionY="0.50"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassLevel8"/>
+				
+		<Text Type="1" Name="Class8Exp" Orientation="1" PositionX="0.60" PositionY="0.50"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExp8"/>
+				
+		<Text Type="1" Name="Class8ExpNeed" Orientation="1" PositionX="0.85" PositionY="0.50"
+				Width="0.10" Height="0.05"	Visible="1" HasFrame="0"  Text="" DataSource="ClassExpNeed8"/>
+	</Window>			
+
 </Windows>
+
 			

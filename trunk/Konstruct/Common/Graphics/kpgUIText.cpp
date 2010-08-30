@@ -118,10 +118,14 @@ void kpgUIText::GetDataSource()
 {
 	if( m_pDataSource) 
 	{
-		m_pData = *m_pUIManager->GetDataSource(m_pDataSource);
+		char** pData = m_pUIManager->GetDataSource(m_pDataSource);
 
-		if( m_pData )
-			SetText(m_pData);
+		if( pData )
+		{
+			m_pData = *pData;
+			if( m_pData)
+				SetText(m_pData);
+		}
 	}
 }
 

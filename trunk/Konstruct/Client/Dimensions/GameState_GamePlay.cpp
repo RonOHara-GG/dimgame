@@ -240,6 +240,14 @@ bool GameState_GamePlay::HandleInputEvent(eInputEventType type, u32 button)
 						bHandled = true;
 						break;
 					}
+					case KPIK_C:
+					{
+						//toggle the Character window
+						m_pPlayer->SetCharacterWindowData();
+						m_pUIManager->ToggleUIWindow(KE_CHARACTER);
+						bHandled = true;
+						break;
+					}
 				}
 				break;
 			}

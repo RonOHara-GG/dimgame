@@ -98,10 +98,6 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 	m_pEquippedWeapon = 0;
 	m_fElaspedDefaultAtk = 0.0f;
 
-	/*Init(m_pModel->GetBoundingBox().GetMin(), m_pModel->GetBoundingBox().GetMax());
-	m_bBox.Move(GetLocation());
-	m_bSphere.Move(GetLocation());*/
-
 	SetFlag(ATTACKABLE);
 	m_iCurrentHealth = m_iMaxHealth = 100;
 	m_iClassCount = 0;
@@ -114,8 +110,7 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 	}
 
 	m_pWeaponSkills = new kpuLinkedList();
-	m_plPlayerPets = new kpuLinkedList();
-	
+	m_plPlayerPets = new kpuLinkedList();	
 
 	m_iStr = 100;
 	m_iAgi = 100;
@@ -133,6 +128,13 @@ PlayerCharacter::PlayerCharacter(kpgModel* pModel, u32 uClassFlags)
 	for(int i = 0; i < INVENTORY_SIZE; i++)
 	{
 		m_pInventoryList[i] = (char**)calloc(3, sizeof(char*));
+	} 
+
+	m_paClassData = (char***)malloc(NUM_OF_CLASSES * sizeof(char*));
+
+	for(int i = 0; i < NUM_OF_CLASSES; i++)
+	{
+		m_paClassData[i] = (char**)calloc(3, sizeof(char*));
 	} 
 }
 
@@ -173,6 +175,17 @@ PlayerCharacter::~PlayerCharacter(void)
 
 	free(m_pInventoryIcons);
 	free(m_pInventoryList);
+
+	for(int i = 0; i < NUM_OF_CLASSES; i++)
+	{
+		for(int j = 0; j < 3; j++)
+		{
+			if( m_paClassData[i][j] )
+				free(m_paClassData[i][j]);
+		}
+		free(m_paClassData[i]);
+	}
+	free(m_paClassData);
 }
 
 bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass)
@@ -198,12 +211,10 @@ bool PlayerCharacter::AddNewClass(ePlayerClass ePlayerClass)
 			
 			fTotal -= fCurrent;
 			m_aClasses[i]->SetExpSplit(fCurrent);
-
 		}
 	}
 
-	m_aClasses[ePlayerClass] = new PlayerClass(ePlayerClass, fTotal);	
-	
+	m_aClasses[ePlayerClass] = new PlayerClass(ePlayerClass, fTotal);
 
 	return true;
 
@@ -655,4 +666,49 @@ Item* PlayerCharacter::RemoveFromInventory(int iIndex)
 	m_pInventoryIcons[iIndex / 5][iIndex % 5] = 0;
 
 	return pItem;
+}
+
+void PlayerCharacter::SetCharacterWindowData()
+{
+	//Set all data sources for the character window
+	kpgUIManager* pUIManager = g_pGameState->GetUIManager();	
+
+	int iDataCount = 0;
+	//Set class data
+	for(int i = 0; i < NUM_OF_CLASSES; i++)
+	{
+		if( m_aClasses[i] )
+		{
+			iDataCount++;
+			char szSource[16];
+
+			sprintf(szSource, "ClassName%d", iDataCount);
+			//Get class name
+			pUIManager->SetDataSource(szSource, m_aClasses[i]->GetName());
+
+			//Set the class level
+			if(	!m_paClassData[i][0] )
+				m_paClassData[i][0] = (char*)malloc(8);
+			sprintf_s(m_paClassData[i][0], sizeof(m_paClassData[i][0]),"%d",m_aClasses[i]->GetLevel());
+			sprintf(szSource, "ClassLevel%d", iDataCount);
+			pUIManager->SetDataSource(szSource, (char*)m_paClassData[i][0]);
+
+			//Set the current exp
+			if(	!m_paClassData[i][1] )
+				m_paClassData[i][1] = (char*)malloc(16);
+			sprintf_s(m_paClassData[i][1], 16,"%.0f",m_aClasses[i]->GetCurrentExp());
+			sprintf(szSource, "ClassExp%d", iDataCount);
+			pUIManager->SetDataSource(szSource, (char*)m_paClassData[i][1]);
+
+			//Set the exp needed for next level
+			if(	!m_paClassData[i][2] )
+				m_paClassData[i][2] = (char*)malloc(16);
+			sprintf_s(m_paClassData[i][2], 16, "%.0f", m_aClasses[i]->GetExpNeeded());
+			sprintf(szSource, "ClassExpNeed%d", iDataCount);
+			pUIManager->SetDataSource(szSource, (char*)m_paClassData[i][2]);
+		}
+
+		//TODO: Add removal of classes to effect list correctly
+	}
+
 }

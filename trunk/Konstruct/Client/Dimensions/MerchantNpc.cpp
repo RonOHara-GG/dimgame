@@ -23,15 +23,6 @@ MerchantNpc::MerchantNpc()
 	m_paBasicItems = 0;
 
 	m_pInTransaction = 0;
-
-	/*m_pItemData = (char***)malloc(MAX_SHOP_INVENTORY * sizeof(char*));
-
-	for(int i = 0; i < MAX_SHOP_INVENTORY; i++)
-	{
-		m_pItemData[i] = (char**)calloc(3, sizeof(char*));
-	} */
-
-	//Load item list from here for now
 	
 
 	SetFlag(MERCHANT);
@@ -91,18 +82,6 @@ void MerchantNpc::Interact(PlayerCharacter* pPlayer)
 
 		m_pInTransaction = pPlayer;
 
-		/*for(int x = 0; x < 20; x++)
-		{
-			for(int y = 0; y < 3; y++)
-			{
-				delete pItemData[x][y];							
-			}
-
-			free(pItemData[x]);
-		}
-
-		free(pItemData);*/
-
 	}
 
 }
@@ -117,7 +96,7 @@ void MerchantNpc::SetListData()
 			m_pItemData[j][1] =	(*m_paBasicItems)[i]->GetDescription();
 			m_pItemData[j][2] = (*m_paBasicItems)[i]->GetCostDisplay();	
 			j++;
-		}		
+		}
 			
 	}	
 
