@@ -28,6 +28,9 @@ public:
 
 	
 	Skill*			GetSkill(int iIndex); //Get the skill of this class
+	float			GetCurrentExp() { return m_fCurrentExp; }
+	float			GetExpNeeded() { return m_fNeededExp; }
+	char*			GetName() { return m_szName; }
 	
 	bool			GainExp(int iExp);			//Returns true if level up from exp gain or false if not
 
@@ -38,11 +41,12 @@ public:
 
 private:
 	int						m_iLevel;
+	char					m_szName[16];
 	
 	float					m_fCurrentExp;
 	float					m_fNeededExp;	
 	float					m_fExpSplit;
-	ePlayerClass					m_eClass;
+	ePlayerClass			m_eClass;
 
 	int						m_iNumSkills;
 	Skill**					m_paSkills;

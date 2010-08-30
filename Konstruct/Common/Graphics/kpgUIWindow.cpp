@@ -1024,7 +1024,6 @@ EventParam kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 					uEvent = pWindow->ClickEvent(vMousePos.GetX(), vMousePos.GetY());
 					uParam = pWindow->GetClickParam();
 				}
-
 			}
 			break;
 		}	
@@ -1035,7 +1034,6 @@ EventParam kpgUIWindow::HandleInputEvent(eInputEventType type, u32 button)
 				kpPoint pDelta = g_pInputManager->GetMouseDelta();
 				uEvent = pWindow->MouseDrag(kpuVector(pDelta.m_iX, pDelta.m_iY, 0.0f, 0.0f), vMousePos);
 				uParam = pWindow->GetDragParam();
-
 			}
 			break;
 		}

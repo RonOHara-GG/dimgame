@@ -82,6 +82,9 @@ public:
 	void AddPet(PlayerPet* pPet);
 	void RemovePet(PlayerPet* pPet);
 
+	//Data sources
+	void SetCharacterWindowData();
+
 #pragma region Stat Accessors/Mutators
 
 	int		GetLevel();
@@ -147,6 +150,9 @@ protected:
 	float						m_fElaspedDefaultAtk;
 
 	kpuLinkedList*				m_plPlayerPets;
+
+	//Data sources for UI display
+	char***						m_paClassData;
 	
 };
 

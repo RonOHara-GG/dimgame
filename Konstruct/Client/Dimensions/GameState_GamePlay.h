@@ -32,5 +32,8 @@ protected:
 	kpuArrayList<Actor*>*	m_paActors;
 };
 
+//Key events
 #define KE_INVENTORY 0x1cdb4fd3
+#define KE_CHARACTER  0x76ed766a
+
 
