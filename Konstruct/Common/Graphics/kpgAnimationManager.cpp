@@ -130,39 +130,40 @@ void kpgAnimationManager::CreateAnimation(u32 uName, kpuFixedArray<kpgAnimation:
 			if( pBone )
 			{
 				sBoneData* sData = (*m_pBoneIndicieMap)[pBone->uName];
-				sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];				
+				sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];
+							
+				kpuMatrix mParent, mBindPose, mInvBind;
+				mParent.Identity();				
+				mInvBind = (*m_paInvBindMatricies)[i];				
 
-				pBone->mInvBind = (*m_paInvBindMatricies)[i];
-				pBone->mBindPose = sData->mWorld;
-				kpuMatrix mParent, mLocalInv;
-				mParent.Identity();
 				if( sParent )
 				{					
-					mParent = sParent->mWorld;
-					sData->mWorld = sData->mWorld * sParent->mWorld;					
+					mParent = sParent->mWorld;								
 					pBone->iParent = sParent->iIndex;	
 				}		
 				else				
-					pBone->iParent = -1;
+					pBone->iParent = -1;	
 
-				if( pBone->aTransforms.GetNumElements() == 0 )
-				{
-					pBone->aTransforms.SetSize(1);
-					/*kpuMatrix mInvBind = (*m_paInvBindMatricies)[sParent->iIndex];
-					mInvBind.Invert();
-					mInvBind = mInvBind * pBone->mInvBind;*/
-					kpuMatrix mFinal = pBone->mBindPose;
-					pBone->aTransforms.Add(mFinal);					
-				}				
+				mBindPose = mInvBind * ( sData->mWorld * mParent );	
 
 				for(int j = 0; j < pBone->aTransforms.GetNumElementsUsed(); j++)
 				{					
 					kpuMatrix mTransform = pBone->aTransforms[j];
-					kpuMatrix mFinal = pBone->mInvBind * ( mTransform * mParent );
+					kpuMatrix mFinal = mInvBind * ( mTransform * mParent );					
 					pBone->aTransforms[j] = mFinal;
-				}	
-
+				}				
 				
+
+				//If not transforms add the visual scene transform
+				if( pBone->aTransforms.GetNumElements() == 0 )
+				{
+					pBone->aTransforms.SetSize(1);				
+					pBone->aTransforms.Add(mBindPose);					
+				}
+
+				//remove difference between ref pose and current pose
+				mBindPose.Invert();
+				sData->mWorld = (sData->mWorld * mParent) * mBindPose;
 
 				pAnimation->AddBone(sData->iIndex, pBone);
 			}

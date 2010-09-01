@@ -11,13 +11,12 @@ public:
 	~kpgAnimationInstance(void);
 	
 	bool Update(float fDeltaTime);
-	kpuFixedArray<kpuMatrix>* GetTransformations() { return &m_aFinalTransformations; }
+	kpuFixedArray<kpuMatrix>* GetTransformations() { return &m_aBoneTransformations; }
 
 protected:
 	kpgAnimation*				m_pAnimation;	
 	float						m_fElaspedTime;
 	bool						m_bPlaying;
 	kpuFixedArray<kpuMatrix>	m_aBoneTransformations;	
-	kpuFixedArray<kpuMatrix>	m_aFinalTransformations;
 	
 };
