@@ -2,12 +2,12 @@
 <PlayerModels>
 	<Model File="./Assets/Player/brettsPlayerSkel.dae" >
 		<Shader>/Assets/Shaders/AnimatedShader.fxb</Shader>
-		<Animation>Assets/Player/Animations/PlayerIdle.dae</Animation>	
+		<Animation>Assets/Player/Animations/AnimationTest.dae</Animation>	
 	</Model>
 	<Model File="./Assets/Player/SoldierCamo.dae"/>
 	<Model File="./Assets/Player/RonzPlayer.dae"/>
-	<!--<Model File="./Assets/Player/NoAnimation.dae" >
+	<!--Model File="./Assets/Player/NoAnimation.dae" >
 		<Shader>/Assets/Shaders/AnimatedShader.fxb</Shader>
-		<Animation>Assets/Player/Animations/AnimationTest.dae</Animation>
+		<Animation>Assets/Player/Animations/CubeTest.dae</Animation>
 	</Model>-->	
 </PlayerModels>
