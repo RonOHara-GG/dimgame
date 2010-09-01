@@ -130,22 +130,40 @@ void kpgAnimationManager::CreateAnimation(u32 uName, kpuFixedArray<kpgAnimation:
 			if( pBone )
 			{
 				sBoneData* sData = (*m_pBoneIndicieMap)[pBone->uName];
-				sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];
+				sBoneData* sParent = (*m_pBoneIndicieMap)[sData->uParent];				
 
+				pBone->mInvBind = (*m_paInvBindMatricies)[i];
+				pBone->mBindPose = sData->mWorld;
+				kpuMatrix mParent, mLocalInv;
+				mParent.Identity();
 				if( sParent )
-				{
-					//sData->mWorld = sData->mWorld * sParent->mWorld;
-					pBone->iParent = sParent->iIndex;					
+				{					
+					mParent = sParent->mWorld;
+					sData->mWorld = sData->mWorld * sParent->mWorld;					
+					pBone->iParent = sParent->iIndex;	
 				}		
 				else				
-					pBone->iParent = -1;				
+					pBone->iParent = -1;
 
-				pBone->mBindPose = sData->mWorld;
-				pBone->mInvBind = (*m_paInvBindMatricies)[i];
+				if( pBone->aTransforms.GetNumElements() == 0 )
+				{
+					pBone->aTransforms.SetSize(1);
+					/*kpuMatrix mInvBind = (*m_paInvBindMatricies)[sParent->iIndex];
+					mInvBind.Invert();
+					mInvBind = mInvBind * pBone->mInvBind;*/
+					kpuMatrix mFinal = pBone->mBindPose;
+					pBone->aTransforms.Add(mFinal);					
+				}				
 
-				/*for(int i = 0; i < pBone->aTransforms.GetNumElements(); i++)
-					pBone->aTransforms[i] = (*m_paInvBindMatricies)[i] * pBone->aTransforms[i];*/
+				for(int j = 0; j < pBone->aTransforms.GetNumElementsUsed(); j++)
+				{					
+					kpuMatrix mTransform = pBone->aTransforms[j];
+					kpuMatrix mFinal = pBone->mInvBind * ( mTransform * mParent );
+					pBone->aTransforms[j] = mFinal;
+				}	
+
 				
+
 				pAnimation->AddBone(sData->iIndex, pBone);
 			}
 		}	

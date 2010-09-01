@@ -30,7 +30,7 @@ bool kpgAnimationInstance::Update(float fDeltaTime)
 		kpuFixedArray<kpuMatrix>* pTransforms = m_pAnimation->GetTransforms(i);
 
 		kpuMatrix mCurrent, mPrev, mParent;
-		mCurrent = m_pAnimation->GetBindPose(i);
+		mCurrent.Identity();// = m_pAnimation->GetBindPose(i);
 		mPrev.Identity();
 		mParent.Identity();		
 
@@ -81,8 +81,11 @@ bool kpgAnimationInstance::Update(float fDeltaTime)
 		if( iParent > -1 )
 			mParent = m_aBoneTransformations[iParent];
 		
-		m_aBoneTransformations[i] = mCurrent * mParent;		
-		m_aFinalTransformations[i] = m_pAnimation->GetInvBind(i) * m_aBoneTransformations[i];
+		kpuMatrix bone = mCurrent * mParent;	
+		m_aBoneTransformations[i] = bone;
+		//kpuMatrix inv = m_pAnimation->GetInvBind(i);
+		kpuMatrix mFinal = bone;
+		m_aFinalTransformations[i] = mFinal;
 	}	
 
 	return true;
