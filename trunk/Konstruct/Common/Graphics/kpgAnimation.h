@@ -13,8 +13,6 @@ public:
 		u32							uName;
 		kpuFixedArray<kpuMatrix>	aTransforms;
 		kpuFixedArray<float>		aTimes;
-		kpuMatrix					mBindPose;
-		kpuMatrix					mInvBind;
 		int							iParent;
 	}sBone;
 
@@ -22,8 +20,6 @@ public:
 	int							GetBoneParent(int i)		{ return m_aBoneHierarchy[i]->iParent; }
 	kpuFixedArray<float>*		GetTimes(int i)				{ return &m_aBoneHierarchy[i]->aTimes; }
 	kpuFixedArray<kpuMatrix>*	GetTransforms(int i)		{ return &m_aBoneHierarchy[i]->aTransforms; }
-	kpuMatrix&					GetBindPose(int i)			{ return m_aBoneHierarchy[i]->mBindPose; }
-	kpuMatrix&					GetInvBind(int i)			{ return m_aBoneHierarchy[i]->mInvBind; }
 	
 	void						AddBone(int iIndex, sBone* pBone) {	m_aBoneHierarchy[iIndex] = pBone; }	
 
